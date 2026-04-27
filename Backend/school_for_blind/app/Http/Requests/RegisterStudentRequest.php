@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class RegisterStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,19 +20,14 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-<<<<<<< HEAD
-    public function rules()
-    {
-        return [
-            'phone' => 'required|regex:/^\+?\d{8,15}$/|exists:teachers,phone',
-            'password' => 'required|string|min:8|max:40',
-            'fcm_token' => 'required|string',
-=======
     public function rules(): array
     {
         return [
-            'phone' => ['required', 'string', 'exists:students,phone'],
->>>>>>> aya
+            'fullname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20', 'unique:students,phone'],
+            'parent_phone' => ['required', 'string', 'max:20'],
+            'level' => ['required', 'string', 'max:50'],
+                'DocumentaryEvidence' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
         ];
     }
 }
