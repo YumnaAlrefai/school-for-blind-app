@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "4f87a893-1411-437a-bb9b-f59192e779f9",
+    "_postman_id": "d306d54c-115d-4bd8-8e8f-c4bf92a5905e",
     "name": "school-for-blind-app",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "49909989",
-    "_collection_link": "https://go.postman.co/collection/49909989-4f87a893-1411-437a-bb9b-f59192e779f9?source=collection_link"
+    "_exporter_id": "50107412",
+    "_collection_link": "https://go.postman.co/collection/54331581-d306d54c-115d-4bd8-8e8f-c4bf92a5905e?source=collection_link"
   },
   "item": [
     {
@@ -88,7 +88,7 @@
                   },
                   "status": "Unprocessable Content",
                   "code": 422,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -160,7 +160,7 @@
                   },
                   "status": "Unprocessable Content",
                   "code": 422,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -232,7 +232,7 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -380,7 +380,9 @@
                           "key": "DocumentaryEvidence",
                           "type": "file",
                           "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ],
                           "disabled": true
                         }
                       ]
@@ -403,7 +405,7 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -482,7 +484,9 @@
                           "key": "DocumentaryEvidence",
                           "type": "file",
                           "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ],
                           "disabled": true
                         }
                       ]
@@ -505,7 +509,7 @@
                   },
                   "status": "Forbidden",
                   "code": 403,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -649,7 +653,9 @@
                           "key": "DocumentaryEvidence",
                           "type": "file",
                           "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ]
                         }
                       ]
                     },
@@ -671,7 +677,7 @@
                   },
                   "status": "Created",
                   "code": 201,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -747,7 +753,9 @@
                           "key": "DocumentaryEvidence",
                           "type": "file",
                           "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ]
                         }
                       ]
                     },
@@ -769,7 +777,7 @@
                   },
                   "status": "Unprocessable Content",
                   "code": 422,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -843,7 +851,236 @@
         },
         {
           "name": "teacher",
-          "item": []
+          "item": [
+            {
+              "name": "Login",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{host}}/api/teacher/register",
+                  "host": [
+                    "{{host}}"
+                  ],
+                  "path": [
+                    "api",
+                    "teacher",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "register",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "phone",
+                      "value": "+963981226537",
+                      "type": "text",
+                      "uuid": "9e1fcb36-2d13-497d-82b1-fe5beaafa5a5"
+                    },
+                    {
+                      "key": "full_name",
+                      "value": "maher alnouri",
+                      "type": "text",
+                      "uuid": "0592b53b-271e-4b03-a74c-e89e6c3800b0"
+                    },
+                    {
+                      "key": "password",
+                      "value": "12345678",
+                      "type": "text",
+                      "uuid": "6db0a4cf-1d78-4bb8-8d8e-f6f575304903"
+                    },
+                    {
+                      "key": "subjects",
+                      "value": "math / number theory",
+                      "type": "text",
+                      "uuid": "688fdb9e-5601-4db9-966a-e189a81ba19b"
+                    },
+                    {
+                      "key": "level",
+                      "value": "ninth",
+                      "type": "text",
+                      "uuid": "5e6c2252-c2c5-4575-88c0-e599873217b9"
+                    },
+                    {
+                      "key": "fcm_token",
+                      "value": "123",
+                      "type": "text",
+                      "uuid": "db367923-24f8-4391-9b85-3d2bb92301d1"
+                    },
+                    {
+                      "key": "cv",
+                      "type": "file",
+                      "uuid": "50cdf211-6039-469c-b454-aa4a23a6bb8d",
+                      "src": "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                    },
+                    {
+                      "key": "password_confirmation",
+                      "value": "12345678",
+                      "type": "text",
+                      "uuid": "24b21d39-756c-479d-b4f5-bd751cb623ce"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/teacher/register",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "teacher",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Logout",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{host}}/api/teacher/logout",
+                  "host": [
+                    "{{host}}"
+                  ],
+                  "path": [
+                    "api",
+                    "teacher",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Otp",
+          "item": [
+            {
+              "name": "verifyOtp",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{host}}/api/otp/verify?phone=+963981226535&otp=123456",
+                  "host": [
+                    "{{host}}"
+                  ],
+                  "path": [
+                    "api",
+                    "otp",
+                    "verify"
+                  ],
+                  "query": [
+                    {
+                      "key": "phone",
+                      "value": "+963981226535"
+                    },
+                    {
+                      "key": "otp",
+                      "value": "123456"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "send_otp",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{host}}/api/otp/send?phone=+963981226535",
+                  "host": [
+                    "{{host}}"
+                  ],
+                  "path": [
+                    "api",
+                    "otp",
+                    "send"
+                  ],
+                  "query": [
+                    {
+                      "key": "phone",
+                      "value": "+963981226535"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
         }
       ]
     }
