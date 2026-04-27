@@ -4,24 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('teachers', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             $table->timestamps();
             $table->string('full_name');
             $table->string('phone')->unique();
+            $table->string('password');
             // $table->date('date_of_birth');
             $table->string('subjects');
             $table->enum('level', ['ninth', 'twelfth']);
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('cv_path');
             $table->text('fcm_token')->nullable();
+            $table->rememberToken();
         });
     }
 

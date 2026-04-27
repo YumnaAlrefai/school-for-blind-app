@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Teacher extends Model
+class Teacher extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\TeacherFactory> */
     use HasFactory, Notifiable, HasApiTokens;
@@ -20,4 +20,14 @@ class Teacher extends Model
             ->withTimestamps();
         ;
     }
+
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'fcm_token',
+        'cv_path',
+    ];
+
 }

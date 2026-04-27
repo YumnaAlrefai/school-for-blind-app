@@ -16,4 +16,6 @@ class Subject extends Model
             ->withTimestamps();
         ;
     }
+
+    protected $guarded = [];
 }

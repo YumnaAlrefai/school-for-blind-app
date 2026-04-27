@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('teacher__subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_auth_id')->constrained('teacher_auths');
+            $table->foreignId('teacher_id')->constrained();
             $table->foreignId('subject_id')->constrained();
             $table->integer('price_for_lesson')->default(0);
             $table->timestamps();

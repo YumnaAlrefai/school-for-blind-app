@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\StoreTeacherRequest;
-use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
 use App\Models\User;
 use Exception;
@@ -31,7 +29,7 @@ class TeacherController extends Controller
     public function sendOtp(Request $request)
     {
         $request->validate([
-            'phone' => 'required|regex:/^\+?\d{9,15}$/|unique:users,phone',
+            'phone' => 'required|regex:/^\+?\d{9,15}$/|unique:teachers,phone',
         ]);
 
         $otp = rand(100000, 999999);
@@ -40,19 +38,19 @@ class TeacherController extends Controller
 
         app('greenapi')->sendMessage($request->phone, "Verification code: {$otp}");
 
-        return response()->json(['message' => 'ok done',]);
+        return response()->json(['message' => 'تم ارسال رمز التحقق',]);
     }
 
     public function sendOtp_passwordone(Request $request)
     {
         $user = auth()->user();
         $request->validate([
-            'phone' => 'required|regex:/^\+?\d{9,15}$/|exists:users,phone',
+            'phone' => 'required|regex:/^\+?\d{9,15}$/|exists:teachers,phone',
         ]);
 
         if ($user->phone != $request->phone)
             return response()->json([
-                'message' => __('validation.phone.doesnotmatch'),
+                'message' => 'تم ارسال رمز التحقق',
             ]);
 
 
@@ -76,11 +74,11 @@ class TeacherController extends Controller
         $cachedOtp = Cache::get('otp_' . $request->phone);
 
         if (!$cachedOtp) {
-            return response()->json(['message' => __('validation.user.otp_expired')], 400);
+            return response()->json(['message' => 'رمز التحقق تالف'], 400);
         }
 
         if ($cachedOtp != $request->otp) {
-            return response()->json(['message' => __('validation.user.otp_invalid')], 400);
+            return response()->json(['message' => 'رمز التحقق غير صحيح'], 400);
         }
 
         Cache::forget('otp_' . $request->phone);
@@ -89,10 +87,8 @@ class TeacherController extends Controller
         if ($user) {
             $user->update(['phone_verified_at' => now()]);
         }
-        return response()->json(['message' => __('validation.user.phone_verified')]);
+        return response()->json(['message' => 'رمز التحقق صحيح']);
     }
-
-
 
     public function register(RegisterRequest $request)
     {
@@ -100,7 +96,6 @@ class TeacherController extends Controller
             'full_name' => $request->full_name,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            // 'date_of_birth' => $request->date_of_birth,
             'subjects' => $request->subjects,
             'level' => $request->level,
             'fcm_token' => $request->fcm_token,
@@ -117,21 +112,21 @@ class TeacherController extends Controller
             'data' => $teacher
         ], 201);
     }
-    
+
     public function login(LoginRequest $request)
     {
-        if (!Auth::attempt($request->only('phone', 'password'))) {
-            return response()->json(['message' => __('validation.user.invalid_credentials')], 401);
+        if (!Auth::guard('teacher')->attempt($request->only('phone', 'password'))) {
+            return response()->json(['message' => 'معلومات تسجيل دخول خاطئة'], 401);
         }
 
-        $teacher = Auth::user();
+        $teacher = Auth::guard('teacher')->user();
 
         if (!$teacher) {
-            return response()->json(['message' => __('validation.user.not_found')], 423);
+            return response()->json(['message' => 'لا يوجد حساب على هذا الرقم'], 423);
         }
 
-        if ($teacher->role === 'PENDING') {
-            return response()->json(['message' => __('validation.user.pending_approval')], 403);
+        if ($teacher->status == 'pending') {
+            return response()->json(['message' => 'انتظر حتى يوافق احد المشرفين على حسابك'], 403);
         }
 
         try {
@@ -139,7 +134,7 @@ class TeacherController extends Controller
             $teacher->fcm_token = $request->fcm_token;
             $teacher->save();
         } catch (Exception $e) {
-            return response()->json(['message' => __('validation.user.token_failed')], 500);
+            return response()->json(['message' => 'فشل في توليد التوكن حاول مجددا'], 500);
         }
 
         return response()->json([
@@ -149,15 +144,9 @@ class TeacherController extends Controller
         ]);
     }
 
-
     public function logout()
     {
         auth()->user()->currentAccessToken()->delete();
-        return response()->json(['message' => __('validation.user.logged_out')]);
-    }
-
-    public function info(User $user)
-    {
-        return response()->json(auth()->user());
+        return response()->json(['message' => 'تم تسجيل الخروج بنجاح']);
     }
 }
