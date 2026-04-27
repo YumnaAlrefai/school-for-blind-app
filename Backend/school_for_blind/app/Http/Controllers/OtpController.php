@@ -3,64 +3,70 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VerifyOtpRequest;
-use App\Models\Student;
-use App\Services\OtpService;
+
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class OtpController extends Controller
 {
-    protected $otpService;
-
-    public function __construct(OtpService $otpService)
+    public function sendOtp(Request $request)
     {
-        $this->otpService = $otpService;
-    }
-
-    public function verify(VerifyOtpRequest $request)
-    {
-        $student = Student::where('phone', $request->phone)->first();
-
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'رقم الهاتف هذا غير مسجل لدينا.'
-            ], 404);
-        }
-
-        if (!$this->otpService->verify($request->otp, $student->otp)) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'رمز التحقق غير صحيح، يرجى التأكد من الرمز المرسل.'
-            ], 422);
-        }
-
-        if (now()->isAfter($student->otp_expires_at)) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'انتهت صلاحية الرمز، يرجى طلب رمز جديد.'
-            ], 422);
-        }
-
-        $student->update([
-            'phone_verified_at' => now(),
-            'status'            => 'pending_approval',
-            'otp'               => null,
+        $request->validate([
+            'phone' => 'required|regex:/^\+?\d{9,15}$/|unique:teachers,phone',
         ]);
 
-       return response()->json([
-    "status" => "success",
-    "message" => "تم تأكيد الحساب بنجاح، بانتظار موافقة الإدارة لتتمكن من تسجيل الدخول.",
-    "data" => [
-        "user" => [
-            "id"    => $student->id,
-            "fullname"  => $student->fullname,
-            "phone" => $student->phone,
-            "parent_phone" => $student->parent_phone,
-            "level"=> $student->level,
-            "status"=> $student->status,
-        ]
+        $otp = rand(100000, 999999);
 
-    ]
-], 200);
+        Cache::put('otp_' . $request->phone, $otp, now()->addMinutes(5));
+
+        app('greenapi')->sendMessage($request->phone, "Verification code: {$otp}");
+
+        return response()->json(['message' => 'تم ارسال رمز التحقق',]);
+    }
+
+    public function sendOtp_passwordone(Request $request)
+    {
+        $user = auth()->user();
+        $request->validate([
+            'phone' => 'required|regex:/^\+?\d{9,15}$/|exists:teachers,phone',
+        ]);
+
+        if ($user->phone != $request->phone)
+            return response()->json([
+                'message' => 'تم ارسال رمز التحقق',
+            ]);
+
+
+
+        $otp = rand(100000, 999999);
+
+        Cache::put('otp_' . $request->phone, $otp, now()->addMinutes(5));
+
+        app('greenapi')->sendMessage($request->phone, "Verification code: {$otp}");
+
+        return response()->json(['message' => __('validation.user.otp_sent'),]);
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|regex:/^\+?\d{9,15}$/',
+            'otp' => 'required|integer'
+        ]);
+
+        $cachedOtp = Cache::get('otp_' . $request->phone);
+
+        if (!$cachedOtp) {
+            return response()->json(['message' => 'رمز التحقق تالف'], 400);
+        }
+
+        if ($cachedOtp != $request->otp) {
+            return response()->json(['message' => 'رمز التحقق غير صحيح'], 400);
+        }
+
+        Cache::forget('otp_' . $request->phone);
+
+        return response()->json(['message' => 'رمز التحقق صحيح']);
     }
 }

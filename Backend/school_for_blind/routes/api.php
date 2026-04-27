@@ -12,15 +12,18 @@ Route::post('login', [StudentController::class, 'login']);
 
 Route::get('magic-login/{id}', [StudentController::class, 'magicLogin'])
     ->name('student.magic.login');
-    //->middleware('signed');
+//->middleware('signed');
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::prefix('otp')->controller(OtpController::class)->group(function () {
+    Route::post('send', 'sendOtp')->name('otp.send');
+    Route::post('verify', 'verifyOtp')->name('otp.verify');
+});
 
 Route::prefix('teacher')->controller(TeacherController::class)->group(function () {
     Route::post('logout', 'logout')->middleware('auth:sanctum')->name('users.login');
     Route::post('register', 'register')->name('users.register');
     Route::post('login', 'login')->name('users.login');
-    Route::post('send-otp', 'sendOtp')->name('users.sendOtp');
-    Route::post('verify-otp', 'verifyOtp')->name('users.verifyOtp');
 });
