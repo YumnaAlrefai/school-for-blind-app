@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+<<<<<<< HEAD
+=======
+use function PHPUnit\Framework\returnArgument;
+>>>>>>> main
 
 class TeacherLoginRequest extends FormRequest
 {
@@ -28,4 +32,20 @@ class TeacherLoginRequest extends FormRequest
             // 'fcm_token' => 'required|string',
         ];
     }
+<<<<<<< HEAD
+=======
+
+    public function messages()
+    {
+        return [
+            'phone.required' => 'رقم الهاتف مفقود',
+            'phone.regex' => 'رقم الهاتف بصيغة خاطئة',
+            'phone.exists' => 'رقم الهاتف غير موجود في القوائم',
+            'password.required' => 'كلمة السر مفقودة',
+            'password.string' => 'كلمة السر ليست من نوع (string)',
+            'password.min' => 'كلمة السر اقل من 8 احرف',
+            'password.max' => 'كلمة السر اكثر من 40 حرف',
+        ];
+    }
+>>>>>>> main
 }

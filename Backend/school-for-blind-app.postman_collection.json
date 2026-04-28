@@ -14,7 +14,11 @@
           "name": "student",
           "item": [
             {
+<<<<<<< HEAD
               "name": "verify-otp",
+=======
+              "name": "verify-otp (expired)",
+>>>>>>> main
               "request": {
                 "method": "POST",
                 "header": [
@@ -857,19 +861,372 @@
               "request": {
                 "method": "POST",
                 "header": [],
+<<<<<<< HEAD
                 "url": {
                   "raw": "{{host}}/api/teacher/register",
+=======
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "phone",
+                      "value": "0981226535",
+                      "type": "text",
+                      "uuid": "24ce19e2-2d90-4226-92ba-abd46dd56477"
+                    },
+                    {
+                      "key": "password",
+                      "value": "12345678",
+                      "type": "text",
+                      "uuid": "6a894337-33f5-418e-a215-1bc653265645"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{host}}/api/teacher/login",
+>>>>>>> main
                   "host": [
                     "{{host}}"
                   ],
                   "path": [
                     "api",
                     "teacher",
+<<<<<<< HEAD
                     "register"
                   ]
                 }
               },
               "response": []
+=======
+                    "login"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226535",
+                          "type": "text",
+                          "uuid": "24ce19e2-2d90-4226-92ba-abd46dd56477"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "6a894337-33f5-418e-a215-1bc653265645"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "447dfdd2-8219-4eab-b8fc-9ff01e4adc8d"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{host}}/api/teacher/login",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "teacher",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Content",
+                  "code": 422,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:17:25 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"رقم الهاتف غير موجود في القوائم\",\n    \"errors\": {\n        \"phone\": [\n            \"رقم الهاتف غير موجود في القوائم\"\n        ]\n    }\n}"
+                },
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226535",
+                          "type": "text",
+                          "uuid": "24ce19e2-2d90-4226-92ba-abd46dd56477"
+                        },
+                        {
+                          "key": "password",
+                          "value": "1234567",
+                          "type": "text",
+                          "uuid": "6a894337-33f5-418e-a215-1bc653265645"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "447dfdd2-8219-4eab-b8fc-9ff01e4adc8d"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{host}}/api/teacher/login",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "teacher",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Content",
+                  "code": 422,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:18:17 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"رقم الهاتف غير موجود في القوائم (and 1 more error)\",\n    \"errors\": {\n        \"phone\": [\n            \"رقم الهاتف غير موجود في القوائم\"\n        ],\n        \"password\": [\n            \"كلمة السر اقل من 8 احرف\"\n        ]\n    }\n}"
+                },
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226535",
+                          "type": "text",
+                          "uuid": "24ce19e2-2d90-4226-92ba-abd46dd56477"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123456789",
+                          "type": "text",
+                          "uuid": "6a894337-33f5-418e-a215-1bc653265645"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "447dfdd2-8219-4eab-b8fc-9ff01e4adc8d"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{host}}/api/teacher/login",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "teacher",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:22:23 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"معلومات تسجيل دخول خاطئة\"\n}"
+                },
+                {
+                  "name": "success in pending status",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226535",
+                          "type": "text",
+                          "uuid": "24ce19e2-2d90-4226-92ba-abd46dd56477"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "6a894337-33f5-418e-a215-1bc653265645"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{host}}/api/teacher/login",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "teacher",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:22:55 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"انتظر حتى يوافق احد المشرفين على حسابك\"\n}"
+                }
+              ]
+>>>>>>> main
             },
             {
               "name": "register",
@@ -952,7 +1309,511 @@
                   ]
                 }
               },
+<<<<<<< HEAD
               "response": []
+=======
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226535",
+                          "type": "text",
+                          "uuid": "9e1fcb36-2d13-497d-82b1-fe5beaafa5a5"
+                        },
+                        {
+                          "key": "full_name",
+                          "value": "maher alnouri",
+                          "type": "text",
+                          "uuid": "0592b53b-271e-4b03-a74c-e89e6c3800b0"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "6db0a4cf-1d78-4bb8-8d8e-f6f575304903"
+                        },
+                        {
+                          "key": "subjects",
+                          "value": "math / number theory",
+                          "type": "text",
+                          "uuid": "688fdb9e-5601-4db9-966a-e189a81ba19b"
+                        },
+                        {
+                          "key": "level",
+                          "value": "ninth",
+                          "type": "text",
+                          "uuid": "5e6c2252-c2c5-4575-88c0-e599873217b9"
+                        },
+                        {
+                          "key": "fcm_token",
+                          "value": "123",
+                          "type": "text",
+                          "uuid": "db367923-24f8-4391-9b85-3d2bb92301d1"
+                        },
+                        {
+                          "key": "cv",
+                          "type": "file",
+                          "uuid": "50cdf211-6039-469c-b454-aa4a23a6bb8d",
+                          "src": "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "24b21d39-756c-479d-b4f5-bd751cb623ce"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/teacher/register?",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "teacher",
+                        "register"
+                      ],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": null,
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:20:49 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم ارسال طلب لانشاء الحساب بنجاح\",\n    \"data\": {\n        \"full_name\": \"maher alnouri\",\n        \"phone\": \"0981226535\",\n        \"subjects\": \"math / number theory\",\n        \"level\": \"ninth\",\n        \"updated_at\": \"2026-04-28T10:20:49.000000Z\",\n        \"created_at\": \"2026-04-28T10:20:49.000000Z\",\n        \"id\": 5\n    }\n}"
+                },
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226535",
+                          "type": "text",
+                          "uuid": "9e1fcb36-2d13-497d-82b1-fe5beaafa5a5"
+                        },
+                        {
+                          "key": "full_name",
+                          "value": "maher alnouri",
+                          "type": "text",
+                          "uuid": "0592b53b-271e-4b03-a74c-e89e6c3800b0"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "6db0a4cf-1d78-4bb8-8d8e-f6f575304903"
+                        },
+                        {
+                          "key": "subjects",
+                          "value": "math / number theory",
+                          "type": "text",
+                          "uuid": "688fdb9e-5601-4db9-966a-e189a81ba19b"
+                        },
+                        {
+                          "key": "level",
+                          "value": "ninth",
+                          "type": "text",
+                          "uuid": "5e6c2252-c2c5-4575-88c0-e599873217b9"
+                        },
+                        {
+                          "key": "fcm_token",
+                          "value": "123",
+                          "type": "text",
+                          "uuid": "db367923-24f8-4391-9b85-3d2bb92301d1",
+                          "disabled": true
+                        },
+                        {
+                          "key": "cv",
+                          "type": "file",
+                          "uuid": "50cdf211-6039-469c-b454-aa4a23a6bb8d",
+                          "src": "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "123456789",
+                          "type": "text",
+                          "uuid": "24b21d39-756c-479d-b4f5-bd751cb623ce"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/teacher/register?",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "teacher",
+                        "register"
+                      ],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": null,
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Content",
+                  "code": 422,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:21:12 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"رقم الهاتف مسجل لدينا مسبقاً. (and 1 more error)\",\n    \"errors\": {\n        \"phone\": [\n            \"رقم الهاتف مسجل لدينا مسبقاً.\"\n        ],\n        \"password\": [\n            \"تأكيد كلمة المرور غير متطابق.\"\n        ]\n    }\n}"
+                },
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226530",
+                          "type": "text",
+                          "uuid": "9e1fcb36-2d13-497d-82b1-fe5beaafa5a5"
+                        },
+                        {
+                          "key": "full_name",
+                          "value": "maher alnouri",
+                          "type": "text",
+                          "uuid": "0592b53b-271e-4b03-a74c-e89e6c3800b0"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345678",
+                          "type": "text",
+                          "uuid": "6db0a4cf-1d78-4bb8-8d8e-f6f575304903"
+                        },
+                        {
+                          "key": "subjects",
+                          "value": "math / number theory",
+                          "type": "text",
+                          "uuid": "688fdb9e-5601-4db9-966a-e189a81ba19b"
+                        },
+                        {
+                          "key": "level",
+                          "value": "ninth",
+                          "type": "text",
+                          "uuid": "5e6c2252-c2c5-4575-88c0-e599873217b9"
+                        },
+                        {
+                          "key": "fcm_token",
+                          "value": "123",
+                          "type": "text",
+                          "uuid": "db367923-24f8-4391-9b85-3d2bb92301d1",
+                          "disabled": true
+                        },
+                        {
+                          "key": "cv",
+                          "type": "file",
+                          "uuid": "50cdf211-6039-469c-b454-aa4a23a6bb8d",
+                          "src": "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "123456789",
+                          "type": "text",
+                          "uuid": "24b21d39-756c-479d-b4f5-bd751cb623ce"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/teacher/register?",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "teacher",
+                        "register"
+                      ],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": null,
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Content",
+                  "code": 422,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:21:34 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تأكيد كلمة المرور غير متطابق.\",\n    \"errors\": {\n        \"password\": [\n            \"تأكيد كلمة المرور غير متطابق.\"\n        ]\n    }\n}"
+                },
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "phone",
+                          "value": "0981226530",
+                          "type": "text",
+                          "uuid": "9e1fcb36-2d13-497d-82b1-fe5beaafa5a5"
+                        },
+                        {
+                          "key": "full_name",
+                          "value": "maher alnouri",
+                          "type": "text",
+                          "uuid": "0592b53b-271e-4b03-a74c-e89e6c3800b0"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345",
+                          "type": "text",
+                          "uuid": "6db0a4cf-1d78-4bb8-8d8e-f6f575304903"
+                        },
+                        {
+                          "key": "subjects",
+                          "value": "math / number theory",
+                          "type": "text",
+                          "uuid": "688fdb9e-5601-4db9-966a-e189a81ba19b"
+                        },
+                        {
+                          "key": "level",
+                          "value": "ninth",
+                          "type": "text",
+                          "uuid": "5e6c2252-c2c5-4575-88c0-e599873217b9"
+                        },
+                        {
+                          "key": "fcm_token",
+                          "value": "123",
+                          "type": "text",
+                          "uuid": "db367923-24f8-4391-9b85-3d2bb92301d1",
+                          "disabled": true
+                        },
+                        {
+                          "key": "cv",
+                          "type": "file",
+                          "uuid": "50cdf211-6039-469c-b454-aa4a23a6bb8d",
+                          "src": "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                        },
+                        {
+                          "key": "password_confirmation",
+                          "value": "123456789",
+                          "type": "text",
+                          "uuid": "24b21d39-756c-479d-b4f5-bd751cb623ce"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/teacher/register?",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "teacher",
+                        "register"
+                      ],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": null,
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Content",
+                  "code": 422,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:21:52 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"كلمة المرور يجب أن تتكون من 8 أحرف على الأقل. (and 1 more error)\",\n    \"errors\": {\n        \"password\": [\n            \"كلمة المرور يجب أن تتكون من 8 أحرف على الأقل.\",\n            \"تأكيد كلمة المرور غير متطابق.\"\n        ]\n    }\n}"
+                }
+              ]
+>>>>>>> main
             },
             {
               "name": "Logout",
@@ -1037,7 +1898,150 @@
                   ]
                 }
               },
+<<<<<<< HEAD
               "response": []
+=======
+              "response": [
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{host}}/api/otp/verify?phone=+963981226535&otp=123456",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "otp",
+                        "verify"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963981226535"
+                        },
+                        {
+                          "key": "otp",
+                          "value": "123456"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:23:28 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"رمز التحقق تالف\"\n}"
+                },
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{host}}/api/otp/verify?phone=+963948568727&otp=299586",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "otp",
+                        "verify"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963948568727"
+                        },
+                        {
+                          "key": "otp",
+                          "value": "299586"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:25:20 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"رمز التحقق صحيح\"\n}"
+                }
+              ]
+>>>>>>> main
             },
             {
               "name": "send_otp",
@@ -1061,7 +2065,11 @@
                   }
                 ],
                 "url": {
+<<<<<<< HEAD
                   "raw": "{{host}}/api/otp/send?phone=+963981226535",
+=======
+                  "raw": "{{host}}/api/otp/send?phone=+963948568727",
+>>>>>>> main
                   "host": [
                     "{{host}}"
                   ],
@@ -1073,12 +2081,86 @@
                   "query": [
                     {
                       "key": "phone",
+<<<<<<< HEAD
                       "value": "+963981226535"
+=======
+                      "value": "+963948568727"
+>>>>>>> main
                     }
                   ]
                 }
               },
+<<<<<<< HEAD
               "response": []
+=======
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{host}}/api/otp/send?phone=+963948568727",
+                      "host": [
+                        "{{host}}"
+                      ],
+                      "path": [
+                        "api",
+                        "otp",
+                        "send"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963948568727"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 28 Apr 2026 10:23:47 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم ارسال رمز التحقق\"\n}"
+                }
+              ]
+>>>>>>> main
             }
           ]
         }
