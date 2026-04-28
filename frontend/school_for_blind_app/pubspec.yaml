@@ -28,9 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  pinput: ^4.0.0
   build_runner: ^2.14.1
   cupertino_icons: ^1.0.8
-  dio: ^5.9.2
+  dio: ^5.4.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -73,8 +74,7 @@ flutter:
   fonts:
     - family: ArabicTypesetting
       fonts:
-        - asset: assets\fonts\arabic-typesetting-regular\Arabic Typesetting Regular\Arabic
-            Typesetting Regular.ttf
+        - asset: assets\fonts\arabic-typesetting-regular\ArabicTypesettingRegular\ArabicTypesettingRegular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

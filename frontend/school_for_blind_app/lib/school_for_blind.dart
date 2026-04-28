@@ -30,6 +30,7 @@ class SchoolForBlind extends StatelessWidget {
         themeMode: ThemeMode.dark,
         darkTheme: ThemeData(
           useMaterial3: true,
+          fontFamily: 'ArabicTypesetting',
           brightness: Brightness.dark,
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: AppColors.kPrimaryColor,
