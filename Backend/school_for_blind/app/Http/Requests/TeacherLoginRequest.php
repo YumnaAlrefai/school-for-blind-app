@@ -4,10 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-<<<<<<< HEAD
-=======
 use function PHPUnit\Framework\returnArgument;
->>>>>>> main
 
 class TeacherLoginRequest extends FormRequest
 {
@@ -32,8 +29,6 @@ class TeacherLoginRequest extends FormRequest
             // 'fcm_token' => 'required|string',
         ];
     }
-<<<<<<< HEAD
-=======
 
     public function messages()
     {
@@ -47,5 +42,4 @@ class TeacherLoginRequest extends FormRequest
             'password.max' => 'كلمة السر اكثر من 40 حرف',
         ];
     }
->>>>>>> main
 }
