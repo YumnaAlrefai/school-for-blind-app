@@ -3,25 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use App\Services\WhatsAppService;
+use App\Services\OtpService;
+use App\Http\Requests\VerifyOtpRequest;
+
 class OtpController extends Controller
 {
+
+public function __construct(
+
+protected WhatsAppService $whatsApp,
+        protected OtpService $otpService
+    ) {
+    }
+
     public function sendOtp(Request $request)
     {
         $request->validate([
             'phone' => 'required|regex:/^\+?\d{9,15}$/|unique:teachers,phone',
         ]);
 
-        $otp = rand(100000, 999999);
+        $otp = $this->otpService->generate();
 
-        Cache::put('otp_' . $request->phone, $otp, now()->addMinutes(5));
+        Cache::put('otp_' . $request->phone, $otp, $this->otpService->expiry());
+        $this->whatsApp->sendOtp($request->phone, $otp);
 
-        app('greenapi')->sendMessage($request->phone, "Verification code: {$otp}");
-
-        return response()->json(['message' => 'تم ارسال رمز التحقق',]);
+        return response()->json(['message' => 'تم ارسال رمز التحقق']);
     }
 
     public function sendOtp_passwordone(Request $request)
@@ -31,41 +41,32 @@ class OtpController extends Controller
             'phone' => 'required|regex:/^\+?\d{9,15}$/|exists:teachers,phone',
         ]);
 
-        if ($user->phone != $request->phone)
-            return response()->json([
-                'message' => 'تم ارسال رمز التحقق',
-            ]);
-
-
-
-        $otp = rand(100000, 999999);
-
-        Cache::put('otp_' . $request->phone, $otp, now()->addMinutes(5));
-
-        app('greenapi')->sendMessage($request->phone, "Verification code: {$otp}");
-
-        return response()->json(['message' => __('validation.user.otp_sent'),]);
-    }
-
-    public function verifyOtp(Request $request)
-    {
-        $request->validate([
-            'phone' => 'required|regex:/^\+?\d{9,15}$/',
-            'otp' => 'required|integer'
-        ]);
-
-        $cachedOtp = Cache::get('otp_' . $request->phone);
-
-        if (!$cachedOtp) {
-            return response()->json(['message' => 'رمز التحقق تالف'], 400);
+        if ($user->phone != $request->phone) {
+            return response()->json(['message' => 'الرقم غير مطابق لحسابك'], 403);
         }
 
-        if ($cachedOtp != $request->otp) {
-            return response()->json(['message' => 'رمز التحقق غير صحيح'], 400);
-        }
+        $otp = $this->otpService->generate();
+        Cache::put('otp_' . $request->phone, $otp, $this->otpService->expiry());
 
-        Cache::forget('otp_' . $request->phone);
+        $this->whatsApp->sendOtp($request->phone, $otp);
 
-        return response()->json(['message' => 'رمز التحقق صحيح']);
+return response()->json(['message' => 'تم إرسال رمز التحقق إلى رقمك بنجاح']);    }
+
+
+     public function verifyOtp(VerifyOtpRequest $request)
+{
+    $key = 'otp_' . $request->phone;
+    $cachedOtp = Cache::get($key);
+
+    if (!$cachedOtp) {
+        return response()->json(['message' => 'رمز التحقق تالف أو انتهى'], 400);
     }
-}
+
+    if ((string)$cachedOtp !== (string)$request->otp) {
+        return response()->json(['message' => 'رمز التحقق غير صحيح'], 400);
+    }
+
+    Cache::forget($key);
+
+    return response()->json(['message' => 'تم التحقق بنجاح، يمكنك المتابعة']);
+}}

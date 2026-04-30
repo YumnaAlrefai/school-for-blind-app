@@ -23,6 +23,6 @@ class OtpService
 
     public function expiry()
     {
-        return now()->addMinutes(2);
+        return now()->addMinutes(10);
     }
 }

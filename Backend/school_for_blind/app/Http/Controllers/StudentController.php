@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StudentLoginRequest;
 use App\Http\Requests\StudentRegisterRequest;
 use App\Models\Student;
+use App\Services\WhatsAppService;
 use App\Traits\UploadFileTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class StudentController extends Controller
@@ -39,7 +41,7 @@ class StudentController extends Controller
         ]
     ], 200, [], JSON_UNESCAPED_UNICODE);
 }
-   public function login(StudentLoginRequest $request)
+  public function login(StudentLoginRequest $request, WhatsAppService $whatsApp)
 {
     $student = Student::where('phone', $request->phone)->first();
 
@@ -56,22 +58,9 @@ class StudentController extends Controller
         ['id' => $student->id]
     );
 
-
-    $message = "مرحباً {$student->fullname} 👋\n";
-    $message .= "يمكنك تسجيل الدخول إلى حسابك في مدرسة المكفوفين عبر الضغط على الرابط التالي:\n\n";
-    $message .= $loginUrl;
-
     try {
-$formattedPhone = $student->phone;
-if (str_starts_with($formattedPhone, '0')) {
-    $formattedPhone = '963' . substr($formattedPhone, 1);
-}
-elseif (!str_starts_with($formattedPhone, '963')) {
-    $formattedPhone = '963' . $formattedPhone;
-}
 
-app('greenapi')->sendMessage($formattedPhone, $message);
-        app('greenapi')->sendMessage($student->phone, $message);
+        $whatsApp->sendMagicLink($student->phone, $student->fullname, $loginUrl);
 
         return response()->json([
             'status' => 'success',
@@ -79,12 +68,14 @@ app('greenapi')->sendMessage($formattedPhone, $message);
         ], 200, [], JSON_UNESCAPED_UNICODE);
 
     } catch (\Exception $e) {
+
+        Log::error("WhatsApp Login Error: " . $e->getMessage());
+
         return response()->json([
             'status' => 'error',
-            'message' => 'حدث خطأ أثناء إرسال الرسالة يرجى المحاولة لاحقاً'
+            'message' => 'حدث خطأ أثناء إرسال الرسالة، يرجى المحاولة لاحقاً.'
         ], 500, [], JSON_UNESCAPED_UNICODE);
-    }
-}
+    }}
 public function magicLogin(Request $request, $id)
     {
         if (! $request->hasValidSignature()) {
@@ -100,11 +91,6 @@ public function magicLogin(Request $request, $id)
             'user' => $student
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
-
-
-
-
-
 
 }
 
