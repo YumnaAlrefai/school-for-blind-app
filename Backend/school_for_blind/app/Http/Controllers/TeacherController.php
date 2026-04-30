@@ -36,7 +36,7 @@ class TeacherController extends Controller
             'password' => Hash::make($request->password),
             'subjects' => $request->subjects,
             'level' => $request->level,
-            'fcm_token' => $request->fcm_token,
+            // 'fcm_token' => $request->fcm_token,
         ];
 
         $cv = $request->file('cv');
