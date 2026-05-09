@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-        $table->string('fullname');
-        $table->string('fathersname')->unique();
-        $table->string('phone')->unique();
-        $table->string('parent_phone');
-        $table->integer('points')->default(0);
-        $table->string('fcm_token')->nullable();
-        $table->enum('level', ['ninth', 'twelfth']);
-        $table->timestamp('phone_verified_at')->nullable();
-        $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+ $table->string('fullname');
+         $table->string('phone')->unique();
+           $table->string('parent_phone');
+            $table->integer('points')->default(0);
+            $table->string('fcm_token')->nullable();
+            $table->enum('level', ['ninth', 'twelfth']);
+           $table->timestamp('phone_verified_at')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
         $table->string('verification_token')->nullable();
         $table->timestamp('token_expires_at')->nullable();
         $table->string('DocumentaryEvidence');

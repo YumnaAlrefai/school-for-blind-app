@@ -19,7 +19,6 @@ class StudentController extends Controller
 
    $student = Student::create([
         'fullname'             => $request->fullname,
-        'fathersname'         => $request->fathersname,
         'phone'                => $request->phone,
         'parent_phone'         => $request->parent_phone,
         'level'                => $request->level,
@@ -35,7 +34,6 @@ class StudentController extends Controller
             "user" => [
                 "id"           => $student->id,
                 "fullname"     => $student->fullname,
-                "fathersname" => $student->fathersname,
                 "phone"        => $student->phone,
                 "status"       => $student->status,
                 'documentary_evidence' => $student->DocumentaryEvidence,
@@ -45,7 +43,7 @@ class StudentController extends Controller
 }
   public function login(StudentLoginRequest $request, WhatsAppService $whatsApp)
 {
-    $student = Student::query()->where('phone', '=', $request->phone)->first();
+    $student = Student::where('phone', $request->phone)->first();
 
     if (!$student || $student->status !== 'approved') {
         return response()->json([
