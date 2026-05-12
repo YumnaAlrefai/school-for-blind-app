@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class WhatsAppService
 {
-   public function sendOtp( string $phone, string $otp)
+    public function sendOtp(string $phone, string $otp)
     {
         $message = "Verification code:\n" . $otp;
         return $this->execute($phone, $message);
@@ -29,8 +29,8 @@ class WhatsAppService
 
         $response = Http::post("https://api.ultramsg.com/" . env('ULTRAMSG_INSTANCE_ID') . "/messages/chat", [
             "token" => env('ULTRAMSG_TOKEN'),
-            "to"    => $phone,
-            "body"  => $message
+            "to" => $phone,
+            "body" => $message
         ]);
 
         if ($response->failed()) {
@@ -38,4 +38,5 @@ class WhatsAppService
         }
 
         return $response->json();
-}}
+    }
+}
