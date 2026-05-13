@@ -1,60 +1,60 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
-
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>لوحة تحكم المدرسة</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بصمة امل - لوحة القيادة</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-  <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-  
-  <style>
-    body {
-      font-family: 'Arabic Typesetting', serif;
-      font-size: 26px;
-    }
-
-    .bg-custom-dark {
-      background-color: #000F24 !important;
-    }
-
-    .text-custom-accent {
-      color: #D3FF54 !important;
-    }
-  </style>
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.documentElement.setAttribute('data-bs-theme', savedTheme); // Tells Bootstrap to use dark mode too
+    </script>
 </head>
+<body>
 
-<body id="page-top">
+    <div class="d-flex" style="min-height: 100vh;">
+        
+        <aside class="sidebar-wrapper flex-shrink-0 d-none d-lg-flex flex-column h-100">
+            @include('partials.sidebar')
+        </aside>
 
-  <div id="wrapper">
+        <div class="flex-grow-1 d-flex flex-column overflow-hidden">
+            
+            @include('partials.topbar')
 
-    @include('layouts.sidebar')
+            <main class="flex-grow-1 p-4 overflow-y-auto">
+                @yield('content')
+            </main>
 
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <div id="content">
-
-        @include('layouts.header')
-
-        <div class="container-fluid">
-          @yield('content')
         </div>
-
-      </div>
-      @include('layouts.footer')
-
     </div>
-  </div>
-  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function toggleTheme() {
+            const htmlTag = document.getElementById('htmlTag');
+            const currentTheme = htmlTag.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Update HTML attributes
+            htmlTag.setAttribute('data-theme', newTheme);
+            htmlTag.setAttribute('data-bs-theme', newTheme);
+            
+            // Save to browser memory so it remembers their choice next time
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    @stack('scripts')
 </body>
-
 </html>

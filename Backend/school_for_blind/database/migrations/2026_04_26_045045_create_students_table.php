@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,26 +12,26 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
- $table->string('fullname');
- $table->string('fathersname');
-         $table->string('phone')->unique();
-           $table->string('parent_phone');
+            $table->string('fullname');
+            $table->string('fathersname');
+            $table->string('phone')->unique();
+            $table->string('parent_phone');
             $table->integer('points')->default(0);
             $table->string('fcm_token')->nullable();
             $table->enum('level', ['ninth', 'twelfth']);
-           $table->timestamp('phone_verified_at')->nullable();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-        $table->string('verification_token')->nullable();
-        $table->timestamp('token_expires_at')->nullable();
-        $table->string('DocumentaryEvidence');
-           /* $table->foreignId('class_id')
-             ->nullable()
-             ->constrained('classes')
-                  ->onDelete('set null');
- $table->foreignId('parent_id')
-                  ->nullable()
-                  ->constrained('parents')
-                  ->onDelete('set null');*/
+            $table->string('verification_token')->nullable();
+            $table->timestamp('token_expires_at')->nullable();
+            $table->string('DocumentaryEvidence');
+            /* $table->foreignId('class_id')
+              ->nullable()
+              ->constrained('classes')
+                   ->onDelete('set null');
+  $table->foreignId('parent_id')
+                   ->nullable()
+                   ->constrained('parents')
+                   ->onDelete('set null');*/
 
             $table->timestamps();
         });
