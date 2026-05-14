@@ -234,9 +234,9 @@
     new Chart(donutCtx, {
       type: 'doughnut',
       data: {
-        labels: ['الطلاب', 'المعلمين', 'أخرى'],
+        labels: ['الطلاب', 'المعلمين'],
         datasets: [{
-          data: [60, 30, 10],
+          data: [{{ $pendingstudentsCount ?? 0 }}, {{ $pendingteachersCount ?? 0 }}],
           backgroundColor: ['#3b82f6', '#8b5cf6', '#64748b'],
           borderWidth: 0
         }]

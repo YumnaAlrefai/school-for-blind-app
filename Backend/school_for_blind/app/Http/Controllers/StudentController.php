@@ -54,8 +54,8 @@ class StudentController extends Controller
             ], 403, [], JSON_UNESCAPED_UNICODE);
         }
 
-        URL::forceRootUrl('https://barman-wannabe-cape.ngrok-free.dev');
-        URL::forceScheme('https');
+        // URL::forceRootUrl('https://barman-wannabe-cape.ngrok-free.dev');
+        // URL::forceScheme('https');
 
         $loginUrl = URL::temporarySignedRoute(
             'student.magic.view',
