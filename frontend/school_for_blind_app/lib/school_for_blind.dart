@@ -7,7 +7,13 @@ import 'core/routing/app_routes.dart';
 
 class SchoolForBlind extends StatelessWidget {
   final AppRouter appRouter;
-  const SchoolForBlind({super.key, required this.appRouter});
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  const SchoolForBlind({
+    super.key,
+    required this.appRouter,
+    required this.navigatorKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,31 +21,35 @@ class SchoolForBlind extends StatelessWidget {
       designSize: const Size(402, 874),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(
-        title: 'School for the Blind',
-        debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'School for the Blind',
+          debugShowCheckedModeBanner: false,
 
-        locale: const Locale('ar', 'SY'),
-        supportedLocales: const [Locale('ar', 'SY')],
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
+          locale: const Locale('ar', 'SY'),
+          supportedLocales: const [Locale('ar', 'SY')],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
 
-        themeMode: ThemeMode.dark,
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: AppColors.kPrimaryColor,
-            selectionColor: AppColors.kPrimaryColor.withOpacity(0.3),
-            selectionHandleColor: AppColors.kPrimaryColor,
+          themeMode: ThemeMode.dark,
+          darkTheme: ThemeData(
+            fontFamily: 'ArabicTypesetting',
+            useMaterial3: true,
+            brightness: Brightness.dark,
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: AppColors.kPrimaryColor,
+              selectionColor: AppColors.kPrimaryColor.withOpacity(0.3),
+              selectionHandleColor: AppColors.kPrimaryColor,
+            ),
           ),
-        ),
-        onGenerateRoute: AppRouter.generateRoute,
-        initialRoute: AppRoutes.kSplashScreen,
-      ),
+          navigatorKey: navigatorKey,
+          onGenerateRoute: appRouter.generateRoute,
+          initialRoute: AppRoutes.kSplashScreen,
+        );
+      },
     );
   }
 }
