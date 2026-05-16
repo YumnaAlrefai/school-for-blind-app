@@ -12,10 +12,8 @@ class LoginTeacher extends StatefulWidget {
 class _LoginTeacherState extends State<LoginTeacher> {
   bool _isObscured = true;
   
-  // مفتاح النموذج للتحقق من الحقول
   final _formKey = GlobalKey<FormState>();
   
-  // المتحكمات بالنصوص
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -27,9 +25,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
   }
 
   void _submitForm() {
-    // تشغيل عملية التحقق عند الضغط على زر تأكيد
     if (_formKey.currentState!.validate()) {
-      // إذا كانت البيانات صحيحة
       print("البيانات صحيحة: ${_phoneController.text}");
     }
   }
@@ -47,7 +43,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
         child: Center(
           child: Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.80, // زدنا الطول قليلاً لاستيعاب رسائل الخطأ
+            height: MediaQuery.of(context).size.height * 0.80,   
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -55,7 +51,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
             color: AppColors.kBackgroundColor,
             ),
             child: Form(
-              key: _formKey, // ربط النموذج بالمفتاح
+              key: _formKey, 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -154,7 +150,6 @@ class _LoginTeacherState extends State<LoginTeacher> {
     );
   }
 
-  // دالة مساعدة لبناء تصميم الحقول لتقليل تكرار الكود
   InputDecoration _buildInputDecoration(String hint, IconData icon) {
     return InputDecoration(
       hintText: hint,

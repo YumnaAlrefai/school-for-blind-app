@@ -59,7 +59,7 @@ class UserTypeScreen extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 30.sp),
+            SizedBox(height: 30.h),
           ],
         ),
       ),

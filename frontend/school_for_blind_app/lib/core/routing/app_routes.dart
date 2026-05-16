@@ -8,6 +8,8 @@ class AppRoutes {
     static const String kTeacherRegister = '/teacher_register';
     static const String kTeacherotb = '/teacher_otb';
     static const String kTeachersecurity= '/teacher_security';
+    static const String kTeacherPhone= '/teacher_phone';
+
 
 
 }

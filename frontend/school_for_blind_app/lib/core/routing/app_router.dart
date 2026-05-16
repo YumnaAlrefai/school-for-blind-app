@@ -5,6 +5,7 @@ import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/accouent.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/login.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/otp.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/phoneTeacher.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/safe.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/signup.dart';
 import 'package:school_for_blind_app/presentation/screens/splash_screen.dart';
@@ -29,12 +30,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const AccountTeacher());
         case AppRoutes.kTeacherLogin: 
         return MaterialPageRoute(builder: (_) => const LoginTeacher());
+          case AppRoutes.kTeacherPhone: 
+        return MaterialPageRoute(builder: (_) => const Phoneteacher());
          case AppRoutes.kTeacherRegister: 
         return MaterialPageRoute(builder: (_) => const RegisterTeacher());
          case AppRoutes.kTeacherotb: 
         return MaterialPageRoute(builder: (_) => const OtpScreen());
          case AppRoutes.kTeachersecurity: 
         return MaterialPageRoute(builder: (_) => const SecurityScreen());
+       
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

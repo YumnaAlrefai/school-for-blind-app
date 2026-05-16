@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/login.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/phoneTeacher.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/signup.dart';
 // تأكد من استيراد ملف صفحة تسجيل الدخول هنا
 // import 'path_to_your_file/login_teacher.dart';
@@ -67,15 +69,10 @@ class _AccountTeacherState extends State<AccountTeacher> {
               const SizedBox(height: 20),
 
               // زر إنشاء حساب
-             GestureDetector(
+              GestureDetector(
                 onTap: () {
                   // الانتقال إلى صفحة RegisterTeacher
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterTeacher(), // تأكد من إنشاء هذا الكلاس
-                    ),
-                  );
+                  Navigator.pushNamed(context, AppRoutes.kTeacherPhone);
                 },
                 child: Container(
                   width: 246,
