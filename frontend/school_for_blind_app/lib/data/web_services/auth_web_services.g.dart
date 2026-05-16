@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'web_services.dart';
+part of 'auth_web_services.dart';
 
 // dart format off
 
@@ -64,28 +64,24 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<dynamic> registerTeacher({
-    required String phone,
-    required String fullName,
-    required String password,
-    required String passwordConfirmation,
-    required String subjects,
-    required String level,
-    required String fcmToken,
-    required MultipartFile cvFile,
-  }) async {
+  Future<dynamic> register(
+    String fullName,
+    String fatherName,
+    String phone,
+    String parentPhone,
+    String level,
+    MultipartFile documentaryEvidence,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
+    _data.fields.add(MapEntry('fullname', fullName));
+    _data.fields.add(MapEntry('fathersname', fatherName));
     _data.fields.add(MapEntry('phone', phone));
-    _data.fields.add(MapEntry('full_name', fullName));
-    _data.fields.add(MapEntry('password', password));
-    _data.fields.add(MapEntry('password_confirmation', passwordConfirmation));
-    _data.fields.add(MapEntry('subjects', subjects));
+    _data.fields.add(MapEntry('parent_phone', parentPhone));
     _data.fields.add(MapEntry('level', level));
-    _data.fields.add(MapEntry('fcm_token', fcmToken));
-    _data.files.add(MapEntry('cv', cvFile));
+    _data.files.add(MapEntry('DocumentaryEvidence', documentaryEvidence));
     final _options = _setStreamType<dynamic>(
       Options(
             method: 'POST',
@@ -95,7 +91,49 @@ class _WebServices implements WebServices {
           )
           .compose(
             _dio.options,
-            'teacher/register',
+            'register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
+  Future<dynamic> login(String phone) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'phone': phone};
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'login',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
+  Future<dynamic> magicLogin(String token) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'token': token};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'magic-login',
             queryParameters: queryParameters,
             data: _data,
           )

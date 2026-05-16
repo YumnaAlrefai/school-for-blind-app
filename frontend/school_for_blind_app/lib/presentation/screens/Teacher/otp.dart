@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/signup.dart';
 
@@ -36,6 +39,15 @@ class _OtpScreenState extends State<OtpScreen> {
         _isOtpComplete = complete;
       });
     }
+
+    if (complete) {
+      _verifyOtpNow();
+    }
+  }
+
+  void _verifyOtpNow() {
+    final otp = _controllers.map((c) => c.text).join();
+    context.read<AuthCubit>().emitVerifyOTP(otp);
   }
 
   @override
@@ -106,93 +118,114 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.kTextSecondary,
-      body: Center(
-        child: Container(
-          width: 362,
-          height: 700,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          margin: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 0.3),
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 150),
-                const Text(
-                  'رمز التأكيد:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+      body: BlocConsumer<AuthCubit, ResultState<dynamic>>(
+        listener: (context, state) {
+          state.whenOrNull(
+            success: (data) {
+              context.read<AuthCubit>().resetState();
+              // الانتقال الفوري بدون نطق صوتي للبيانات المستلمة
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RegisterTeacher(),
+                ),
+              );
+            },
+            failure: (networkException) {
+              // تم الاستغناء عن نطق رسالة الخطأ تلقائياً هنا
+            },
+          );
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              Center(
+                child: Container(
+                  width: 362,
+                  height: 700,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  margin: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 0.3),
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                ),
-                const SizedBox(height: 30),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 150),
+                        const Text(
+                          'رمز التأكيد:',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildOtpField(0),
-                    _buildOtpField(1),
-                    _buildOtpField(2),
-                  ],
-                ),
-                const SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildOtpField(0),
+                            _buildOtpField(1),
+                            _buildOtpField(2),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildOtpField(3),
-                    _buildOtpField(4),
-                    _buildOtpField(5),
-                  ],
-                ),
-                const SizedBox(height: 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildOtpField(3),
+                            _buildOtpField(4),
+                            _buildOtpField(5),
+                          ],
+                        ),
+                        const SizedBox(height: 40),
 
-                Center(
-                  child: SizedBox(
-                    width: 180,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: _isOtpComplete
-                          ? () {
-                              String fullOtp = _controllers
-                                  .map((c) => c.text)
-                                  .join();
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegisterTeacher(),
+                        Center(
+                          child: SizedBox(
+                            width: 180,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: _isOtpComplete ? _verifyOtpNow : null, 
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.kPrimaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                              );
-                            }
-                          : null, 
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Text(
+                                'التالي',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'التالي',
-                        style: TextStyle(
-                          color: _isOtpComplete ? Colors.black : Colors.white38,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
+              
+              if (state is Loading)
+                Container(
+                  color: AppColors.kTextSecondary.withOpacity(0.5),
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.kPrimaryColor,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }

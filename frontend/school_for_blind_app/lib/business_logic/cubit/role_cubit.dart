@@ -6,4 +6,6 @@ class RoleCubit extends Cubit<UserRole> {
   RoleCubit() : super(UserRole.none);
 
   void selectRole(UserRole role) => emit(role);
+
+  void resetRole() => emit(UserRole.none);
 }

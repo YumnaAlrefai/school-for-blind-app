@@ -5,13 +5,22 @@ import 'package:retrofit/retrofit.dart';
 
 part 'web_services.g.dart';
 
-@RestApi(baseUrl: 'http://10.0.2.2:8000/api/')
+@RestApi(baseUrl: 'https://stays-ability-accustom.ngrok-free.dev/api/')
 abstract class WebServices {
   factory WebServices(Dio dio, {String? baseUrl}) = _WebServices;
 
+  @POST('otp/send')
+  Future<dynamic> sendOTP(@Query("phone") String phone);
+
+  @POST('otp/verify')
+  Future<dynamic> verifyOTP(
+    @Query("phone") String phone,
+    @Query("otp") String otp,
+  );
+
   @POST("teacher/register")
   @MultiPart()
-  Future<TeacherModel> registerTeacher({
+  Future<dynamic> registerTeacher({
     @Part(name: "phone") required String phone,
     @Part(name: "full_name") required String fullName,
     @Part(name: "password") required String password,
@@ -21,14 +30,4 @@ abstract class WebServices {
     @Part(name: "fcm_token") required String fcmToken,
     @Part(name: "cv") required MultipartFile cvFile, 
   });
-  // @POST("teacher/send-otp")
-  // @FormUrlEncoded
-  // Future<dynamic> sendOtp(@Field("phone") String phone);
-
-  // @POST("teacher/verify-otp")
-  // @FormUrlEncoded
-  // Future<dynamic> verifyOtp(
-  //   @Field("phone") String phone,
-  //   @Field("code") String code,
-  // );
 }
