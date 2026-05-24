@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentLoginRequest;
 use App\Http\Requests\StudentRegisterRequest;
 use App\Models\Student;
 use App\Services\WhatsAppService;
 use App\Traits\UploadFileTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
@@ -15,6 +17,19 @@ class StudentController extends Controller
     use UploadFileTrait;
     public function register(StudentRegisterRequest $request)
     {
+
+        $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
+
+        $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
+
+        $isVerified = Cache::pull($cacheKey);
+
+        if (!$isVerified) {
+            return response()->json([
+                'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.'
+            ], 403);
+        }
+
         $path = $this->uploadfile($request->file('DocumentaryEvidence'), 'students/documents');
 
         $student = Student::create([

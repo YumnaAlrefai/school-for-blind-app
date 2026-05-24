@@ -42,8 +42,10 @@ Route::middleware(['auth:admin'])->group(function () {
 
 Route::get('/magic-login/{id}', [MagicLoginController::class, 'showView'])
     ->name('student.magic.view')
-    ->middleware('signed');
+    // ->middleware('signed')
+    ;
 
 Route::post('/magic-login/generate/{id}', [MagicLoginController::class, 'generateToken'])
     ->name('student.magic.generate')
-    ->middleware('signed');
+    // ->middleware('signed')
+    ;

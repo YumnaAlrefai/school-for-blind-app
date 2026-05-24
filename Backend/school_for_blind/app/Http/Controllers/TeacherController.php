@@ -30,6 +30,20 @@ class TeacherController extends Controller
 
     public function register(TeacherRegisterRequest $request)
     {
+
+        $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
+
+        $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
+
+        \Log::info('' . $request->phone . '  ' . $cacheKey);
+        $isVerified = Cache::pull($cacheKey);
+
+        if (!$isVerified) {
+            return response()->json([
+                'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.'
+            ], 403);
+        }
+
         $teacherdata = [
             'full_name' => $request->full_name,
             'phone' => $request->phone,

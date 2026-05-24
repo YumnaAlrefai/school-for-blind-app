@@ -23,7 +23,7 @@ class OtpController extends Controller
     public function sendOtp(Request $request)
     {
         $request->validate([
-            'phone' => 'required|regex:/^\+?\d{9,15}$/|unique:teachers,phone',
+            'phone' => 'required|regex:/^\+?\d{9,15}$/|unique:teachers,phone|unique:students,phone',
         ]);
 
         $otp = $this->otpService->generate();
@@ -68,6 +68,14 @@ class OtpController extends Controller
         }
 
         Cache::forget($key);
+
+        $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
+
+        $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
+
+        Cache::put($cacheKey, true, now()->addMinutes(15));
+        \Log::info(''. $request->phone .'   '. $cacheKey);
+
         return response()->json(['message' => 'تم التحقق بنجاح، يمكنك المتابعة']);
     }
 }
