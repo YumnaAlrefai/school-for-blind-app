@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "d709f248-a4ca-437e-aba6-f3a135d7327c",
-    "name": "school-for-blind-app Copy",
+    "_postman_id": "91b5b7f9-92e7-4f18-9e6e-1d73683179d1",
+    "name": "school-for-blind-app",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "49909989",
-    "_collection_link": "https://go.postman.co/collection/49909989-d709f248-a4ca-437e-aba6-f3a135d7327c?source=collection_link"
+    "_exporter_id": "50107412",
+    "_collection_link": "https://go.postman.co/collection/50107412-91b5b7f9-92e7-4f18-9e6e-1d73683179d1?source=collection_link"
   },
   "item": [
     {
@@ -36,7 +36,7 @@
                     },
                     {
                       "key": "phone",
-                      "value": "0948568727",
+                      "value": "+963948568727",
                       "type": "text",
                       "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
                     },
@@ -64,15 +64,13 @@
                   ]
                 },
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/login",
-                  "protocol": "http",
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/login",
+                  "protocol": "https",
                   "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
                   ],
-                  "port": "8000",
                   "path": [
                     "api",
                     "login"
@@ -287,108 +285,6 @@
                   ],
                   "cookie": [],
                   "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، هذا الحساب غير موجود أو لم يتم تفعيله من قبل الإدارة بعد.\"\n}"
-                },
-                {
-                  "name": "dont_send",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Accept",
-                        "value": "application/json",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "formdata",
-                      "formdata": [
-                        {
-                          "key": "fullname",
-                          "value": "Ayahammamieh",
-                          "type": "text",
-                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
-                          "disabled": true
-                        },
-                        {
-                          "key": "phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
-                        },
-                        {
-                          "key": "parent_phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
-                          "disabled": true
-                        },
-                        {
-                          "key": "level",
-                          "value": "BAC",
-                          "type": "text",
-                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
-                          "disabled": true
-                        },
-                        {
-                          "key": "DocumentaryEvidence",
-                          "type": "file",
-                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
-                          "disabled": true
-                        }
-                      ]
-                    },
-                    "url": {
-                      "raw": "http://127.0.0.1:8000/api/login",
-                      "protocol": "http",
-                      "host": [
-                        "127",
-                        "0",
-                        "0",
-                        "1"
-                      ],
-                      "port": "8000",
-                      "path": [
-                        "api",
-                        "login"
-                      ]
-                    }
-                  },
-                  "status": "Internal Server Error",
-                  "code": 500,
-                  "_postman_previewlanguage": null,
-                  "header": [
-                    {
-                      "key": "Host",
-                      "value": "127.0.0.1:8000"
-                    },
-                    {
-                      "key": "Connection",
-                      "value": "close"
-                    },
-                    {
-                      "key": "X-Powered-By",
-                      "value": "PHP/8.2.12"
-                    },
-                    {
-                      "key": "Cache-Control",
-                      "value": "no-cache, private"
-                    },
-                    {
-                      "key": "Date",
-                      "value": "Tue, 28 Apr 2026 10:16:34 GMT"
-                    },
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    },
-                    {
-                      "key": "Access-Control-Allow-Origin",
-                      "value": "*"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n    \"status\": \"error\",\n    \"message\": \"حدث خطأ أثناء إرسال الرسالة، يرجى المحاولة لاحقاً.\"\n}"
                 }
               ]
             },
@@ -411,13 +307,13 @@
                   "formdata": [
                     {
                       "key": "fullname",
-                      "value": "Ayahammamieh",
+                      "value": "يمنى الرفاعي",
                       "type": "text",
                       "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6"
                     },
                     {
                       "key": "phone",
-                      "value": "0948568727",
+                      "value": "+963948568727",
                       "type": "text",
                       "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
                     },
@@ -429,7 +325,7 @@
                     },
                     {
                       "key": "level",
-                      "value": "BAC",
+                      "value": "twelfth",
                       "type": "text",
                       "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e"
                     },
@@ -438,6 +334,12 @@
                       "type": "file",
                       "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
                       "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                    },
+                    {
+                      "key": "fathersname",
+                      "value": "نبيل",
+                      "type": "text",
+                      "uuid": "2d4ba451-2caf-47f1-a24a-a0046800fea5"
                     }
                   ]
                 },
@@ -458,106 +360,6 @@
                 }
               },
               "response": [
-                {
-                  "name": "success",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Accept",
-                        "value": "application/json",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "formdata",
-                      "formdata": [
-                        {
-                          "key": "fullname",
-                          "value": "Ayahammamieh",
-                          "type": "text",
-                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6"
-                        },
-                        {
-                          "key": "phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
-                        },
-                        {
-                          "key": "parent_phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f"
-                        },
-                        {
-                          "key": "level",
-                          "value": "BAC",
-                          "type": "text",
-                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e"
-                        },
-                        {
-                          "key": "DocumentaryEvidence",
-                          "type": "file",
-                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": [
-                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
-                          ]
-                        }
-                      ]
-                    },
-                    "url": {
-                      "raw": "http://127.0.0.1:8000/api/register",
-                      "protocol": "http",
-                      "host": [
-                        "127",
-                        "0",
-                        "0",
-                        "1"
-                      ],
-                      "port": "8000",
-                      "path": [
-                        "api",
-                        "register"
-                      ]
-                    }
-                  },
-                  "status": "Created",
-                  "code": 201,
-                  "_postman_previewlanguage": "Text",
-                  "header": [
-                    {
-                      "key": "Host",
-                      "value": "127.0.0.1:8000"
-                    },
-                    {
-                      "key": "Connection",
-                      "value": "close"
-                    },
-                    {
-                      "key": "X-Powered-By",
-                      "value": "PHP/8.2.12"
-                    },
-                    {
-                      "key": "Cache-Control",
-                      "value": "no-cache, private"
-                    },
-                    {
-                      "key": "Date",
-                      "value": "Sun, 26 Apr 2026 21:50:00 GMT"
-                    },
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    },
-                    {
-                      "key": "Access-Control-Allow-Origin",
-                      "value": "*"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم التسجيل بنجاح. يرجى إدخال الرمز المرسل إلى واتساب لتأكيد الحساب.\",\n    \"data\": {\n        \"user\": {\n            \"id\": 2,\n            \"fullname\": \"Ayahammamieh\",\n            \"phone\": \"0948568727\",\n            \"parent_phone\": \"0948568727\",\n            \"level\": \"BAC\",\n            \"status\": \"not_active\",\n            \"documentaryevidence\": \"http://127.0.0.1:8000/storage/students/documents/1777240196_aya.jpg\"\n        }\n    }\n}"
-                },
                 {
                   "name": "repeated",
                   "originalRequest": {
@@ -657,6 +459,112 @@
                   ],
                   "cookie": [],
                   "body": "{\n    \"message\": \"The phone has already been taken.\",\n    \"errors\": {\n        \"phone\": [\n            \"The phone has already been taken.\"\n        ]\n    }\n}"
+                },
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "fullname",
+                          "value": "يمنى الرفاعي",
+                          "type": "text",
+                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6"
+                        },
+                        {
+                          "key": "phone",
+                          "value": "+963941514033",
+                          "type": "text",
+                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
+                        },
+                        {
+                          "key": "parent_phone",
+                          "value": "0948568727",
+                          "type": "text",
+                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f"
+                        },
+                        {
+                          "key": "level",
+                          "value": "twelfth",
+                          "type": "text",
+                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e"
+                        },
+                        {
+                          "key": "DocumentaryEvidence",
+                          "type": "file",
+                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ]
+                        },
+                        {
+                          "key": "fathersname",
+                          "value": "نبيل",
+                          "type": "text",
+                          "uuid": "2d4ba451-2caf-47f1-a24a-a0046800fea5"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/register",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "register"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Fri, 08 May 2026 18:59:51 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم حفظ بياناتك بنجاح. حسابك الآن بانتظار مراجعة الإدارة.\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"fullname\": \"يمنى الرفاعي\",\n            \"fathersname\": \"نبيل\",\n            \"phone\": \"+963941514033\",\n            \"status\": \"pending\",\n            \"documentary_evidence\": \"http://127.0.0.1:8000/storage/students/documents/1778266791_aya.jpg\"\n        }\n    }\n}"
                 }
               ]
             },
@@ -739,7 +647,7 @@
                   },
                   "status": "Unauthorized",
                   "code": 401,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -813,7 +721,7 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -1044,7 +952,82 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/otp/verify?phone=+963948568727&otp=871936",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "otp",
+                        "verify"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963948568727"
+                        },
+                        {
+                          "key": "otp",
+                          "value": "871936"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Thu, 30 Apr 2026 10:44:06 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم التحقق بنجاح، يمكنك المتابعة\"\n}"
+                }
+              ]
             },
             {
               "name": "send_otp",
@@ -1090,9 +1073,115 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/otp/send?phone=+963948568727",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "otp",
+                        "send"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963948568727"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Thu, 30 Apr 2026 09:58:12 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم ارسال رمز التحقق\"\n}"
+                }
+              ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "magic link",
+      "item": [
+        {
+          "name": "exchange Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "token",
+                  "value": "GI3J5zEPPYpYjXLm4LDUoT9MMiINs8RECmLlb7EclxgxJr03lMRAltqKX5cwgFx6",
+                  "type": "text",
+                  "uuid": "2681992e-bbcf-4140-bf21-448a8c392245"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/api/auth/exchange-token",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "exchange-token"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
