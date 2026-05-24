@@ -6,8 +6,6 @@ class TeacherAccountsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.kBackgroundColor,
-    );
+    return Scaffold(backgroundColor: AppColors.kBackgroundColor);
   }
 }
