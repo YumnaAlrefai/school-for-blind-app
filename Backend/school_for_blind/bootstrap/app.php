@@ -3,7 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\AuthenticationException;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -13,7 +14,17 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
+        $middleware->alias([
+        'CheckIsStudent' => \App\Http\Middleware\CheckIsStudent::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'logged_out' => true,
+                    'message' =>' عذراً، انتهت صلاحية الجلسة أو تم تسجيل الخروج مسبقاً. يرجى العودة لصفحة تسجيل الدخول'
+                ], Response::HTTP_UNAUTHORIZED, [], JSON_UNESCAPED_UNICODE);
+            }  });
     })->create();

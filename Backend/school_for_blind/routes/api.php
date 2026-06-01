@@ -6,10 +6,15 @@ use App\Http\Controllers\OtpController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::post('verify-otp', [OtpController::class, 'verify']);
 Route::post('register', [StudentController::class, 'register']);
 Route::post('login', [StudentController::class, 'login']);
+Route::middleware(['auth:sanctum', 'CheckIsStudent'])->group(function () {
+
+    Route::post('/logout', [StudentController::class, 'logout']);
+});
 Route::post('/auth/exchange-token', [MagicLoginController::class, 'exchangeToken']);
 // Route::get('magic-login/{id}', [StudentController::class, 'magicLogin'])
 //     ->name('student.magic.login');
@@ -29,3 +34,11 @@ Route::prefix('teacher')->controller(TeacherController::class)->group(function (
     Route::post('register', 'register')->name('users.register');
     Route::post('login', 'login')->name('users.login');
 });
+Route::get('students/documents/{filename}', function ($filename) {
+    $path = 'public/students/documents/' . $filename;
+
+    if (!Storage::exists($path)) {
+        abort(404);
+    }
+    return response()->file(storage_path('app/' . $path));
+})->name('students.documents.show');

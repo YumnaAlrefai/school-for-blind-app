@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Traits\UploadFileTrait;
 
 class MagicLoginController extends Controller
-{
+{use UploadFileTrait;
     public function showView(Request $request, $id)
     {
         $student = Student::findOrFail($id);
-
+$postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' => $student->id]);
         $postUrl = URL::temporarySignedRoute(
             'student.magic.generate',
             now()->addMinutes(15),
@@ -36,7 +38,7 @@ class MagicLoginController extends Controller
 
         Cache::put('temp_token_' . $token, $id, now()->addMinutes(10));
 
-        \Log::info("myapp://login?token=" . urlencode($token));
+        Log::info("myapp://login?token=" . urlencode($token));
         $flutterDeepLink = "myapp://login?token=" . urlencode($token);
 
         return redirect()->away($flutterDeepLink);
@@ -63,7 +65,6 @@ class MagicLoginController extends Controller
         }
 
         $realToken = $student->createToken('mobile-app')->plainTextToken;
-
         return response()->json([
             'access_token' => $realToken,
             'student' => $student
