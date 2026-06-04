@@ -44,7 +44,7 @@ class StudentController extends Controller
             'status' => 'pending',
             'phone_verified_at' => now(),
         ]);
-
+$documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
         return response()->json([
             'status' => 'success',
             'message' => 'تم حفظ بياناتك بنجاح. حسابك الآن بانتظار مراجعة الإدارة.',
@@ -55,7 +55,7 @@ class StudentController extends Controller
                     "fullname" => $student->fullname,
                     "phone" => $student->phone,
                     "status" => $student->status,
-'documentary_evidence' => $student->DocumentaryEvidence,
+                    "documentary_evidence" => $documentUrl,
                 ]
             ]
         ], 200, [], JSON_UNESCAPED_UNICODE);

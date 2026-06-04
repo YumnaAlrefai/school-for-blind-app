@@ -63,7 +63,7 @@ $postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' =
         if (!$student) {
             return response()->json(['message' => 'الطالب غير موجود.'], 404);
         }
-
+$student->documentary_evidence_url = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
         $realToken = $student->createToken('mobile-app')->plainTextToken;
         return response()->json([
             'access_token' => $realToken,

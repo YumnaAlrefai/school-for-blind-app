@@ -34,11 +34,15 @@ Route::prefix('teacher')->controller(TeacherController::class)->group(function (
     Route::post('register', 'register')->name('users.register');
     Route::post('login', 'login')->name('users.login');
 });
-Route::get('students/documents/{filename}', function ($filename) {
-    $path = 'public/students/documents/' . $filename;
+Route::get('/students/documents/{filename}', function (Request $request, $filename) {
+
+    if (!$request->hasValidSignature()) { abort(401, 'الرابط غير صالح'); }
+
+    $path = 'private/students/documents/' . $filename;
 
     if (!Storage::exists($path)) {
-        abort(404);
+        abort(404, 'الملف غير موجود في مجلد private التابع للسيرفر');
     }
-    return response()->file(storage_path('app/' . $path));
+
+    return Storage::response($path);
 })->name('students.documents.show');
