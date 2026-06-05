@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
@@ -54,7 +55,7 @@ class TeacherController extends Controller
         ];
 
         $cv = $request->file('cv');
-        $path = $cv->store('CVS');
+        $path = $cv->store('CVS', 'public');
         $teacherdata['cv_path'] = $path;
         $teacher = Teacher::create($teacherdata);
 
@@ -101,4 +102,28 @@ class TeacherController extends Controller
         auth()->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'تم تسجيل الخروج بنجاح']);
     }
+
+
+    public function info()
+    {
+        $teacher = auth()->user();
+
+        $teacher->cv_link = asset('storage/' . $teacher->cv_path);
+
+        return response()->json([
+            'message' => 'بيانات المدرس',
+            'data' => $teacher
+        ], 200);
+    }
+
+    // public function showCv()
+    // {
+    //     $teacher = auth()->user();
+
+    //     if (!$teacher->cv_path || !Storage::exists($teacher->cv_path)) {
+    //         return response()->json(['message' => 'ملف السيرة الذاتية غير موجود'], 404);
+    //     }
+
+    //     return Storage::response($teacher->cv_path);
+    // }
 }

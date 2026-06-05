@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
-    protected $fillable = [
-        'student_id',
-        'schedule_id',
-        'status',
-        'minutes_attended',
-        'date',
-    ];
+
+    public function participant()
+    {
+        return $this->morphTo();
+    }
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+    protected $guarded = [];
+
 }

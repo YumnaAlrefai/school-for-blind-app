@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\MagicLoginController;
-use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Middleware\CheckCallCreatorRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -30,13 +32,19 @@ Route::prefix('otp')->controller(OtpController::class)->group(function () {
 });
 
 Route::prefix('teacher')->controller(TeacherController::class)->group(function () {
-    Route::post('logout', 'logout')->middleware('auth:sanctum')->name('users.login');
     Route::post('register', 'register')->name('users.register');
     Route::post('login', 'login')->name('users.login');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', 'logout')->name('teachers.logout');
+        Route::get('info', 'info')->name('teachers.info');
+        // Route::get('cv', 'showCv')->name('teachers.cv');
+    });
 });
 Route::get('/students/documents/{filename}', function (Request $request, $filename) {
 
-    if (!$request->hasValidSignature()) { abort(401, 'الرابط غير صالح'); }
+    if (!$request->hasValidSignature()) {
+        abort(401, 'الرابط غير صالح');
+    }
 
     $path = 'private/students/documents/' . $filename;
 
@@ -46,3 +54,10 @@ Route::get('/students/documents/{filename}', function (Request $request, $filena
 
     return Storage::response($path);
 })->name('students.documents.show');
+
+Route::prefix('call')->middleware('auth:sanctum')->group(function () {
+    Route::post('/start', [RoomController::class, 'startCall'])->middleware(CheckCallCreatorRole::class);
+    Route::post('/join', [RoomController::class, 'joinCall']);
+    Route::post('/kick', [RoomController::class, 'kickParticipant']);
+    Route::post('/mute', [RoomController::class, 'muteParticipant']);
+});
