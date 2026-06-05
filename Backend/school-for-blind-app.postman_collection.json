@@ -1,21 +1,31 @@
 {
   "info": {
-    "_postman_id": "91b5b7f9-92e7-4f18-9e6e-1d73683179d1",
+    "_postman_id": "64a62072-75c0-48ce-a567-621eec37eb8c",
     "name": "school-for-blind-app",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "50107412",
-    "_collection_link": "https://go.postman.co/collection/50107412-91b5b7f9-92e7-4f18-9e6e-1d73683179d1?source=collection_link"
+    "_exporter_id": "55288951",
+    "_collection_link": "https://go.postman.co/collection/54331581-64a62072-75c0-48ce-a567-621eec37eb8c?source=collection_link"
   },
   "item": [
     {
       "name": "project_one",
       "item": [
         {
-          "name": "student",
+          "name": "Otp",
           "item": [
             {
-              "name": "login",
+              "name": "send_otp",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [
                   {
@@ -24,56 +34,26 @@
                     "type": "text"
                   }
                 ],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "fullname",
-                      "value": "Ayahammamieh",
-                      "type": "text",
-                      "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
-                      "disabled": true
-                    },
-                    {
-                      "key": "phone",
-                      "value": "+963948568727",
-                      "type": "text",
-                      "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
-                    },
-                    {
-                      "key": "parent_phone",
-                      "value": "0948568727",
-                      "type": "text",
-                      "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
-                      "disabled": true
-                    },
-                    {
-                      "key": "level",
-                      "value": "BAC",
-                      "type": "text",
-                      "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
-                      "disabled": true
-                    },
-                    {
-                      "key": "DocumentaryEvidence",
-                      "type": "file",
-                      "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                      "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
-                      "disabled": true
-                    }
-                  ]
-                },
                 "url": {
-                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/login",
-                  "protocol": "https",
+                  "raw": "http://127.0.0.1:8000/api/otp/send?phone=0981226535",
+                  "protocol": "http",
                   "host": [
-                    "goes-litmus-uncouth",
-                    "ngrok-free",
-                    "dev"
+                    "127",
+                    "0",
+                    "0",
+                    "1"
                   ],
+                  "port": "8000",
                   "path": [
                     "api",
-                    "login"
+                    "otp",
+                    "send"
+                  ],
+                  "query": [
+                    {
+                      "key": "phone",
+                      "value": "0981226535"
+                    }
                   ]
                 }
               },
@@ -89,49 +69,8 @@
                         "type": "text"
                       }
                     ],
-                    "body": {
-                      "mode": "formdata",
-                      "formdata": [
-                        {
-                          "key": "fullname",
-                          "value": "Ayahammamieh",
-                          "type": "text",
-                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
-                          "disabled": true
-                        },
-                        {
-                          "key": "phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
-                        },
-                        {
-                          "key": "parent_phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
-                          "disabled": true
-                        },
-                        {
-                          "key": "level",
-                          "value": "BAC",
-                          "type": "text",
-                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
-                          "disabled": true
-                        },
-                        {
-                          "key": "DocumentaryEvidence",
-                          "type": "file",
-                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": [
-                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
-                          ],
-                          "disabled": true
-                        }
-                      ]
-                    },
                     "url": {
-                      "raw": "http://127.0.0.1:8000/api/login",
+                      "raw": "http://127.0.0.1:8000/api/otp/send?phone=+963948568727",
                       "protocol": "http",
                       "host": [
                         "127",
@@ -142,7 +81,14 @@
                       "port": "8000",
                       "path": [
                         "api",
-                        "login"
+                        "otp",
+                        "send"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963948568727"
+                        }
                       ]
                     }
                   },
@@ -168,7 +114,7 @@
                     },
                     {
                       "key": "Date",
-                      "value": "Sun, 26 Apr 2026 19:40:19 GMT"
+                      "value": "Thu, 30 Apr 2026 09:58:12 GMT"
                     },
                     {
                       "key": "Content-Type",
@@ -180,10 +126,61 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم إرسال رابط الدخول المباشر إلى رقمك على واتساب بنجاح.\"\n}"
+                  "body": "{\n    \"message\": \"تم ارسال رمز التحقق\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "verifyOtp",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "type": "string"
+                    }
+                  ]
                 },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/otp/verify?phone=0981226535&otp=570508",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "otp",
+                    "verify"
+                  ],
+                  "query": [
+                    {
+                      "key": "phone",
+                      "value": "0981226535"
+                    },
+                    {
+                      "key": "otp",
+                      "value": "570508"
+                    }
+                  ]
+                }
+              },
+              "response": [
                 {
-                  "name": "failed",
+                  "name": "success",
                   "originalRequest": {
                     "method": "POST",
                     "header": [
@@ -193,49 +190,8 @@
                         "type": "text"
                       }
                     ],
-                    "body": {
-                      "mode": "formdata",
-                      "formdata": [
-                        {
-                          "key": "fullname",
-                          "value": "Ayahammamieh",
-                          "type": "text",
-                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
-                          "disabled": true
-                        },
-                        {
-                          "key": "phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
-                        },
-                        {
-                          "key": "parent_phone",
-                          "value": "0948568727",
-                          "type": "text",
-                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
-                          "disabled": true
-                        },
-                        {
-                          "key": "level",
-                          "value": "BAC",
-                          "type": "text",
-                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
-                          "disabled": true
-                        },
-                        {
-                          "key": "DocumentaryEvidence",
-                          "type": "file",
-                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                          "src": [
-                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
-                          ],
-                          "disabled": true
-                        }
-                      ]
-                    },
                     "url": {
-                      "raw": "http://127.0.0.1:8000/api/login",
+                      "raw": "http://127.0.0.1:8000/api/otp/verify?phone=+963948568727&otp=871936",
                       "protocol": "http",
                       "host": [
                         "127",
@@ -246,12 +202,23 @@
                       "port": "8000",
                       "path": [
                         "api",
-                        "login"
+                        "otp",
+                        "verify"
+                      ],
+                      "query": [
+                        {
+                          "key": "phone",
+                          "value": "+963948568727"
+                        },
+                        {
+                          "key": "otp",
+                          "value": "871936"
+                        }
                       ]
                     }
                   },
-                  "status": "Forbidden",
-                  "code": 403,
+                  "status": "OK",
+                  "code": 200,
                   "_postman_previewlanguage": "Text",
                   "header": [
                     {
@@ -272,7 +239,7 @@
                     },
                     {
                       "key": "Date",
-                      "value": "Sun, 26 Apr 2026 19:43:46 GMT"
+                      "value": "Thu, 30 Apr 2026 10:44:06 GMT"
                     },
                     {
                       "key": "Content-Type",
@@ -284,10 +251,15 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، هذا الحساب غير موجود أو لم يتم تفعيله من قبل الإدارة بعد.\"\n}"
+                  "body": "{\n    \"message\": \"تم التحقق بنجاح، يمكنك المتابعة\"\n}"
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "name": "student",
+          "item": [
             {
               "name": "Register",
               "request": {
@@ -307,13 +279,13 @@
                   "formdata": [
                     {
                       "key": "fullname",
-                      "value": "يمنى الرفاعي",
+                      "value": "ماهر النوري",
                       "type": "text",
                       "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6"
                     },
                     {
                       "key": "phone",
-                      "value": "+963948568727",
+                      "value": "0981226535",
                       "type": "text",
                       "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
                     },
@@ -333,11 +305,14 @@
                       "key": "DocumentaryEvidence",
                       "type": "file",
                       "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                      "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                      "src": [
+                        "postman-cloud:///1f15a0ec-e3fd-4d90-8ee7-e4dc82583684",
+                        "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                      ]
                     },
                     {
                       "key": "fathersname",
-                      "value": "نبيل",
+                      "value": "مازن",
                       "type": "text",
                       "uuid": "2d4ba451-2caf-47f1-a24a-a0046800fea5"
                     }
@@ -569,9 +544,294 @@
               ]
             },
             {
-              "name": "url",
+              "name": "login",
               "request": {
-                "method": "GET",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "fullname",
+                      "value": "Ayahammamieh",
+                      "type": "text",
+                      "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
+                      "disabled": true
+                    },
+                    {
+                      "key": "phone",
+                      "value": "0981226535",
+                      "type": "text",
+                      "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
+                    },
+                    {
+                      "key": "parent_phone",
+                      "value": "0948568727",
+                      "type": "text",
+                      "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
+                      "disabled": true
+                    },
+                    {
+                      "key": "level",
+                      "value": "BAC",
+                      "type": "text",
+                      "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
+                      "disabled": true
+                    },
+                    {
+                      "key": "DocumentaryEvidence",
+                      "type": "file",
+                      "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
+                      "src": "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/login",
+                  "protocol": "https",
+                  "host": [
+                    "barman-wannabe-cape",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "login"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "fullname",
+                          "value": "Ayahammamieh",
+                          "type": "text",
+                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
+                          "disabled": true
+                        },
+                        {
+                          "key": "phone",
+                          "value": "0948568727",
+                          "type": "text",
+                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
+                        },
+                        {
+                          "key": "parent_phone",
+                          "value": "0948568727",
+                          "type": "text",
+                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
+                          "disabled": true
+                        },
+                        {
+                          "key": "level",
+                          "value": "BAC",
+                          "type": "text",
+                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
+                          "disabled": true
+                        },
+                        {
+                          "key": "DocumentaryEvidence",
+                          "type": "file",
+                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ],
+                          "disabled": true
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/login",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sun, 26 Apr 2026 19:40:19 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم إرسال رابط الدخول المباشر إلى رقمك على واتساب بنجاح.\"\n}"
+                },
+                {
+                  "name": "failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "fullname",
+                          "value": "Ayahammamieh",
+                          "type": "text",
+                          "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6",
+                          "disabled": true
+                        },
+                        {
+                          "key": "phone",
+                          "value": "0948568727",
+                          "type": "text",
+                          "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
+                        },
+                        {
+                          "key": "parent_phone",
+                          "value": "0948568727",
+                          "type": "text",
+                          "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f",
+                          "disabled": true
+                        },
+                        {
+                          "key": "level",
+                          "value": "BAC",
+                          "type": "text",
+                          "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e",
+                          "disabled": true
+                        },
+                        {
+                          "key": "DocumentaryEvidence",
+                          "type": "file",
+                          "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
+                          "src": [
+                            "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8"
+                          ],
+                          "disabled": true
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/login",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "Text",
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sun, 26 Apr 2026 19:43:46 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، هذا الحساب غير موجود أو لم يتم تفعيله من قبل الإدارة بعد.\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "logout",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "1|NWf79ZDVPUD1L929isqyfQYHDxLd1yI6k8aGN67d8e714c48",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
                 "header": [
                   {
                     "key": "Accept",
@@ -580,7 +840,7 @@
                   }
                 ],
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/magic-login/1?expires=1777382951&signature=e0f1bc9fe4883d9ac199d6fca683c1f9fbca3383340c5b8c297ada7f68b8d6c3",
+                  "raw": "http://127.0.0.1:8000/api/logout",
                   "protocol": "http",
                   "host": [
                     "127",
@@ -591,17 +851,112 @@
                   "port": "8000",
                   "path": [
                     "api",
+                    "logout"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "logout",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/logout",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "logout"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 01 Jun 2026 05:56:57 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"success\": false,\n    \"logged_out\": true,\n    \"message\": \" عذراً، انتهت صلاحية الجلسة أو تم تسجيل الخروج مسبقاً. يرجى العودة لصفحة تسجيل الدخول\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "url",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "ngrok-skip-browser-warning",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "https://stays-ability-accustom.ngrok-free.dev/magic-login/1?expires=1780200876&signature=4c17c61ad301410e4877bde2912682bf83c93163ff668de6dcf3439ae64f0b91",
+                  "protocol": "https",
+                  "host": [
+                    "stays-ability-accustom",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
                     "magic-login",
                     "1"
                   ],
                   "query": [
                     {
                       "key": "expires",
-                      "value": "1777382951"
+                      "value": "1780200876"
                     },
                     {
                       "key": "signature",
-                      "value": "e0f1bc9fe4883d9ac199d6fca683c1f9fbca3383340c5b8c297ada7f68b8d6c3"
+                      "value": "4c17c61ad301410e4877bde2912682bf83c93163ff668de6dcf3439ae64f0b91"
                     }
                   ]
                 }
@@ -756,6 +1111,125 @@
                   "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تسجيل الدخول بنجاح\",\n    \"token\": \"1|UJBPzJauRQ7VXlmDbbMwRxbBQKoPc4G4BIKXnEN030c85dcd\",\n    \"user\": {\n        \"id\": 1,\n        \"fullname\": \"Ayahammamieh\",\n        \"phone\": \"0948568727\",\n        \"parent_phone\": \"0948568727\",\n        \"points\": 0,\n        \"fcm_token\": null,\n        \"level\": \"twelfth\",\n        \"phone_verified_at\": \"2026-04-28 12:28:55\",\n        \"status\": \"approved\",\n        \"otp_expires_at\": null,\n        \"verification_token\": null,\n        \"token_expires_at\": null,\n        \"DocumentaryEvidence\": \"students/documents/1777379335_aya.jpg\",\n        \"created_at\": \"2026-04-28T12:28:55.000000Z\",\n        \"updated_at\": \"2026-04-28T12:28:55.000000Z\"\n    }\n}"
                 }
               ]
+            },
+            {
+              "name": "Register",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "fullname",
+                      "value": "يمنى الرفاعي",
+                      "type": "text",
+                      "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6"
+                    },
+                    {
+                      "key": "phone",
+                      "value": "0981226535",
+                      "type": "text",
+                      "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
+                    },
+                    {
+                      "key": "parent_phone",
+                      "value": "0948568727",
+                      "type": "text",
+                      "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f"
+                    },
+                    {
+                      "key": "level",
+                      "value": "twelfth",
+                      "type": "text",
+                      "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e"
+                    },
+                    {
+                      "key": "DocumentaryEvidence",
+                      "type": "file",
+                      "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
+                      "src": [
+                        "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
+                        "postman-cloud:///1f15a10b-66d7-47c0-a05b-bb6cbef11eea",
+                        "postman-cloud:///1f15a0ec-e3fd-4d90-8ee7-e4dc82583684",
+                        "postman-cloud:///1f15ab6a-2bc4-4070-8152-3cb6200bbb40"
+                      ]
+                    },
+                    {
+                      "key": "fathersname",
+                      "value": "نبيل",
+                      "type": "text",
+                      "uuid": "2d4ba451-2caf-47f1-a24a-a0046800fea5"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/register",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "http://127.0.0.1:8000/api/students/1/document",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "3|nX4bs5z0ljKy8He16KBvKP0iaKMcohgREEbvl87qebcb957b",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/students/1/document",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "students",
+                    "1",
+                    "document"
+                  ]
+                }
+              },
+              "response": []
             }
           ]
         },
@@ -766,16 +1240,44 @@
               "name": "Login",
               "request": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "phone",
+                      "value": "0981226535",
+                      "type": "text",
+                      "uuid": "2d290ad0-1e83-4554-9164-70f27eeb77e5"
+                    },
+                    {
+                      "key": "password",
+                      "value": "12345678",
+                      "type": "text",
+                      "uuid": "24c5e1e6-f1df-4e2f-9da3-e89684690ce3"
+                    }
+                  ]
+                },
                 "url": {
-                  "raw": "{{host}}/api/teacher/register",
+                  "raw": "http://127.0.0.1:8000/api/teacher/login",
+                  "protocol": "http",
                   "host": [
-                    "{{host}}"
+                    "127",
+                    "0",
+                    "0",
+                    "1"
                   ],
+                  "port": "8000",
                   "path": [
                     "api",
                     "teacher",
-                    "register"
+                    "login"
                   ]
                 }
               },
@@ -797,7 +1299,7 @@
                   "formdata": [
                     {
                       "key": "phone",
-                      "value": "+963981226537",
+                      "value": "0981226535",
                       "type": "text",
                       "uuid": "9e1fcb36-2d13-497d-82b1-fe5beaafa5a5"
                     },
@@ -835,7 +1337,10 @@
                       "key": "cv",
                       "type": "file",
                       "uuid": "50cdf211-6039-469c-b454-aa4a23a6bb8d",
-                      "src": "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                      "src": [
+                        "postman-cloud:///1f160dc2-235a-4a50-8396-1efcd693baf7",
+                        "postman-cloud:///1f1420ce-4c54-43d0-b83b-4dd3cd9fe2f8"
+                      ]
                     },
                     {
                       "key": "password_confirmation",
@@ -898,21 +1403,126 @@
                 }
               },
               "response": []
+            },
+            {
+              "name": "info",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/teacher/info",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "teacher",
+                    "info"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/teacher/info",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "teacher",
+                        "info"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Fri, 05 Jun 2026 14:00:04 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"بيانات المدرس\",\n    \"data\": {\n        \"id\": 1,\n        \"created_at\": \"2026-06-05T12:45:54.000000Z\",\n        \"updated_at\": \"2026-06-05T12:47:03.000000Z\",\n        \"full_name\": \"maher alnouri\",\n        \"phone\": \"0981226535\",\n        \"subjects\": \"math / number theory\",\n        \"level\": \"ninth\",\n        \"status\": \"approved\",\n        \"cv_link\": \"https://barman-wannabe-cape.ngrok-free.dev/api/teacher/cv\"\n    }\n}"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Otp",
+          "name": "call",
           "item": [
             {
-              "name": "verifyOtp",
+              "name": "Start call",
               "request": {
                 "auth": {
                   "type": "bearer",
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
                       "type": "string"
                     }
                   ]
@@ -925,30 +1535,29 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #3",
+                      "type": "text",
+                      "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                    }
+                  ]
+                },
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/otp/verify?phone=+963981226535&otp=974797",
-                  "protocol": "http",
+                  "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/start",
+                  "protocol": "https",
                   "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
+                    "barman-wannabe-cape",
+                    "ngrok-free",
+                    "dev"
                   ],
-                  "port": "8000",
                   "path": [
                     "api",
-                    "otp",
-                    "verify"
-                  ],
-                  "query": [
-                    {
-                      "key": "phone",
-                      "value": "+963981226535"
-                    },
-                    {
-                      "key": "otp",
-                      "value": "974797"
-                    }
+                    "call",
+                    "start"
                   ]
                 }
               },
@@ -964,80 +1573,83 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        }
+                      ]
+                    },
                     "url": {
-                      "raw": "http://127.0.0.1:8000/api/otp/verify?phone=+963948568727&otp=871936",
-                      "protocol": "http",
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/start",
+                      "protocol": "https",
                       "host": [
-                        "127",
-                        "0",
-                        "0",
-                        "1"
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
                       ],
-                      "port": "8000",
                       "path": [
                         "api",
-                        "otp",
-                        "verify"
-                      ],
-                      "query": [
-                        {
-                          "key": "phone",
-                          "value": "+963948568727"
-                        },
-                        {
-                          "key": "otp",
-                          "value": "871936"
-                        }
+                        "call",
+                        "start"
                       ]
                     }
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": "Text",
+                  "_postman_previewlanguage": null,
                   "header": [
                     {
-                      "key": "Host",
-                      "value": "127.0.0.1:8000"
+                      "key": ":status",
+                      "value": 200
                     },
                     {
-                      "key": "Connection",
-                      "value": "close"
+                      "key": "access-control-allow-origin",
+                      "value": "*"
                     },
                     {
-                      "key": "X-Powered-By",
-                      "value": "PHP/8.2.12"
-                    },
-                    {
-                      "key": "Cache-Control",
+                      "key": "cache-control",
                       "value": "no-cache, private"
                     },
                     {
-                      "key": "Date",
-                      "value": "Thu, 30 Apr 2026 10:44:06 GMT"
-                    },
-                    {
-                      "key": "Content-Type",
+                      "key": "content-type",
                       "value": "application/json"
                     },
                     {
-                      "key": "Access-Control-Allow-Origin",
-                      "value": "*"
+                      "key": "date",
+                      "value": "Fri, 05 Jun 2026 12:53:35 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.177.125.211"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"message\": \"تم التحقق بنجاح، يمكنك المتابعة\"\n}"
+                  "body": "{\n    \"message\": \"تم إنشاء الغرفة بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiMSIsImV4cCI6MTc4MDY3ODQxNSwibmJmIjoxNzgwNjY0MDE1LCJpYXQiOjE3ODA2NjQwMTUsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJtYWhlciBhbG5vdXJpIiwibWV0YWRhdGEiOiJ7XCJyb2xlXCI6XCJUZWFjaGVyXCJ9IiwidmlkZW8iOnsicm9vbUpvaW4iOnRydWUsInJvb21BZG1pbiI6ZmFsc2UsInJvb20iOiJ0ZXN0ICMxIiwiY2FuUHVibGlzaCI6dHJ1ZSwiY2FuU3Vic2NyaWJlIjp0cnVlfX0.pzNcIZ9CBl8cRos0YwdMG604FeecbIh7dm2LgulRnGw\"\n}"
                 }
               ]
             },
             {
-              "name": "send_otp",
+              "name": "Join call",
               "request": {
                 "auth": {
                   "type": "bearer",
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "4|UCmL2gZ1AUc3pHiuWwMqAkAkX3YA2nB6fpnofWJKc6076097",
+                      "value": "1|iLUTXRNROqzEZ3HOonZYYMI3WHjReA6hjnsHJeaH50d89c12",
                       "type": "string"
                     }
                   ]
@@ -1050,26 +1662,29 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #3",
+                      "type": "text",
+                      "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                    }
+                  ]
+                },
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/otp/send?phone=+963948568727",
-                  "protocol": "http",
+                  "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/join",
+                  "protocol": "https",
                   "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
+                    "barman-wannabe-cape",
+                    "ngrok-free",
+                    "dev"
                   ],
-                  "port": "8000",
                   "path": [
                     "api",
-                    "otp",
-                    "send"
-                  ],
-                  "query": [
-                    {
-                      "key": "phone",
-                      "value": "+963948568727"
-                    }
+                    "call",
+                    "join"
                   ]
                 }
               },
@@ -1085,8 +1700,172 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        }
+                      ]
+                    },
                     "url": {
-                      "raw": "http://127.0.0.1:8000/api/otp/send?phone=+963948568727",
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/join",
+                      "protocol": "https",
+                      "host": [
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "call",
+                        "join"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Fri, 05 Jun 2026 13:10:34 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.177.125.211"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم توليد توكن الانضمام بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiMSIsImV4cCI6MTc4MDY3OTQzNCwibmJmIjoxNzgwNjY1MDM0LCJpYXQiOjE3ODA2NjUwMzQsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJcdTA2NDVcdTA2MjdcdTA2NDdcdTA2MzEgXHUwNjI3XHUwNjQ0XHUwNjQ2XHUwNjQ4XHUwNjMxXHUwNjRhIiwibWV0YWRhdGEiOiJ7XCJyb2xlXCI6XCJTdHVkZW50XCJ9IiwidmlkZW8iOnsicm9vbUpvaW4iOnRydWUsInJvb21BZG1pbiI6ZmFsc2UsInJvb20iOiJ0ZXN0ICMxIiwiY2FuUHVibGlzaCI6dHJ1ZSwiY2FuU3Vic2NyaWJlIjp0cnVlfX0.xqlziBbGKkjePNN8UVb19tQWrowy17sWWjNLX4yp-tQ\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "kick",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #3",
+                      "type": "text",
+                      "uuid": "d949efc2-f849-4e80-8796-ef8663ed944c"
+                    },
+                    {
+                      "key": "target_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "cd1809fa-c628-49ec-bd76-5323604d5464"
+                    },
+                    {
+                      "key": "target_type",
+                      "value": "App\\Models\\Student",
+                      "type": "text",
+                      "uuid": "9c74f2bd-4cc5-4da6-9875-2ade9fe37290"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/call/kick",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "call",
+                    "kick"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #3",
+                          "type": "text",
+                          "uuid": "d949efc2-f849-4e80-8796-ef8663ed944c"
+                        },
+                        {
+                          "key": "target_id",
+                          "value": "1",
+                          "type": "text",
+                          "uuid": "cd1809fa-c628-49ec-bd76-5323604d5464"
+                        },
+                        {
+                          "key": "target_type",
+                          "value": "App\\Models\\Student",
+                          "type": "text",
+                          "uuid": "9c74f2bd-4cc5-4da6-9875-2ade9fe37290"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/kick",
                       "protocol": "http",
                       "host": [
                         "127",
@@ -1097,20 +1876,14 @@
                       "port": "8000",
                       "path": [
                         "api",
-                        "otp",
-                        "send"
-                      ],
-                      "query": [
-                        {
-                          "key": "phone",
-                          "value": "+963948568727"
-                        }
+                        "call",
+                        "kick"
                       ]
                     }
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": "Text",
+                  "_postman_previewlanguage": null,
                   "header": [
                     {
                       "key": "Host",
@@ -1122,7 +1895,7 @@
                     },
                     {
                       "key": "X-Powered-By",
-                      "value": "PHP/8.2.12"
+                      "value": "PHP/8.3.30"
                     },
                     {
                       "key": "Cache-Control",
@@ -1130,7 +1903,7 @@
                     },
                     {
                       "key": "Date",
-                      "value": "Thu, 30 Apr 2026 09:58:12 GMT"
+                      "value": "Fri, 05 Jun 2026 13:37:03 GMT"
                     },
                     {
                       "key": "Content-Type",
@@ -1142,7 +1915,170 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"message\": \"تم ارسال رمز التحقق\"\n}"
+                  "body": "{\n    \"message\": \"success\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "mute",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #3",
+                      "type": "text",
+                      "uuid": "71178ade-7f9a-4164-ae3f-17f5f4aac0b6"
+                    },
+                    {
+                      "key": "target_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "78c34985-0e74-4646-9113-f448a4235635"
+                    },
+                    {
+                      "key": "target_type",
+                      "value": "App\\Models\\Student",
+                      "type": "text",
+                      "uuid": "7e9efd3e-18f3-4077-8be5-3595c425529e"
+                    },
+                    {
+                      "key": "track_sid",
+                      "value": "TR_AMgph9NeEDRHP5",
+                      "type": "text",
+                      "uuid": "5fd277fb-5fff-41ef-80aa-53d4ac777656"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/call/mute",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "call",
+                    "mute"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #3",
+                          "type": "text",
+                          "uuid": "71178ade-7f9a-4164-ae3f-17f5f4aac0b6"
+                        },
+                        {
+                          "key": "target_id",
+                          "value": "1",
+                          "type": "text",
+                          "uuid": "78c34985-0e74-4646-9113-f448a4235635"
+                        },
+                        {
+                          "key": "target_type",
+                          "value": "App\\Models\\Student",
+                          "type": "text",
+                          "uuid": "7e9efd3e-18f3-4077-8be5-3595c425529e"
+                        },
+                        {
+                          "key": "track_sid",
+                          "value": "TR_AMgph9NeEDRHP5",
+                          "type": "text",
+                          "uuid": "5fd277fb-5fff-41ef-80aa-53d4ac777656"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/mute",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "call",
+                        "mute"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Fri, 05 Jun 2026 13:51:07 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"success\"\n}"
                 }
               ]
             }
@@ -1157,23 +2093,34 @@
           "name": "exchange Token",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
                 {
                   "key": "token",
-                  "value": "GI3J5zEPPYpYjXLm4LDUoT9MMiINs8RECmLlb7EclxgxJr03lMRAltqKX5cwgFx6",
+                  "value": "5LcQEMG9LoKIErMGCilxFEIUJIc8WTD6Q11sDsMdyWEkPH1cBWdF96nLOMdBZpyM",
                   "type": "text",
                   "uuid": "2681992e-bbcf-4140-bf21-448a8c392245"
                 }
               ]
             },
             "url": {
-              "raw": "{{host}}/api/auth/exchange-token",
+              "raw": "http://127.0.0.1:8000/api/auth/exchange-token",
+              "protocol": "http",
               "host": [
-                "{{host}}"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
+              "port": "8000",
               "path": [
                 "api",
                 "auth",
@@ -1181,7 +2128,76 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "fail",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "token",
+                      "value": "djsN4vUzzWZeWvrdIx1rAHNJ4bcBaXR0syJWpx05Ja4iV1smKik6ywGfPC10rqvi  ",
+                      "type": "text",
+                      "uuid": "2681992e-bbcf-4140-bf21-448a8c392245"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{host}}/api/auth/exchange-token",
+                  "host": [
+                    "{{host}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "exchange-token"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 401
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Thu, 28 May 2026 08:30:24 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "barman-wannabe-cape.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "103.216.221.77"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.3.30"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"الرابط غير صالح، منتهي الصلاحية، أو تم استخدامه مسبقاً.\"\n}"
+            }
+          ]
         }
       ]
     }
