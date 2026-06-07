@@ -23,26 +23,30 @@ class Student extends Authenticatable
         'phone_verified_at',
         'status',
         'DocumentaryEvidence',
-        ];
+    ];
 
     protected $hidden = [
         'otp',
     ];
 
-public function getDocumentaryEvidenceAttribute($value)
-{
-    if ($value) {
-        return request()->getSchemeAndHttpHost() . '/storage/' . $value;
+    public function getDocumentaryEvidenceAttribute($value)
+    {
+        if ($value) {
+            return request()->getSchemeAndHttpHost() . '/storage/' . $value;
+        }
+        return null;
     }
-    return null;
-}
 
-protected function documentaryEvidence(): Attribute
-{
-    return Attribute::make(
-        get: fn ($value) => $value ? route('students.documents.show', ['filename' => basename($value)]) : null,
-    );
-}
+    protected function documentaryEvidence(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? route('students.documents.show', ['filename' => basename($value)]) : null,
+        );
+    }
 
+    public function parent()
+    {
+        return $this->belongsTo(Caregiver::class, 'parent_id');
+    }
 
 }

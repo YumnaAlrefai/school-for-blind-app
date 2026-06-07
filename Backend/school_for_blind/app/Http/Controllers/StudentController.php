@@ -44,7 +44,8 @@ class StudentController extends Controller
             'status' => 'pending',
             'phone_verified_at' => now(),
         ]);
-$documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
+
+        $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
         return response()->json([
             'status' => 'success',
             'message' => 'تم حفظ بياناتك بنجاح. حسابك الآن بانتظار مراجعة الإدارة.',
@@ -114,47 +115,47 @@ $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
             'user' => $student
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
-public function logout(Request $request): JsonResponse
-{
-    try {
-        $student = $request->user();
+    public function logout(Request $request): JsonResponse
+    {
+        try {
+            $student = $request->user();
 
-        if (!$student) {
+            if (!$student) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'المستخدم غير موجود أو غير مصرح له.'
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+
+            $student->currentAccessToken()->delete();
+
+
+            return response()->json([
+                'success' => true,
+                'message' => 'تم تسجيل الخروج بنجاح ',
+                'meta' => [
+                    'timestamp' => now()->toIso8601String(),
+                    'student_id' => $student->id
+                ]
+            ], Response::HTTP_OK, [], JSON_UNESCAPED_UNICODE);
+
+        } catch (\Exception $e) {
+            Log::error("Logout Failed for Student: " . $e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'المستخدم غير موجود أو غير مصرح له.'
-            ], Response::HTTP_UNAUTHORIZED);
+                'message' => 'عذراً، حدث خطأ غير متوقع في الخادم أثناء محاولة تسجيل الخروج.'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR, [], JSON_UNESCAPED_UNICODE);
         }
-
-        $student->currentAccessToken()->delete();
-
-
-        return response()->json([
-            'success' => true,
-            'message' => 'تم تسجيل الخروج بنجاح ',
-            'meta' => [
-                'timestamp' => now()->toIso8601String(),
-                'student_id' => $student->id
-            ]
-        ], Response::HTTP_OK, [], JSON_UNESCAPED_UNICODE);
-
-    } catch (\Exception $e) {
-        Log::error("Logout Failed for Student: " . $e->getMessage());
-
-        return response()->json([
-            'success' => false,
-            'message' => 'عذراً، حدث خطأ غير متوقع في الخادم أثناء محاولة تسجيل الخروج.'
-        ], Response::HTTP_INTERNAL_SERVER_ERROR, [], JSON_UNESCAPED_UNICODE);
     }
+
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-    }
 

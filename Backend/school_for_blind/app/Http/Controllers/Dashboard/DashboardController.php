@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Caregiver;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class DashboardController extends Controller
 {
@@ -65,13 +70,24 @@ class DashboardController extends Controller
         }
     }
 
-    public function updateStatus(Request $request, $type, $id)
+    public function updateStatus(Request $request, $type, $id, WhatsAppService $whatsApp)
     {
         $model = ($type === 'teacher') ? Teacher::class : Student::class;
 
         $user = $model::findOrFail($id);
-
         $user->status = $request->status;
+
+        if ($request->status === 'approved' && $type === 'student') {
+            $password = Str::lower(Str::random(10));
+
+            $caregiver = Caregiver::firstOrCreate(
+                ['phone' => $user->parent_phone],
+                ['password' => Hash::make($password)]
+            );
+
+            $user->parent_id = $caregiver->id;
+            $whatsApp->sendCaregiverinfo($user->phone, $user->fullname, $user->parent_phone, $password);
+        }
         $user->save();
 
         return response()->json([

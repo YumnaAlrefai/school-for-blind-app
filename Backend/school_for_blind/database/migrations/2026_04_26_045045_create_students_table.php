@@ -16,6 +16,11 @@ return new class extends Migration {
             $table->string('fathersname');
             $table->string('phone')->unique();
             $table->string('parent_phone');
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('caregivers')
+                ->onDelete('set null');
+                
             $table->integer('points')->default(0);
             $table->string('fcm_token')->nullable();
             $table->enum('level', ['ninth', 'twelfth']);

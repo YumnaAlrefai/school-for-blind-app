@@ -21,6 +21,18 @@ class WhatsAppService
         return $this->execute($phone, $message);
     }
 
+    public function sendCaregiverinfo(string $phone, string $fullname, string $parent_phone, string $password)
+    {
+        $message = "مرحباً {$fullname} 👋\n
+        تم قبول طلب انضمامك في مدرستنا راجين لك كل التوفيق و النجاح و ان نكون عند حسن ظنكم\n
+        يمكن لولي أمر الطالب {$fullname} متابعة اخبار تفوقه الدراسي عبر تطبيقنا الخاص بالاهل حيث يمكنكم تسجيل الدخول بهذه البيانات\n
+        رقم الهاتف: {$parent_phone}\n
+        كلمة المرور: {$password}"
+        ;
+
+        return $this->execute($phone, $message);
+    }
+
     private function execute(string $phone, string $message)
     {
         if (str_starts_with($phone, '0')) {

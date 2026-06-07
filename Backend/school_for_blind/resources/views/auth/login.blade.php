@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بصمة امل - تسجيل الدخول</title>
+  <title> SESB - تسجيل الدخول</title>
   <style>
     /* --- DESIGN SYSTEM & CSS VARIABLES --- */
     :root {
@@ -257,7 +257,6 @@
       transform: translateX(24px);
     }
 
-    /* Simple animation for appearance */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -272,6 +271,30 @@
 
     .login-card {
       animation: fadeIn 0.5s ease-out;
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .password-toggle-btn:hover {
+      color: var(--primary-accent);
+    }
+
+    .password-input-padded {
+      padding-left: 45px !important;
     }
   </style>
 </head>
@@ -295,7 +318,7 @@
         <div class="logo-placeholder" aria-hidden="true">😊</div>
 
         <h1 id="login-heading" class="main-heading">تسجيل الدخول</h1>
-        <p class="sub-heading">مرحباً بك في لوحة قيادة مدرسة بصمة امل</p>
+        <p class="sub-heading">مرحباً بك في لوحة قيادة مدرسة SESB</p>
       </div>
 
       <form action="{{ route('dashboard.login') }}" method="POST">
@@ -323,8 +346,24 @@
         <div class="form-group">
           <label for="password" class="form-label">كلمة المرور</label>
           <div class="input-wrapper">
-            <input type="password" id="password" name="password" class="form-input" placeholder="ادخل كلمة المرور"
-              required>
+            <input type="password" id="password" name="password" class="form-input password-input-padded"
+              placeholder="ادخل كلمة المرور" required>
+
+            <button type="button" id="togglePasswordBtn" class="password-toggle-btn" aria-label="إظهار كلمة المرور">
+              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg id="eyeSlashIcon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -360,6 +399,25 @@
     }
 
     toggleSwitch.addEventListener('change', switchTheme, false);
+
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+
+    togglePasswordBtn.addEventListener('click', function () {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+
+      if (isPassword) {
+        eyeIcon.style.display = 'none';
+        eyeSlashIcon.style.display = 'block';
+      } else {
+        eyeIcon.style.display = 'block';
+        eyeSlashIcon.style.display = 'none';
+      }
+    });
   </script>
 </body>
 
