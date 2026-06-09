@@ -32,7 +32,7 @@ class WhatsAppService
 
         return $this->execute($phone, $message);
     }
-    public function sendteacherinfo(string $phone, string $fullname)
+    public function sendTeacherinfo(string $phone, string $fullname)
     {
         $message = "مرحباً {$fullname} 👋\n
 تم قبول طلب انضمامك في مدرستنا راجين لك كل التوفيق و النجاح و ان نكون عند حسن ظنكم\n

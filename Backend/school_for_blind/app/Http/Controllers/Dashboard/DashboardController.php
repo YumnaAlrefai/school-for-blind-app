@@ -83,8 +83,8 @@ class DashboardController extends Controller
             if ($type === 'teacher') {
                 $rules['class_id'] = 'required|array';
                 $rules['class_id.*'] = 'integer|exists:classes,id';
+            } else
                 $rules['class_id'] = 'required|integer|exists:classes,id';
-            }
         }
 
         $request->validate($rules);
@@ -109,7 +109,7 @@ class DashboardController extends Controller
 
                 } elseif ($type === 'teacher') {
                     $user->classes()->syncWithoutDetaching($request->class_id);
-                    $whatsApp->sendTeacherinfo($user->phone, $user->fullname);
+                    $whatsApp->sendTeacherinfo($user->phone, $user->full_name);
                 }
             }
             $user->save();

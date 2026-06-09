@@ -146,7 +146,11 @@ class RoomController extends Controller
 
             return response()->json(['message' => 'تم إنهاء الدرس وإغلاق الغرفة بنجاح']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'فشل إنهاء الغرفة في سيرفر البث'], 500);
+            return response()->json([
+                'error' => 'فشل إنهاء الغرفة في سيرفر البث',
+                'details' => $e->getMessage(), 
+                // 'trace' => $e->getTraceAsString()
+            ], 500);
         }
     }
 
