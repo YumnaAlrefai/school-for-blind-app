@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Agence104\LiveKit\AccessToken;
 use Agence104\LiveKit\AccessTokenOptions;
-use Agence104\LiveKit\VideoGrant;
-use App\Models\Room;
 use Agence104\LiveKit\RoomServiceClient;
-use App\Http\Requests\Room\StartCallRequest;
+use Agence104\LiveKit\VideoGrant;
+use App\Http\Requests\Room\EndCallRequest;
 use App\Http\Requests\Room\JoinCallRequest;
 use App\Http\Requests\Room\KickParticipantRequest;
 use App\Http\Requests\Room\MuteParticipantRequest;
-use App\Http\Requests\Room\EndCallRequest;
+use App\Http\Requests\Room\StartCallRequest;
+use App\Models\Room;
+use Illuminate\Routing\Controller;
+use Livekit\ParticipantPermission;
 
 class RoomController extends Controller
 {
+
     public function startCall(StartCallRequest $request)
     {
         $user = auth()->user();
@@ -64,7 +67,7 @@ class RoomController extends Controller
 
         $videoGrant = (new VideoGrant())
             ->setRoomJoin(true)->setRoomName($request->room_name)
-            ->setRoomAdmin(false)->setCanPublish(true)->setCanSubscribe(true);
+            ->setRoomAdmin(false)->setCanPublish(false)->setCanSubscribe(true);
 
         $token = (new AccessToken(env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET')))
             ->init($tokenOptions)->setGrant($videoGrant)->toJwt();
@@ -155,5 +158,24 @@ class RoomController extends Controller
             'message' => 'المكالمات الجارية حالياً لشعبتك',
             'data' => $activeCalls
         ], 200);
+    }
+
+    public function unmuteParticipant(UnmuteParticipantRequest $request)
+    {
+        $targetRole = ($request->target_type === 'App\Models\Student') ? 'Student' : (($request->target_type === 'App\Models\Teacher') ? 'Teacher' : 'Admin');
+        $targetIdentity = $targetRole . '--' . $request->target_id;
+
+        try {
+            $svc = new RoomServiceClient(env('LIVEKIT_URL'), env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET'));
+
+            $permissions = new ParticipantPermission();
+            $permissions->setCanPublish(true)->setCanSubscribe(true);
+
+            $svc->updateParticipant($request->room_name, $targetIdentity, null, $permissions);
+
+            return response()->json(['message' => 'تم فك الكتم عن المستخدم بنجاح']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'حدث خطأ أثناء فك الكتم: ' . $e->getMessage()], 500);
+        }
     }
 }

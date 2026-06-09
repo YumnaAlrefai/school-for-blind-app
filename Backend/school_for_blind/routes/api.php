@@ -64,6 +64,6 @@ Route::prefix('call')->middleware('auth:sanctum')->group(function () {
         Route::post('/kick', [RoomController::class, 'kickParticipant']);
         Route::post('/mute', [RoomController::class, 'muteParticipant']);
         Route::post('/end', [RoomController::class, 'endCall']);
+        Route::post('/unmute-participant', [RoomController::class, 'unmuteParticipant']);
     });
-
 });
