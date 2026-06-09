@@ -43,8 +43,7 @@ class RoomController extends Controller
             ->setRoomJoin(true)->setRoomName($room->room_name)
             ->setRoomAdmin(true)->setCanPublish(true)->setCanSubscribe(true);
 
-        $token = (new AccessToken(env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET')))
-            ->init($tokenOptions)->setGrant($videoGrant)->toJwt();
+        $token = (new AccessToken(config('livekit.api_key'), config('livekit.api_secret')))->init($tokenOptions)->setGrant($videoGrant)->toJwt();
 
         return response()->json([
             'message' => 'تم إنشاء الغرفة بنجاح',
@@ -69,7 +68,7 @@ class RoomController extends Controller
             ->setRoomJoin(true)->setRoomName($request->room_name)
             ->setRoomAdmin(false)->setCanPublish(false)->setCanSubscribe(true);
 
-        $token = (new AccessToken(env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET')))
+        $token = (new AccessToken(config('livekit.api_key'), config('livekit.api_secret')))
             ->init($tokenOptions)->setGrant($videoGrant)->toJwt();
 
         return response()->json([
@@ -85,7 +84,11 @@ class RoomController extends Controller
         $targetIdentity = $targetRole . '--' . $request->target_id;
 
         try {
-            $svc = new RoomServiceClient(env('LIVEKIT_URL'), env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET'));
+            $svc = new RoomServiceClient(
+                config('livekit.url'),
+                config('livekit.api_key'),
+                config('livekit.api_secret')
+            );
             $svc->removeParticipant($request->room_name, $targetIdentity);
 
             $room = $request->roomModel;
@@ -108,7 +111,11 @@ class RoomController extends Controller
         $targetIdentity = $targetRole . '--' . $request->target_id;
 
         try {
-            $svc = new RoomServiceClient(env('LIVEKIT_URL'), env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET'));
+            $svc = new RoomServiceClient(
+                config('livekit.url'),
+                config('livekit.api_key'),
+                config('livekit.api_secret')
+            );
             $svc->mutePublishedTrack($request->room_name, $targetIdentity, $request->track_sid, true);
 
             $permissions = new ParticipantPermission();
@@ -126,7 +133,11 @@ class RoomController extends Controller
         $room = $request->roomModel;
 
         try {
-            $svc = new RoomServiceClient(env('LIVEKIT_URL'), env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET'));
+            $svc = new RoomServiceClient(
+                config('livekit.url'),
+                config('livekit.api_key'),
+                config('livekit.api_secret')
+            );
             $svc->deleteRoom($request->room_name);
 
             $room->status = 'ended';
@@ -166,8 +177,11 @@ class RoomController extends Controller
         $targetIdentity = $targetRole . '--' . $request->target_id;
 
         try {
-            $svc = new RoomServiceClient(env('LIVEKIT_URL'), env('LIVEKIT_API_KEY'), env('LIVEKIT_API_SECRET'));
-
+            $svc = new RoomServiceClient(
+                config('livekit.url'),
+                config('livekit.api_key'),
+                config('livekit.api_secret')
+            );
             $permissions = new ParticipantPermission();
             $permissions->setCanPublish(true)->setCanSubscribe(true);
 
