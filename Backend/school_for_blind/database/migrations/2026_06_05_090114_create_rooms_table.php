@@ -13,8 +13,10 @@ return new class extends Migration {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->morphs('creator');
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->string('room_name')->unique();
             $table->enum('status', ['active', 'ended'])->default('active');
+            $table->json('kicked_participants')->nullable();
             $table->timestamp('started_at')->useCurrent();
             $table->timestamp('ended_at')->nullable();
             $table->timestamps();

@@ -21,4 +21,7 @@ class Room extends Model
     }
 
     protected $guarded = [];
+    protected $casts = [
+        'kicked_participants' => 'array',
+    ];
 }

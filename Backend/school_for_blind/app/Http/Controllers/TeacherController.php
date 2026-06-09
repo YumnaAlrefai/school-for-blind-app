@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\TeacherLoginRequest;
 use App\Http\Requests\TeacherRegisterRequest;
 use App\Models\Teacher;
-use App\Models\User;
+use App\Traits\UploadFileTrait;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
+
+    use UploadFileTrait;
+    public function uploadfile($file, $folder)
+    {
+        if ($file && $file->isValid()) {
+            return $file->store($folder, 'public');
+        }
+        return null;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -54,11 +60,10 @@ class TeacherController extends Controller
             // 'fcm_token' => $request->fcm_token,
         ];
 
-        $cv = $request->file('cv');
-        $path = $cv->store('CVS', 'public');
+        $path = $this->uploadfile($request->file('cv'), 'teahcers/CVS');
+        \Log::info('path : ' . $path);
         $teacherdata['cv_path'] = $path;
         $teacher = Teacher::create($teacherdata);
-
 
         return response()->json([
             'message' => 'تم ارسال طلب لانشاء الحساب بنجاح',

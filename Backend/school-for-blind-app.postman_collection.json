@@ -1111,125 +1111,6 @@
                   "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تسجيل الدخول بنجاح\",\n    \"token\": \"1|UJBPzJauRQ7VXlmDbbMwRxbBQKoPc4G4BIKXnEN030c85dcd\",\n    \"user\": {\n        \"id\": 1,\n        \"fullname\": \"Ayahammamieh\",\n        \"phone\": \"0948568727\",\n        \"parent_phone\": \"0948568727\",\n        \"points\": 0,\n        \"fcm_token\": null,\n        \"level\": \"twelfth\",\n        \"phone_verified_at\": \"2026-04-28 12:28:55\",\n        \"status\": \"approved\",\n        \"otp_expires_at\": null,\n        \"verification_token\": null,\n        \"token_expires_at\": null,\n        \"DocumentaryEvidence\": \"students/documents/1777379335_aya.jpg\",\n        \"created_at\": \"2026-04-28T12:28:55.000000Z\",\n        \"updated_at\": \"2026-04-28T12:28:55.000000Z\"\n    }\n}"
                 }
               ]
-            },
-            {
-              "name": "Register",
-              "request": {
-                "auth": {
-                  "type": "noauth"
-                },
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "fullname",
-                      "value": "يمنى الرفاعي",
-                      "type": "text",
-                      "uuid": "2e44a314-f7fe-47fe-9aad-e552e1ca7ef6"
-                    },
-                    {
-                      "key": "phone",
-                      "value": "0981226535",
-                      "type": "text",
-                      "uuid": "47f0255c-fabf-4da1-936b-c38d49ed1099"
-                    },
-                    {
-                      "key": "parent_phone",
-                      "value": "0948568727",
-                      "type": "text",
-                      "uuid": "e7846a0b-1a00-45d1-b3ce-aafb9d07ed7f"
-                    },
-                    {
-                      "key": "level",
-                      "value": "twelfth",
-                      "type": "text",
-                      "uuid": "4d6ff7cf-85f4-4a70-bbf8-e376a0dccb7e"
-                    },
-                    {
-                      "key": "DocumentaryEvidence",
-                      "type": "file",
-                      "uuid": "b8a38190-c264-4799-89e0-05aec6447e98",
-                      "src": [
-                        "postman-cloud:///1f0e6dd7-a7a4-4640-92ed-1a45466ea5d8",
-                        "postman-cloud:///1f15a10b-66d7-47c0-a05b-bb6cbef11eea",
-                        "postman-cloud:///1f15a0ec-e3fd-4d90-8ee7-e4dc82583684",
-                        "postman-cloud:///1f15ab6a-2bc4-4070-8152-3cb6200bbb40"
-                      ]
-                    },
-                    {
-                      "key": "fathersname",
-                      "value": "نبيل",
-                      "type": "text",
-                      "uuid": "2d4ba451-2caf-47f1-a24a-a0046800fea5"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "http://127.0.0.1:8000/api/register",
-                  "protocol": "http",
-                  "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
-                  ],
-                  "port": "8000",
-                  "path": [
-                    "api",
-                    "register"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "http://127.0.0.1:8000/api/students/1/document",
-              "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "3|nX4bs5z0ljKy8He16KBvKP0iaKMcohgREEbvl87qebcb957b",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "http://127.0.0.1:8000/api/students/1/document",
-                  "protocol": "http",
-                  "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
-                  ],
-                  "port": "8000",
-                  "path": [
-                    "api",
-                    "students",
-                    "1",
-                    "document"
-                  ]
-                }
-              },
-              "response": []
             }
           ]
         },
@@ -1522,7 +1403,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
+                      "value": "1|KS8Ayq07j9XXFtjr12OojPdur77j3Go2QQMunVG0e253bddc",
                       "type": "string"
                     }
                   ]
@@ -1540,9 +1421,15 @@
                   "formdata": [
                     {
                       "key": "room_name",
-                      "value": "test #3",
+                      "value": "test #1",
                       "type": "text",
                       "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                    },
+                    {
+                      "key": "class_id",
+                      "value": "15",
+                      "type": "text",
+                      "uuid": "f62e8c21-a8d5-408b-b948-6604dc8bbe01"
                     }
                   ]
                 },
@@ -1581,6 +1468,12 @@
                           "value": "test #1",
                           "type": "text",
                           "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        },
+                        {
+                          "key": "class_id",
+                          "value": "15",
+                          "type": "text",
+                          "uuid": "f62e8c21-a8d5-408b-b948-6604dc8bbe01"
                         }
                       ]
                     },
@@ -1621,7 +1514,7 @@
                     },
                     {
                       "key": "date",
-                      "value": "Fri, 05 Jun 2026 12:53:35 GMT"
+                      "value": "Tue, 09 Jun 2026 09:18:48 GMT"
                     },
                     {
                       "key": "host",
@@ -1629,7 +1522,7 @@
                     },
                     {
                       "key": "ngrok-agent-ips",
-                      "value": "185.177.125.211"
+                      "value": "185.183.34.166"
                     },
                     {
                       "key": "x-powered-by",
@@ -1637,7 +1530,90 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"message\": \"تم إنشاء الغرفة بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiMSIsImV4cCI6MTc4MDY3ODQxNSwibmJmIjoxNzgwNjY0MDE1LCJpYXQiOjE3ODA2NjQwMTUsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJtYWhlciBhbG5vdXJpIiwibWV0YWRhdGEiOiJ7XCJyb2xlXCI6XCJUZWFjaGVyXCJ9IiwidmlkZW8iOnsicm9vbUpvaW4iOnRydWUsInJvb21BZG1pbiI6ZmFsc2UsInJvb20iOiJ0ZXN0ICMxIiwiY2FuUHVibGlzaCI6dHJ1ZSwiY2FuU3Vic2NyaWJlIjp0cnVlfX0.pzNcIZ9CBl8cRos0YwdMG604FeecbIh7dm2LgulRnGw\"\n}"
+                  "body": "{\n    \"message\": \"تم إنشاء الغرفة بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZWFjaGVyLS0xIiwianRpIjoiVGVhY2hlci0tMSIsImV4cCI6MTc4MTAxMTEyOCwibmJmIjoxNzgwOTk2NzI4LCJpYXQiOjE3ODA5OTY3MjgsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJcdTA2MjdcdTA2NDRcdTA2MjNcdTA2MzNcdTA2MmFcdTA2MjdcdTA2MzAgXHUwNjIyXHUwNjJmXHUwNjQ1IChuaW50aCkiLCJtZXRhZGF0YSI6IntcInJvbGVcIjpcIlRlYWNoZXJcIn0iLCJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbUFkbWluIjp0cnVlLCJyb29tIjoidGVzdCAjMSIsImNhblB1Ymxpc2giOnRydWUsImNhblN1YnNjcmliZSI6dHJ1ZX19.mzrIqh1mTiLCw_YQKYnswB2MCsqRR6awR_OQn7DMzaM\"\n}"
+                },
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        },
+                        {
+                          "key": "class_id",
+                          "value": "15",
+                          "type": "text",
+                          "uuid": "f62e8c21-a8d5-408b-b948-6604dc8bbe01"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/start",
+                      "protocol": "https",
+                      "host": [
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "call",
+                        "start"
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 422
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Tue, 09 Jun 2026 09:19:07 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.183.34.166"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"يوجد خطأ في البيانات المدخلة\",\n    \"details\": {\n        \"room_name\": [\n            \"اسم الغرفة موجود مسبقاً، يرجى اختيار اسم آخر\"\n        ],\n        \"class_id\": [\n            \"لا يمكن إنشاء المكالمة، هناك درس قائم حالياً لهذه الشعبة!\"\n        ]\n    }\n}"
                 }
               ]
             },
@@ -1689,6 +1665,83 @@
                 }
               },
               "response": [
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #3",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/join",
+                      "protocol": "https",
+                      "host": [
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "call",
+                        "join"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 401
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Tue, 09 Jun 2026 09:21:19 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.183.34.166"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"success\": false,\n    \"logged_out\": true,\n    \"message\": \" عذراً، انتهت صلاحية الجلسة أو تم تسجيل الخروج مسبقاً. يرجى العودة لصفحة تسجيل الدخول\"\n}"
+                },
                 {
                   "name": "success",
                   "originalRequest": {
@@ -1748,7 +1801,7 @@
                     },
                     {
                       "key": "date",
-                      "value": "Fri, 05 Jun 2026 13:10:34 GMT"
+                      "value": "Tue, 09 Jun 2026 09:21:41 GMT"
                     },
                     {
                       "key": "host",
@@ -1756,7 +1809,7 @@
                     },
                     {
                       "key": "ngrok-agent-ips",
-                      "value": "185.177.125.211"
+                      "value": "185.183.34.166"
                     },
                     {
                       "key": "x-powered-by",
@@ -1764,7 +1817,238 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"message\": \"تم توليد توكن الانضمام بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwianRpIjoiMSIsImV4cCI6MTc4MDY3OTQzNCwibmJmIjoxNzgwNjY1MDM0LCJpYXQiOjE3ODA2NjUwMzQsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJcdTA2NDVcdTA2MjdcdTA2NDdcdTA2MzEgXHUwNjI3XHUwNjQ0XHUwNjQ2XHUwNjQ4XHUwNjMxXHUwNjRhIiwibWV0YWRhdGEiOiJ7XCJyb2xlXCI6XCJTdHVkZW50XCJ9IiwidmlkZW8iOnsicm9vbUpvaW4iOnRydWUsInJvb21BZG1pbiI6ZmFsc2UsInJvb20iOiJ0ZXN0ICMxIiwiY2FuUHVibGlzaCI6dHJ1ZSwiY2FuU3Vic2NyaWJlIjp0cnVlfX0.xqlziBbGKkjePNN8UVb19tQWrowy17sWWjNLX4yp-tQ\"\n}"
+                  "body": "{\n    \"message\": \"تم توليد توكن الانضمام بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZWFjaGVyLS0yIiwianRpIjoiVGVhY2hlci0tMiIsImV4cCI6MTc4MTAxMTMwMSwibmJmIjoxNzgwOTk2OTAxLCJpYXQiOjE3ODA5OTY5MDEsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJcdTA2MjdcdTA2NDRcdTA2MjNcdTA2MzNcdTA2MmFcdTA2MjdcdTA2MzAgXHUwNjQ2XHUwNjM5XHUwNjQ1XHUwNjI3XHUwNjQ2IChuaW50aCkiLCJtZXRhZGF0YSI6IntcInJvbGVcIjpcIlRlYWNoZXJcIn0iLCJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbUFkbWluIjpmYWxzZSwicm9vbSI6InRlc3QgIzEiLCJjYW5QdWJsaXNoIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWV9fQ.JuzcSnGsKXMBT4PXSKv01NXG-8P6MktC8_5dfqttdKc\"\n}"
+                },
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/join",
+                      "protocol": "https",
+                      "host": [
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "call",
+                        "join"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 403
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Tue, 09 Jun 2026 09:27:10 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.183.34.166"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"غير مصرح لك بدخول هذا الدرس، ليس مخصصاً لشعبتك\"\n}"
+                },
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/join",
+                      "protocol": "https",
+                      "host": [
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "call",
+                        "join"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Tue, 09 Jun 2026 09:28:12 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.183.34.166"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم توليد توكن الانضمام بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTdHVkZW50LS0xNSIsImp0aSI6IlN0dWRlbnQtLTE1IiwiZXhwIjoxNzgxMDExNjkyLCJuYmYiOjE3ODA5OTcyOTIsImlhdCI6MTc4MDk5NzI5MiwiaXNzIjoiQVBJSlBNaTI1VUZKVEJwIiwibmFtZSI6Ilx1MDYzN1x1MDYyN1x1MDY0NFx1MDYyOCBGaWZ0aCBEaXZpc2lvbiAtIHR3ZWxmdGgiLCJtZXRhZGF0YSI6IntcInJvbGVcIjpcIlN0dWRlbnRcIn0iLCJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbUFkbWluIjpmYWxzZSwicm9vbSI6InRlc3QgIzEiLCJjYW5QdWJsaXNoIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWV9fQ.15-MjYf6K8Yghu-h4AZ7DxyjlfTuOh9cC6NsW_Vp2As\"\n}"
+                },
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/join",
+                      "protocol": "https",
+                      "host": [
+                        "barman-wannabe-cape",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "call",
+                        "join"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 403
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Tue, 09 Jun 2026 09:33:27 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "barman-wannabe-cape.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.183.34.166"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.3.30"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"لقد تم طردك من هذا الدرس بواسطة المدرس، لا يمكنك الدخول مجدداً\"\n}"
                 }
               ]
             },
@@ -1776,7 +2060,7 @@
                   "bearer": [
                     {
                       "key": "token",
-                      "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
+                      "value": "1|KS8Ayq07j9XXFtjr12OojPdur77j3Go2QQMunVG0e253bddc",
                       "type": "string"
                     }
                   ]
@@ -1794,19 +2078,19 @@
                   "formdata": [
                     {
                       "key": "room_name",
-                      "value": "test #3",
+                      "value": "test #1",
                       "type": "text",
                       "uuid": "d949efc2-f849-4e80-8796-ef8663ed944c"
                     },
                     {
                       "key": "target_id",
-                      "value": "1",
+                      "value": "2",
                       "type": "text",
                       "uuid": "cd1809fa-c628-49ec-bd76-5323604d5464"
                     },
                     {
                       "key": "target_type",
-                      "value": "App\\Models\\Student",
+                      "value": "App\\Models\\Teacher",
                       "type": "text",
                       "uuid": "9c74f2bd-4cc5-4da6-9875-2ade9fe37290"
                     }
@@ -1831,7 +2115,7 @@
               },
               "response": [
                 {
-                  "name": "success",
+                  "name": "fail",
                   "originalRequest": {
                     "method": "POST",
                     "header": [
@@ -1881,6 +2165,180 @@
                       ]
                     }
                   },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 09 Jun 2026 09:31:17 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"المكالمة غير موجودة أو منتهية\"\n}"
+                },
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "d949efc2-f849-4e80-8796-ef8663ed944c"
+                        },
+                        {
+                          "key": "target_id",
+                          "value": "1",
+                          "type": "text",
+                          "uuid": "cd1809fa-c628-49ec-bd76-5323604d5464"
+                        },
+                        {
+                          "key": "target_type",
+                          "value": "App\\Models\\Student",
+                          "type": "text",
+                          "uuid": "9c74f2bd-4cc5-4da6-9875-2ade9fe37290"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/kick",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "call",
+                        "kick"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 09 Jun 2026 09:31:34 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"غير مصرح لك! فقط مشرف النظام أو الأستاذ منشئ الدرس يمكنه الطرد\"\n}"
+                },
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "d949efc2-f849-4e80-8796-ef8663ed944c"
+                        },
+                        {
+                          "key": "target_id",
+                          "value": "2",
+                          "type": "text",
+                          "uuid": "cd1809fa-c628-49ec-bd76-5323604d5464"
+                        },
+                        {
+                          "key": "target_type",
+                          "value": "App\\Models\\Teacher",
+                          "type": "text",
+                          "uuid": "9c74f2bd-4cc5-4da6-9875-2ade9fe37290"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/kick",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "call",
+                        "kick"
+                      ]
+                    }
+                  },
                   "status": "OK",
                   "code": 200,
                   "_postman_previewlanguage": null,
@@ -1903,7 +2361,7 @@
                     },
                     {
                       "key": "Date",
-                      "value": "Fri, 05 Jun 2026 13:37:03 GMT"
+                      "value": "Tue, 09 Jun 2026 09:32:34 GMT"
                     },
                     {
                       "key": "Content-Type",
@@ -1915,7 +2373,7 @@
                     }
                   ],
                   "cookie": [],
-                  "body": "{\n    \"message\": \"success\"\n}"
+                  "body": "{\n    \"message\": \"تم طرد المستخدم ومنعه من العودة بنجاح\"\n}"
                 }
               ]
             },
@@ -2081,6 +2539,799 @@
                   "body": "{\n    \"message\": \"success\"\n}"
                 }
               ]
+            },
+            {
+              "name": "End",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "1|KS8Ayq07j9XXFtjr12OojPdur77j3Go2QQMunVG0e253bddc",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #1",
+                      "type": "text",
+                      "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/call/end",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "call",
+                    "end"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/end",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "call",
+                        "end"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 09 Jun 2026 09:35:21 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"غير مصرح لك بالقيام بهذا الإجراء (كتم، طرد، أو إنهاء المكالمة)\"\n}"
+                },
+                {
+                  "name": "fail",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #4",
+                          "type": "text",
+                          "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/end",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "call",
+                        "end"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 09 Jun 2026 09:35:56 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"error\": \"المكالمة منتهية بالفعل أو غير موجودة\"\n}"
+                },
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "room_name",
+                          "value": "test #1",
+                          "type": "text",
+                          "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "http://127.0.0.1:8000/api/call/end",
+                      "protocol": "http",
+                      "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "call",
+                        "end"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.3.30"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Tue, 09 Jun 2026 09:36:14 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم إنهاء الدرس وإغلاق الغرفة بنجاح\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "strip",
+          "item": [
+            {
+              "name": "Donation",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"amount\": 50\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donate",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "donate"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"amount\": 50\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donate",
+                      "protocol": "https",
+                      "host": [
+                        "goes-litmus-uncouth",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "donate"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Sun, 07 Jun 2026 21:24:15 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "goes-litmus-uncouth.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "135.136.39.35"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.2.12"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"client_secret\": \"pi_3Tfx9YAAqVJRoLLh1YLiz2af_secret_k8VnqMl0n55uZNHKluaEU1Xae\",\n    \"payment_intent_id\": \"pi_3Tfx9YAAqVJRoLLh1YLiz2af\"\n}"
+                },
+                {
+                  "name": "web",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"amount\": 50\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donate",
+                      "protocol": "https",
+                      "host": [
+                        "goes-litmus-uncouth",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "donate"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Sun, 07 Jun 2026 17:37:44 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "goes-litmus-uncouth.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "185.107.56.128"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.2.12"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"checkout_url\": \"https://checkout.stripe.com/c/pay/cs_test_a11srvELywwC5xWs7PZ0PjyXv8XHBlXoz2lUcw0R3cZ3UMaDhbTzCVoqvO#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicGRmZGhqaWBTZHdsZGtxJz8nZmprcXdqaScpJ2R1bE5gfCc%2FJ3VuWnFgdnFaMDRRY2N9M0REdFNPV2pJSW1EMX1HYENATjZ9VUNgN0c8QzZBRDYzSkBrPV1PVUs9NDBHMzJMcjw1UWphNVBiZFUxVjx8dEluZzVDa2xXQmdRMHVGNDxgaWc1NXVPd2xKUUBfJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "confirm",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"payment_intent_id\": \"pi_3TgLkPAAqVJRoLLh0X5pb54C\"\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/confirm",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "donation",
+                    "confirm"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"payment_intent_id\": \"pi_3Tg2NyAAqVJRoLLh0yDM3GAb\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/confirm",
+                      "protocol": "https",
+                      "host": [
+                        "goes-litmus-uncouth",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "donation",
+                        "confirm"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Mon, 08 Jun 2026 03:02:18 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "goes-litmus-uncouth.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "80.79.6.88"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.2.12"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تحديث حالة التبرع بنجاح في قاعدة البيانات!\"\n}"
+                },
+                {
+                  "name": "confirm",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"payment_intent_id\": \"pi_3TgLkPAAqVJRoLLh0X5pb54C\"\r\n    \r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/confirm",
+                      "protocol": "https",
+                      "host": [
+                        "goes-litmus-uncouth",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "donation",
+                        "confirm"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Tue, 09 Jun 2026 09:27:36 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "goes-litmus-uncouth.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "190.2.149.73"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.2.12"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"هذه العملية تم تأكيدها ومعالجتها مسبقاً!\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "Donationdone",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tg34SAAqVJRoLLh0y5mOOyD",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "donation",
+                    "success"
+                  ],
+                  "query": [
+                    {
+                      "key": "session_id",
+                      "value": "pi_3Tg34SAAqVJRoLLh0y5mOOyD"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tg34SAAqVJRoLLh0y5mOOyD",
+                      "protocol": "https",
+                      "host": [
+                        "goes-litmus-uncouth",
+                        "ngrok-free",
+                        "dev"
+                      ],
+                      "path": [
+                        "api",
+                        "donation",
+                        "success"
+                      ],
+                      "query": [
+                        {
+                          "key": "session_id",
+                          "value": "pi_3Tg34SAAqVJRoLLh0y5mOOyD"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": ":status",
+                      "value": 200
+                    },
+                    {
+                      "key": "access-control-allow-origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "cache-control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "date",
+                      "value": "Mon, 08 Jun 2026 03:52:18 GMT"
+                    },
+                    {
+                      "key": "host",
+                      "value": "goes-litmus-uncouth.ngrok-free.dev"
+                    },
+                    {
+                      "key": "ngrok-agent-ips",
+                      "value": "80.79.6.88"
+                    },
+                    {
+                      "key": "x-powered-by",
+                      "value": "PHP/8.2.12"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"تم التبرع بنجاح! شكراً لك.\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "cVYvWqyhKEq91WVYQzRjjKDf31eOwuJCIWZfI0IUac748f63",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"points_requested\": 200\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/points/request",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "points",
+                    "request"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
             }
           ]
         }
@@ -2198,6 +3449,14 @@
               "body": "{\n    \"message\": \"الرابط غير صالح، منتهي الصلاحية، أو تم استخدامه مسبقاً.\"\n}"
             }
           ]
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
         }
       ]
     }

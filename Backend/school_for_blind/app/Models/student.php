@@ -49,4 +49,9 @@ class Student extends Authenticatable
         return $this->belongsTo(Caregiver::class, 'parent_id');
     }
 
+    public function class()
+    {
+        return $this->belongsTo(Classes::class, 'class_id');
+    }
+
 }

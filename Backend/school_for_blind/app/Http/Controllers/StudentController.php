@@ -19,21 +19,16 @@ class StudentController extends Controller
     use UploadFileTrait;
     public function register(StudentRegisterRequest $request)
     {
-
         $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
-
         $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
-
         $isVerified = Cache::pull($cacheKey);
-
         if (!$isVerified) {
             return response()->json([
                 'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.'
             ], 403);
         }
-
         $path = $this->uploadfile($request->file('DocumentaryEvidence'), 'students/documents');
-
+        \Log::info('path for student is ' . $path);
         $student = Student::create([
             'fullname' => $request->fullname,
             'fathersname' => $request->fathersname,

@@ -6,6 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\CheckCallCreatorRole;
+use App\Http\Middleware\PreventStudentCallActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -56,8 +57,13 @@ Route::get('/students/documents/{filename}', function (Request $request, $filena
 })->name('students.documents.show');
 
 Route::prefix('call')->middleware('auth:sanctum')->group(function () {
+    Route::get('/active-calls', [RoomController::class, 'getActiveCallsForStudent']);
     Route::post('/start', [RoomController::class, 'startCall'])->middleware(CheckCallCreatorRole::class);
     Route::post('/join', [RoomController::class, 'joinCall']);
-    Route::post('/kick', [RoomController::class, 'kickParticipant']);
-    Route::post('/mute', [RoomController::class, 'muteParticipant']);
+    Route::middleware(PreventStudentCallActions::class)->group(function () {
+        Route::post('/kick', [RoomController::class, 'kickParticipant']);
+        Route::post('/mute', [RoomController::class, 'muteParticipant']);
+        Route::post('/end', [RoomController::class, 'endCall']);
+    });
+
 });

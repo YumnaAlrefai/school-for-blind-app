@@ -17,8 +17,9 @@
     </div>
     <div class="col-12">
         <label class="text-muted small d-block mb-2">الوثائق الثبوتية</label>
-        <a href="{{ asset('storage/' . $user->DocumentaryEvidence) }}" target="_blank" class="btn btn-sm btn-outline-info w-100">
-            <i class="fa-solid fa-file-pdf ms-2"></i> عرض الوثيقة المرفقة
+        <a href="{{ asset('storage/' . $user->DocumentaryEvidence) }}" target="_blank"
+            class="btn btn-sm btn-outline-info w-100">
+            <i class="fa-solid fa-file-image ms-2"></i> عرض الوثيقة المرفقة
         </a>
     </div>
 </div>

@@ -21,6 +21,11 @@ class Teacher extends Authenticatable
         ;
     }
 
+    public function classes()
+    {
+        return $this->belongsToMany(Classes::class, 'class_teacher', 'teacher_id', 'class_id');
+    }
+
     protected $guarded = [];
 
     protected $hidden = [
