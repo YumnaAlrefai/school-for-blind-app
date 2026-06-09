@@ -11,6 +11,7 @@ use App\Http\Requests\Room\JoinCallRequest;
 use App\Http\Requests\Room\KickParticipantRequest;
 use App\Http\Requests\Room\MuteParticipantRequest;
 use App\Http\Requests\Room\StartCallRequest;
+use App\Http\Requests\Room\UnmuteParticipantRequest;
 use App\Models\Room;
 use Illuminate\Routing\Controller;
 use Livekit\ParticipantPermission;
@@ -25,7 +26,6 @@ class RoomController extends Controller
         $userRole = ($creatorType === 'App\Models\Admin') ? 'Admin' : 'Teacher';
         $userName = ($userRole === 'Teacher' ? $user->full_name : $user->name);
 
-        // إنشاء الغرفة
         $room = Room::create([
             'creator_id' => $user->id,
             'creator_type' => $creatorType,
