@@ -535,15 +535,370 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"points\": 200\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/point-redemption/request",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "point-redemption",
+                    "request"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 422
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 09 Jun 2026 12:18:16 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "goes-litmus-uncouth.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "185.107.56.166"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"رصيد نقاطك الحالي غير كافٍ لإتمام هذا الطلب.\"\n}"
+            },
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"points\": 200\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/point-redemption/request",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "point-redemption",
+                    "request"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 201
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 09 Jun 2026 12:19:00 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "goes-litmus-uncouth.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "185.107.56.166"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"تم إرسال طلب استبدال النقاط بنجاح وهو قيد الانتظار حالياً.\",\n    \"data\": {\n        \"student_id\": 1,\n        \"points_to_redeem\": 200,\n        \"status\": \"pending\",\n        \"updated_at\": \"2026-06-09T12:19:00.000000Z\",\n        \"created_at\": \"2026-06-09T12:19:00.000000Z\",\n        \"id\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "New Request",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount_paid\": 50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/point-redemption/1/approve",
+              "protocol": "https",
+              "host": [
+                "goes-litmus-uncouth",
+                "ngrok-free",
+                "dev"
+              ],
+              "path": [
+                "api",
+                "point-redemption",
+                "1",
+                "approve"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"amount_paid\": 50\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/admin/point-redemption/1/approve",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "point-redemption",
+                    "1",
+                    "approve"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 422
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 09 Jun 2026 12:31:19 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "goes-litmus-uncouth.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "185.107.56.166"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"رصيد المدرسة الحالي غير كافٍ. المتاح هو: 0، والمطلوب خصمه: 50\"\n}"
+            }
+          ]
         },
         {
           "name": "New Request",
           "request": {
             "method": "GET",
-            "header": []
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/admin/point-redemption/1/reject",
+              "protocol": "https",
+              "host": [
+                "goes-litmus-uncouth",
+                "ngrok-free",
+                "dev"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "point-redemption",
+                "1",
+                "reject"
+              ]
+            }
           },
-          "response": []
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/admin/point-redemption/1/reject",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "point-redemption",
+                    "1",
+                    "reject"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 401
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 09 Jun 2026 12:45:59 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "goes-litmus-uncouth.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "185.107.56.166"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"logged_out\": true,\n    \"message\": \" عذراً، انتهت صلاحية الجلسة أو تم تسجيل الخروج مسبقاً. يرجى العودة لصفحة تسجيل الدخول\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -1703,7 +2058,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "1|KS8Ayq07j9XXFtjr12OojPdur77j3Go2QQMunVG0e253bddc",
+                  "value": "41|sLH44PF0XFlGWU8HqTMHOAGfyeQH43sGlQwpLTjH7d28fcfa",
                   "type": "string"
                 }
               ]
@@ -1715,7 +2070,7 @@
               "formdata": [
                 {
                   "key": "room_name",
-                  "value": "test #1",
+                  "value": "test #2",
                   "type": "text",
                   "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
                 }
@@ -1945,16 +2300,101 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"تم إنهاء الدرس وإغلاق الغرفة بنجاح\"\n}"
+            },
+            {
+              "name": "succsess",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #2",
+                      "type": "text",
+                      "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/call/end",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "call",
+                    "end"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 09 Jun 2026 15:21:13 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم إنهاء الدرس وإغلاق الغرفة بنجاح\"\n}"
             }
           ]
         },
         {
           "name": "Get calls",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "24|EWzR6UjDPy7QkUrXGWwwe69AT4c5Jlx8lWhn0L3Ab6b195c4",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "url": {
-              "raw": "http://127.0.0.1:8000/api/active-calls",
+              "raw": "http://127.0.0.1:8000/api/call/active-calls",
               "protocol": "http",
               "host": [
                 "127",
@@ -1965,11 +2405,77 @@
               "port": "8000",
               "path": [
                 "api",
+                "call",
                 "active-calls"
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/call/active-calls",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "call",
+                    "active-calls"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 09 Jun 2026 15:16:07 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"المكالمات الجارية حالياً لشعبتك\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"creator_type\": \"App\\\\Models\\\\Teacher\",\n            \"creator_id\": 101,\n            \"class_id\": 4,\n            \"room_name\": \"test #2\",\n            \"status\": \"active\",\n            \"kicked_participants\": null,\n            \"started_at\": \"2026-06-09 18:13:45\",\n            \"ended_at\": null,\n            \"created_at\": \"2026-06-09T15:13:45.000000Z\",\n            \"updated_at\": \"2026-06-09T15:13:45.000000Z\",\n            \"creator\": {\n                \"id\": 101,\n                \"full_name\": \"maher alnouri\"\n            }\n        }\n    ]\n}"
+            }
+          ]
         },
         {
           "name": "unmute",
@@ -3312,7 +3818,7 @@
               }
             ],
             "url": {
-              "raw": "http://127.0.0.1:8000/api/otp/verify?phone=0981226535&otp=570508",
+              "raw": "http://127.0.0.1:8000/api/otp/verify?phone=0981226535&otp=305144",
               "protocol": "http",
               "host": [
                 "127",
@@ -3333,7 +3839,7 @@
                 },
                 {
                   "key": "otp",
-                  "value": "570508"
+                  "value": "305144"
                 }
               ]
             }
