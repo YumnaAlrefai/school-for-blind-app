@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentLoginRequest extends FormRequest
+class ConfirmpaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,9 @@ class StudentLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => ['required', 'string', 'exists:students,phone'],
+                    'payment_intent_id' => 'required|string',
+        'donor_name'  => 'nullable|string|max:255',
+
         ];
     }
-public function messages()
-{
-    return [
-        'phone.required' => 'رقم الهاتف مطلوب لتسجيل الدخول',
-        'phone.exists' => ' رقم الهاتف غير مسجل لدينا يجب عليك القيام بتسجيل الدخول',
-    ];
-
-
-    }}
+}

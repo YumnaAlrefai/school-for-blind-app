@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('school_transactions', function (Blueprint $table) {
             $table->id();
-$table->string('name');
-$table->string('level');
-$table->integer('number')->unsigned();
+            $table->enum('type', ['deposit', 'withdrawal']);
+            $table->decimal('amount', 15, 2);
+            $table->string('description')->nullable();
+            $table->unsignedBigInteger('reference_id')->nullable();
+            $table->string('reference_type')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ $table->integer('number')->unsigned();
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('school_transactions');
     }
 };

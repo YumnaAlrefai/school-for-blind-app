@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PointExchangeController;
+use App\Http\Controllers\PointRedemptionController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,3 +49,16 @@ Route::get('/students/documents/{filename}', function (Request $request, $filena
 
     return Storage::response($path);
 })->name('students.documents.show');
+
+
+Route::post('/donation/checkout', [DonationController::class, 'checkout']);
+Route::post('/donation/confirm', [DonationController::class, 'confirmPayment']);
+Route::get('/donation/success', [DonationController::class, 'success'])->name('donation.success');
+Route::get('/donation/cancel', [DonationController::class, 'cancel'])->name('donation.cancel');
+Route::middleware('auth:sanctum')->group(function () {
+});
+Route::post('/point-redemption/request', [PointRedemptionController::class, 'store'])->middleware('auth:sanctum');
+Route::prefix('admin/point-redemption')->middleware(['auth:sanctum'])->group(function () {
+    Route::post('/{redemptionRequest}/approve', [PointRedemptionController::class, 'approve']);
+    Route::get('/{redemptionRequest}/reject', [PointRedemptionController::class, 'reject']);
+});

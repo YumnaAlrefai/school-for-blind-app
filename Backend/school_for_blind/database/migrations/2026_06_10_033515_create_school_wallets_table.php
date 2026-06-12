@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('school_wallets', function (Blueprint $table) {
             $table->id();
-$table->string('name');
-$table->string('level');
-$table->integer('number')->unsigned();
+            $table->decimal('balance', 15, 2)->default(0.00);
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ $table->integer('number')->unsigned();
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('school_wallets');
     }
 };

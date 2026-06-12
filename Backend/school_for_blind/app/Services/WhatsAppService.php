@@ -9,7 +9,7 @@ class WhatsAppService
 {
     public function sendOtp(string $phone, string $otp)
     {
-        $message = ":رمز التحقق الخاص بك\n" . $otp;
+        $message = ":أهلاً رمز التحقق الخاص بك \n" . $otp;
         return $this->execute($phone, $message);
     }
     public function sendMagicLink(string $phone, string $fullname, string $link)

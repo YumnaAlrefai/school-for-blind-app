@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->timestamp('phone_verified_at')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('verification_token')->nullable();
+            $table->integer('total_earned_points')->default(0);
             $table->timestamp('token_expires_at')->nullable();
             $table->string('DocumentaryEvidence');
             /* $table->foreignId('class_id')
@@ -32,12 +33,14 @@ return new class extends Migration {
                    ->nullable()
                    ->constrained('parents')
                    ->onDelete('set null');*/
-
+$table->string('stripe_account_id')->nullable();
             $table->timestamps();
         });
     }
 
     /**
+     *
+     *
      * Reverse the migrations.
      */
     public function down(): void

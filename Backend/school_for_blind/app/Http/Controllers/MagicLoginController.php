@@ -13,21 +13,7 @@ use App\Traits\UploadFileTrait;
 
 class MagicLoginController extends Controller
 {use UploadFileTrait;
-    public function showView(Request $request, $id)
-    {
-        $student = Student::findOrFail($id);
-$postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' => $student->id]);
-        $postUrl = URL::temporarySignedRoute(
-            'student.magic.generate',
-            now()->addMinutes(15),
-            ['id' => $student->id]
-        );
 
-        return view('magic-login-page', [
-            'student' => $student,
-            'postUrl' => $postUrl
-        ]);
-    }
     public function generateToken(Request $request, $id)
     {
         $student = Student::findOrFail($id);

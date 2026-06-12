@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\UploadFileTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Student extends Authenticatable
 {
@@ -23,10 +24,13 @@ class Student extends Authenticatable
         'phone_verified_at',
         'status',
         'DocumentaryEvidence',
-        ];
+'total_earned_points',
+        'stripe_account_id',
+    ];
 
     protected $hidden = [
         'otp',
+        'stripe_account_id',
     ];
 
 public function getDocumentaryEvidenceAttribute($value)
@@ -45,4 +49,19 @@ protected function documentaryEvidence(): Attribute
 }
 
 
+public function redemptionRequests():HasMany
+{
+    return $this->hasMany(PointRedemptionRequest::class, 'student_id');
+}
+public function getSubtractedPointsAttribute(): int
+    {
+        return (int) $this->redemptionRequests()
+            ->where('status', 'approved')
+            ->sum('points_to_redeem');
+    }
+
+    public function getRemainingPointsAttribute(): int
+    {
+        return $this->points;
+    }
 }
