@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Student;
+use App\Models\Teacher;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckIsStudent
+class IsTeacher
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class CheckIsStudent
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && $request->user() instanceof Student) {
+        if ($request->user() && $request->user() instanceof Teacher) {
 
             return $next($request);
         }

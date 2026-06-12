@@ -1,0 +1,5 @@
+{
+    "require": {
+        "agence104/livekit-server-sdk": "*"
+    }
+}

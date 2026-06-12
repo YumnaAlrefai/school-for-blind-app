@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -66,4 +67,22 @@ Route::prefix('call')->middleware('auth:sanctum')->group(function () {
         Route::post('/end', [RoomController::class, 'endCall']);
         Route::post('/unmute-participant', [RoomController::class, 'unmuteParticipant']);
     });
+});
+
+Route::prefix('quizzes')->group(function () {
+    Route::middleware(['auth:sanctum', 'isTeacher'])->group(function () {
+        Route::post('/', [QuizController::class, 'store']);
+        Route::get('/teacher/list', [QuizController::class, 'index']);
+        Route::put('/{id}', [QuizController::class, 'update']);
+        Route::delete('/{id}', [QuizController::class, 'destroy']);
+    });
+    // Route::middleware(['auth:sanctum', 'CheckIsStudent'])->group(function () {
+        // });
+        Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/{id}/submit', [QuizController::class, 'submitQuiz']);
+        Route::get('/{id}/student-view', [QuizController::class, 'getStudentQuiz']);
+        Route::get('/{id}', [QuizController::class, 'show']);
+        Route::get('/{quiz_id}/students/{student_id}/answers', [QuizController::class, 'getStudentAnswers']);
+    });
+
 });

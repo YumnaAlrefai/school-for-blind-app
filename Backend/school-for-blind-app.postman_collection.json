@@ -220,7 +220,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"payment_intent_id\": \"pi_3TgLkPAAqVJRoLLh0X5pb54C\"\r\n    \r\n}",
+              "raw": "{\r\n    \"payment_intent_id\": \"pi_3Tgc6IAAqVJRoLLh1PPZfkMp\"\r\n    \r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -380,6 +380,75 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"هذه العملية تم تأكيدها ومعالجتها مسبقاً!\"\n}"
+            },
+            {
+              "name": "confirm",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"payment_intent_id\": \"pi_3Tgc6IAAqVJRoLLh1PPZfkMf\"\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/confirm",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "donation",
+                    "confirm"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 404
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Wed, 10 Jun 2026 02:47:28 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "goes-litmus-uncouth.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "89.33.8.51"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، عملية التبرع هذه غير موجودة لدينا\"\n}"
             }
           ]
         },
@@ -417,7 +486,7 @@
           },
           "response": [
             {
-              "name": "success",
+              "name": "Donationdone",
               "originalRequest": {
                 "method": "GET",
                 "header": [
@@ -428,7 +497,7 @@
                   }
                 ],
                 "url": {
-                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tg34SAAqVJRoLLh0y5mOOyD",
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tgc6IAAqVJRoLLh1PPZfkMp_secret_xdF6JuFD2FGrq38JUtuYhj0wt\"\n",
                   "protocol": "https",
                   "host": [
                     "goes-litmus-uncouth",
@@ -443,7 +512,79 @@
                   "query": [
                     {
                       "key": "session_id",
-                      "value": "pi_3Tg34SAAqVJRoLLh0y5mOOyD"
+                      "value": "pi_3Tgc6IAAqVJRoLLh1PPZfkMp_secret_xdF6JuFD2FGrq38JUtuYhj0wt\"\n"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 404
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Wed, 10 Jun 2026 02:49:26 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "goes-litmus-uncouth.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "89.33.8.51"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"error\",\n    \"message\": \"لم يتم العثور على سجل هذا التبرع في النظام.\"\n}"
+            },
+            {
+              "name": "Donationdone",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tgc6IAAqVJRoLLh1PPZfkMp",
+                  "protocol": "https",
+                  "host": [
+                    "goes-litmus-uncouth",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "donation",
+                    "success"
+                  ],
+                  "query": [
+                    {
+                      "key": "session_id",
+                      "value": "pi_3Tgc6IAAqVJRoLLh1PPZfkMp"
                     }
                   ]
                 }
@@ -470,7 +611,7 @@
                 },
                 {
                   "key": "date",
-                  "value": "Mon, 08 Jun 2026 03:52:18 GMT"
+                  "value": "Wed, 10 Jun 2026 03:01:23 GMT"
                 },
                 {
                   "key": "host",
@@ -478,7 +619,7 @@
                 },
                 {
                   "key": "ngrok-agent-ips",
-                  "value": "80.79.6.88"
+                  "value": "89.33.8.51"
                 },
                 {
                   "key": "x-powered-by",
@@ -486,12 +627,12 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"message\": \"تم التبرع بنجاح! شكراً لك.\"\n}"
+              "body": "{\n    \"status\": \"success\",\n    \"message\": \"الحمد لله، تم تأكيد عملية التفع وتحديث حسابك بنجاح! 🎉\",\n    \"donation_details\": {\n        \"donor_name\": \"aya\",\n        \"amount\": \"75.00\",\n        \"status\": \"completed\"\n    }\n}"
             }
           ]
         },
         {
-          "name": "New Request",
+          "name": "pointRequest",
           "request": {
             "auth": {
               "type": "bearer",
@@ -537,7 +678,7 @@
           },
           "response": [
             {
-              "name": "New Request",
+              "name": "faild",
               "originalRequest": {
                 "method": "POST",
                 "header": [
@@ -612,7 +753,7 @@
               "body": "{\n    \"success\": false,\n    \"message\": \"رصيد نقاطك الحالي غير كافٍ لإتمام هذا الطلب.\"\n}"
             },
             {
-              "name": "New Request",
+              "name": "success",
               "originalRequest": {
                 "method": "POST",
                 "header": [
@@ -689,7 +830,7 @@
           ]
         },
         {
-          "name": "New Request",
+          "name": "approveRequestpoint",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -802,7 +943,7 @@
           ]
         },
         {
-          "name": "New Request",
+          "name": "rejectRequestpoint",
           "request": {
             "method": "GET",
             "header": [
@@ -913,7 +1054,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "1|KS8Ayq07j9XXFtjr12OojPdur77j3Go2QQMunVG0e253bddc",
+                  "value": "7|t2ljairTj5ATABGcgYpPGXvGTTA2DXyjNT6FvRZP12fb490e",
                   "type": "string"
                 }
               ]
@@ -937,7 +1078,7 @@
                 },
                 {
                   "key": "class_id",
-                  "value": "15",
+                  "value": "8",
                   "type": "text",
                   "uuid": "f62e8c21-a8d5-408b-b948-6604dc8bbe01"
                 }
@@ -1041,89 +1182,6 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"تم إنشاء الغرفة بنجاح\",\n    \"room_name\": \"test #1\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZWFjaGVyLS0xIiwianRpIjoiVGVhY2hlci0tMSIsImV4cCI6MTc4MTAxMTEyOCwibmJmIjoxNzgwOTk2NzI4LCJpYXQiOjE3ODA5OTY3MjgsImlzcyI6IkFQSUpQTWkyNVVGSlRCcCIsIm5hbWUiOiJcdTA2MjdcdTA2NDRcdTA2MjNcdTA2MzNcdTA2MmFcdTA2MjdcdTA2MzAgXHUwNjIyXHUwNjJmXHUwNjQ1IChuaW50aCkiLCJtZXRhZGF0YSI6IntcInJvbGVcIjpcIlRlYWNoZXJcIn0iLCJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbUFkbWluIjp0cnVlLCJyb29tIjoidGVzdCAjMSIsImNhblB1Ymxpc2giOnRydWUsImNhblN1YnNjcmliZSI6dHJ1ZX19.mzrIqh1mTiLCw_YQKYnswB2MCsqRR6awR_OQn7DMzaM\"\n}"
-            },
-            {
-              "name": "fail",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "room_name",
-                      "value": "test #1",
-                      "type": "text",
-                      "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
-                    },
-                    {
-                      "key": "class_id",
-                      "value": "15",
-                      "type": "text",
-                      "uuid": "f62e8c21-a8d5-408b-b948-6604dc8bbe01"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/start",
-                  "protocol": "https",
-                  "host": [
-                    "barman-wannabe-cape",
-                    "ngrok-free",
-                    "dev"
-                  ],
-                  "path": [
-                    "api",
-                    "call",
-                    "start"
-                  ]
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": ":status",
-                  "value": 422
-                },
-                {
-                  "key": "access-control-allow-origin",
-                  "value": "*"
-                },
-                {
-                  "key": "cache-control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "content-type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "date",
-                  "value": "Tue, 09 Jun 2026 09:19:07 GMT"
-                },
-                {
-                  "key": "host",
-                  "value": "barman-wannabe-cape.ngrok-free.dev"
-                },
-                {
-                  "key": "ngrok-agent-ips",
-                  "value": "185.183.34.166"
-                },
-                {
-                  "key": "x-powered-by",
-                  "value": "PHP/8.3.30"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"error\": \"يوجد خطأ في البيانات المدخلة\",\n    \"details\": {\n        \"room_name\": [\n            \"اسم الغرفة موجود مسبقاً، يرجى اختيار اسم آخر\"\n        ],\n        \"class_id\": [\n            \"لا يمكن إنشاء المكالمة، هناك درس قائم حالياً لهذه الشعبة!\"\n        ]\n    }\n}"
             }
           ]
         },
@@ -1135,7 +1193,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "1|iLUTXRNROqzEZ3HOonZYYMI3WHjReA6hjnsHJeaH50d89c12",
+                  "value": "34|nISnWa54PyuV2FrxoxqXU1P1bF6NSRQXMIgssZJNc5dc85c9",
                   "type": "string"
                 }
               ]
@@ -1153,7 +1211,7 @@
               "formdata": [
                 {
                   "key": "room_name",
-                  "value": "test #3",
+                  "value": "test #1",
                   "type": "text",
                   "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
                 }
@@ -1559,6 +1617,89 @@
               ],
               "cookie": [],
               "body": "{\n    \"error\": \"لقد تم طردك من هذا الدرس بواسطة المدرس، لا يمكنك الدخول مجدداً\"\n}"
+            },
+            {
+              "name": "fail",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "room_name",
+                      "value": "test #1",
+                      "type": "text",
+                      "uuid": "26b7937c-5ff4-433d-8a99-e78c2a18b773"
+                    },
+                    {
+                      "key": "class_id",
+                      "value": "15",
+                      "type": "text",
+                      "uuid": "f62e8c21-a8d5-408b-b948-6604dc8bbe01"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "https://barman-wannabe-cape.ngrok-free.dev/api/call/start",
+                  "protocol": "https",
+                  "host": [
+                    "barman-wannabe-cape",
+                    "ngrok-free",
+                    "dev"
+                  ],
+                  "path": [
+                    "api",
+                    "call",
+                    "start"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 422
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 09 Jun 2026 09:19:07 GMT"
+                },
+                {
+                  "key": "host",
+                  "value": "barman-wannabe-cape.ngrok-free.dev"
+                },
+                {
+                  "key": "ngrok-agent-ips",
+                  "value": "185.183.34.166"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.3.30"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"يوجد خطأ في البيانات المدخلة\",\n    \"details\": {\n        \"room_name\": [\n            \"اسم الغرفة موجود مسبقاً، يرجى اختيار اسم آخر\"\n        ],\n        \"class_id\": [\n            \"لا يمكن إنشاء المكالمة، هناك درس قائم حالياً لهذه الشعبة!\"\n        ]\n    }\n}"
             }
           ]
         },
@@ -2380,7 +2521,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "24|EWzR6UjDPy7QkUrXGWwwe69AT4c5Jlx8lWhn0L3Ab6b195c4",
+                  "value": "34|nISnWa54PyuV2FrxoxqXU1P1bF6NSRQXMIgssZJNc5dc85c9",
                   "type": "string"
                 }
               ]
@@ -2560,7 +2701,7 @@
               "formdata": [
                 {
                   "key": "phone",
-                  "value": "0981226535",
+                  "value": "0919249352",
                   "type": "text",
                   "uuid": "2d290ad0-1e83-4554-9164-70f27eeb77e5"
                 },
@@ -4043,6 +4184,733 @@
             "header": []
           },
           "response": []
+        }
+      ]
+    },
+    {
+      "name": "quizzes",
+      "item": [
+        {
+          "name": "create quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|paMnFq9AvOnvRIfxTomBdxc6kslqfz1eSD0fluFH069de6c8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"subject_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"subject_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:15:00 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 1,\n        \"teacher_id\": 1,\n        \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n        \"id\": 1,\n        \"questions\": [\n            {\n                \"id\": 1,\n                \"quiz_id\": 1,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 1,\n                        \"question_id\": 1,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                    },\n                    {\n                        \"id\": 2,\n                        \"question_id\": 1,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 2,\n                \"quiz_id\": 1,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"choices\": []\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "view quizzes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|paMnFq9AvOnvRIfxTomBdxc6kslqfz1eSD0fluFH069de6c8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/teacher/list",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "teacher",
+                "list"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/teacher/list",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "teacher",
+                    "list"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:16:09 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"numofquestions\": 2,\n            \"timelimit\": 30,\n            \"totalmark\": 20,\n            \"subject_id\": 1,\n            \"teacher_id\": 1,\n            \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n            \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n        }\n    ],\n    \"first_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"from\": 1,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"links\": [\n        {\n            \"url\": null,\n            \"label\": \"pagination.previous\",\n            \"page\": null,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n            \"label\": \"1\",\n            \"page\": 1,\n            \"active\": true\n        },\n        {\n            \"url\": null,\n            \"label\": \"pagination.next\",\n            \"page\": null,\n            \"active\": false\n        }\n    ],\n    \"next_page_url\": null,\n    \"path\": \"http://localhost:8000/api/quizzes/teacher/list\",\n    \"per_page\": 20,\n    \"prev_page_url\": null,\n    \"to\": 1,\n    \"total\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "update quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|paMnFq9AvOnvRIfxTomBdxc6kslqfz1eSD0fluFH069de6c8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "timelimit",
+                  "value": "45",
+                  "type": "text",
+                  "uuid": "8ea165d0-74f3-440d-99f8-72cd6ee17782"
+                },
+                {
+                  "key": "totalmark",
+                  "value": "50",
+                  "type": "text",
+                  "uuid": "934db114-a64b-4d60-b177-533657dd2278"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/{{id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "timelimit",
+                      "value": "45",
+                      "type": "text",
+                      "uuid": "8ea165d0-74f3-440d-99f8-72cd6ee17782"
+                    },
+                    {
+                      "key": "totalmark",
+                      "value": "50",
+                      "type": "text",
+                      "uuid": "934db114-a64b-4d60-b177-533657dd2278"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/{{id}}",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:17:15 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم تعديل الكويز بنجاح!\",\n    \"quiz\": {\n        \"id\": 1,\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 1,\n        \"teacher_id\": 1,\n        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete quiz",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/{{id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get quiz for student to solve",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|paMnFq9AvOnvRIfxTomBdxc6kslqfz1eSD0fluFH069de6c8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/{{id}}/student-view",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{id}}",
+                "student-view"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/{{id}}/student-view",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "{{id}}",
+                    "student-view"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:18:30 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"quiz_details\": {\n        \"id\": 1,\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 1\n    },\n    \"data\": {\n        \"TF\": [\n            [\n                {\n                    \"id\": 2,\n                    \"quiz_id\": 1,\n                    \"type\": \"TF\",\n                    \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                    \"correct_answer\": \"True\",\n                    \"points\": \"10.00\",\n                    \"status\": \"publish\",\n                    \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                    \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                    \"choices\": []\n                }\n            ]\n        ],\n        \"mcq\": [\n            [\n                {\n                    \"id\": 1,\n                    \"quiz_id\": 1,\n                    \"type\": \"mcq\",\n                    \"description\": \"ما هي عاصمة سوريا؟\",\n                    \"correct_answer\": null,\n                    \"points\": \"10.00\",\n                    \"status\": \"publish\",\n                    \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                    \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                    \"choices\": [\n                        {\n                            \"id\": 1,\n                            \"question_id\": 1,\n                            \"choice_text\": \"حلب\",\n                            \"is_correct\": 0,\n                            \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                            \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                        },\n                        {\n                            \"id\": 2,\n                            \"question_id\": 1,\n                            \"choice_text\": \"دمشق\",\n                            \"is_correct\": 1,\n                            \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                            \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                        }\n                    ]\n                }\n            ]\n        ],\n        \"TEXT\": []\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "submit quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "27|jS1I2cpoBN60Cyta8QYU45tHQX4nGmLfPrl0mJbf566b5b5f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"question_id\": 1,\r\n      \"type\": \"mcq\",\r\n      \"choice_id\": 2\r\n    },\r\n    {\r\n      \"question_id\": 2,\r\n      \"type\": \"TF\",\r\n      \"text_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/{{id}}/submit",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{id}}",
+                "submit"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"question_id\": 1,\r\n      \"type\": \"mcq\",\r\n      \"choice_id\": 2\r\n    },\r\n    {\r\n      \"question_id\": 2,\r\n      \"type\": \"TF\",\r\n      \"text_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/{{id}}/submit",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "{{id}}",
+                    "submit"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:19:34 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم تسليم الكويز وتصحيحه بنجاح!\",\n    \"score\": 20,\n    \"total_mark\": 20,\n    \"submission_details\": {\n        \"student_id\": 1,\n        \"quiz_id\": 1,\n        \"score\": 20,\n        \"updated_at\": \"2026-06-12T03:19:34.000000Z\",\n        \"created_at\": \"2026-06-12T03:19:34.000000Z\",\n        \"id\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Show quiz in normal way",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|paMnFq9AvOnvRIfxTomBdxc6kslqfz1eSD0fluFH069de6c8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/{{id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/{{id}}",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:20:02 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"numofquestions\": 2,\n    \"timelimit\": 30,\n    \"totalmark\": 20,\n    \"subject_id\": 1,\n    \"teacher_id\": 1,\n    \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n    \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n    \"questions\": [\n        {\n            \"id\": 1,\n            \"quiz_id\": 1,\n            \"type\": \"mcq\",\n            \"description\": \"ما هي عاصمة سوريا؟\",\n            \"correct_answer\": null,\n            \"points\": \"10.00\",\n            \"status\": \"publish\",\n            \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n            \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n            \"choices\": [\n                {\n                    \"id\": 1,\n                    \"question_id\": 1,\n                    \"choice_text\": \"حلب\",\n                    \"is_correct\": 0,\n                    \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                    \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                },\n                {\n                    \"id\": 2,\n                    \"question_id\": 1,\n                    \"choice_text\": \"دمشق\",\n                    \"is_correct\": 1,\n                    \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                    \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                }\n            ]\n        },\n        {\n            \"id\": 2,\n            \"quiz_id\": 1,\n            \"type\": \"TF\",\n            \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n            \"correct_answer\": \"True\",\n            \"points\": \"10.00\",\n            \"status\": \"publish\",\n            \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n            \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n            \"choices\": []\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "view Student Answers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "27|jS1I2cpoBN60Cyta8QYU45tHQX4nGmLfPrl0mJbf566b5b5f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/quizzes/{{quiz_id}}/students/{{student_id}}/answers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{quiz_id}}",
+                "students",
+                "{{student_id}}",
+                "answers"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/{{quiz_id}}/students/{{student_id}}/answers",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "{{quiz_id}}",
+                    "students",
+                    "{{student_id}}",
+                    "answers"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 12 Jun 2026 03:24:39 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"quiz_id\": 1,\n    \"student_id\": 1,\n    \"total_score\": 20,\n    \"submitted_at\": \"2026-06-12T03:19:34.000000Z\",\n    \"answers\": [\n        {\n            \"id\": 1,\n            \"student_id\": 1,\n            \"question_id\": 1,\n            \"choice_id\": 2,\n            \"text_answer\": null,\n            \"is_correct\": 1,\n            \"points_earned\": 10,\n            \"created_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"updated_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"question\": {\n                \"id\": 1,\n                \"quiz_id\": 1,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 1,\n                        \"question_id\": 1,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                    },\n                    {\n                        \"id\": 2,\n                        \"question_id\": 1,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                    }\n                ]\n            },\n            \"choice\": {\n                \"id\": 2,\n                \"question_id\": 1,\n                \"choice_text\": \"دمشق\",\n                \"is_correct\": 1,\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n            }\n        },\n        {\n            \"id\": 2,\n            \"student_id\": 1,\n            \"question_id\": 2,\n            \"choice_id\": null,\n            \"text_answer\": \"True\",\n            \"is_correct\": 1,\n            \"points_earned\": 10,\n            \"created_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"updated_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"question\": {\n                \"id\": 2,\n                \"quiz_id\": 1,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"choices\": []\n            },\n            \"choice\": null\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     }

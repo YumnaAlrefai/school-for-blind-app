@@ -20,6 +20,11 @@ class Room extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function schoolClass()
+    {
+        return $this->belongsTo(Classes::class, 'class_id');
+    }
+
     protected $guarded = [];
     protected $casts = [
         'kicked_participants' => 'array',

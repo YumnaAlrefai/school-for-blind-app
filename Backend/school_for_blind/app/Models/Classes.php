@@ -22,4 +22,9 @@ class Classes extends Model
     {
         return $this->belongsToMany(Teacher::class, 'class_teacher', 'class_id', 'teacher_id');
     }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class, 'class_id');
+    }
 }

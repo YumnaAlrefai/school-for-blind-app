@@ -32,7 +32,7 @@ class Teacher extends Authenticatable
         'password',
         'remember_token',
         'fcm_token',
-        'cv_path',
+        // 'cv_path',
     ];
 
 }

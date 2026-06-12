@@ -13,9 +13,9 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create('ar_SA');
-        $classes = DB::table('classes')->get(); 
+        $classes = DB::table('classes')->get();
 
-        $consoleData = []; 
+        $consoleData = [];
 
         foreach ($classes as $class) {
             $student = Student::create([
@@ -37,18 +37,20 @@ class StudentSeeder extends Seeder
                 $student->phone,
                 $class->level,
                 $class->name,
+                $class->id,
                 $token
             ];
         }
 
+        $this->command->info('Student Seeder');
         $this->command->table(
-            ['name', 'phone', 'level', 'class', 'token'],
+            ['phone', 'level', 'class', 'class_id', 'token'],
             $consoleData
         );
 
-        
+
         $statuses = ['pending', 'approved', 'rejected'];
-        
+
         for ($i = 0; $i < 280; $i++) {
             $randomStatus = $statuses[array_rand($statuses)];
             $randomClass = $classes->random();

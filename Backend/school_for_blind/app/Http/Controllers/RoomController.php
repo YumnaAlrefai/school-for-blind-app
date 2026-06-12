@@ -13,12 +13,17 @@ use App\Http\Requests\Room\MuteParticipantRequest;
 use App\Http\Requests\Room\StartCallRequest;
 use App\Http\Requests\Room\UnmuteParticipantRequest;
 use App\Models\Room;
+use App\Services\RoomService;
 use Illuminate\Routing\Controller;
 use Livekit\ParticipantPermission;
 
 class RoomController extends Controller
 {
-
+    protected $roomService;
+    public function __construct(RoomService $roomService)
+    {
+        $this->roomService = $roomService;
+    }
     public function startCall(StartCallRequest $request)
     {
         $user = auth()->user();
@@ -34,16 +39,7 @@ class RoomController extends Controller
             'status' => 'active',
         ]);
 
-        $tokenOptions = (new AccessTokenOptions())
-            ->setIdentity($userRole . '--' . $user->id)
-            ->setName($userName)
-            ->setMetadata(json_encode(['role' => $userRole]));
-
-        $videoGrant = (new VideoGrant())
-            ->setRoomJoin(true)->setRoomName($room->room_name)
-            ->setRoomAdmin(true)->setCanPublish(true)->setCanSubscribe(true);
-
-        $token = (new AccessToken(config('livekit.api_key'), config('livekit.api_secret')))->init($tokenOptions)->setGrant($videoGrant)->toJwt();
+        $token = $this->roomService->generateToken($user, $room->room_name, $userRole, false, true);
 
         return response()->json([
             'message' => 'تم إنشاء الغرفة بنجاح',
@@ -57,19 +53,8 @@ class RoomController extends Controller
         $user = auth()->user();
         $userType = get_class($user);
         $userRole = ($userType === 'App\Models\Student' ? 'Student' : ($userType === 'App\Models\Teacher' ? 'Teacher' : 'Admin'));
-        $userName = ($userRole === 'Student' ? $user->fullname : ($userRole === 'Teacher' ? $user->full_name : $user->name));
 
-        $tokenOptions = (new AccessTokenOptions())
-            ->setIdentity($userRole . '--' . $user->id)
-            ->setName($userName)
-            ->setMetadata(json_encode(['role' => $userRole]));
-
-        $videoGrant = (new VideoGrant())
-            ->setRoomJoin(true)->setRoomName($request->room_name)
-            ->setRoomAdmin(false)->setCanPublish(false)->setCanSubscribe(true);
-
-        $token = (new AccessToken(config('livekit.api_key'), config('livekit.api_secret')))
-            ->init($tokenOptions)->setGrant($videoGrant)->toJwt();
+        $token = $this->roomService->generateToken($user, $request->room_name, $userRole, false, false);
 
         return response()->json([
             'message' => 'تم توليد توكن الانضمام بنجاح',
@@ -84,12 +69,7 @@ class RoomController extends Controller
         $targetIdentity = $targetRole . '--' . $request->target_id;
 
         try {
-            $svc = new RoomServiceClient(
-                config('livekit.url'),
-                config('livekit.api_key'),
-                config('livekit.api_secret')
-            );
-            $svc->removeParticipant($request->room_name, $targetIdentity);
+            $this->roomService->kickParticipant($request->room_name, $targetIdentity);
 
             $room = $request->roomModel;
             $kicked = $room->kicked_participants ?? [];
@@ -111,16 +91,7 @@ class RoomController extends Controller
         $targetIdentity = $targetRole . '--' . $request->target_id;
 
         try {
-            $svc = new RoomServiceClient(
-                config('livekit.url'),
-                config('livekit.api_key'),
-                config('livekit.api_secret')
-            );
-            $svc->mutePublishedTrack($request->room_name, $targetIdentity, $request->track_sid, true);
-
-            $permissions = new ParticipantPermission();
-            $permissions->setCanPublish(false)->setCanSubscribe(true);
-            $svc->updateParticipant($request->room_name, $targetIdentity, null, $permissions);
+            $this->roomService->muteParticipant($request->room_name, $targetIdentity, $request->track_sid);
 
             return response()->json(['message' => 'تم كتم المستخدم بنجاح وسحب صلاحية التحدث']);
         } catch (\Exception $e) {
@@ -133,12 +104,7 @@ class RoomController extends Controller
         $room = $request->roomModel;
 
         try {
-            $svc = new RoomServiceClient(
-                config('livekit.url'),
-                config('livekit.api_key'),
-                config('livekit.api_secret')
-            );
-            $svc->deleteRoom($request->room_name);
+            $this->roomService->endCall($request->room_name);
 
             $room->status = 'ended';
             $room->ended_at = now();
@@ -148,7 +114,7 @@ class RoomController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'فشل إنهاء الغرفة في سيرفر البث',
-                'details' => $e->getMessage(), 
+                'details' => $e->getMessage(),
                 // 'trace' => $e->getTraceAsString()
             ], 500);
         }
@@ -181,15 +147,7 @@ class RoomController extends Controller
         $targetIdentity = $targetRole . '--' . $request->target_id;
 
         try {
-            $svc = new RoomServiceClient(
-                config('livekit.url'),
-                config('livekit.api_key'),
-                config('livekit.api_secret')
-            );
-            $permissions = new ParticipantPermission();
-            $permissions->setCanPublish(true)->setCanSubscribe(true);
-
-            $svc->updateParticipant($request->room_name, $targetIdentity, null, $permissions);
+            $this->roomService->unmuteParticipant($request->room_name, $targetIdentity);
 
             return response()->json(['message' => 'تم فك الكتم عن المستخدم بنجاح']);
         } catch (\Exception $e) {

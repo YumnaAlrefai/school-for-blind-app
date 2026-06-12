@@ -8,15 +8,13 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('marks', function (Blueprint $table) {
+        Schema::create('quiz_submissions', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('student_id')->constrained('students');
-//$table->foreignId('quiz_id')->constrained('quizzes');
-//$table->foreignId('subject_id')->constrained('subjects');
-
-            $table->integer('score');
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
+            $table->float('score');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('marks');
+        Schema::dropIfExists('quiz_submissions');
     }
 };

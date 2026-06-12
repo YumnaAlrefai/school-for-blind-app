@@ -13,7 +13,7 @@ class TeacherSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create('ar_SA');
-        
+
         $ninthClasses = DB::table('classes')->where('level', 'ninth')->pluck('id')->toArray();
         $twelfthClasses = DB::table('classes')->where('level', 'twelfth')->pluck('id')->toArray();
 
@@ -26,7 +26,7 @@ class TeacherSeeder extends Seeder
             $teacher = Teacher::create([
                 'full_name' => 'الأستاذ ' . $faker->firstNameMale . ' (' . $level . ')',
                 'phone' => '09' . $faker->unique()->randomNumber(8, true),
-                'password' => Hash::make('12345678'), 
+                'password' => Hash::make('12345678'),
                 'subjects' => ['رياضيات', 'فيزياء', 'علوم', 'لغة عربية'][rand(0, 3)],
                 'level' => $level,
                 'status' => 'approved',
@@ -53,8 +53,10 @@ class TeacherSeeder extends Seeder
                 $token
             ];
         }
+
+        $this->command->info('Teacher Seeder');
         $this->command->table(
-            ['name', 'phone', 'password', 'Level', 'Class id', 'token'],
+            ['phone', 'password', 'Level', 'Class id', 'token'],
             $consoleData
         );
         $statuses = ['pending', 'approved', 'rejected'];
