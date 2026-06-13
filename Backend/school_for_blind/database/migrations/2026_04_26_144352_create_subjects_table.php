@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('grade_level')->nullable(); 
+            $table->string('number_of_lessons')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

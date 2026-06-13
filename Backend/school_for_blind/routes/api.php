@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\QuizController;
@@ -77,12 +78,22 @@ Route::prefix('quizzes')->group(function () {
         Route::delete('/{id}', [QuizController::class, 'destroy']);
     });
     // Route::middleware(['auth:sanctum', 'CheckIsStudent'])->group(function () {
-        // });
-        Route::middleware('auth:sanctum')->group(function () {
+    // });
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{id}/submit', [QuizController::class, 'submitQuiz']);
         Route::get('/{id}/student-view', [QuizController::class, 'getStudentQuiz']);
         Route::get('/{id}', [QuizController::class, 'show']);
         Route::get('/{quiz_id}/students/{student_id}/answers', [QuizController::class, 'getStudentAnswers']);
     });
-
 });
+
+Route::middleware('auth:sanctum')
+    ->prefix('lessons')
+    ->controller(LessonController::class)
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('{lesson}', 'show');
+        Route::match(['put', 'patch'], '{lesson}', 'update');
+        Route::delete('{lesson}', 'destroy');
+    });

@@ -39,7 +39,7 @@ class RoomController extends Controller
             'status' => 'active',
         ]);
 
-        $token = $this->roomService->generateToken($user, $room->room_name, $userRole, false, true);
+        $token = $this->roomService->generateToken($user, $room->room_name, $userRole, true, true);
 
         return response()->json([
             'message' => 'تم إنشاء الغرفة بنجاح',
@@ -54,7 +54,7 @@ class RoomController extends Controller
         $userType = get_class($user);
         $userRole = ($userType === 'App\Models\Student' ? 'Student' : ($userType === 'App\Models\Teacher' ? 'Teacher' : 'Admin'));
 
-        $token = $this->roomService->generateToken($user, $request->room_name, $userRole, false, false);
+        $token = $this->roomService->generateToken($user, $request->room_name, $userRole, true, false);
 
         return response()->json([
             'message' => 'تم توليد توكن الانضمام بنجاح',
@@ -145,7 +145,6 @@ class RoomController extends Controller
     {
         $targetRole = ($request->target_type === 'App\Models\Student') ? 'Student' : (($request->target_type === 'App\Models\Teacher') ? 'Teacher' : 'Admin');
         $targetIdentity = $targetRole . '--' . $request->target_id;
-
         try {
             $this->roomService->unmuteParticipant($request->room_name, $targetIdentity);
 

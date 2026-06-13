@@ -26,6 +26,11 @@ class Teacher extends Authenticatable
         return $this->belongsToMany(Classes::class, 'class_teacher', 'teacher_id', 'class_id');
     }
 
+    public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'teacher_subjects');
+    }
+
     protected $guarded = [];
 
     protected $hidden = [

@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Quiz;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
 {
-    protected $fillable = ['name', 'grade_level'];
+    use SoftDeletes;
+    protected $guarded = [];
     public function quizzes()
     {
         return $this->hasMany(Quiz::class);
@@ -14,5 +18,10 @@ class Subject extends Model
     public function teachers()
     {
         return $this->belongsToMany(Teacher::class, 'teacher_subjects', 'subject_id', 'teacher_id');
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
     }
 }

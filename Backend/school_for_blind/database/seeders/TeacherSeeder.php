@@ -10,12 +10,20 @@ use Faker\Factory as Faker;
 
 class TeacherSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
         $faker = Faker::create('ar_SA');
 
         $ninthClasses = DB::table('classes')->where('level', 'ninth')->pluck('id')->toArray();
         $twelfthClasses = DB::table('classes')->where('level', 'twelfth')->pluck('id')->toArray();
+        
+        $availableSubjects = DB::table('subjects')->where('id', '<=', 6)->pluck('id')->toArray();
+        if (empty($availableSubjects)) {
+            $availableSubjects = [1, 2, 3, 4, 5, 6];
+        }
 
         $consoleData = [];
 
@@ -39,26 +47,34 @@ class TeacherSeeder extends Seeder
             foreach ($keys as $key) {
                 $assignedClassesIds[] = $availableClasses[$key];
             }
-
             $teacher->classes()->attach($assignedClassesIds);
+
+            $subjectsCountToAssign = rand(1, 2);
+            $subjectKeys = (array) array_rand($availableSubjects, $subjectsCountToAssign);
+            $assignedSubjectIds = [];
+            foreach ($subjectKeys as $key) {
+                $assignedSubjectIds[] = $availableSubjects[$key];
+            }
+            $teacher->subjects()->attach($assignedSubjectIds);
 
             $token = $teacher->createToken('teacher-test-token')->plainTextToken;
 
             $consoleData[] = [
-                // $teacher->full_name,
                 $teacher->phone,
                 '12345678',
                 $level,
                 implode(', ', $assignedClassesIds),
+                implode(', ', $assignedSubjectIds),
                 $token
             ];
         }
 
         $this->command->info('Teacher Seeder');
         $this->command->table(
-            ['phone', 'password', 'Level', 'Class id', 'token'],
+            ['phone', 'password', 'Level', 'Class id', 'Subject id', 'token'],
             $consoleData
         );
+        
         $statuses = ['pending', 'approved', 'rejected'];
 
         for ($i = 0; $i < 80; $i++) {
@@ -71,6 +87,15 @@ class TeacherSeeder extends Seeder
                 'status' => $statuses[array_rand($statuses)],
                 'cv_path' => 'random_cv.pdf',
             ]);
+
+            $subjectsCountToAssign = rand(1, 2);
+            $subjectKeys = (array) array_rand($availableSubjects, $subjectsCountToAssign);
+            $assignedSubjectIds = [];
+            foreach ($subjectKeys as $key) {
+                $assignedSubjectIds[] = $availableSubjects[$key];
+            }
+            $teacher->subjects()->attach($assignedSubjectIds);
+
             if ($teacher->status === 'approved') {
                 $pool = $teacher->level === 'ninth' ? $ninthClasses : $twelfthClasses;
                 $teacher->classes()->attach($pool[array_rand($pool)]);
