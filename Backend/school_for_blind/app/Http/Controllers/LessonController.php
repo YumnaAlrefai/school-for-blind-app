@@ -8,7 +8,9 @@ use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Classes;
 use App\Models\Lesson;
+use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -19,7 +21,7 @@ class LessonController extends Controller
         $subject = Subject::findOrFail($request->subject_id);
         $class = Classes::findOrFail($request->class_id);
 
-        Gate::authorize('create', [Lesson::class, $subject,  $class]);
+        Gate::authorize('create', [Lesson::class, $subject, $class]);
 
         $lesson = Lesson::create([
             'title' => $request->title,
@@ -54,11 +56,11 @@ class LessonController extends Controller
             $query->where('subject_id', $request->subject_id);
         }
 
-        if ($user instanceof \App\Models\Student) {
+        if ($user instanceof Student) {
             $query->where('class_id', $user->class_id);
 
-        } elseif ($user instanceof \App\Models\Teacher) {
-            $query->where('teacher_id', $user->id);
+        } elseif ($user instanceof Teacher && $request->has('teacher_id')) {
+            $query->where('teacher_id', $request->teacher_id);
         }
 
         $lessons = $query->orderBy('created_at', 'desc')->paginate($perPage);
