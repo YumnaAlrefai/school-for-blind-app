@@ -2,7 +2,7 @@
 
   <a href="/" class="d-flex align-items-center mb-4 text-decoration-none justify-content-between"
     style="color: var(--text-main);">
-    <span class="fs-4 fw-bold">بصمة امل</span>
+    <span class="fs-4 fw-bold">SESB</span>
     <i class="fa-regular fa-face-laugh-beam fs-2" style="color: #a3e635;"></i>
   </a>
 

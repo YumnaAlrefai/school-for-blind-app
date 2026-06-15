@@ -12,7 +12,14 @@ return new class extends Migration {
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->enum('role', [
+                'Super Admin',
+                'Academic Manager',
+                'Moderator',
+                'Support Agent',
+                'Data Entry',
+                'Financial Manager',
+            ]);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

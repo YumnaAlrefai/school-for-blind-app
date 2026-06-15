@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentLoginRequest;
 use App\Http\Requests\StudentRegisterRequest;
@@ -20,20 +19,16 @@ class StudentController extends Controller
     public function register(StudentRegisterRequest $request)
     {
 
-        //$deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
-
-   //     $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
-
-       // $isVerified = Cache::pull($cacheKey);
-
-        //if (! $isVerified) {
-           // return response()->json([
-               // 'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.',
-           // ], 403);
-       // }
-
-       $path = $this->uploadfile($request->file('DocumentaryEvidence'), 'students/documents');
-
+       /* $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
+        $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
+        $isVerified = Cache::pull($cacheKey);
+        if (!$isVerified) {
+            return response()->json([
+                'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.'
+            ], 403);
+        }*/
+           $path = $this->uploadFile($request->file('DocumentaryEvidence'), 'doc');
+            Log::info('path for student is ' . $path);
         $student = Student::create([
             'fullname'            => $request->fullname,
             'fathersname'         => $request->fathersname,
@@ -44,7 +39,6 @@ class StudentController extends Controller
             'status'              => 'pending',
             'phone_verified_at'   => now(),
         ]);
-        $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
         return response()->json([
             'status'  => 'success',
             'message' => 'تم حفظ بياناتك بنجاح. حسابك الآن بانتظار مراجعة الإدارة.',
@@ -55,7 +49,7 @@ class StudentController extends Controller
                     "fullname"             => $student->fullname,
                     "phone"                => $student->phone,
                     "status"               => $student->status,
-                    "documentary_evidence" => $documentUrl,
+                    "DocumentaryEvidence"  => $this->getSignedDocumentUrl($student->DocumentaryEvidence),
                 ],
             ],
         ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -116,23 +110,21 @@ class StudentController extends Controller
     {
         try {
             $student = $request->user();
-
-            if (! $student) {
+            if (!$student) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'المستخدم غير موجود أو غير مصرح له.',
+                    'message' => 'المستخدم غير موجود أو غير مصرح له.'
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
             $student->currentAccessToken()->delete();
-
             return response()->json([
                 'success' => true,
                 'message' => 'تم تسجيل الخروج بنجاح ',
-                'meta'    => [
-                    'timestamp'  => now()->toIso8601String(),
-                    'student_id' => $student->id,
-                ],
+                'meta' => [
+                    'timestamp' => now()->toIso8601String(),
+                    'student_id' => $student->id
+                ]
             ], Response::HTTP_OK, [], JSON_UNESCAPED_UNICODE);
 
         } catch (\Exception $e) {
@@ -140,9 +132,9 @@ class StudentController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'عذراً، حدث خطأ غير متوقع في الخادم أثناء محاولة تسجيل الخروج.',
+                'message' => 'عذراً، حدث خطأ غير متوقع في الخادم أثناء محاولة تسجيل الخروج.'
             ], Response::HTTP_INTERNAL_SERVER_ERROR, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
-}
+        }

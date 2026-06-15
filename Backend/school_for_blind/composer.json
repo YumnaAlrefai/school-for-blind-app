@@ -7,7 +7,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+<<<<<<< HEAD
         "laravel/cashier": "^16.5",
+=======
+        "agence104/livekit-server-sdk": "^1.3",
+>>>>>>> d35e44c9759d8698ca95fbf8e2673d0316bcae2b
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1"

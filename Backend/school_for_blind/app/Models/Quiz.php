@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
-    protected$fillable = [
-'numofquestions',
-'timelimit',
-'totalmark',
- ];
+    protected $guarded = [];
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+    public function submissions()
+{
+    return $this->hasMany(QuizSubmission::class);
+}
+
 }

@@ -4,27 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-$table->enum('recordabletype', ['Lesson', 'Quiz', 'SupportTicket']);
-    $table->unsignedBigInteger('recordable_id');
-    $table->string('recordpath');
-    $table->string('recordmime');
-    $table->string('recorddescription');
+            $table->morphs('recordable');
+            $table->string('record_path');
+            $table->string('record_mime')->nullable();
+            $table->text('record_description')->nullable();
+            $table->string('duration')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('records');

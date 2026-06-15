@@ -4,10 +4,11 @@
   <div class="d-flex align-items-center gap-4">
 
     <div class="d-flex align-items-center gap-2" style="cursor: pointer;">
-      <img src="https://ui-avatars.com/api/?name=Super+Admin&background=2d3748&color=fff" alt="Admin"
-        class="rounded-circle" width="40" height="40">
+      <img
+        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::guard('admin')->user()->role) }}&background=2d3748&color=fff"
+        alt="Admin Avatar" class="rounded-circle" width="40" height="40">
       <div class="d-flex flex-column lh-1">
-        <span class="fw-bold" style="color: var(--text-main);">{{ Auth::guard('admin')->user()->name }}</span>
+        <span class="fw-bold" style="color: var(--text-main);">{{ Auth::guard('admin')->user()->role }}</span>
       </div>
       <i class="fa-solid fa-chevron-down ms-2" style="font-size: 0.8rem; color: var(--text-muted);"></i>
     </div>

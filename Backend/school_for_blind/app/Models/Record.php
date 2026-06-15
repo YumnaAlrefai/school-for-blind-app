@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Record extends Model
 {
-    protected$fillable = [
-'recordabletype',
-'recordable_id',
-'recordpath',
-'recordmime',
-'recorddescription',
-    ];
+
+    use SoftDeletes;
+
+    public function recordable()
+    {
+        return $this->morphTo();
+    }
+    protected $guarded = [];
 }

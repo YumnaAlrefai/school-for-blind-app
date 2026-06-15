@@ -26,6 +26,7 @@ class Student extends Authenticatable
         'DocumentaryEvidence',
 'total_earned_points',
         'stripe_account_id',
+
     ];
 
     protected $hidden = [
@@ -33,20 +34,25 @@ class Student extends Authenticatable
         'stripe_account_id',
     ];
 
-public function getDocumentaryEvidenceAttribute($value)
-{
-    if ($value) {
-        return request()->getSchemeAndHttpHost() . '/storage/' . $value;
+    public function getDocumentaryEvidenceAttribute($value)
+    {
+        if ($value) {
+            return request()->getSchemeAndHttpHost() . '/storage/' . $value;
+        }
+        return null;
     }
-    return null;
-}
 
-protected function documentaryEvidence(): Attribute
-{
-    return Attribute::make(
-        get: fn ($value) => $value ? route('students.documents.show', ['filename' => basename($value)]) : null,
-    );
-}
+    protected function documentaryEvidence(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? route('students.documents.show', ['filename' => basename($value)]) : null,
+        );
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Caregiver::class, 'parent_id');
+    }
 
 
 public function redemptionRequests():HasMany
@@ -63,5 +69,19 @@ public function getSubtractedPointsAttribute(): int
     public function getRemainingPointsAttribute(): int
     {
         return $this->points;
+    }
+    public function class()
+    {
+        return $this->belongsTo(Classes::class, 'class_id');
+    }
+
+    public function quizSubmissions()
+    {
+        return $this->hasMany(QuizSubmission::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(StudentAnswer::class);
     }
 }

@@ -2,9 +2,120 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\IndexLessonRequest;
+use App\Http\Requests\StoreLessonRequest;
+use App\Http\Requests\UpdateLessonRequest;
+use App\Models\Classes;
+use App\Models\Lesson;
+use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LessonController extends Controller
 {
-    //
+    public function store(StoreLessonRequest $request)
+    {
+        $subject = Subject::findOrFail($request->subject_id);
+        $class = Classes::findOrFail($request->class_id);
+
+        Gate::authorize('create', [Lesson::class, $subject,  $class]);
+
+        $lesson = Lesson::create([
+            'title' => $request->title,
+            'subject_id' => $subject->id,
+            'teacher_id' => $request->user()->id,
+            'class_id' => $request->class_id,
+            'order' => $request->order,
+        ]);
+
+        $path = $request->file('audio_file')->store('lessons', 'public');
+
+        $lesson->record()->create([
+            'record_path' => $path,
+            'record_mime' => $request->file('audio_file')->getMimeType(),
+            'duration' => $request->duration,
+        ]);
+
+        return response()->json([
+            'message' => 'تم رفع الدرس والتسجيل بنجاح.',
+            'lesson' => $lesson->load('record')
+        ], 201);
+    }
+
+    public function index(IndexLessonRequest $request)
+    {
+        $perPage = $request->input('per_page', 15);
+        $user = $request->user();
+
+        $query = Lesson::with(['subject', 'teacher', 'record']);
+
+        if ($request->has('subject_id')) {
+            $query->where('subject_id', $request->subject_id);
+        }
+
+        if ($user instanceof \App\Models\Student) {
+            $query->where('class_id', $user->class_id);
+
+        } elseif ($user instanceof \App\Models\Teacher) {
+            $query->where('teacher_id', $user->id);
+        }
+
+        $lessons = $query->orderBy('created_at', 'desc')->paginate($perPage);
+
+        return response()->json([
+            'lessons' => $lessons
+        ], 200);
+    }
+
+    public function show(Lesson $lesson, Request $request)
+    {
+        $lesson->load(['subject', 'teacher', 'record']);
+
+        return response()->json([
+            'lesson' => $lesson
+        ], 200);
+    }
+
+    public function update(UpdateLessonRequest $request, Lesson $lesson)
+    {
+        Gate::authorize('update', $lesson);
+
+        $lesson->update($request->only(['title', 'order', 'class_id']));
+
+        if ($request->hasFile('audio_file')) {
+            if ($lesson->record) {
+                $lesson->record()->delete();
+            }
+
+            $path = $request->file('audio_file')->store('lessons', 'public');
+
+            $lesson->record()->create([
+                'record_path' => $path,
+                'record_mime' => $request->file('audio_file')->getMimeType(),
+                'duration' => $request->duration,
+                'is_compressed' => false,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'تم تعديل الدرس بنجاح.',
+            'lesson' => $lesson->load('record')
+        ], 200);
+    }
+
+    public function destroy(Lesson $lesson, Request $request)
+    {
+        Gate::authorize('delete', $lesson);
+
+        if ($lesson->record) {
+            $lesson->record()->delete();
+        }
+
+        $lesson->delete();
+
+        return response()->json([
+            'message' => 'تم حذف الدرس والتسجيل بنجاح.'
+        ], 200);
+    }
 }

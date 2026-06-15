@@ -21,13 +21,23 @@ class Teacher extends Authenticatable
         ;
     }
 
+    public function classes()
+    {
+        return $this->belongsToMany(Classes::class, 'class_teacher', 'teacher_id', 'class_id');
+    }
+
+    public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'teacher_subjects');
+    }
+
     protected $guarded = [];
 
     protected $hidden = [
         'password',
         'remember_token',
         'fcm_token',
-        'cv_path',
+        // 'cv_path',
     ];
 
 }

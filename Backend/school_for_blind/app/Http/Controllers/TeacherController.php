@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\TeacherLoginRequest;
 use App\Http\Requests\TeacherRegisterRequest;
 use App\Models\Teacher;
-use App\Models\User;
+use App\Traits\UploadFileTrait;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -17,6 +14,16 @@ use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+
+    use UploadFileTrait;
+    public function uploadfile($file, $folder)
+    {
+        if ($file && $file->isValid()) {
+            return $file->store($folder, 'public');
+        }
+        return null;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -53,11 +60,10 @@ class TeacherController extends Controller
             // 'fcm_token' => $request->fcm_token,
         ];
 
-        $cv = $request->file('cv');
-        $path = $cv->store('CVS');
+        $path = $this->uploadfile($request->file('cv'), 'teahcers/CVS');
+        \Log::info('path : ' . $path);
         $teacherdata['cv_path'] = $path;
         $teacher = Teacher::create($teacherdata);
-
 
         return response()->json([
             'message' => 'تم ارسال طلب لانشاء الحساب بنجاح',
@@ -101,4 +107,28 @@ class TeacherController extends Controller
         auth()->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'تم تسجيل الخروج بنجاح']);
     }
+
+
+    public function info()
+    {
+        $teacher = auth()->user();
+
+        $teacher->cv_link = asset('storage/' . $teacher->cv_path);
+
+        return response()->json([
+            'message' => 'بيانات المدرس',
+            'data' => $teacher
+        ], 200);
+    }
+
+    // public function showCv()
+    // {
+    //     $teacher = auth()->user();
+
+    //     if (!$teacher->cv_path || !Storage::exists($teacher->cv_path)) {
+    //         return response()->json(['message' => 'ملف السيرة الذاتية غير موجود'], 404);
+    //     }
+
+    //     return Storage::response($teacher->cv_path);
+    // }
 }
