@@ -13,8 +13,20 @@ class Quiz extends Model
         return $this->hasMany(Question::class);
     }
     public function submissions()
-{
-    return $this->hasMany(QuizSubmission::class);
-}
+    {
+        return $this->hasMany(QuizSubmission::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    protected $appends = ['subject_name'];
+
+    public function getSubjectNameAttribute()
+    {
+        return $this->subject->name ?? null;
+    }
 
 }

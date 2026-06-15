@@ -78,21 +78,22 @@ class QuizController extends Controller
 
     public function index()
     {
-        $teacher_id = auth()->id() ?? 1;
-        $quizzes = Quiz::where('teacher_id', $teacher_id)->paginate(20);
-
+        $teacher_id = auth()->id();
+        $quizzes = Quiz::with('subject')
+            ->where('teacher_id', $teacher_id)
+            ->paginate(20);
         return response()->json($quizzes);
     }
 
     public function show($id)
     {
-        $quiz = Quiz::with('questions.choices')->findOrFail($id);
+        $quiz = Quiz::with(['questions.choices', 'subject'])->findOrFail($id);
         return response()->json($quiz);
     }
 
     public function getStudentQuiz($id)
     {
-        $quiz = Quiz::with('questions.choices')->findOrFail($id);
+        $quiz = Quiz::with(['questions.choices', 'subject'])->findOrFail($id);
         $questions = $quiz->questions;
 
         $data = [
@@ -102,7 +103,7 @@ class QuizController extends Controller
         ];
 
         return response()->json([
-            'quiz_details' => $quiz->only(['id', 'numofquestions', 'timelimit', 'totalmark', 'subject_id']),
+            'quiz_details' => $quiz->only(['id', 'numofquestions', 'timelimit', 'totalmark', 'subject_id', 'subject_name']),
             'data' => $data
         ]);
     }
