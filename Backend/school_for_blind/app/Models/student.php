@@ -24,7 +24,7 @@ class Student extends Authenticatable
         'phone_verified_at',
         'status',
         'DocumentaryEvidence',
-'total_earned_points',
+        'total_earned_points',
         'stripe_account_id',
 
     ];
@@ -56,11 +56,11 @@ class Student extends Authenticatable
     }
 
 
-public function redemptionRequests():HasMany
-{
-    return $this->hasMany(PointRedemptionRequest::class, 'student_id');
-}
-public function getSubtractedPointsAttribute(): int
+    public function redemptionRequests(): HasMany
+    {
+        return $this->hasMany(PointRedemptionRequest::class, 'student_id');
+    }
+    public function getSubtractedPointsAttribute(): int
     {
         return (int) $this->redemptionRequests()
             ->where('status', 'approved')

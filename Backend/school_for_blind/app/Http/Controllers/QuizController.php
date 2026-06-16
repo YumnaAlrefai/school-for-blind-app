@@ -19,6 +19,7 @@ class QuizController extends Controller
             'timelimit' => 'required|integer|min:1',
             'totalmark' => 'required|integer|min:1',
             'subject_id' => 'required|exists:subjects,id',
+            'lesson_id' => 'required|exists:lessons,id',
             'questions' => 'required|array|min:1',
             'questions.*.type' => 'required|in:mcq,TF,TEXT',
             'questions.*.description' => 'required|string',
@@ -37,7 +38,8 @@ class QuizController extends Controller
                 'timelimit' => $request->timelimit,
                 'totalmark' => $request->totalmark,
                 'subject_id' => $request->subject_id,
-                'teacher_id' => auth()->id() ?? 1,
+                'lesson_id' => $request->lesson_id,
+                'teacher_id' => auth()->id(),
             ]);
 
             foreach ($request->questions as $q) {
@@ -246,6 +248,33 @@ class QuizController extends Controller
             'total_score' => $submission->score,
             'submitted_at' => $submission->created_at,
             'answers' => $answers
+        ]);
+    }
+
+    public function getQuizByLesson($lessonId)
+    {
+        $quiz = Quiz::with(['questions.choices', 'subject'])
+                    ->where('lesson_id', $lessonId)
+                    ->first();
+
+        if (!$quiz) {
+            return response()->json([
+                'message' => 'لا يوجد كويز مرتبط بهذا الدرس حالياً.'
+            ], 404);
+        }
+
+        $questions = $quiz->questions;
+
+        $data = [
+            'TF' => $this->chunkQuestionsByType($questions, 'TF'),
+            'mcq' => $this->chunkQuestionsByType($questions, 'mcq'),
+            'TEXT' => $this->chunkQuestionsByType($questions, 'TEXT'),
+        ];
+
+        return response()->json([
+            'message' => 'تم جلب الكويز بنجاح',
+            'quiz_details' => $quiz->only(['id', 'numofquestions', 'timelimit', 'totalmark', 'subject_id', 'subject_name', 'lesson_id']),
+            'data' => $data
         ]);
     }
 }
