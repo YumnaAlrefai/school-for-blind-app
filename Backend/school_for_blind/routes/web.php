@@ -40,6 +40,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/requests/{type}', [DashboardController::class, 'showRequests'])->name('requests.view');
     Route::get('/request-details/{type}/{id}', [DashboardController::class, 'getRequestDetails']);
     Route::post('/request-update-status/{type}/{id}', [DashboardController::class, 'updateStatus'])->name('requests.update');
+    Route::get('/dashboard/teachers/{id}/complete-approval', [DashboardController::class, 'showTeacherApprovalForm'])->name('teachers.approve.form');
+    Route::post('/dashboard/teachers/{id}/complete-approval', [DashboardController::class, 'completeTeacherApproval'])->name('teachers.approve.submit');
 
     Route::middleware([CheckAdminRole::class . ':super admin,acadimec admin'])->group(function () {
 

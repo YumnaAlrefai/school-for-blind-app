@@ -18,6 +18,7 @@ class StudentSeeder extends Seeder
         $consoleData = [];
 
         foreach ($classes as $class) {
+            $randomDate = $faker->dateTimeBetween('-11 months', 'now');
             $student = Student::create([
                 'fullname' => 'طالب ' . $class->name . ' - ' . $class->level,
                 'fathersname' => $faker->firstNameMale,
@@ -28,6 +29,8 @@ class StudentSeeder extends Seeder
                 'status' => 'approved',
                 'points' => rand(10, 100),
                 'DocumentaryEvidence' => 'proof_' . rand(1, 100) . '.jpg',
+                'created_at' => $randomDate,
+                'updated_at' => $randomDate,
             ]);
 
             $token = $student->createToken('student-test-token')->plainTextToken;
@@ -54,6 +57,7 @@ class StudentSeeder extends Seeder
         for ($i = 0; $i < 280; $i++) {
             $randomStatus = $statuses[array_rand($statuses)];
             $randomClass = $classes->random();
+            $randomDate = $faker->dateTimeBetween('-11 months', 'now');
 
             Student::create([
                 'fullname' => $faker->name,
@@ -64,6 +68,8 @@ class StudentSeeder extends Seeder
                 'class_id' => $randomStatus === 'approved' ? $randomClass->id : null,
                 'status' => $randomStatus,
                 'DocumentaryEvidence' => 'proof_random.jpg',
+                'created_at' => $randomDate,
+                'updated_at' => $randomDate,
             ]);
         }
     }

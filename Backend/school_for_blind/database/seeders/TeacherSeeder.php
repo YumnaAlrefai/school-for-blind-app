@@ -19,7 +19,7 @@ class TeacherSeeder extends Seeder
 
         $ninthClasses = DB::table('classes')->where('level', 'ninth')->pluck('id')->toArray();
         $twelfthClasses = DB::table('classes')->where('level', 'twelfth')->pluck('id')->toArray();
-        
+
         $availableSubjects = DB::table('subjects')->where('id', '<=', 6)->pluck('id')->toArray();
         if (empty($availableSubjects)) {
             $availableSubjects = [1, 2, 3, 4, 5, 6];
@@ -30,6 +30,7 @@ class TeacherSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             $level = ($i < 10) ? 'ninth' : 'twelfth';
             $availableClasses = ($level === 'ninth') ? $ninthClasses : $twelfthClasses;
+            $randomDate = $faker->dateTimeBetween('-11 months', 'now');
 
             $teacher = Teacher::create([
                 'full_name' => 'الأستاذ ' . $faker->firstNameMale . ' (' . $level . ')',
@@ -39,6 +40,8 @@ class TeacherSeeder extends Seeder
                 'level' => $level,
                 'status' => 'approved',
                 'cv_path' => 'cv_dummy.pdf',
+                'created_at' => $randomDate,
+                'updated_at' => $randomDate,
             ]);
 
             $classesCountToAssign = rand(1, 2);
@@ -74,10 +77,11 @@ class TeacherSeeder extends Seeder
             ['phone', 'password', 'Level', 'Class id', 'Subject id', 'token'],
             $consoleData
         );
-        
+
         $statuses = ['pending', 'approved', 'rejected'];
 
         for ($i = 0; $i < 80; $i++) {
+            $randomDate = $faker->dateTimeBetween('-11 months', 'now');
             $teacher = Teacher::create([
                 'full_name' => $faker->name,
                 'phone' => '09' . $faker->unique()->randomNumber(8, true),
@@ -86,6 +90,8 @@ class TeacherSeeder extends Seeder
                 'level' => ['ninth', 'twelfth'][rand(0, 1)],
                 'status' => $statuses[array_rand($statuses)],
                 'cv_path' => 'random_cv.pdf',
+                'created_at' => $randomDate,
+                'updated_at' => $randomDate,
             ]);
 
             $subjectsCountToAssign = rand(1, 2);

@@ -210,22 +210,42 @@
     new Chart(barCtx, {
       type: 'bar',
       data: {
-        labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
-        datasets: [{
-          label: 'عدد الطلاب',
-          data: [1200, 1900, 1500, 2200, 1800, 2500],
-          backgroundColor: '#3b82f6',
-          borderRadius: 6,
-          barPercentage: 0.5
-        }]
+        labels: @json($chartLabels), 
+        datasets: [
+          {
+            label: 'الطلاب',
+            data: @json($studentsChartData), 
+            backgroundColor: '#3b82f6', 
+            borderRadius: 4,
+            barPercentage: 0.6
+          },
+          {
+            label: 'المعلمون',
+            data: @json($teachersChartData), 
+            backgroundColor: '#10b981', 
+            borderRadius: 4,
+            barPercentage: 0.6
+          }
+        ]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: { display: false }
+          legend: { 
+            display: true, 
+            position: 'top',
+            labels: {
+              usePointStyle: true
+            }
+          }
         },
         scales: {
-          y: { beginAtZero: true }
+          y: { 
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
         }
       }
     });

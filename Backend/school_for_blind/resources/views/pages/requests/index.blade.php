@@ -103,7 +103,6 @@
 
       function updateStatus(type, id, status) {
         let classId = null;
-
         if (status === 'approved') {
           if (type === 'teacher') {
             classId = Array.from(classSelect.selectedOptions).map(option => option.value).filter(val => val !== "");
@@ -111,6 +110,9 @@
               alert('الرجاء تحديد شعبة واحدة على الأقل للأستاذ');
               return;
             }
+
+            window.location.href = `/dashboard/teachers/${id}/complete-approval?classes=${classId.join(',')}`;
+            return;
           } else {
             classId = classSelect.value;
             if (!classId) {

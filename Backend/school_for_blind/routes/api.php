@@ -91,6 +91,7 @@ Route::prefix('quizzes')->group(function () {
         Route::get('/teacher/list', [QuizController::class, 'index']);
         Route::put('/{id}', [QuizController::class, 'update']);
         Route::delete('/{id}', [QuizController::class, 'destroy']);
+        Route::get('{lessonId}/quiz', [QuizController::class, 'getQuizByLesson']);
     });
     // Route::middleware(['auth:sanctum', 'CheckIsStudent'])->group(function () {
     // });

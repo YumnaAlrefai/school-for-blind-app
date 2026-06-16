@@ -13,22 +13,16 @@ class Teacher extends Authenticatable
     /** @use HasFactory<\Database\Factories\TeacherFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    public function subject()
+    public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'teacher_subjects')
-            ->withPivot('price')
+            ->withPivot('price_for_lesson')
             ->withTimestamps();
-        ;
     }
 
     public function classes()
     {
         return $this->belongsToMany(Classes::class, 'class_teacher', 'teacher_id', 'class_id');
-    }
-
-    public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Subject::class, 'teacher_subjects');
     }
 
     protected $guarded = [];

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->integer('timelimit');
             $table->integer('totalmark');
             $table->foreignId('subject_id')->constrained('subjects');
+            $table->foreignId('lesson_id')->constrained('lessons');
             $table->foreignId('teacher_id')->constrained('teachers');
             $table->timestamps();
         });
