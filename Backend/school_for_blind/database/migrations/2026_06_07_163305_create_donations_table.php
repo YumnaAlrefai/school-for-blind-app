@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('currency')->default('USD');
             $table->string('stripe_session_id')->unique();
             $table->string('status')->default('pending');
-            $table->foreignId('user_id')->nullable()->constrained('students')->onDelete('cascade');
+            $table->enum('donation_target', ['student', 'teacher', 'parent', 'general'])->default('general');
+           $table->nullableMorphs('donatable');
             $table->timestamps();
+
         });
 
         /**

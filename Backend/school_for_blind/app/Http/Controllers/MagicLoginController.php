@@ -14,6 +14,7 @@ use App\Traits\UploadFileTrait;
 class MagicLoginController extends Controller
 {
     use UploadFileTrait;
+    
     public function generateToken(Request $request, $id)
     {
         $student = Student::findOrFail($id);

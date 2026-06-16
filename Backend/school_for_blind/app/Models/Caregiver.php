@@ -15,6 +15,7 @@ class Caregiver extends Authenticatable
     protected $fillable = [
         'phone',
         'password',
+        'fcm_token',
     ];
 
     protected $hidden = [
@@ -34,4 +35,8 @@ class Caregiver extends Authenticatable
     {
         return $this->hasMany(Student::class, 'parent_id');
     }
+public function donations()
+{
+    return $this->morphMany(Donation::class, 'donatable');
 }
+    }

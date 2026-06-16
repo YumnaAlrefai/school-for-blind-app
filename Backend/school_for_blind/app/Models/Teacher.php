@@ -39,5 +39,8 @@ class Teacher extends Authenticatable
         'fcm_token',
         // 'cv_path',
     ];
-
+public function donations()
+{
+    return $this->morphMany(Donation::class, 'donatable');
 }
+    }

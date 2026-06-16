@@ -16,4 +16,15 @@ class Donation extends Model
         'status',
         'user_id',
         ];
+public function donatable()
+{
+    return $this->morphTo();
 }
+
+
+
+
+
+
+        }
+

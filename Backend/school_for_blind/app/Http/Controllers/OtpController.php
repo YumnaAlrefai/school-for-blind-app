@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\WhatsAppService;
 use App\Services\OtpService;
 use App\Http\Requests\VerifyOtpRequest;
+use Illuminate\Support\Facades\Log;
 
 class OtpController extends Controller
 {
@@ -74,7 +75,7 @@ class OtpController extends Controller
         $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
 
         Cache::put($cacheKey, true, now()->addMinutes(15));
-        \Log::info(''. $request->phone .'   '. $cacheKey);
+        Log::info(''. $request->phone .'   '. $cacheKey);
 
         return response()->json(['message' => 'تم التحقق بنجاح، يمكنك المتابعة']);
     }
