@@ -220,7 +220,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\r\n    \"payment_intent_id\": \"pi_3ThUiyAAqVJRoLLh0qUFxljp\"\r\n}   \r\n",
+              "raw": "\r\n{\r\n    \"payment_intent_id\": \"pi_3TizK5AAqVJRoLLh1wDXO5S8\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -228,13 +228,15 @@
               }
             },
             "url": {
-              "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/confirm",
-              "protocol": "https",
+              "raw": "http://127.0.0.1:8000/api/donation/confirm",
+              "protocol": "http",
               "host": [
-                "goes-litmus-uncouth",
-                "ngrok-free",
-                "dev"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
+              "port": "8000",
               "path": [
                 "api",
                 "donation",
@@ -449,185 +451,6 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، عملية التبرع هذه غير موجودة لدينا\"\n}"
-            }
-          ]
-        },
-        {
-          "name": "Donationdone",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tg34SAAqVJRoLLh0y5mOOyD",
-              "protocol": "https",
-              "host": [
-                "goes-litmus-uncouth",
-                "ngrok-free",
-                "dev"
-              ],
-              "path": [
-                "api",
-                "donation",
-                "success"
-              ],
-              "query": [
-                {
-                  "key": "session_id",
-                  "value": "pi_3Tg34SAAqVJRoLLh0y5mOOyD"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "name": "Donationdone",
-              "originalRequest": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tgc6IAAqVJRoLLh1PPZfkMp_secret_xdF6JuFD2FGrq38JUtuYhj0wt\"\n",
-                  "protocol": "https",
-                  "host": [
-                    "goes-litmus-uncouth",
-                    "ngrok-free",
-                    "dev"
-                  ],
-                  "path": [
-                    "api",
-                    "donation",
-                    "success"
-                  ],
-                  "query": [
-                    {
-                      "key": "session_id",
-                      "value": "pi_3Tgc6IAAqVJRoLLh1PPZfkMp_secret_xdF6JuFD2FGrq38JUtuYhj0wt\"\n"
-                    }
-                  ]
-                }
-              },
-              "status": "Not Found",
-              "code": 404,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": ":status",
-                  "value": 404
-                },
-                {
-                  "key": "access-control-allow-origin",
-                  "value": "*"
-                },
-                {
-                  "key": "cache-control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "content-type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "date",
-                  "value": "Wed, 10 Jun 2026 02:49:26 GMT"
-                },
-                {
-                  "key": "host",
-                  "value": "goes-litmus-uncouth.ngrok-free.dev"
-                },
-                {
-                  "key": "ngrok-agent-ips",
-                  "value": "89.33.8.51"
-                },
-                {
-                  "key": "x-powered-by",
-                  "value": "PHP/8.2.12"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"status\": \"error\",\n    \"message\": \"لم يتم العثور على سجل هذا التبرع في النظام.\"\n}"
-            },
-            {
-              "name": "Donationdone",
-              "originalRequest": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "https://goes-litmus-uncouth.ngrok-free.dev/api/donation/success?session_id=pi_3Tgc6IAAqVJRoLLh1PPZfkMp",
-                  "protocol": "https",
-                  "host": [
-                    "goes-litmus-uncouth",
-                    "ngrok-free",
-                    "dev"
-                  ],
-                  "path": [
-                    "api",
-                    "donation",
-                    "success"
-                  ],
-                  "query": [
-                    {
-                      "key": "session_id",
-                      "value": "pi_3Tgc6IAAqVJRoLLh1PPZfkMp"
-                    }
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": ":status",
-                  "value": 200
-                },
-                {
-                  "key": "access-control-allow-origin",
-                  "value": "*"
-                },
-                {
-                  "key": "cache-control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "content-type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "date",
-                  "value": "Wed, 10 Jun 2026 03:01:23 GMT"
-                },
-                {
-                  "key": "host",
-                  "value": "goes-litmus-uncouth.ngrok-free.dev"
-                },
-                {
-                  "key": "ngrok-agent-ips",
-                  "value": "89.33.8.51"
-                },
-                {
-                  "key": "x-powered-by",
-                  "value": "PHP/8.2.12"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"status\": \"success\",\n    \"message\": \"الحمد لله، تم تأكيد عملية التفع وتحديث حسابك بنجاح! 🎉\",\n    \"donation_details\": {\n        \"donor_name\": \"aya\",\n        \"amount\": \"75.00\",\n        \"status\": \"completed\"\n    }\n}"
             }
           ]
         },
@@ -3959,7 +3782,7 @@
               }
             ],
             "url": {
-              "raw": "http://127.0.0.1:8000/api/otp/verify?phone=0981226535&otp=305144",
+              "raw": "http://127.0.0.1:8000/api/otp/verify?phone=0981226535&otp=837097",
               "protocol": "http",
               "host": [
                 "127",
@@ -3980,7 +3803,7 @@
                 },
                 {
                   "key": "otp",
-                  "value": "305144"
+                  "value": "837097"
                 }
               ]
             }
@@ -4198,7 +4021,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|KpKOwHdHRiBY6jatN5cjQRamN1XCPW0GyGGHoBoOdceb9bd4",
+                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
                   "type": "string"
                 }
               ]
@@ -4213,7 +4036,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"subject_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"title\": \"test test number 1\",\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4247,7 +4070,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"subject_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+                  "raw": "{\r\n  \"title\": \"test test number 1\",\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -4289,7 +4112,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Mon, 15 Jun 2026 11:04:23 GMT"
+                  "value": "Wed, 17 Jun 2026 06:11:26 GMT"
                 },
                 {
                   "key": "Content-Type",
@@ -4301,7 +4124,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 1,\n        \"teacher_id\": 1,\n        \"updated_at\": \"2026-06-15T11:04:23.000000Z\",\n        \"created_at\": \"2026-06-15T11:04:23.000000Z\",\n        \"id\": 1,\n        \"subject_name\": \"الرياضيات\",\n        \"questions\": [\n            {\n                \"id\": 1,\n                \"quiz_id\": 1,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-15T11:04:23.000000Z\",\n                \"updated_at\": \"2026-06-15T11:04:23.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 1,\n                        \"question_id\": 1,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-15T11:04:23.000000Z\",\n                        \"updated_at\": \"2026-06-15T11:04:23.000000Z\"\n                    },\n                    {\n                        \"id\": 2,\n                        \"question_id\": 1,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-15T11:04:23.000000Z\",\n                        \"updated_at\": \"2026-06-15T11:04:23.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 2,\n                \"quiz_id\": 1,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-15T11:04:23.000000Z\",\n                \"updated_at\": \"2026-06-15T11:04:23.000000Z\",\n                \"choices\": []\n            }\n        ],\n        \"subject\": {\n            \"id\": 1,\n            \"name\": \"الرياضيات\",\n            \"grade_level\": \"ninth\",\n            \"number_of_lessons\": null,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-06-15T11:01:01.000000Z\",\n            \"updated_at\": \"2026-06-15T11:01:01.000000Z\"\n        }\n    }\n}"
+              "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"title\": \"test test number 1\",\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 4,\n        \"lesson_id\": 1,\n        \"teacher_id\": 1,\n        \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"id\": 2,\n        \"subject_name\": \"اللغة الإنجليزية\",\n        \"teacher_name\": \"الأستاذ باهر (ninth)\",\n        \"subject\": {\n            \"id\": 4,\n            \"name\": \"اللغة الإنجليزية\",\n            \"grade_level\": \"twelfth\",\n            \"number_of_lessons\": null,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-06-17T06:03:11.000000Z\",\n            \"updated_at\": \"2026-06-17T06:03:11.000000Z\"\n        },\n        \"lesson\": {\n            \"id\": 1,\n            \"title\": \"Test lesson #1\",\n            \"subject_id\": 4,\n            \"teacher_id\": 1,\n            \"class_id\": 4,\n            \"order\": null,\n            \"created_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"updated_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"deleted_at\": null\n        },\n        \"teacher\": {\n            \"id\": 1,\n            \"created_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"updated_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"full_name\": \"الأستاذ باهر (ninth)\",\n            \"phone\": \"0987073684\",\n            \"subjects\": \"فيزياء\",\n            \"level\": \"ninth\",\n            \"status\": \"approved\",\n            \"cv_path\": \"cv_dummy.pdf\"\n        },\n        \"questions\": [\n            {\n                \"id\": 3,\n                \"quiz_id\": 2,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 3,\n                        \"question_id\": 3,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    },\n                    {\n                        \"id\": 4,\n                        \"question_id\": 3,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 4,\n                \"quiz_id\": 2,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": []\n            }\n        ]\n    }\n}"
             }
           ]
         },
@@ -4402,19 +4225,25 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|paMnFq9AvOnvRIfxTomBdxc6kslqfz1eSD0fluFH069de6c8",
+                  "value": "7|xymTUD3HKgHqL7gHd0fZm3wuvW9NvSHKKeaP3cPm31432aa0",
                   "type": "string"
                 }
               ]
             },
-            "method": "PUT",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
                 {
                   "key": "timelimit",
-                  "value": "45",
+                  "value": "50",
                   "type": "text",
                   "uuid": "8ea165d0-74f3-440d-99f8-72cd6ee17782"
                 },
@@ -4423,6 +4252,12 @@
                   "value": "50",
                   "type": "text",
                   "uuid": "934db114-a64b-4d60-b177-533657dd2278"
+                },
+                {
+                  "key": "method_",
+                  "value": "PUT",
+                  "type": "text",
+                  "uuid": "82e6ef07-e629-41f4-80ab-eae8ee91b410"
                 }
               ]
             },
@@ -4518,6 +4353,16 @@
         {
           "name": "Delete quiz",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|xymTUD3HKgHqL7gHd0fZm3wuvW9NvSHKKeaP3cPm31432aa0",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -4911,6 +4756,113 @@
               "body": "{\n    \"quiz_id\": 1,\n    \"student_id\": 1,\n    \"total_score\": 20,\n    \"submitted_at\": \"2026-06-12T03:19:34.000000Z\",\n    \"answers\": [\n        {\n            \"id\": 1,\n            \"student_id\": 1,\n            \"question_id\": 1,\n            \"choice_id\": 2,\n            \"text_answer\": null,\n            \"is_correct\": 1,\n            \"points_earned\": 10,\n            \"created_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"updated_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"question\": {\n                \"id\": 1,\n                \"quiz_id\": 1,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 1,\n                        \"question_id\": 1,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                    },\n                    {\n                        \"id\": 2,\n                        \"question_id\": 1,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                        \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n                    }\n                ]\n            },\n            \"choice\": {\n                \"id\": 2,\n                \"question_id\": 1,\n                \"choice_text\": \"دمشق\",\n                \"is_correct\": 1,\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\"\n            }\n        },\n        {\n            \"id\": 2,\n            \"student_id\": 1,\n            \"question_id\": 2,\n            \"choice_id\": null,\n            \"text_answer\": \"True\",\n            \"is_correct\": 1,\n            \"points_earned\": 10,\n            \"created_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"updated_at\": \"2026-06-12T03:19:34.000000Z\",\n            \"question\": {\n                \"id\": 2,\n                \"quiz_id\": 1,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"updated_at\": \"2026-06-12T03:15:00.000000Z\",\n                \"choices\": []\n            },\n            \"choice\": null\n        }\n    ]\n}"
             }
           ]
+        },
+        {
+          "name": "get quiz for a lesson",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|gtAoFgbCPIUNqNmEfKQXUUQVrzUBQZovwvkVMRgh040fde77",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/quizzes/{{lesson_id}}/quiz",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quizzes",
+                "{{lesson_id}}",
+                "quiz"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/quizzes/{{lesson_id}}/quiz",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "{{lesson_id}}",
+                    "quiz"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 16 Jun 2026 10:08:51 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم جلب الكويز بنجاح\",\n    \"quiz_details\": {\n        \"id\": 1,\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 1,\n        \"subject_name\": \"الرياضيات\",\n        \"lesson_id\": 1\n    },\n    \"data\": {\n        \"TF\": [\n            [\n                {\n                    \"id\": 2,\n                    \"quiz_id\": 1,\n                    \"type\": \"TF\",\n                    \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                    \"correct_answer\": \"True\",\n                    \"points\": \"10.00\",\n                    \"status\": \"publish\",\n                    \"created_at\": \"2026-06-16T09:59:38.000000Z\",\n                    \"updated_at\": \"2026-06-16T09:59:38.000000Z\",\n                    \"choices\": []\n                }\n            ]\n        ],\n        \"mcq\": [\n            [\n                {\n                    \"id\": 1,\n                    \"quiz_id\": 1,\n                    \"type\": \"mcq\",\n                    \"description\": \"ما هي عاصمة سوريا؟\",\n                    \"correct_answer\": null,\n                    \"points\": \"10.00\",\n                    \"status\": \"publish\",\n                    \"created_at\": \"2026-06-16T09:59:38.000000Z\",\n                    \"updated_at\": \"2026-06-16T09:59:38.000000Z\",\n                    \"choices\": [\n                        {\n                            \"id\": 1,\n                            \"question_id\": 1,\n                            \"choice_text\": \"حلب\",\n                            \"is_correct\": 0,\n                            \"created_at\": \"2026-06-16T09:59:38.000000Z\",\n                            \"updated_at\": \"2026-06-16T09:59:38.000000Z\"\n                        },\n                        {\n                            \"id\": 2,\n                            \"question_id\": 1,\n                            \"choice_text\": \"دمشق\",\n                            \"is_correct\": 1,\n                            \"created_at\": \"2026-06-16T09:59:38.000000Z\",\n                            \"updated_at\": \"2026-06-16T09:59:38.000000Z\"\n                        }\n                    ]\n                }\n            ]\n        ],\n        \"TEXT\": []\n    }\n}"
+            }
+          ]
         }
       ]
     },
@@ -4925,7 +4877,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|ZP3ucWhVreNRVP3sMy7EDEgEatiRJKelonm8Ksqhd4354332",
+                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
                   "type": "string"
                 }
               ]
@@ -4943,13 +4895,13 @@
               "formdata": [
                 {
                   "key": "subject_id",
-                  "value": "2",
+                  "value": "4",
                   "type": "text",
                   "uuid": "eeabafa0-f31b-4934-8e91-b5c64270855e"
                 },
                 {
                   "key": "class_id",
-                  "value": "6",
+                  "value": "4",
                   "type": "text",
                   "uuid": "6946b9a7-4e22-4f2c-82c5-a913cb78e41d"
                 },
@@ -5605,7 +5557,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "8|D1Am1L8NyHoyFtmjCxLlYE99M5mLyWZpVHg5Fkt0fd56c2d3",
+                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
                   "type": "string"
                 }
               ]
@@ -6133,6 +6085,16 @@
         {
           "name": "student_announcements",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1QsrbzqEXNlpfhRojnHxOSrLZijpOOovbDK3pJEQ249bbd6b",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [
               {
@@ -6143,7 +6105,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"type\": \"exam_schedule\",\r\n    \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\", \r\n    \"content\": {\r\n        \"columns\": [\r\n            \"اليوم والتاريخ\",\r\n            \"المادة\",\r\n            \"التوقيت\"\r\n        ],\r\n        \"rows\": [\r\n            {\r\n                \"date\": \"الأحد 2026-06-21\",\r\n                \"subject\": \"الرياضيات\",\r\n                \"time\": \"09:00 AM - 11:00 AM\"\r\n            }\r\n        ]\r\n    }\r\n}",
+              "raw": "{\r\n    \"type\": \"normal\",\r\n    \"target_audience\":\"parent\",\r\n    \"content\": \"توجه الإدارة الكريمة خالص الشكر والدعاء للطالبة يمنى الرفاعي نظراً لجهودها المبذولة في إنجاح تطبيق مدرستنا، نسأل الله أن يكون لها عوناً ويجبر بخاطرها.\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -6274,67 +6236,6 @@
               "name": "view_announcement",
               "originalRequest": {
                 "method": "GET",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": ""
-                },
-                "url": {
-                  "raw": "http://127.0.0.1:8000\\api\\announcements",
-                  "protocol": "http",
-                  "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
-                  ],
-                  "port": "8000",
-                  "path": [
-                    "api",
-                    "announcements"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "Host",
-                  "value": "127.0.0.1:8000"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "PHP/8.2.12"
-                },
-                {
-                  "key": "Cache-Control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 14 Jun 2026 14:28:50 GMT"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ],
-              "cookie": [],
-              "body": "[\n    {\n        \"id\": 6,\n        \"type\": \"normal\",\n        \"content\": \"تؤجل المدرسة امتحان مادة العلوم للثلاثاء الفادم بمناسبة عيد رأس السنة الهجرية كل عام وأنتم إلى الله أقرب\",\n        \"created_at\": \"2026-06-14T14:26:35.000000Z\",\n        \"updated_at\": \"2026-06-14T14:26:35.000000Z\"\n    },\n    {\n        \"id\": 5,\n        \"type\": \"exam_schedule\",\n        \"content\": {\n            \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n            \"columns\": [\n                \"اليوم والتاريخ\",\n                \"المادة\",\n                \"التوقيت\"\n            ],\n            \"rows\": [\n                {\n                    \"date\": \"الأحد 2026-06-21\",\n                    \"subject\": \"الرياضيات\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الثلاثاء 2026-06-23\",\n                    \"subject\": \"العلوم العامة\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الخميس 2026-06-25\",\n                    \"subject\": \"اللغة العربية\",\n                    \"time\": \"08:30 AM - 11:00 AM\"\n                }\n            ]\n        },\n        \"created_at\": \"2026-06-14T14:24:29.000000Z\",\n        \"updated_at\": \"2026-06-14T14:24:29.000000Z\"\n    },\n    {\n        \"id\": 4,\n        \"type\": \"normal\",\n        \"content\": {\n            \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n            \"columns\": [\n                \"اليوم والتاريخ\",\n                \"المادة\",\n                \"التوقيت\"\n            ],\n            \"rows\": [\n                {\n                    \"date\": \"الأحد 2026-06-21\",\n                    \"subject\": \"الرياضيات\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الثلاثاء 2026-06-23\",\n                    \"subject\": \"العلوم العامة\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الخميس 2026-06-25\",\n                    \"subject\": \"اللغة العربية\",\n                    \"time\": \"08:30 AM - 11:00 AM\"\n                }\n            ]\n        },\n        \"created_at\": \"2026-06-14T14:22:33.000000Z\",\n        \"updated_at\": \"2026-06-14T14:22:33.000000Z\"\n    },\n    {\n        \"id\": 3,\n        \"type\": \"normal\",\n        \"content\": {\n            \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n            \"columns\": [\n                \"اليوم والتاريخ\",\n                \"المادة\",\n                \"التوقيت\"\n            ],\n            \"rows\": [\n                {\n                    \"date\": \"الأحد 2026-06-21\",\n                    \"subject\": \"الرياضيات\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الثلاثاء 2026-06-23\",\n                    \"subject\": \"العلوم العامة\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الخميس 2026-06-25\",\n                    \"subject\": \"اللغة العربية\",\n                    \"time\": \"08:30 AM - 11:00 AM\"\n                }\n            ]\n        },\n        \"created_at\": \"2026-06-14T14:12:10.000000Z\",\n        \"updated_at\": \"2026-06-14T14:12:10.000000Z\"\n    },\n    {\n        \"id\": 2,\n        \"type\": \"normal\",\n        \"content\": {\n            \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n            \"columns\": [\n                \"اليوم والتاريخ\",\n                \"المادة\",\n                \"التوقيت\"\n            ],\n            \"rows\": [\n                {\n                    \"date\": \"الأحد 2026-06-21\",\n                    \"subject\": \"الرياضيات\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الثلاثاء 2026-06-23\",\n                    \"subject\": \"العلوم العامة\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الخميس 2026-06-25\",\n                    \"subject\": \"اللغة العربية\",\n                    \"time\": \"08:30 AM - 11:00 AM\"\n                }\n            ]\n        },\n        \"created_at\": \"2026-06-14T14:10:58.000000Z\",\n        \"updated_at\": \"2026-06-14T14:10:58.000000Z\"\n    },\n    {\n        \"id\": 1,\n        \"type\": \"normal\",\n        \"content\": {\n            \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n            \"columns\": [\n                \"اليوم والتاريخ\",\n                \"المادة\",\n                \"التوقيت\"\n            ],\n            \"rows\": [\n                {\n                    \"date\": \"الأحد 2026-06-21\",\n                    \"subject\": \"الرياضيات\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الثلاثاء 2026-06-23\",\n                    \"subject\": \"العلوم العامة\",\n                    \"time\": \"09:00 AM - 11:00 AM\"\n                },\n                {\n                    \"date\": \"الخميس 2026-06-25\",\n                    \"subject\": \"اللغة العربية\",\n                    \"time\": \"08:30 AM - 11:00 AM\"\n                }\n            ]\n        },\n        \"created_at\": \"2026-06-14T14:10:56.000000Z\",\n        \"updated_at\": \"2026-06-14T14:10:56.000000Z\"\n    }\n]"
-            },
-            {
-              "name": "view_announcement",
-              "originalRequest": {
-                "method": "GET",
                 "header": [
                   {
                     "key": "Accept",
@@ -6416,10 +6317,10 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"content\": \"الطلاب الأعزاء، نود إعلامكم بأن عطلة نهاية الأسبوع ستبدأ من صباح الخميس القادم نظراً لأعمال الصيانة في المدرسة.\"\r\n}"
+              "raw": ""
             },
             "url": {
-              "raw": "http://127.0.0.1:8000\\api/announcements/exam/2",
+              "raw": "http://127.0.0.1:8000\\api/announcements/exam/1",
               "protocol": "http",
               "host": [
                 "127",
@@ -6432,7 +6333,7 @@
                 "api",
                 "announcements",
                 "exam",
-                "2"
+                "1"
               ]
             }
           },
@@ -6505,6 +6406,262 @@
               ],
               "cookie": [],
               "body": "{\n    \"id\": 2,\n    \"type\": \"exam_schedule\",\n    \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n    \"exam_program\": {\n        \"columns\": [\n            \"اليوم والتاريخ\",\n            \"المادة\",\n            \"التوقيت\"\n        ],\n        \"rows\": [\n            {\n                \"date\": \"الأحد 2026-06-21\",\n                \"subject\": \"الرياضيات\",\n                \"time\": \"09:00 AM - 11:00 AM\"\n            }\n        ]\n    },\n    \"created_at\": \"2026-06-14T15:00:40.000000Z\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Parent",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/caregiver/login?phone=0993297136&password=zik6f1fhsx",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "caregiver",
+                "login"
+              ],
+              "query": [
+                {
+                  "key": "phone",
+                  "value": "0993297136"
+                },
+                {
+                  "key": "password",
+                  "value": "zik6f1fhsx"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/caregiver/login?phone=0993297136&password=zik6f1fhsx",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "caregiver",
+                    "login"
+                  ],
+                  "query": [
+                    {
+                      "key": "phone",
+                      "value": "0993297136",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "zik6f1fhsx",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 16 Jun 2026 08:32:19 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"تم تسجيل الدخول بنجاح.\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"phone\": \"0993297136\",\n            \"fcm_token\": null\n        },\n        \"token\": \"47|ZL9JuzdXIa8W01lh5QOZyKzL9vqEAiiRSi2PAm5i667afdd8\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "ZL9JuzdXIa8W01lh5QOZyKzL9vqEAiiRSi2PAm5i667afdd8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/caregiver/logout",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "caregiver",
+                "logout"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": []
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/caregiver/logout",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "caregiver",
+                    "logout"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 16 Jun 2026 08:38:24 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"تم تسجيل الخروج بنجاح وإبطال صلاحية الجهاز.\"\n}"
             }
           ]
         }

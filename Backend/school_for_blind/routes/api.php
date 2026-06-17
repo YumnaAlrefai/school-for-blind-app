@@ -82,7 +82,7 @@ Route::prefix('quizzes')->group(function () {
     Route::middleware(['auth:sanctum', 'isTeacher'])->group(function () {
         Route::post('/', [QuizController::class, 'store']);
         Route::get('/teacher/list', [QuizController::class, 'index']);
-        Route::put('/{id}', [QuizController::class, 'update']);
+        Route::post('/{id}', [QuizController::class, 'update']);
         Route::delete('/{id}', [QuizController::class, 'destroy']);
         Route::get('{lessonId}/quiz', [QuizController::class, 'getQuizByLesson']);
     });

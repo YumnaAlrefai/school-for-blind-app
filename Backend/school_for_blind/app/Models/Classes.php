@@ -27,4 +27,8 @@ class Classes extends Model
     {
         return $this->hasMany(Room::class, 'class_id');
     }
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'class_id');
+    }
 }

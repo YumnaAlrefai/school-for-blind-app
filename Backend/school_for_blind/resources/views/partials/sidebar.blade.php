@@ -20,6 +20,7 @@
 
     <li class="nav-item mt-3 mb-1 px-3" style="color: var(--text-muted); font-size: 0.85rem;">اقسام</li>
 
+    {{-- قسم طلبات الانضمام --}}
     <li class="nav-item">
       <a class="nav-link d-flex align-items-center justify-content-between cursor-pointer {{ request()->routeIs('requests.view') ? 'nav-link-active' : 'nav-link-custom' }}"
         data-bs-toggle="collapse" href="#requestsDropdown" role="button">
@@ -44,6 +45,37 @@
               class="nav-link py-2 {{ request()->is('requests/teacher') ? 'fw-bold text-success' : 'text-muted' }}"
               style="font-size: 0.9rem;">
               طلبات الأساتذة
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    {{-- قسم المستخدمين (الجديد) --}}
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center justify-content-between cursor-pointer {{ request()->routeIs('students.index', 'teachers.index') ? 'nav-link-active' : 'nav-link-custom' }}"
+        data-bs-toggle="collapse" href="#usersDropdown" role="button">
+
+        <span>المستخدمون</span>
+
+        <i class="fa-solid fa-users"></i>
+      </a>
+
+      <div class="collapse {{ request()->routeIs('students.index', 'teachers.index') ? 'show' : '' }}" id="usersDropdown">
+        <ul class="nav flex-column me-4 mt-2 gap-1"
+          style="border-right: 1px solid var(--border-color); padding-right: 15px;">
+          <li class="nav-item">
+            <a href="{{ route('students.index') }}"
+              class="nav-link py-2 {{ request()->routeIs('students.index') ? 'fw-bold text-success' : 'text-muted' }}"
+              style="font-size: 0.9rem;">
+              كل الطلاب
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('teachers.index') }}"
+              class="nav-link py-2 {{ request()->routeIs('teachers.index') ? 'fw-bold text-success' : 'text-muted' }}"
+              style="font-size: 0.9rem;">
+              كل الأساتذة
             </a>
           </li>
         </ul>
@@ -77,8 +109,8 @@
     </li>
 
     <li>
-      <a href="{{ route('logs') }}"
-        class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs('logs') ? 'nav-link-active' : 'nav-link-custom' }}">
+      <a href="{{ route('logs.index') }}"
+        class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs('logs.index') ? 'nav-link-active' : 'nav-link-custom' }}">
         <span>سجلاتنا</span>
         <i class="fa-solid fa-table-list"></i>
       </a>
