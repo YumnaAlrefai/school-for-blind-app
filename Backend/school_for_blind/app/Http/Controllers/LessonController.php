@@ -28,7 +28,6 @@ class LessonController extends Controller
             'subject_id' => $subject->id,
             'teacher_id' => $request->user()->id,
             'class_id' => $request->class_id,
-            'order' => $request->order,
         ]);
 
         $path = $request->file('audio_file')->store('lessons', 'public');
@@ -83,7 +82,7 @@ class LessonController extends Controller
     {
         Gate::authorize('update', $lesson);
 
-        $lesson->update($request->only(['title', 'order', 'class_id']));
+        $lesson->update($request->only(['title', 'class_id']));
 
         if ($request->hasFile('audio_file')) {
             if ($lesson->record) {
