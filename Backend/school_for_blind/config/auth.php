@@ -44,7 +44,7 @@ return [
         ],
 
         'teacher' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'teachers',
         ],
 
@@ -52,7 +52,18 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+   'student' => [
+        'driver' => 'sanctum',
+        'provider' => 'students', 
     ],
+   'caregiver' => [
+        'driver' => 'sanctum',
+        'provider' => 'caregivers',
+    ],
+   
+   
+        ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +102,18 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
+    'students' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Student::class, 
     ],
+    'caregivers' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Caregiver::class, 
+    ],
+    
+    
+    
+        ],
 
     /*
     |--------------------------------------------------------------------------
