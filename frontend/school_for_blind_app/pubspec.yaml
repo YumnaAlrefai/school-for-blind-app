@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  just_audio: ^0.9.40
   app_links: ^7.0.0
   build_runner: ^2.15.0
   cupertino_icons: ^1.0.8

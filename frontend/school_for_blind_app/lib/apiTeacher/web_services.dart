@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'web_services.g.dart';
 
-@RestApi(baseUrl: 'https://stays-ability-accustom.ngrok-free.dev/api/')
+@RestApi(baseUrl: 'https://average-mutilator-untrained.ngrok-free.dev/api/')
 abstract class WebServices {
   factory WebServices(Dio dio, {String? baseUrl}) = _WebServices;
 
@@ -30,4 +30,24 @@ abstract class WebServices {
     @Part(name: "fcm_token") required String fcmToken,
     @Part(name: "cv") required MultipartFile cvFile, 
   });
+
+  
+  @POST("teacher/login")
+  @FormUrlEncoded()
+  Future<dynamic> loginTeacher(
+    @Field("phone") String phone,
+    @Field("password") String password,
+  );
+
+@GET("teacher/lessons")
+Future<dynamic> getLessons();
+
+@POST("teacher/lessons")
+@MultiPart()
+Future<dynamic> uploadLesson({
+  @Part(name: "title") required String title,
+  @Part(name: "audio") required MultipartFile audioFile,
+});
+@DELETE("teacher/lessons/{id}")
+Future<dynamic> deleteLesson(@Path("id") int id);
 }

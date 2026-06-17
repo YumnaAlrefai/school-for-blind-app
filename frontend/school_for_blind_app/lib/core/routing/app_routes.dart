@@ -3,14 +3,15 @@ class AppRoutes {
   static const String kSUserTypeScreen = '/user_type_screen';
   static const String kStudentAccountsScreen = '/student_accounts_screen';
   static const String kTeacherAccountsScreen = '/teacher_accounts_screen';
-    static const String kaccountTeacherScreen = '/accountTeacher_screen';
-    static const String kTeacherLogin = '/teacher_login';
-    static const String kTeacherRegister = '/teacher_register';
-    static const String kTeacherotb = '/teacher_otb';
-    static const String kTeachersecurity= '/teacher_security';
-    static const String kTeacherPhone= '/teacher_phone';
-
-
+  static const String kaccountTeacherScreen = '/accountTeacher_screen';
+  static const String kTeacherLogin = '/teacher_login';
+  static const String kTeacherRegister = '/teacher_register';
+  static const String kTeacherotb = '/teacher_otb';
+  static const String kTeachersecurity = '/teacher_security';
+  static const String kTeacherPhone = '/teacher_phone';
+  static const String kSubjectScreen = '/subject_main_screen';
+  static const String kTeacherprfile = '/teacher_profile_screen';
+  static const String kAddLesson = '/add_lessons_screen';
 
   static const String kStudentLoginScreen = '/student_login_screen';
   static const String kStudentRegisterDataScreen =
@@ -22,4 +23,5 @@ class AppRoutes {
       '/student_register_number_screen';
   static const String kStudentHomeScreen = '/student_home_screen';
   static const String kStudentMainScreen = '/student_main_screen';
+  static const String knotificationTeacher = '/teacher_notification_screen';
 }

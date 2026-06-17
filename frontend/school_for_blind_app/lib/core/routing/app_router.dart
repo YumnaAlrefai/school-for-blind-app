@@ -3,14 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/level_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/accouent.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/login.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/otp.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/phoneTeacher.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/safe.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/signup.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/add_lessons_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_home_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_login_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_notifications_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_otp_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_account_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_profile_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_register_number_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_register_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_safenumber_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/splash_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_home_screen.dart';
@@ -22,10 +27,12 @@ import 'package:school_for_blind_app/presentation/screens/student_register_numbe
 import 'package:school_for_blind_app/presentation/screens/student_register_photo_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/user_type_screen.dart';
+import 'dart:io' as io;
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
     final authCubit = getIt<AuthCubit>();
+    final teacherAuthCubit = getIt<TeacherCubit>();
 
     switch (settings.name) {
       case AppRoutes.kSplashScreen:
@@ -45,18 +52,66 @@ class AppRouter {
 
       case AppRoutes.kTeacherAccountsScreen:
         return MaterialPageRoute(builder: (_) => const AccountTeacher());
-        case AppRoutes.kTeacherLogin: 
-        return MaterialPageRoute(builder: (_) => const LoginTeacher());
+             case AppRoutes.kSubjectScreen:
+        return MaterialPageRoute(builder: (_) => const LessonsScreen());
           case AppRoutes.kTeacherPhone: 
-        return MaterialPageRoute(builder: (_) => const Phoneteacher());
-         case AppRoutes.kTeacherRegister: 
-        return MaterialPageRoute(builder: (_) => const RegisterTeacher());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const Phoneteacher(),
+          ),
+        );
          case AppRoutes.kTeacherotb: 
-        return MaterialPageRoute(builder: (_) => const OtpScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const OtpScreen(),
+          ),
+        );
+        case AppRoutes.kTeacherRegister:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const RegisterTeacher(),
+          ),
+        );
+          case AppRoutes.kTeacherLogin:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const LoginTeacher(),
+          ),
+        );
          case AppRoutes.kTeachersecurity: 
-        return MaterialPageRoute(builder: (_) => const SecurityScreen());
-       
-        return MaterialPageRoute(builder: (_) => const TeacherAccountsScreen());
+        final cvFile = settings.arguments as io. File;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: SecurityScreen(cvFile: cvFile),
+          ),
+        );
+          case AppRoutes.knotificationTeacher:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const NotificationsScreen(),
+          ),
+        );
+         case AppRoutes.kTeacherprfile:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const TeacherProfil (),
+          ),
+        );
+       case AppRoutes.kAddLesson:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: teacherAuthCubit,
+            child: const AddLessonScreen (),
+          ),
+        );
+
 
       case AppRoutes.kStudentRegisterNumberScreen:
         return MaterialPageRoute(
