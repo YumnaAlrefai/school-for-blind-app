@@ -34,13 +34,14 @@ class Student extends Authenticatable
         'stripe_account_id',
     ];
 
-    public function getDocumentaryEvidenceAttribute($value)
-    {
-        if ($value) {
-            return request()->getSchemeAndHttpHost() . '/storage/' . $value;
-        }
-        return null;
-    }
+   public function getDocumentaryEvidenceAttribute($value)
+{
+    if (!$value) return null;
+
+    $cleanFileName = basename($value);
+
+    return 'doc/' . $cleanFileName;
+}
 
     protected function documentaryEvidence(): Attribute
     {
@@ -84,4 +85,8 @@ class Student extends Authenticatable
     {
         return $this->hasMany(StudentAnswer::class);
     }
+public function donations()
+{
+    return $this->morphMany(Donation::class, 'donatable');
+}
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MagicLoginController;
@@ -47,20 +48,11 @@ Route::prefix('teacher')->controller(TeacherController::class)->group(function (
         // Route::get('cv', 'showCv')->name('teachers.cv');
     });
 });
-Route::get('/students/documents/{filename}', function (Request $request, $filename) {
 
-    if (!$request->hasValidSignature()) {
-        abort(401, 'الرابط غير صالح');
-    }
-
-    $path = 'private/students/documents/' . $filename;
-
-    if (!Storage::exists($path)) {
-        abort(404, 'الملف غير موجود في مجلد private التابع للسيرفر');
-    }
-
-    return Storage::response($path);
-})->name('students.documents.show');
+Route::post('/caregiver/login', [CaregiverController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/caregiver/logout', [CaregiverController::class, 'logout']);
+});
 
 Route::post('/donation/checkout', [DonationController::class, 'checkout']);
 Route::post('/donation/confirm', [DonationController::class, 'confirmPayment']);

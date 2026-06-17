@@ -37,25 +37,29 @@ $stripe = new StripeClient(config('cashier.secret') ?? env('STRIPE_SECRET'));
         ]);
 
         $user = auth('sanctum')->user();
-
-        if ($user) {
-            $donorName = $user->fullname;
-            $userId = $user->id;
-        } else {
+          $donatableId = null;
+            $donatableType = null;
             $donorName = $request->input('donor_name') ?? 'فاعل خير';
-            $userId = null;
-        }
-
+        if ($user) {
+       $donorName = $user->fullname ?? $user->name;
+       $donatableId = $user->id;
+       $donatableType = get_class($user);
+       if (empty($donorName)) {
+                $donorName = 'فاعل خير';
+            }
+        } 
         if (empty($donorName)) {
             $donorName = 'طالب مسجل';
         }
 
         DB::table('donations')->insert([
-            'user_id' => $userId,
             'amount' => $amount,
+            'currency' => 'eur',
             'donor_name' => $donorName,
             'stripe_session_id' => $paymentIntent->id,
             'status' => 'pending',
+            'donatable_id' => $donatableId, 
+            'donatable_type' => $donatableType,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

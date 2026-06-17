@@ -14,7 +14,6 @@ use App\Traits\UploadFileTrait;
 class MagicLoginController extends Controller
 {
     use UploadFileTrait;
-
     public function showView(Request $request, $id)
     {
         $student = Student::findOrFail($id);
@@ -65,21 +64,21 @@ class MagicLoginController extends Controller
         if (!$student) {
             return response()->json(['message' => 'الطالب غير موجود.'], 404);
         }
-        $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
+      $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
         $realToken = $student->createToken('mobile-app')->plainTextToken;
         return response()->json([
             'access_token' => $realToken,
             'student' => [
-                'id' => $student->id,
-                'fullname' => $student->fullname,
-                'fathersname' => $student->fathersname,
-                'phone' => $student->phone,
-                'parent_phone' => $student->parent_phone,
-                'level' => $student->level,
-                'status' => $student->status,
-                'DocumentaryEvidence' => $documentUrl,
-            ]
-        ], 200, [], JSON_UNESCAPED_UNICODE);
+            'id'                   => $student->id,
+            'fullname'             => $student->fullname,
+            'fathersname'          => $student->fathersname,
+            'phone'                => $student->phone,
+            'parent_phone'         => $student->parent_phone,
+            'level'                => $student->level,
+            'status'               => $student->status,
+            'DocumentaryEvidence'  => $documentUrl,
+        ]
+    ], 200, [], JSON_UNESCAPED_UNICODE);
 
     }
 }

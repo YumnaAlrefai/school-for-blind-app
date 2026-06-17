@@ -9,11 +9,20 @@ class Donation extends Model
     protected $fillable = [
         'amount',
         'donor_name',
-        'donor_email',
-        'message',
         'currency',
         'stripe_session_id',
         'status',
-        'user_id',
-        ];
+        'donatable_id',
+        'donatable_type',];
+public function donatable()
+{
+    return $this->morphTo();
 }
+
+
+
+
+
+
+        }
+
