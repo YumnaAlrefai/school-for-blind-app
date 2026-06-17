@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Models\Activity;
 
 
 class DashboardController extends Controller
@@ -23,6 +24,7 @@ class DashboardController extends Controller
         $pendingteachersCount = Teacher::where('status', 'pending')->count();
         $studentsCount = Student::where('status', 'approved')->count();
         $teachersCount = Teacher::where('status', 'approved')->count();
+        $activities = Activity::latest()->take(5)->get();
 
         $currentYear = date('Y');
 
@@ -50,6 +52,7 @@ class DashboardController extends Controller
         $chartLabels = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
 
         return view('dashboard', compact(
+            'activities',
             'pendingteachersCount',
             'pendingstudentsCount',
             'studentsCount',
@@ -208,5 +211,24 @@ class DashboardController extends Controller
         });
 
         return redirect()->route('requests.view', 'teacher')->with('success', 'تم تنشيط حساب الأستاذ وتثبيت بياناته بنجاح.');
+    }
+
+    public function logs()
+    {
+        $activities = Activity::latest()->paginate(10);
+
+        return view('logs.index', compact('activities'));
+    }
+
+    public function studentsList()
+    {
+        $students = Student::with(['parent', 'class'])->latest()->paginate(15);
+        return view('pages.students.index', compact('students'));
+    }
+
+    public function teachersList()
+    {
+        $teachers = Teacher::with(['subjects', 'classes'])->latest()->paginate(15);
+        return view('pages.teachers.index', compact('teachers'));
     }
 }

@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->string('title');
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->foreignId('teacher_id')->nullable()->constrained('teachers')->onDelete('set null');
-            $table->unsignedBigInteger('class_id');
-            $table->integer('order')->nullable();
+            $table->foreignId('class_id')->nullable()->constrained('classes')->onDelete('set null');
+            // $table->integer('order')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

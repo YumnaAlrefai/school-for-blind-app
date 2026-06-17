@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Quiz;
+use App\Models\Choice;
+use App\Models\Lesson;
 use App\Models\Question;
-use Illuminate\Support\Facades\DB;
+use App\Models\Quiz;
 use App\Models\QuizSubmission;
 use App\Models\StudentAnswer;
-use App\Models\Choice;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuizController extends Controller
 {
     public function store(Request $request)
     {
         $request->validate([
+            'title' => 'required|string|min:1',
             'numofquestions' => 'required|integer|min:1',
             'timelimit' => 'required|integer|min:1',
             'totalmark' => 'required|integer|min:1',
-            'subject_id' => 'required|exists:subjects,id',
+            // 'subject_id' => 'required|exists:subjects,id',
             'lesson_id' => 'required|exists:lessons,id',
             'questions' => 'required|array|min:1',
             'questions.*.type' => 'required|in:mcq,TF,TEXT',
@@ -32,12 +34,14 @@ class QuizController extends Controller
 
         DB::beginTransaction();
 
+        $lesson = Lesson::find($request->lesson_id);
         try {
             $quiz = Quiz::create([
+                'title'=> $request->title,
                 'numofquestions' => $request->numofquestions,
                 'timelimit' => $request->timelimit,
                 'totalmark' => $request->totalmark,
-                'subject_id' => $request->subject_id,
+                'subject_id' => $lesson->subject_id,
                 'lesson_id' => $request->lesson_id,
                 'teacher_id' => auth()->id(),
             ]);
@@ -125,13 +129,14 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
         $request->validate([
+            'title' => 'sometimes|string|min:1',
             'numofquestions' => 'sometimes|integer|min:1',
             'timelimit' => 'sometimes|integer|min:1',
             'totalmark' => 'sometimes|integer|min:1',
-            'subject_id' => 'sometimes|exists:subjects,id',
         ]);
 
-        $quiz->update($request->only(['numofquestions', 'timelimit', 'totalmark', 'subject_id']));
+        $quiz->update($request->only(['title', 'numofquestions', 'timelimit', 'totalmark']));
+        // $quiz->save();
 
         return response()->json([
             'message' => 'تم تعديل الكويز بنجاح!',
@@ -254,8 +259,8 @@ class QuizController extends Controller
     public function getQuizByLesson($lessonId)
     {
         $quiz = Quiz::with(['questions.choices', 'subject'])
-                    ->where('lesson_id', $lessonId)
-                    ->first();
+            ->where('lesson_id', $lessonId)
+            ->first();
 
         if (!$quiz) {
             return response()->json([
