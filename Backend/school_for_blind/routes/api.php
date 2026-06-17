@@ -12,6 +12,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Middleware\CheckAdminRole;
 use App\Http\Middleware\CheckCallCreatorRole;
 use App\Http\Middleware\PreventStudentCallActions;
 use Illuminate\Http\Request;
@@ -105,6 +106,6 @@ Route::middleware('auth:sanctum')
         Route::match(['put', 'patch'], '{lesson}', 'update');
         Route::delete('{lesson}', 'destroy');
     });
-    Route::post('/announcements', [AnnouncementController::class, 'store']);
-    Route::get('/announcements', [AnnouncementController::class, 'index']);
+   Route::post('/announcements', [AnnouncementController::class, 'store']);
+   Route::get('/announcements', [AnnouncementController::class, 'index']);
 Route::get('/announcements/exam/{id}', [AnnouncementController::class, 'showExam']);
