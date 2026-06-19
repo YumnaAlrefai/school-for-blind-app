@@ -11,6 +11,7 @@ use App\Http\Controllers\PointRedemptionController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\CheckAdminRole;
 use App\Http\Middleware\CheckCallCreatorRole;
@@ -109,3 +110,10 @@ Route::middleware('auth:sanctum')
    Route::post('/announcements', [AnnouncementController::class, 'store']);
    Route::get('/announcements', [AnnouncementController::class, 'index']);
 Route::get('/announcements/exam/{id}', [AnnouncementController::class, 'showExam']);
+
+
+Route::prefix('student/quizzes')->group(function () {
+    Route::get('{id}/info', [StudentQuizController::class, 'getQuizInfo']);
+    Route::get('{id}/questions', [StudentQuizController::class, 'getQuizQuestions']);
+});
+Route::get('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
