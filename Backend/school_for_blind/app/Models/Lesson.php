@@ -28,6 +28,11 @@ class Lesson extends Model
         return $this->belongsTo(Teacher::class);
     }
 
+    public function quiz()
+    {
+        return $this->hasOne(Quiz::class);
+    }
+
     public function record()
     {
         return $this->morphOne(Record::class, 'recordable');

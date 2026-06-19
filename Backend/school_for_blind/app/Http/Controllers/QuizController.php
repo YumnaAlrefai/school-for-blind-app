@@ -16,7 +16,7 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|min:1',
+            // 'title' => 'required|string|min:1',
             'numofquestions' => 'required|integer|min:1',
             'timelimit' => 'required|integer|min:1',
             'totalmark' => 'required|integer|min:1',
@@ -35,9 +35,17 @@ class QuizController extends Controller
         DB::beginTransaction();
 
         $lesson = Lesson::find($request->lesson_id);
+
+        if ($lesson->quiz != null) {
+            return response()->json([
+                'message' => 'سبق و تم انشاء كويز لهذا الدرس!',
+                'quiz' => $lesson->quiz,
+            ], 409);
+        }
+
         try {
             $quiz = Quiz::create([
-                'title'=> $request->title,
+                // 'title'=> $request->title,
                 'numofquestions' => $request->numofquestions,
                 'timelimit' => $request->timelimit,
                 'totalmark' => $request->totalmark,
@@ -45,6 +53,10 @@ class QuizController extends Controller
                 'lesson_id' => $request->lesson_id,
                 'teacher_id' => auth()->id(),
             ]);
+
+
+            $lesson->quiz_id = $quiz->id;
+            $lesson->save();
 
             foreach ($request->questions as $q) {
                 $question = $quiz->questions()->create([
@@ -129,13 +141,13 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
         $request->validate([
-            'title' => 'sometimes|string|min:1',
+            // 'title' => 'sometimes|string|min:1',
             'numofquestions' => 'sometimes|integer|min:1',
             'timelimit' => 'sometimes|integer|min:1',
             'totalmark' => 'sometimes|integer|min:1',
         ]);
 
-        $quiz->update($request->only(['title', 'numofquestions', 'timelimit', 'totalmark']));
+        $quiz->update($request->only(['numofquestions', 'timelimit', 'totalmark']));
         // $quiz->save();
 
         return response()->json([
@@ -148,7 +160,6 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
         $quiz->delete();
-
         return response()->json(['message' => 'تم حذف الكويز وجميع أسئلته بنجاح!']);
     }
 
