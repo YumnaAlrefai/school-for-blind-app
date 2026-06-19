@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Events\AnnouncementCreated;
 use App\Http\Requests\StoreAnnouncementRequest;
 use App\Models\Announcement;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -18,7 +19,7 @@ class AnnouncementController extends Controller
             'level'=>$request->input('level'),
             'target_audience'=>$request->input('target_audience'),
         ]);
-
+event(new AnnouncementCreated($announcement));
         /*
         | كود إشعارات الفايربيز
 
