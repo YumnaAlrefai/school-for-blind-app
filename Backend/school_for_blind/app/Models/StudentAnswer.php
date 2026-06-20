@@ -12,7 +12,8 @@ class StudentAnswer extends Model
         'choice_id',
         'text_answer',
         'is_correct',
-        'points_earned'
+        'points_earned',
+        
     ];
 
     public function question()

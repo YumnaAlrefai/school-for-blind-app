@@ -113,7 +113,14 @@ Route::get('/announcements/exam/{id}', [AnnouncementController::class, 'showExam
 
 
 Route::prefix('student/quizzes')->group(function () {
-    Route::get('{id}/info', [StudentQuizController::class, 'getQuizInfo']);
+    Route::post('search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
+    
     Route::get('{id}/questions', [StudentQuizController::class, 'getQuizQuestions']);
+    
+    Route::post('/', [StudentQuizController::class, 'getQuizInfo']);
 });
-Route::get('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::post('quiz/submit', [StudentQuizController::class, 'submitQuiz']);
+    
+});

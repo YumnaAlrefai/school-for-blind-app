@@ -14,7 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
-            $table->float('score');
+            $table->float('teacher_assigned_mark')->default(0);
+            $table->float('total_score')->default(0);            
+            $table->enum('status', ['pending', 'graded'])->default('pending');
             $table->timestamps();
         });
     }

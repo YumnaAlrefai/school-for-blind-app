@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Lesson;
 use App\Models\Subject;
 use App\Models\Teacher;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,16 +15,16 @@ class LessonSeeder extends Seeder
      */
     public function run(): void
     {
-        $ninthClassId = DB::table('classes')->where('level', 'ninth')->value('id');
-        $twelfthClassId = DB::table('classes')->where('level', 'twelfth')->value('id');
+        $ninthClassId = DB::table('classes')->where('level', '=', 'ninth', 'and')->value('id');
+        $twelfthClassId = DB::table('classes')->where('level', '=', 'twelfth', 'and')->value('id');
 
     $this->command->info("=== مواد صف التاسع الموجودة بقاعدة البيانات ===");
-    foreach (\App\Models\Subject::where('grade_level', 'ninth')->pluck('name') as $name) {
+    foreach (Subject::where('grade_level', '=', 'ninth', 'and')->pluck('name') as $name) {
         $this->command->line("- " . $name);
     }
 
     $this->command->info("=== مواد البكالوريا الموجودة بقاعدة البيانات ===");
-    foreach (\App\Models\Subject::where('grade_level', 'twelfth')->pluck('name') as $name) {
+    foreach (Subject::where('grade_level', '=', 'twelfth', 'and')->pluck('name') as $name) {
         $this->command->line("- " . $name);
     }
         $realLessons = [
@@ -509,13 +508,13 @@ class LessonSeeder extends Seeder
     foreach ($realLessons as $data) {
     $subjectName = trim($data['subject_name']);
 
-    $subject = Subject::where('name', $subjectName)
-                      ->where('grade_level', $data['level'])
+    $subject = Subject::where('name', '=', $subjectName, 'and')
+                      ->where('grade_level', '=', $data['level'], 'and')
                       ->first();
 
     if ($subject) {
-        $teacher = Teacher::where('subjects', $subjectName)
-                          ->where('level', $data['level'])
+        $teacher = Teacher::where('subjects', '=', $subjectName, 'and')
+                          ->where('level', '=', $data['level'], 'and')
                           ->first();
 
         $classId = ($data['level'] === 'ninth') ? $ninthClassId : $twelfthClassId;

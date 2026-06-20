@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Reverb\Loggers\Log;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Models\Activity;
@@ -66,7 +67,7 @@ class Quiz extends Model
 
     public function tapActivity(Activity $activity, string $eventName)
     {
-        \Log::info($this->subject);
+        Log::info($this->subject);
         $customInfo = [
             'lesson_name' => $this->lesson->title ?? 'غير محدد',
             'subject_name' => $this->subject->name ?? 'غير محدد',

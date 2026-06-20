@@ -55,8 +55,8 @@ class QuizController extends Controller
             ]);
 
 
-            $lesson->quiz_id = $quiz->id;
-            $lesson->save();
+          //  $lesson->quiz_id = $quiz->id;
+           // $lesson->save();
 
             foreach ($request->questions as $q) {
                 $question = $quiz->questions()->create([

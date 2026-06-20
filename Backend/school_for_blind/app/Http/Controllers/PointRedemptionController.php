@@ -17,9 +17,6 @@ class PointRedemptionController extends Controller
         $this->redemptionService = $redemptionService;
     }
 
-    /**
-     *
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -27,7 +24,6 @@ class PointRedemptionController extends Controller
         ]);
 
         try {
-            // جلب الطالب الحالي المسجل دخوله
             $student = Auth::user();
 
             $redemptionRequest = $this->redemptionService->createRequest($student, $request->points);
@@ -46,9 +42,7 @@ class PointRedemptionController extends Controller
         }
     }
 
-    /**
-     * ب) المدير يوافق على الطلب ويحدد المبلغ المالي المقابل
-     */
+    
   public function approve(Request $request, PointRedemptionRequest $redemptionRequest){
     if (!Auth::user()->is_admin) {
         return response()->json([
@@ -69,16 +63,12 @@ class PointRedemptionController extends Controller
             ], 200);
 
         } catch (Exception $e) {
-            // هنا ستظهر رسائل التحذير (مثل: رصيد المدرسة غير كافٍ)
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ], 422);
         }
     }
-    /**
-     * ج) المدير يرفض طلب الطالب مع كتابة الأسباب
-     */
     public function reject(Request $request, PointRedemptionRequest $redemptionRequest)
     {
         if (!Auth::user()->is_admin) {
