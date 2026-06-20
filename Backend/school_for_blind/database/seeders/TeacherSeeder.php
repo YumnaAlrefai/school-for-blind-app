@@ -63,7 +63,6 @@ class TeacherSeeder extends Seeder
                 [
                     'full_name' => $tData['name'],
                     'password' => Hash::make('12345678'),
-                    'subjects' => $tData['subject'], 
                     'level' => $level,
                     'status' => 'approved',
                     'cv_path' => 'cv_dummy.pdf',
@@ -77,7 +76,7 @@ class TeacherSeeder extends Seeder
                 $classesCountToAssign = min(rand(1, 2), count($availableClasses));
                 $keys = (array) array_rand($availableClasses, $classesCountToAssign);
                 foreach ($keys as $key) {
-                    $assignedClassesIds[] = $availableClasses[$key];
+                    $assignedClassesIds[] = $dbSubject->id;
                 }
                 $teacher->classes()->sync($assignedClassesIds);
             }
@@ -131,7 +130,6 @@ $token = $teacher->createToken('teacher-test-token')->plainTextToken;
                 'full_name' => $faker->name,
                 'phone' => '09' . $faker->unique()->randomNumber(8, true),
                 'password' => Hash::make('password'),
-                'subjects' => 'مادة عشوائية',
                 'level' => $randomLevel,
                 'status' => $statuses[array_rand($statuses)],
                 'cv_path' => 'random_cv.pdf',
@@ -159,6 +157,5 @@ $token = $teacher->createToken('teacher-test-token')->plainTextToken;
             }
         }
         
-        $this->command->info('=== 80 Random Teachers Seeded Successfully ===');
     }
 }

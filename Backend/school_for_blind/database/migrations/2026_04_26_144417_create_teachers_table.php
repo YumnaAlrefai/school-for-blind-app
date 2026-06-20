@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('phone')->unique();
             $table->string('password');
             // $table->date('date_of_birth');
-            $table->string('subjects');
+           $table->string('subjects')->default('');
             $table->enum('level', ['ninth', 'twelfth']);
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('cv_path');

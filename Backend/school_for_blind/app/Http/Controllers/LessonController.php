@@ -119,4 +119,60 @@ class LessonController extends Controller
             'message' => 'تم حذف الدرس والتسجيل بنجاح.'
         ], 200);
     }
+   // ============================
+public function getLessonsBySubject($subjectId)
+{
+    $lessons = Lesson::where('subject_id', $subjectId)
+                   //  ->with('record') 
+                     ->get();
+
+    return response()->json([
+        'subject_id' => $subjectId,
+        'lessons' => $lessons
+    ]);
+}
+public function getLessonRecord($lessonId)
+{
+    $lesson = Lesson::with('record')->find($lessonId);
+
+    if (!$lesson) {
+        return response()->json([
+            'message' => 'Lesson not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'lesson_id' => $lessonId,
+        'record' => $lesson->record
+    ]);
+}
+public function getLessonsCountBySubject($subjectId)
+{
+    $count = Lesson::where('subject_id', $subjectId)->count();
+
+    return response()->json([
+        'subject_id' => $subjectId,
+        'lessons_count' => $count
+    ]);
+}
+public function getLessonsProgress($subjectId)
+{
+    $currentCount = Lesson::where('subject_id', $subjectId)->count();
+
+    $subject = Subject::find($subjectId);
+
+    if (!$subject) {
+        return response()->json([
+            'message' => 'Subject not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'subject_id' => $subjectId,
+        'current_lessons' => $currentCount,
+        'total_lessons' => $subject->total_lessons,
+        'progress_text' => $currentCount . ' / ' . $subject->total_lessons
+    ]);
+}
+
 }

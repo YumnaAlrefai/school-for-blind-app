@@ -15,11 +15,11 @@ class SubjectSeeder extends Seeder
             ['name' => 'التاريخ', 'grade_level' => 'twelfth'],
             ['name' => 'الجغرافيا', 'grade_level' => 'twelfth'],
             ['name' => 'اللغة العربية', 'grade_level' => 'twelfth'],
-            ['name' => 'اللغة الإنكليزية', 'grade_level' => 'twelfth'], // مطابقة لـ فلوتر بالنون
+            ['name' => 'اللغة الإنكليزية', 'grade_level' => 'twelfth'], 
             ['name' => 'اللغة الفرنسية', 'grade_level' => 'twelfth'],
             ['name' => 'التربية الدينية', 'grade_level' => 'twelfth'],
             // === مواد الصف التاسع (ninth) ===
-            ['name' => 'الرياضيات (جبر)', 'grade_level' => 'ninth'], // مطابقة لـ فلوتر مع الأقواس
+            ['name' => 'الرياضيات (جبر)', 'grade_level' => 'ninth'], 
             ['name' => 'الفيزياء والكيمياء', 'grade_level' => 'ninth'],
             ['name' => 'علم الأحياء والأرض', 'grade_level' => 'ninth'],
             ['name' => 'التاريخ', 'grade_level' => 'ninth'],

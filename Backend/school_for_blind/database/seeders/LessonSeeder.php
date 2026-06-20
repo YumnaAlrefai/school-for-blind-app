@@ -15,16 +15,16 @@ class LessonSeeder extends Seeder
      */
     public function run(): void
     {
-        $ninthClassId = DB::table('classes')->where('level', '=', 'ninth', 'and')->value('id');
-        $twelfthClassId = DB::table('classes')->where('level', '=', 'twelfth', 'and')->value('id');
+        $ninthClassId = DB::table('classes')->where('level', '=', 'ninth')->value('id');
+        $twelfthClassId = DB::table('classes')->where('level', '=', 'twelfth')->value('id');
 
     $this->command->info("=== مواد صف التاسع الموجودة بقاعدة البيانات ===");
-    foreach (Subject::where('grade_level', '=', 'ninth', 'and')->pluck('name') as $name) {
+    foreach (Subject::where('grade_level', '=', 'ninth')->pluck('name') as $name) {
         $this->command->line("- " . $name);
     }
 
     $this->command->info("=== مواد البكالوريا الموجودة بقاعدة البيانات ===");
-    foreach (Subject::where('grade_level', '=', 'twelfth', 'and')->pluck('name') as $name) {
+    foreach (Subject::where('grade_level', '=', 'twelfth')->pluck('name') as $name) {
         $this->command->line("- " . $name);
     }
         $realLessons = [
@@ -505,35 +505,43 @@ class LessonSeeder extends Seeder
             ]
         ];
 
-    foreach ($realLessons as $data) {
-    $subjectName = trim($data['subject_name']);
+     foreach ($realLessons as $item) {
 
-    $subject = Subject::where('name', '=', $subjectName, 'and')
-                      ->where('grade_level', '=', $data['level'], 'and')
-                      ->first();
+            $subject = Subject::where('name', $item['subject_name'])->first();
+            if (!$subject) {
+                $this->command->error(" لم يتم العثور على المادة: " . $item['subject_name']);
+                continue;
+            }
 
-    if ($subject) {
-        $teacher = Teacher::where('subjects', '=', $subjectName, 'and')
-                          ->where('level', '=', $data['level'], 'and')
-                          ->first();
+            $classId = $item['level'] === 'ninth' ? $ninthClassId : $twelfthClassId;
+            $teacherId = Teacher::inRandomOrder()->value('id');
 
-        $classId = ($data['level'] === 'ninth') ? $ninthClassId : $twelfthClassId;
-
-        foreach ($data['lessons'] as $lessonTitle) {
-            Lesson::updateOrCreate(
-                [
-                    'title' => trim($lessonTitle),
-                    'subject_id' => $subject->id
-                ],
-                [
-                    'title' => trim($lessonTitle),
-                    'subject_id' => $subject->id,
-                    'teacher_id' => $teacher ? $teacher->id : null, 
-                    'class_id' => $classId 
-                ]
-            );
+            foreach ($item['lessons'] as $lessonTitle) {
+                $this->createLessonWithRecord(
+                    $lessonTitle,
+                    $subject->id,
+                    $teacherId,
+                    $classId
+                );
+            }
         }
-    } else {
-        $this->command->error("المادة غير موجودة في قاعدة البيانات: {$subjectName} ({$data['level']})");
+
     }
-}}}
+    private function createLessonWithRecord($title, $subjectId, $teacherId, $classId)
+    {
+        $lesson = Lesson::create([
+            'title' => $title,
+            'subject_id' => $subjectId,
+            'teacher_id' => $teacherId,
+            'class_id' => $classId,
+        ]);
+
+        $lesson->record()->create([
+            'record_path' => 'lessons/default_audio.ogg', // ضع ملف حقيقي إذا توفر
+            'record_mime' => 'audio/ogg',
+            'record_description' => null,
+            'duration' => null,
+        ]);
+
+        $this->command->line("$title");
+    }}

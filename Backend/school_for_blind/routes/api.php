@@ -124,3 +124,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('quiz/submit', [StudentQuizController::class, 'submitQuiz']);
     
 });
+
+Route::get('/subjects/{id}/lessons', [LessonController::class, 'getLessonsBySubject']);
+Route::get('/lessons/{id}/record', [LessonController::class, 'getLessonRecord']);
+Route::get('/subjects/{id}/lessons/count', [LessonController::class, 'getLessonsCountBySubject']);
+Route::get('/subjects/{id}/lessons/progress', [LessonController::class, 'getLessonsProgress']);

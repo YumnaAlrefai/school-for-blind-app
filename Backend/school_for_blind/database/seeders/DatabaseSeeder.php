@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             TeacherSeeder::class,
             StudentSeeder::class,
-            LessonSeeder::class,       
+            LessonSeeder::class, 
+            SubjectLessonsCountSeeder::class,      
             ]);
 
         User::factory()->create([
