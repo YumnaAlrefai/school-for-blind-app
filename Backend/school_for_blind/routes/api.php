@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\OtpController;
@@ -129,3 +130,18 @@ Route::get('/subjects/{id}/lessons', [LessonController::class, 'getLessonsBySubj
 Route::get('/lessons/{id}/record', [LessonController::class, 'getLessonRecord']);
 Route::get('/subjects/{id}/lessons/count', [LessonController::class, 'getLessonsCountBySubject']);
 Route::get('/subjects/{id}/lessons/progress', [LessonController::class, 'getLessonsProgress']);
+
+
+  Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggle']);
+
+    Route::get('/favorites/lessons', [FavoriteController::class, 'favoriteLessons']);
+
+    Route::get('/favorites/quizzes', [FavoriteController::class, 'favoriteQuizzes']);
+
+    Route::get('/favorites/all', [FavoriteController::class, 'allFavorites']);
+
+});
+Route::post('/favorites/remove', [FavoriteController::class, 'remove'])
+    ->middleware('auth:sanctum');

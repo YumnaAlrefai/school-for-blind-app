@@ -77,4 +77,11 @@ class Quiz extends Model
 
         $activity->properties = $activity->properties->put('custom_info', $customInfo);
     }
+public function favorites()
+{
+    return $this->morphMany(Favorite::class, 'favorable');
 }
+
+
+
+    }
