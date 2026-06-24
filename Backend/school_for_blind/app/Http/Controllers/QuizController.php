@@ -21,6 +21,8 @@ class QuizController extends Controller
             'timelimit' => 'required|integer|min:1',
             'totalmark' => 'required|integer|min:1',
             // 'subject_id' => 'required|exists:subjects,id',
+            'question_ids' => 'nullable|array',
+            'question_ids.*' => 'exists:questions,id',
             'lesson_id' => 'required|exists:lessons,id',
             'questions' => 'required|array|min:1',
             'questions.*.type' => 'required|in:mcq,TF,TEXT',
@@ -58,22 +60,30 @@ class QuizController extends Controller
             $lesson->quiz_id = $quiz->id;
             $lesson->save();
 
-            foreach ($request->questions as $q) {
-                $question = $quiz->questions()->create([
-                    'type' => $q['type'],
-                    'description' => $q['description'],
-                    'correct_answer' => $q['type'] !== 'mcq' ? $q['correct_answer'] : null,
-                    'points' => $q['points'] ?? 1,
-                    'status' => $q['status'] ?? 'publish',
-                ]);
+            if ($request->has('question_ids') && !empty($request->question_ids)) {
+                $quiz->questions()->attach($request->question_ids);
+            }
 
-                if ($q['type'] === 'mcq' && isset($q['choices'])) {
-                    foreach ($q['choices'] as $choice) {
-                        $question->choices()->create([
-                            'choice_text' => $choice['text'],
-                            'is_correct' => $choice['is_correct'] ?? false,
-                        ]);
+            if ($request->has('questions') && !empty($request->questions)) {
+                foreach ($request->questions as $q) {
+                    $question = Question::create([
+                        'teacher_id' => auth()->id(),
+                        'type' => $q['type'],
+                        'description' => $q['description'],
+                        'correct_answer' => $q['type'] !== 'mcq' ? $q['correct_answer'] : null,
+                        'points' => $q['points'] ?? 1,
+                        'status' => $q['status'] ?? 'publish',
+                    ]);
+
+                    if ($q['type'] === 'mcq' && isset($q['choices'])) {
+                        foreach ($q['choices'] as $choice) {
+                            $question->choices()->create([
+                                'choice_text' => $choice['text'],
+                                'is_correct' => $choice['is_correct'] ?? false,
+                            ]);
+                        }
                     }
+                    $quiz->questions()->attach($question->id);
                 }
             }
 
@@ -160,7 +170,7 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
         $quiz->delete();
-        return response()->json(['message' => 'تم حذف الكويز وجميع أسئلته بنجاح!']);
+        return response()->json(['message' => 'تم حذف الكويز!']);
     }
 
     public function submitQuiz(Request $request, $id)
@@ -247,17 +257,20 @@ class QuizController extends Controller
         $submission = QuizSubmission::where('quiz_id', $quizId)
             ->where('student_id', $studentId)
             ->first();
+
         if (!$submission) {
             return response()->json([
                 'message' => 'هذا الطالب لم يقم بحل هذا الكويز بعد.'
             ], 404);
         }
+
         $answers = StudentAnswer::where('student_id', $studentId)
-            ->whereHas('question', function ($query) use ($quizId) {
-                $query->where('quiz_id', $quizId);
+            ->whereHas('question.quizzes', function ($query) use ($quizId) {
+                $query->where('quizzes.id', $quizId);
             })
             ->with(['question.choices', 'choice'])
             ->get();
+
         return response()->json([
             'quiz_id' => (int) $quizId,
             'student_id' => (int) $studentId,

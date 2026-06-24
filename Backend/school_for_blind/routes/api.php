@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TeacherTransferController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\DonationController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PointExchangeController;
 use App\Http\Controllers\PointRedemptionController;
+use App\Http\Controllers\QuestionBankController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
@@ -15,6 +17,8 @@ use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\CheckAdminRole;
 use App\Http\Middleware\CheckCallCreatorRole;
+use App\Http\Middleware\CheckUserType;
+use App\Http\Middleware\IsTeacher;
 use App\Http\Middleware\PreventStudentCallActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -107,8 +111,8 @@ Route::middleware('auth:sanctum')
         Route::match(['put', 'patch'], '{lesson}', 'update');
         Route::delete('{lesson}', 'destroy');
     });
-   Route::post('/announcements', [AnnouncementController::class, 'store']);
-   Route::get('/announcements', [AnnouncementController::class, 'index']);
+Route::post('/announcements', [AnnouncementController::class, 'store']);
+Route::get('/announcements', [AnnouncementController::class, 'index']);
 Route::get('/announcements/exam/{id}', [AnnouncementController::class, 'showExam']);
 
 
@@ -117,3 +121,15 @@ Route::prefix('student/quizzes')->group(function () {
     Route::get('{id}/questions', [StudentQuizController::class, 'getQuizQuestions']);
 });
 Route::get('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
+
+Route::middleware(['auth:sanctum', IsTeacher::class])->prefix('question-bank')->group(function () {
+    Route::get('/', [QuestionBankController::class, 'index']);
+    Route::post('/', [QuestionBankController::class, 'store']);
+    Route::get('/{id}', [QuestionBankController::class, 'show']);
+    Route::delete('/{id}', [QuestionBankController::class, 'destroy']);
+});
+
+
+Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('admin/teachers')->group(function () {
+    Route::post('/transfer-assets', [TeacherTransferController::class, 'transferAssets']);
+});

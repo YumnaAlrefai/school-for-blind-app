@@ -8,9 +8,14 @@ class Question extends Model
 {
     protected $fillable = ['quiz_id', 'type', 'description', 'correct_answer', 'points', 'status'];
 
-    public function quiz()
+    public function teacher()
     {
-        return $this->belongsTo(Quiz::class);
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class);
     }
 
     public function choices()

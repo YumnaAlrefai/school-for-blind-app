@@ -23,7 +23,7 @@ class IsTeacher
 
         return response()->json([
             'success' => false,
-            'message' => 'عذراً، هذا المسار مخصص للطلاب فقط. لا تملك الصلاحية للدخول.'
+            'message' => 'عذراً، هذا المسار مخصص للأساتذة فقط. لا تملك الصلاحية للدخول.'
         ], Response::HTTP_FORBIDDEN, [], JSON_UNESCAPED_UNICODE);
     }
 }
