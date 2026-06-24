@@ -17,7 +17,7 @@ class StudentQuestionResource extends JsonResource
   public function __construct($resource, $index = 0)
     {
         parent::__construct($resource);
-        $this->questionNumber = $index + 1; 
+        $this->questionNumber = $index ; 
     }
   
   
@@ -29,14 +29,14 @@ class StudentQuestionResource extends JsonResource
             'type' => $this->type, 
             'text' => $this->description,
             'mark' => (float) $this->points,
-            'choices' => $this->type === 'mcq' 
-                ? $this->choices->map(function($choice) {
-                    return [
-                        'id' => $choice->id,
-                        'choice_text' => $choice->choice_text
-                    ];
-                }) 
-                : [],
-        ];
-    }
+        'choices' => $this->when($this->type === 'mcq', function() {
+            return $this->choices->map(function($choice) {
+                return [
+                    'id'          => $choice->id,
+                    'choice_text' => $choice->choice_text
+                ];
+            });
+        }),
+    ];
+}
 }

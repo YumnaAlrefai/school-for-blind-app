@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\TeacherTransferController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\OtpController;
@@ -117,8 +118,11 @@ Route::get('/announcements/exam/{id}', [AnnouncementController::class, 'showExam
 
 
 Route::prefix('student/quizzes')->group(function () {
-    Route::get('{id}/info', [StudentQuizController::class, 'getQuizInfo']);
+    Route::post('search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
+
     Route::get('{id}/questions', [StudentQuizController::class, 'getQuizQuestions']);
+
+    Route::post('/', [StudentQuizController::class, 'getQuizInfo']);
 });
 Route::get('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
 
@@ -133,3 +137,28 @@ Route::middleware(['auth:sanctum', IsTeacher::class])->prefix('question-bank')->
 Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('admin/teachers')->group(function () {
     Route::post('/transfer-assets', [TeacherTransferController::class, 'transferAssets']);
 });
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('quiz/submit', [StudentQuizController::class, 'submitQuiz']);
+
+});
+
+Route::get('/subjects/{id}/lessons', [LessonController::class, 'getLessonsBySubject']);
+Route::get('/lessons/{id}/record', [LessonController::class, 'getLessonRecord']);
+Route::get('/subjects/{id}/lessons/count', [LessonController::class, 'getLessonsCountBySubject']);
+Route::get('/subjects/{id}/lessons/progress', [LessonController::class, 'getLessonsProgress']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggle']);
+
+    Route::get('/favorites/lessons', [FavoriteController::class, 'favoriteLessons']);
+
+    Route::get('/favorites/quizzes', [FavoriteController::class, 'favoriteQuizzes']);
+
+    Route::get('/favorites/all', [FavoriteController::class, 'allFavorites']);
+
+});
+Route::post('/favorites/remove', [FavoriteController::class, 'remove'])
+    ->middleware('auth:sanctum');

@@ -57,8 +57,8 @@ class QuizController extends Controller
             ]);
 
 
-            $lesson->quiz_id = $quiz->id;
-            $lesson->save();
+          //  $lesson->quiz_id = $quiz->id;
+           // $lesson->save();
 
             if ($request->has('question_ids') && !empty($request->question_ids)) {
                 $quiz->questions()->attach($request->question_ids);

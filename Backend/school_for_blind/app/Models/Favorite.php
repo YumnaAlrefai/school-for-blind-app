@@ -8,5 +8,17 @@ class Favorite extends Model
 {
     protected $fillable = ['user_id',
      'favorable_id',
-     'favorable_type'];
+     'favorable_type',
+     
+];
+    public function favorable()
+    {
+        return $this->morphTo();
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'user_id');
+    }
 }
+

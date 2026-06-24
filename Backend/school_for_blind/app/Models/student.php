@@ -89,4 +89,11 @@ public function donations()
 {
     return $this->morphMany(Donation::class, 'donatable');
 }
+public function favoriteLessons()
+{
+    return $this->morphToMany(Lesson::class, 'favorable', Favorite::class);
 }
+public function favoriteQuizzes()
+{
+    return $this->morphToMany(Quiz::class, 'favorable', Favorite::class);   
+}}
