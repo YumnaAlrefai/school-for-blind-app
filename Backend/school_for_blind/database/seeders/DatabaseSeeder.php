@@ -23,9 +23,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             TeacherSeeder::class,
             StudentSeeder::class,
-            LessonSeeder::class, 
-            SubjectLessonsCountSeeder::class,      
-            ]);
+            LessonSeeder::class,
+            SubjectLessonsCountSeeder::class,
+            PunishmentSeeder::class,
+        ]);
 
         User::factory()->create([
             'name' => 'Test User',

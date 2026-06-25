@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PunishmentController;
 use App\Http\Controllers\Admin\TeacherTransferController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CaregiverController;
@@ -8,22 +9,22 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MagicLoginController;
 use App\Http\Controllers\OtpController;
-use App\Http\Controllers\PointExchangeController;
 use App\Http\Controllers\PointRedemptionController;
 use App\Http\Controllers\QuestionBankController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Middleware\CheckAdminRole;
 use App\Http\Middleware\CheckCallCreatorRole;
+use App\Http\Middleware\CheckPunishment;
 use App\Http\Middleware\CheckUserType;
 use App\Http\Middleware\IsTeacher;
 use App\Http\Middleware\PreventStudentCallActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 
 Route::post('verify-otp', [OtpController::class, 'verify']);
 Route::post('register', [StudentController::class, 'register']);
@@ -162,3 +163,19 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::post('/favorites/remove', [FavoriteController::class, 'remove'])
     ->middleware('auth:sanctum');
+
+
+Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('admin/punishments')->group(function () {
+    Route::post('/apply', [PunishmentController::class, 'applyPunishment']);
+    Route::patch('/{id}/revoke', [PunishmentController::class, 'revokePunishment']);
+});
+
+
+Route::middleware(['auth:sanctum', CheckPunishment::class . ':Report Ban'])->group(function () {
+    Route::post('/reports', [ReportController::class, 'store']);
+});
+
+Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('admin/reports')->group(function () {
+    Route::get('/', [ReportController::class, 'index']);
+    Route::patch('/{id}/status', [ReportController::class, 'updateStatus']);
+});

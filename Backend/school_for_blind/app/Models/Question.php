@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    protected $fillable = ['quiz_id', 'type', 'description', 'correct_answer', 'points', 'status'];
+    protected $guarded = [];
 
     public function teacher()
     {

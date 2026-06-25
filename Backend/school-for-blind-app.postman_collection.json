@@ -4021,7 +4021,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
+                  "value": "B2DpOIrnDNjk1sX3MxRHvi8swnno5holmMElEEuc8d839106",
                   "type": "string"
                 }
               ]
@@ -4036,7 +4036,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"test test number 1\",\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"title\":\"الأعداد العادية وغير العادية\",\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_name\":\"الأعداد العادية وغير العادية\",\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4070,7 +4070,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"title\": \"test test number 1\",\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+                  "raw": "{\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_id\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -4124,7 +4124,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"title\": \"test test number 1\",\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 4,\n        \"lesson_id\": 1,\n        \"teacher_id\": 1,\n        \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"id\": 2,\n        \"subject_name\": \"اللغة الإنجليزية\",\n        \"teacher_name\": \"الأستاذ باهر (ninth)\",\n        \"subject\": {\n            \"id\": 4,\n            \"name\": \"اللغة الإنجليزية\",\n            \"grade_level\": \"twelfth\",\n            \"number_of_lessons\": null,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-06-17T06:03:11.000000Z\",\n            \"updated_at\": \"2026-06-17T06:03:11.000000Z\"\n        },\n        \"lesson\": {\n            \"id\": 1,\n            \"title\": \"Test lesson #1\",\n            \"subject_id\": 4,\n            \"teacher_id\": 1,\n            \"class_id\": 4,\n            \"order\": null,\n            \"created_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"updated_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"deleted_at\": null\n        },\n        \"teacher\": {\n            \"id\": 1,\n            \"created_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"updated_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"full_name\": \"الأستاذ باهر (ninth)\",\n            \"phone\": \"0987073684\",\n            \"subjects\": \"فيزياء\",\n            \"level\": \"ninth\",\n            \"status\": \"approved\",\n            \"cv_path\": \"cv_dummy.pdf\"\n        },\n        \"questions\": [\n            {\n                \"id\": 3,\n                \"quiz_id\": 2,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 3,\n                        \"question_id\": 3,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    },\n                    {\n                        \"id\": 4,\n                        \"question_id\": 3,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 4,\n                \"quiz_id\": 2,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": []\n            }\n        ]\n    }\n}"
+              "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 4,\n        \"lesson_id\": 1,\n        \"teacher_id\": 1,\n        \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"id\": 2,\n        \"subject_name\": \"اللغة الإنجليزية\",\n        \"teacher_name\": \"الأستاذ باهر (ninth)\",\n        \"subject\": {\n            \"id\": 4,\n            \"name\": \"اللغة الإنجليزية\",\n            \"grade_level\": \"twelfth\",\n            \"number_of_lessons\": null,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-06-17T06:03:11.000000Z\",\n            \"updated_at\": \"2026-06-17T06:03:11.000000Z\"\n        },\n        \"lesson\": {\n            \"id\": 1,\n            \"title\": \"Test lesson #1\",\n            \"subject_id\": 4,\n            \"teacher_id\": 1,\n            \"class_id\": 4,\n            \"order\": null,\n            \"created_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"updated_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"deleted_at\": null\n        },\n        \"teacher\": {\n            \"id\": 1,\n            \"created_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"updated_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"full_name\": \"الأستاذ باهر (ninth)\",\n            \"phone\": \"0987073684\",\n            \"subjects\": \"فيزياء\",\n            \"level\": \"ninth\",\n            \"status\": \"approved\",\n            \"cv_path\": \"cv_dummy.pdf\"\n        },\n        \"questions\": [\n            {\n                \"id\": 3,\n                \"quiz_id\": 2,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 3,\n                        \"question_id\": 3,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    },\n                    {\n                        \"id\": 4,\n                        \"question_id\": 3,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 4,\n                \"quiz_id\": 2,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": []\n            }\n        ]\n    }\n}"
             }
           ]
         },
@@ -4877,7 +4877,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
+                  "value": "7|reuFhwk7yzVc7Yb2FPLnHXA4L2s8gDnacv9TDqaFcaec27ee",
                   "type": "string"
                 }
               ]
@@ -4895,7 +4895,7 @@
               "formdata": [
                 {
                   "key": "subject_id",
-                  "value": "4",
+                  "value": "3",
                   "type": "text",
                   "uuid": "eeabafa0-f31b-4934-8e91-b5c64270855e"
                 },
@@ -6664,6 +6664,2315 @@
               "body": "{\n    \"success\": true,\n    \"message\": \"تم تسجيل الخروج بنجاح وإبطال صلاحية الجهاز.\"\n}"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "quizzes_student",
+      "item": [
+        {
+          "name": "quiz_info",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subject_id\": 8,\r\n    \"teacher_id\": 8,\r\n    \"lesson_id\": 110\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/student/quizzes/search-info",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "student",
+                "quizzes",
+                "search-info"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"subject_id\": 8,\r\n    \"teacher_id\": 8,\r\n    \"lesson_id\": 110\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/student/quizzes/search-info",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "student",
+                    "quizzes",
+                    "search-info"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 19 Jun 2026 17:36:34 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"quiz_id\": 1,\n        \"duration_minutes\": 30,\n        \"total_questions\": 2,\n        \"total_mark\": 20\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "quiz_question",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subject_id\": 8,\r\n    \"teacher_id\": 8,\r\n    \"lesson_id\": 110\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/student/quizzes/1/questions",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "student",
+                "quizzes",
+                "1",
+                "questions"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"subject_id\": 8,\r\n    \"teacher_id\": 8,\r\n    \"lesson_id\": 110\r\n}"
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/student/quizzes/1/questions",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "student",
+                    "quizzes",
+                    "1",
+                    "questions"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 02:20:41 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"success\",\n    \"quiz_id\": 1,\n    \"questions\": [\n        {\n            \"question_number\": 1,\n            \"id\": 1,\n            \"type\": \"mcq\",\n            \"text\": \"ما هي عاصمة سوريا؟\",\n            \"mark\": 10,\n            \"choices\": [\n                {\n                    \"id\": 1,\n                    \"choice_text\": \"حلب\"\n                },\n                {\n                    \"id\": 2,\n                    \"choice_text\": \"دمشق\"\n                }\n            ]\n        },\n        {\n            \"question_number\": 2,\n            \"id\": 2,\n            \"type\": \"TF\",\n            \"text\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n            \"mark\": 10\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "pFLB5LMH1jRchyVfFpLSV08a5GH9kWMYiH3srCoY40b4541a",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quiz_id\": 1,\r\n    \"answers\": [\r\n        {\r\n            \"question_id\": 1,\r\n            \"choice_id\": 2,\r\n            \"text_answer\": null\r\n        },\r\n        {\r\n            \"question_id\": 2,\r\n            \"choice_id\": null,\r\n            \"text_answer\": \"True\" \r\n        }\r\n    ]\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/quiz/submit",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "quiz",
+                "submit"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"quiz_id\": 1,\r\n    \"answers\": [\r\n        {\r\n            \"question_id\": 1,\r\n            \"choice_id\": 2,\r\n            \"text_answer\": null\r\n        },\r\n        {\r\n            \"question_id\": 2,\r\n            \"choice_id\": null,\r\n            \"text_answer\": \"True\" \r\n        }\r\n    ]\r\n}"
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/quiz/submit",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quiz",
+                    "submit"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 03:24:16 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تسليم الكويز بنجاح وتصحيح الأسئلة المؤتمتة تلقائياً!\",\n    \"data\": {\n        \"submission_id\": 8,\n        \"auto_score\": 20,\n        \"status\": \"graded\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "student_lesson",
+      "item": [
+        {
+          "name": "lesson_subject",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "subject_id",
+                  "value": "4",
+                  "type": "text",
+                  "uuid": "eeabafa0-f31b-4934-8e91-b5c64270855e"
+                },
+                {
+                  "key": "class_id",
+                  "value": "4",
+                  "type": "text",
+                  "uuid": "6946b9a7-4e22-4f2c-82c5-a913cb78e41d"
+                },
+                {
+                  "key": "title",
+                  "value": "Test lesson #1",
+                  "type": "text",
+                  "uuid": "eded6f18-a1f1-4be1-b2a9-696039a6be36"
+                },
+                {
+                  "key": "audio_file",
+                  "type": "file",
+                  "uuid": "dd76d04f-5ef5-4799-bb16-8f3935334b2a",
+                  "src": "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/subjects/1/lessons",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "subjects",
+                "1",
+                "lessons"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "subject_id",
+                      "value": "4",
+                      "type": "text",
+                      "uuid": "eeabafa0-f31b-4934-8e91-b5c64270855e"
+                    },
+                    {
+                      "key": "class_id",
+                      "value": "4",
+                      "type": "text",
+                      "uuid": "6946b9a7-4e22-4f2c-82c5-a913cb78e41d"
+                    },
+                    {
+                      "key": "title",
+                      "value": "Test lesson #1",
+                      "type": "text",
+                      "uuid": "eded6f18-a1f1-4be1-b2a9-696039a6be36"
+                    },
+                    {
+                      "key": "audio_file",
+                      "type": "file",
+                      "uuid": "dd76d04f-5ef5-4799-bb16-8f3935334b2a",
+                      "src": "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/subjects/1/lessons",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "subjects",
+                    "1",
+                    "lessons"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 17:26:08 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"subject_id\": \"1\",\n    \"lessons\": [\n        {\n            \"id\": 21,\n            \"title\": \"المعرفة ومصادرها\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 22,\n            \"title\": \"المعرفة العلمية والمعرفة العامية\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 23,\n            \"title\": \"مشكلة الحقيقة\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 24,\n            \"title\": \"مناهج البحث العلمي\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 25,\n            \"title\": \"مشكلة الوجود\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 26,\n            \"title\": \"المادة والوعي\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 27,\n            \"title\": \"الحتمية واللاحتمية\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 28,\n            \"title\": \"التطور والتقدم\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 29,\n            \"title\": \"القيم وتصنيفها\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 30,\n            \"title\": \"الحق والعدالة\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 31,\n            \"title\": \"الخير والمسؤولية الأخلاقية\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 32,\n            \"title\": \"الجمال والتذوق الجمالي\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 33,\n            \"title\": \"ملامح الفكر العربي الحديث\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 34,\n            \"title\": \"مشكلة الأصالة والمعاصرة\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 35,\n            \"title\": \"إشكالية النهضة في الفكر العربي\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 36,\n            \"title\": \"أبعاد الهوية الثقافية العربية\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 37,\n            \"title\": \"العمليات المعرفية (الانتباه والإدراك)\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 38,\n            \"title\": \"الذاكرة والذكاء\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 39,\n            \"title\": \"الشخصية ومحدداتها\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 40,\n            \"title\": \"التوافق النفسي والإحباط\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 41,\n            \"title\": \"التغير الاجتماعي ومظاهره\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 42,\n            \"title\": \"العولمة وأثرها الاجتماعي\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 43,\n            \"title\": \"المشكلات الاجتماعية المعاصرة\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 44,\n            \"title\": \"الثقافة والمجتمع\",\n            \"subject_id\": 1,\n            \"teacher_id\": 10,\n            \"class_id\": 11,\n            \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n            \"deleted_at\": null\n        }\n    ]\n}"
+            },
+            {
+              "name": "faild",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "subject_id",
+                      "value": "4",
+                      "type": "text",
+                      "uuid": "eeabafa0-f31b-4934-8e91-b5c64270855e"
+                    },
+                    {
+                      "key": "class_id",
+                      "value": "4",
+                      "type": "text",
+                      "uuid": "6946b9a7-4e22-4f2c-82c5-a913cb78e41d"
+                    },
+                    {
+                      "key": "title",
+                      "value": "Test lesson #1",
+                      "type": "text",
+                      "uuid": "eded6f18-a1f1-4be1-b2a9-696039a6be36"
+                    },
+                    {
+                      "key": "audio_file",
+                      "type": "file",
+                      "uuid": "dd76d04f-5ef5-4799-bb16-8f3935334b2a",
+                      "src": "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/subjects/31/lessons",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "subjects",
+                    "31",
+                    "lessons"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 17:31:16 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"subject_id\": \"31\",\n    \"lessons\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "lesson_record",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/lessons/1/record",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "lessons",
+                "1",
+                "record"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/lessons/1/record",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "lessons",
+                    "1",
+                    "record"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 17:40:21 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"lesson_id\": \"1\",\n    \"record\": {\n        \"id\": 1,\n        \"recordable_type\": \"App\\\\Models\\\\Lesson\",\n        \"recordable_id\": 1,\n        \"record_path\": \"lessons/default_audio.ogg\",\n        \"record_mime\": \"audio/ogg\",\n        \"record_description\": null,\n        \"duration\": null,\n        \"created_at\": \"2026-06-20T16:51:30.000000Z\",\n        \"updated_at\": \"2026-06-20T16:51:30.000000Z\",\n        \"deleted_at\": null\n    }\n}"
+            },
+            {
+              "name": "faild",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/lessons/300/record",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "lessons",
+                    "300",
+                    "record"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 17:41:28 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Lesson not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "subject_count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/subjects/1/lessons/count",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "subjects",
+                "1",
+                "lessons",
+                "count"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "subject_count",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/subjects/3/lessons/count",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "subjects",
+                    "3",
+                    "lessons",
+                    "count"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 18:44:23 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"subject_id\": \"3\",\n    \"lessons_count\": 30\n}"
+            }
+          ]
+        },
+        {
+          "name": "number_of_lesson/",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/subjects/111/lessons/progress?",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "subjects",
+                "111",
+                "lessons",
+                "progress"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/subjects/1/lessons/progress?",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "subjects",
+                    "1",
+                    "lessons",
+                    "progress"
+                  ],
+                  "query": [
+                    {
+                      "key": "",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 18:40:58 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"subject_id\": \"1\",\n    \"current_lessons\": 24,\n    \"total_lessons\": 24,\n    \"progress_text\": \"24 / 24\"\n}"
+            },
+            {
+              "name": "faild",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/subjects/111/lessons/progress?",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "subjects",
+                    "111",
+                    "lessons",
+                    "progress"
+                  ],
+                  "query": [
+                    {
+                      "key": "",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 20 Jun 2026 18:42:44 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Subject not found\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Favorite",
+      "item": [
+        {
+          "name": "add to favorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "iswnf4DVPMh32s93BdZdoG8bN3r7o8kmRXcnLbN9f2198277",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 1,\r\n  \"type\": \"quiz\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/favorites/toggle",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "favorites",
+                "toggle"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": 12,\r\n  \"type\": \"lesson\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/favorites/toggle",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "favorites",
+                    "toggle"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 21 Jun 2026 17:30:27 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Added to favorites\",\n    \"is_favorite\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "favorite_lesson",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "iswnf4DVPMh32s93BdZdoG8bN3r7o8kmRXcnLbN9f2198277",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/favorites/lessons",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "favorites",
+                "lessons"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": 12,\r\n  \"type\": \"lesson\"\r\n}\r\n"
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/favorites/lessons",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "favorites",
+                    "lessons"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 21 Jun 2026 17:32:22 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 12,\n        \"title\": \"لوعة الحب\",\n        \"subject_id\": 4,\n        \"teacher_id\": 93,\n        \"class_id\": 11,\n        \"created_at\": \"2026-06-21T17:29:48.000000Z\",\n        \"updated_at\": \"2026-06-21T17:29:48.000000Z\",\n        \"deleted_at\": null\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "favorite_quiz",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/favorites/quizzes",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "favorites",
+                    "quizzes"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 21 Jun 2026 17:44:13 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 8,\n        \"lesson_id\": 110,\n        \"teacher_id\": 3,\n        \"created_at\": \"2026-06-21T17:41:02.000000Z\",\n        \"updated_at\": \"2026-06-21T17:41:02.000000Z\",\n        \"subject_name\": \"الرياضيات (جبر)\",\n        \"teacher_name\": \"الأستاذ موسى الرز\",\n        \"subject\": {\n            \"id\": 8,\n            \"name\": \"الرياضيات (جبر)\",\n            \"grade_level\": \"ninth\",\n            \"number_of_lessons\": null,\n            \"total_lessons\": 24,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-06-21T17:29:16.000000Z\",\n            \"updated_at\": \"2026-06-21T17:29:50.000000Z\"\n        },\n        \"teacher\": {\n            \"id\": 3,\n            \"created_at\": \"2025-10-04T08:26:03.000000Z\",\n            \"updated_at\": \"2025-10-04T08:26:03.000000Z\",\n            \"full_name\": \"الأستاذ موسى الرز\",\n            \"phone\": \"0933333333\",\n            \"subjects\": \"\",\n            \"level\": \"twelfth\",\n            \"status\": \"approved\",\n            \"cv_path\": \"cv_dummy.pdf\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "remove_favorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "iswnf4DVPMh32s93BdZdoG8bN3r7o8kmRXcnLbN9f2198277",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 12,\r\n  \"type\": \"lesson\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/favorites/remove",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "favorites",
+                "remove"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "all_favorite",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "iswnf4DVPMh32s93BdZdoG8bN3r7o8kmRXcnLbN9f2198277",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/favorites/all",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "favorites",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "filter",
+      "item": [
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Question Bank",
+      "item": [
+        {
+          "name": "add question to the bank",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|xe49oYZckHwM0muYHc9ahHSmhhuEwMtk3p78kWZT14024b6f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"mcq\",\r\n    \"description\": \"ما هي عاصمة سوريا؟\",\r\n    \"points\": 2,\r\n    \"choices\": [\r\n        {\"text\": \"دمشق\", \"is_correct\": true},\r\n        {\"text\": \"حلب\", \"is_correct\": false}\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/question-bank",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "question-bank"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"type\": \"mcq\",\r\n    \"description\": \"ما هي عاصمة سوريا؟\",\r\n    \"points\": 2,\r\n    \"choices\": [\r\n        {\"text\": \"دمشق\", \"is_correct\": true},\r\n        {\"text\": \"حلب\", \"is_correct\": false}\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/question-bank",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "question-bank"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:00:13 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تمت إضافة السؤال إلى البنك بنجاح!\",\n    \"question\": {\n        \"teacher_id\": 1,\n        \"type\": \"mcq\",\n        \"description\": \"ما هي عاصمة سوريا؟\",\n        \"correct_answer\": null,\n        \"points\": 2,\n        \"status\": \"Bank\",\n        \"updated_at\": \"2026-06-25T17:00:12.000000Z\",\n        \"created_at\": \"2026-06-25T17:00:12.000000Z\",\n        \"id\": 1,\n        \"choices\": [\n            {\n                \"id\": 1,\n                \"question_id\": 1,\n                \"choice_text\": \"دمشق\",\n                \"is_correct\": 1,\n                \"created_at\": \"2026-06-25T17:00:13.000000Z\",\n                \"updated_at\": \"2026-06-25T17:00:13.000000Z\"\n            },\n            {\n                \"id\": 2,\n                \"question_id\": 1,\n                \"choice_text\": \"حلب\",\n                \"is_correct\": 0,\n                \"created_at\": \"2026-06-25T17:00:13.000000Z\",\n                \"updated_at\": \"2026-06-25T17:00:13.000000Z\"\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "view question bank",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|xe49oYZckHwM0muYHc9ahHSmhhuEwMtk3p78kWZT14024b6f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/question-bank?ف",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "question-bank"
+              ],
+              "query": [
+                {
+                  "key": "ف",
+                  "value": null,
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/question-bank",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "question-bank"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:01:20 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"teacher_id\": 1,\n            \"type\": \"mcq\",\n            \"description\": \"ما هي عاصمة سوريا؟\",\n            \"correct_answer\": null,\n            \"points\": \"2.00\",\n            \"status\": \"Bank\",\n            \"created_at\": \"2026-06-25T17:00:12.000000Z\",\n            \"updated_at\": \"2026-06-25T17:00:12.000000Z\",\n            \"choices\": [\n                {\n                    \"id\": 1,\n                    \"question_id\": 1,\n                    \"choice_text\": \"دمشق\",\n                    \"is_correct\": 1,\n                    \"created_at\": \"2026-06-25T17:00:13.000000Z\",\n                    \"updated_at\": \"2026-06-25T17:00:13.000000Z\"\n                },\n                {\n                    \"id\": 2,\n                    \"question_id\": 1,\n                    \"choice_text\": \"حلب\",\n                    \"is_correct\": 0,\n                    \"created_at\": \"2026-06-25T17:00:13.000000Z\",\n                    \"updated_at\": \"2026-06-25T17:00:13.000000Z\"\n                }\n            ]\n        }\n    ],\n    \"first_page_url\": \"http://localhost:8000/api/question-bank?page=1\",\n    \"from\": 1,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://localhost:8000/api/question-bank?page=1\",\n    \"links\": [\n        {\n            \"url\": null,\n            \"label\": \"pagination.previous\",\n            \"page\": null,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/question-bank?page=1\",\n            \"label\": \"1\",\n            \"page\": 1,\n            \"active\": true\n        },\n        {\n            \"url\": null,\n            \"label\": \"pagination.next\",\n            \"page\": null,\n            \"active\": false\n        }\n    ],\n    \"next_page_url\": null,\n    \"path\": \"http://localhost:8000/api/question-bank\",\n    \"per_page\": 20,\n    \"prev_page_url\": null,\n    \"to\": 1,\n    \"total\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "show question",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|xe49oYZckHwM0muYHc9ahHSmhhuEwMtk3p78kWZT14024b6f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/question-bank/{{id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "question-bank",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/question-bank/{{id}}",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "question-bank",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:55:15 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"teacher_id\": 1,\n    \"type\": \"mcq\",\n    \"description\": \"ما هي عاصمة سوريا؟\",\n    \"correct_answer\": null,\n    \"points\": \"2.00\",\n    \"status\": \"Bank\",\n    \"created_at\": \"2026-06-25T17:55:03.000000Z\",\n    \"updated_at\": \"2026-06-25T17:55:03.000000Z\",\n    \"choices\": [\n        {\n            \"id\": 1,\n            \"question_id\": 1,\n            \"choice_text\": \"دمشق\",\n            \"is_correct\": 1,\n            \"created_at\": \"2026-06-25T17:55:03.000000Z\",\n            \"updated_at\": \"2026-06-25T17:55:03.000000Z\"\n        },\n        {\n            \"id\": 2,\n            \"question_id\": 1,\n            \"choice_text\": \"حلب\",\n            \"is_correct\": 0,\n            \"created_at\": \"2026-06-25T17:55:03.000000Z\",\n            \"updated_at\": \"2026-06-25T17:55:03.000000Z\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "delet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|xe49oYZckHwM0muYHc9ahHSmhhuEwMtk3p78kWZT14024b6f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/question-bank/{{id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "question-bank",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/question-bank/{{id}}",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "question-bank",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:56:05 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم حذف السؤال من البنك بنجاح!\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "report",
+      "item": [
+        {
+          "name": "report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|xe49oYZckHwM0muYHc9ahHSmhhuEwMtk3p78kWZT14024b6f",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"reported_id\": 3,\r\n    \"reported_type\": \"teacher\",\r\n    \"reason\": \"قام هذا الاستاذ بشتم زملائه في مجموعة المناقشة والملف الصوتي المرفق يوضح ذلك.\",\r\n    \"reportable_id\": 112,\r\n    \"reportable_type\": \"message\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/reports",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "reports"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "banned",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"reported_id\": 5,\r\n    \"reported_type\": \"teacher\",\r\n    \"reason\": \"هذا الاستاذ يقوم بإرسال رسائل مسيئة في المحادثة.\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/reports",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "reports"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:38:28 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"عذراً، تم تقييد حسابك. لا يمكنك القيام بهذا الإجراء بسبب وجود عقوبة: Report Ban.\"\n}"
+            },
+            {
+              "name": "report on students",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"reported_id\": 3,\r\n    \"reported_type\": \"student\",\r\n    \"reason\": \"قام هذا الطالب بشتم زملائه في مجموعة المناقشة والملف الصوتي المرفق يوضح ذلك.\",\r\n    \"reportable_id\": 112,\r\n    \"reportable_type\": \"message\" \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/reports",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "reports"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:48:10 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"تم إرسال البلاغ مع الدليل بنجاح وجاري مراجعته من قبل الإدارة.\",\n    \"data\": {\n        \"reporter_id\": 1,\n        \"reporter_type\": \"App\\\\Models\\\\Teacher\",\n        \"reported_id\": 3,\n        \"reported_type\": \"App\\\\Models\\\\Student\",\n        \"reason\": \"قام هذا الطالب بشتم زملائه في مجموعة المناقشة والملف الصوتي المرفق يوضح ذلك.\",\n        \"status\": \"pending\",\n        \"reportable_id\": 112,\n        \"reportable_type\": \"App\\\\Models\\\\Message\",\n        \"updated_at\": \"2026-06-25T17:48:10.000000Z\",\n        \"created_at\": \"2026-06-25T17:48:10.000000Z\",\n        \"id\": 1\n    }\n}"
+            },
+            {
+              "name": "report in teacher",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"reported_id\": 3,\r\n    \"reported_type\": \"teacher\",\r\n    \"reason\": \"قام هذا الاستاذ بشتم زملائه في مجموعة المناقشة والملف الصوتي المرفق يوضح ذلك.\",\r\n    \"reportable_id\": 112,\r\n    \"reportable_type\": \"message\" \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/reports",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "reports"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:49:41 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"تم إرسال البلاغ مع الدليل بنجاح وجاري مراجعته من قبل الإدارة.\",\n    \"data\": {\n        \"reporter_id\": 1,\n        \"reporter_type\": \"App\\\\Models\\\\Teacher\",\n        \"reported_id\": 3,\n        \"reported_type\": \"App\\\\Models\\\\Teacher\",\n        \"reason\": \"قام هذا الاستاذ بشتم زملائه في مجموعة المناقشة والملف الصوتي المرفق يوضح ذلك.\",\n        \"status\": \"pending\",\n        \"reportable_id\": 112,\n        \"reportable_type\": \"App\\\\Models\\\\Message\",\n        \"updated_at\": \"2026-06-25T17:49:41.000000Z\",\n        \"created_at\": \"2026-06-25T17:49:41.000000Z\",\n        \"id\": 3\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "punishments",
+      "item": [
+        {
+          "name": "apply punishments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|lM8MrO2M2918jZ5M9UxR3unWy3b9NvHQP27Wg4bi5d84ea51",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"punishable_id\": 5,\r\n    \"punishable_type\": \"student\",\r\n    \"punishment_id\": 7 \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admin/punishments/apply",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "admin",
+                "punishments",
+                "apply"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"punishable_id\": 1,\r\n    \"punishable_type\": \"teacher\",\r\n    \"punishment_id\": 7 \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/admin/punishments/apply",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "admin",
+                    "punishments",
+                    "apply"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 25 Jun 2026 17:37:02 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"تم تطبيق عقوبة (Report Ban) بنجاح.\",\n    \"expires_at\": \"2026-06-28T17:37:02.201408Z\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "change the techer",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "1|lM8MrO2M2918jZ5M9UxR3unWy3b9NvHQP27Wg4bi5d84ea51",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"old_teacher_id\": 1,\r\n    \"new_teacher_id\": 2\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/admin/teachers/transfer-assets",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "admin",
+            "teachers",
+            "transfer-assets"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"old_teacher_id\": 1,\r\n    \"new_teacher_id\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admin/teachers/transfer-assets",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "admin",
+                "teachers",
+                "transfer-assets"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.3.30"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 25 Jun 2026 17:13:23 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"تم نقل المحتوى التعليمي (الكويزات، بنك الأسئلة، والدروس) إلى الأستاذ البديل بنجاح.\"\n}"
         }
       ]
     }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\Quiz;
-use App\Models\Lesson;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,8 @@ class TeacherTransferController extends Controller
             'new_teacher_id' => 'required|exists:teachers,id|different:old_teacher_id',
         ]);
 
-        $oldTeacher = User::findOrFail($request->old_teacher_id);
-        $newTeacher = User::findOrFail($request->new_teacher_id);
+        $oldTeacher = Teacher::findOrFail($request->old_teacher_id);
+        $newTeacher = Teacher::findOrFail($request->new_teacher_id);
 
         DB::beginTransaction();
 
@@ -34,7 +35,7 @@ class TeacherTransferController extends Controller
             Lesson::where('teacher_id', $oldTeacher->id)
                 ->update(['teacher_id' => $newTeacher->id]);
 
-            $oldTeacher->update(['status' => 'Suspended']);
+            $oldTeacher->update(['status' => 'suspended']);
 
             DB::commit();
 

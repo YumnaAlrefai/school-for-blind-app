@@ -19,7 +19,7 @@ return new class extends Migration {
             // $table->date('date_of_birth');
            $table->string('subjects')->default('');
             $table->enum('level', ['ninth', 'twelfth']);
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected','suspended'])->default('pending');
             $table->string('cv_path');
             $table->text('fcm_token')->nullable();
             $table->rememberToken();

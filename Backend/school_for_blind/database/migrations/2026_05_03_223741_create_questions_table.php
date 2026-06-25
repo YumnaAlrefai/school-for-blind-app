@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('set null');
+            $table->foreignId('teacher_id')->constrained('teachers');
             $table->enum('type', ['mcq', 'TF', 'TEXT']);
             $table->text('description');
             $table->text('correct_answer')->nullable();
