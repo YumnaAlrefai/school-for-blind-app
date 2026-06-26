@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:flutter/services.dart';
 
@@ -25,11 +24,11 @@ class OTPField extends StatelessWidget {
         width: 85.w,
         height: 85.h,
         decoration: BoxDecoration(
-          color: AppColors.kBackgroundColor,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(15.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.kPrimaryColor.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
             ),
@@ -55,7 +54,7 @@ class OTPField extends StatelessWidget {
               counterText: "",
               border: InputBorder.none,
             ),
-            style: AppTextStyles.kMediumPrimary,
+            style: AppTextStyles.kMediumPrimary(context),
           ),
         ),
       ),

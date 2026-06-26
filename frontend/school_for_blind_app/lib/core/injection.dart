@@ -1,22 +1,32 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:school_for_blind_app/business_logic/cubit/announcements_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/theme_cubit.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
-import 'package:school_for_blind_app/data/repository/auth_repo.dart';
-import 'package:school_for_blind_app/data/web_services/auth_web_services.dart';
+import 'package:school_for_blind_app/data/repository/student_repo.dart';
+import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
 
 final getIt = GetIt.instance;
 
 void initGetIt() {
-  getIt.registerFactory<AuthRepo>(() => AuthRepo(getIt()));
+  getIt.registerFactory<StudentRepo>(() => StudentRepo(getIt()));
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(getIt()));
-  getIt.registerLazySingleton<WebServices>(
-    () => WebServices(createAndSetupDio()),
+  getIt.registerLazySingleton<StudentWebServices>(
+    () => StudentWebServices(createAndSetupDio()),
   );
   getIt.registerLazySingleton<VoiceServices>(() => VoiceServices());
   getIt.registerSingleton<DeepLinkService>(DeepLinkService());
+  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+  getIt.registerLazySingleton<StudentCubit>(() => StudentCubit(getIt()));
+  getIt.registerLazySingleton<CallCubit>(() => CallCubit(getIt()));
+  getIt.registerLazySingleton<DonationCubit>(() => DonationCubit(getIt()));
+  getIt.registerLazySingleton<AnnouncementsCubit>(() => AnnouncementsCubit(getIt()));
 }
 
 Dio createAndSetupDio() {
@@ -35,6 +45,8 @@ Dio createAndSetupDio() {
         if (token != null && token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
         }
+        // options.headers['Authorization'] =
+        //     'Bearer 29|JAvvzVseKOFMX9rdl07WMlCgvghkyh12zdeSLtUWc3d0716a';
         options.headers["ngrok-skip-browser-warning"] = "true";
         return handler.next(options);
       },

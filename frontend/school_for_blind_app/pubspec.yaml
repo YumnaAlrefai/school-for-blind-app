@@ -29,9 +29,13 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   app_links: ^7.0.0
+  audioplayers: ^6.7.1
+  avatar_glow: ^3.0.1
   build_runner: ^2.15.0
+  cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   dio: ^5.9.2
+  external_app_launcher: ^4.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -39,13 +43,21 @@ dependencies:
     sdk: flutter
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^10.0.0
+  flutter_stripe: ^13.0.0
   flutter_tts: ^4.2.5
+  font_awesome_flutter: ^11.0.0
   freezed: ^3.2.5
   freezed_annotation: ^3.1.0
   get_it: ^9.2.1
+  google_nav_bar: ^5.0.7
   image_picker: ^1.2.2
   json_annotation: ^4.11.0
   json_serializable: ^6.13.1
+  just_audio: ^0.10.5
+  livekit_client: ^2.8.0
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.3
+  record: ^6.2.1
   retrofit: ^4.9.2
   retrofit_generator: ^10.2.5
   shared_preferences: ^2.5.5
