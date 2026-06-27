@@ -115,6 +115,8 @@ class TeacherController extends Controller
 
         $teacher->cv_link = asset('storage/' . $teacher->cv_path);
 
+        $teacher->load('classes');
+
         return response()->json([
             'message' => 'بيانات المدرس',
             'data' => $teacher
