@@ -20,6 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'CheckIsStudent' => \App\Http\Middleware\CheckIsStudent::class,
             'isTeacher' => \App\Http\Middleware\IsTeacher::class,
             'CheckPunishment' => \App\Http\Middleware\CheckPunishment::class,
+            $middleware->validateCsrfTokens(except: [
+            'stripe/webhook',      
+            'api/stripe/webhook',  
+        ]),
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -14,6 +14,7 @@ use App\Http\Controllers\QuestionBankController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TeacherController;
@@ -179,3 +180,4 @@ Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('ad
     Route::get('/', [ReportController::class, 'index']);
     Route::patch('/{id}/status', [ReportController::class, 'updateStatus']);
 });
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);

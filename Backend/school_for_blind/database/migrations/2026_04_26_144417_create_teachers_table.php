@@ -20,6 +20,7 @@ return new class extends Migration {
            $table->string('subjects')->default('');
             $table->enum('level', ['ninth', 'twelfth']);
             $table->enum('status', ['pending', 'approved', 'rejected','suspended'])->default('pending');
+            $table->string('stripe_account_id')->nullable();
             $table->string('cv_path');
             $table->text('fcm_token')->nullable();
             $table->rememberToken();
