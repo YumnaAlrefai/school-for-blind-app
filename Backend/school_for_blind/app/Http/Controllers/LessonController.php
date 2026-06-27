@@ -122,9 +122,19 @@ class LessonController extends Controller
    // ============================
 public function getLessonsBySubject($subjectId)
 {
-    $lessons = Lesson::where('subject_id', $subjectId)
+    $lessons = Lesson::with('teacher:id,full_name')->where('subject_id', $subjectId)
                    //  ->with('record') 
-                     ->get();
+                     ->get()
+                     ->map(function ($lesson) {
+                        $data = $lesson->toArray();
+            
+            $data['teacher_name'] = $lesson->teacher->full_name ?? 'غير معروف';
+            unset($data['teacher']); 
+            unset($data['teacher_id']); 
+            
+            return $data;
+        });
+                     
 
     return response()->json([
         'subject_id' => $subjectId,
