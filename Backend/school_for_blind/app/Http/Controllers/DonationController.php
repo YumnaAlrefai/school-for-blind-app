@@ -84,89 +84,69 @@ class DonationController extends Controller
     }
 
     public function confirmPayment(ConfirmpaymentRequest $request)
-    {
-        try {
-            return DB::transaction(function () use ($request) {
+{
+    try {
+        $donation = DB::table('donations')
+            ->where('stripe_session_id', $request->payment_intent_id)
+            ->first();
 
-                $donation = DB::table('donations')
-                    ->where('stripe_session_id', $request->payment_intent_id)
-                    ->lockForUpdate()
-                    ->first();
-
-                if (!$donation) {
-                    return response()->json(['status' => 'error', 'message' => 'عذراً، عملية التبرع هذه غير موجودة لدينا'], 404);
-                }
-
-                if ($donation->status === 'completed') {
-                    $wallet = SchoolWallet::getWallet();
-                    return response()->json([
-                        'status' => 'success',
-                        'message' => 'هذه العملية تم تأكيدها ومعالجتها مسبقاً!'
-                    ], 200);
-                }
-
-                DB::table('donations')
-                    ->where('stripe_session_id', $request->payment_intent_id)
-                    ->update([
-                        'status' => 'completed',
-                        'updated_at' => now()
-                    ]);
-                    
-                $wallet = SchoolWallet::getWallet();
-                $wallet->balance += $donation->amount;
-                $wallet->save();
-                
-                SchoolTransaction::create([
-                    'type'           => 'deposit',
-                    'amount'         => $donation->amount,
-                    'description'    => "تبرع ناجح بقلب التطبيق من: {$donation->donor_name} بقيمة: {$donation->amount}",
-                    'reference_id'   => $donation->id,
-                    'reference_type' => Donation::class,
-                ]);
-
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'تم تحديث حالة التبرع بنجاح في قاعدة البيانات!'
-                ]);
-            });
-        } 
-        catch (\Exception $e) {
+        if (!$donation) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'حدث خطأ غير متوقع: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function cancel(Request $request)
-    {
-        $paymentIntentId = $request->query('payment_intent_id');
-
-        if ($paymentIntentId) {
-            $donation = DB::table('donations')
-                ->where('stripe_session_id', $paymentIntentId)
-                ->first();
-
-            if ($donation) {
-                if ($donation->status === 'completed') {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'محاولة محظورة أمنياً: لا يمكن إلغاء أو حذف هذه العملية لأنها مكتملة بالفعل! 🔐'
-                    ], 403);
-                }
-
-                DB::table('donations')->where('stripe_session_id', $paymentIntentId)->delete();
-
-                return response()->json([
-                    'status' => 'cancelled',
-                    'message' => 'تم إلغاء عملية التبرع وحذف السجل المؤقت بنجاح. 🗑️'
-                ], 200);
-            }
+                'status' => 'error', 
+                'message' => 'عذراً، عملية التبرع هذه غير موجودة لدينا'
+            ], 404);
         }
 
+        if ($donation->status === 'completed') {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'تم تأكيد الدفع بنجاح واكتمال عملية التبرع!'
+            ], 200);
+        }
+
+        if ($donation->status === 'pending') {
+            return response()->json([
+                'status' => 'pending',
+                'message' => 'جاري معالجة الدفع في الخلفية، يرجى الانتظار لحين التأكيد...'
+            ], 202);
+        }
+
+    } 
+    catch (\Exception $e) {
         return response()->json([
-            'status' => 'cancelled',
-            'message' => 'تم إلغاء العملية'
-        ], 200);
+            'status' => 'error',
+            'message' => 'حدث خطأ أثناء الاستعلام عن حالة الدفع: ' . $e->getMessage()
+        ], 500);
     }
 }
+    public function cancel(Request $request)
+{
+    $paymentIntentId = $request->query('payment_intent_id');
+
+    if ($paymentIntentId) {
+        $donation = DB::table('donations')
+            ->where('stripe_session_id', $paymentIntentId)
+            ->first();
+
+        if ($donation) {
+            if ($donation->status === 'completed') {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'محاولة محظورة أمنياً: لا يمكن إلغاء هذه العملية لأنها مكتملة والدفعة سُجلت بالفعل! 🔐'
+                ], 403);
+            }
+
+            DB::table('donations')->where('stripe_session_id', $paymentIntentId)->delete();
+
+            return response()->json([
+                'status' => 'success', 
+                'message' => 'تم إلغاء عملية التبرع وحذف السجل المؤقت بنجاح. 🗑️'
+            ], 200);
+        }
+    }
+
+    return response()->json([
+        'status' => 'error',
+        'message' => 'لم يتم العثور على العملية لإلغائها'
+    ], 404);
+}}
