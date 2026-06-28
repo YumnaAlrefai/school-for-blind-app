@@ -33,12 +33,13 @@ class Lesson extends Model
         return $this->hasOne(Quiz::class);
     }
 
-    public function record()
+    public function records()
     {
-        return $this->morphOne(Record::class, 'recordable');
+        return $this->morphMany(Record::class, 'recordable');
     }
 
-    public function class(){
+    public function class()
+    {
         return $this->belongsTo(Classes::class);
     }
 
@@ -72,11 +73,11 @@ class Lesson extends Model
     }
 
 
-public function favorites()
-{
-    return $this->morphMany(Favorite::class, 'favorable');
-}
-
-
-
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
     }
+
+
+
+}

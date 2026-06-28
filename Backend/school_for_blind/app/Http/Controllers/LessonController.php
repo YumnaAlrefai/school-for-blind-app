@@ -30,18 +30,48 @@ class LessonController extends Controller
             'class_id' => $request->class_id,
         ]);
 
-        $path = $request->file('audio_file')->store('lessons', 'public');
+        if ($request->hasFile('audio_file')) {
+            $path = $request->file('audio_file')->store('lessons', 'public');
 
-        $lesson->record()->create([
-            'record_path' => $path,
-            'record_mime' => $request->file('audio_file')->getMimeType(),
-            'duration' => $request->duration,
-        ]);
+            $lesson->records()->create([
+                'record_path' => $path,
+                'record_mime' => $request->file('audio_file')->getMimeType(),
+                'duration' => $request->duration,
+            ]);
+        }
 
         return response()->json([
             'message' => 'تم رفع الدرس والتسجيل بنجاح.',
-            'lesson' => $lesson->load('record')
+            'lesson' => $lesson->load('records')
         ], 201);
+    }
+
+    public function update(UpdateLessonRequest $request, Lesson $lesson)
+    {
+        Gate::authorize('update', $lesson);
+
+        $lesson->update($request->only(['title', 'class_id']));
+
+        if ($request->hasFile('audio_file')) {
+            if ($lesson->records()->count() >= 10) {
+                return response()->json([
+                    'message' => 'عذراً، لا يمكن إضافة أكثر من 10 تسجيلات للدرس الواحد.'
+                ], 400);
+            }
+
+            $path = $request->file('audio_file')->store('lessons', 'public');
+
+            $lesson->records()->create([
+                'record_path' => $path,
+                'record_mime' => $request->file('audio_file')->getMimeType(),
+                'duration' => $request->duration,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'تم تعديل الدرس بنجاح.',
+            'lesson' => $lesson->load('records')
+        ], 200);
     }
 
     public function index(IndexLessonRequest $request)
@@ -49,7 +79,7 @@ class LessonController extends Controller
         $perPage = $request->input('per_page', 15);
         $user = $request->user();
 
-        $query = Lesson::with(['subject', 'teacher', 'record']);
+        $query = Lesson::with(['subject', 'teacher', 'records']);
 
         if ($request->has('subject_id')) {
             $query->where('subject_id', $request->subject_id);
@@ -71,37 +101,10 @@ class LessonController extends Controller
 
     public function show(Lesson $lesson, Request $request)
     {
-        $lesson->load(['subject', 'teacher', 'record']);
+        $lesson->load(['subject', 'teacher', 'records']);
 
         return response()->json([
             'lesson' => $lesson
-        ], 200);
-    }
-
-    public function update(UpdateLessonRequest $request, Lesson $lesson)
-    {
-        Gate::authorize('update', $lesson);
-
-        $lesson->update($request->only(['title', 'class_id']));
-
-        if ($request->hasFile('audio_file')) {
-            if ($lesson->record) {
-                $lesson->record()->delete();
-            }
-
-            $path = $request->file('audio_file')->store('lessons', 'public');
-
-            $lesson->record()->create([
-                'record_path' => $path,
-                'record_mime' => $request->file('audio_file')->getMimeType(),
-                'duration' => $request->duration,
-                'is_compressed' => false,
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'تم تعديل الدرس بنجاح.',
-            'lesson' => $lesson->load('record')
         ], 200);
     }
 
@@ -109,8 +112,8 @@ class LessonController extends Controller
     {
         Gate::authorize('delete', $lesson);
 
-        if ($lesson->record) {
-            $lesson->record()->delete();
+        if ($lesson->records()->exists()) {
+            $lesson->records()->delete();
         }
 
         $lesson->delete();
@@ -119,70 +122,70 @@ class LessonController extends Controller
             'message' => 'تم حذف الدرس والتسجيل بنجاح.'
         ], 200);
     }
-   // ============================
-public function getLessonsBySubject($subjectId)
-{
-    $lessons = Lesson::with('teacher:id,full_name')->where('subject_id', $subjectId)
-                   //  ->with('record') 
-                     ->get()
-                     ->map(function ($lesson) {
-                        $data = $lesson->toArray();
-            
-            $data['teacher_name'] = $lesson->teacher->full_name ?? 'غير معروف';
-            unset($data['teacher']); 
-            unset($data['teacher_id']); 
-            
-            return $data;
-        });
-                     
+    // ============================
+    public function getLessonsBySubject($subjectId)
+    {
+        $lessons = Lesson::with('teacher:id,full_name')->where('subject_id', $subjectId)
+            //  ->with('record') 
+            ->get()
+            ->map(function ($lesson) {
+                $data = $lesson->toArray();
 
-    return response()->json([
-        'subject_id' => $subjectId,
-        'lessons' => $lessons
-    ]);
-}
-public function getLessonRecord($lessonId)
-{
-    $lesson = Lesson::with('record')->find($lessonId);
+                $data['teacher_name'] = $lesson->teacher->full_name ?? 'غير معروف';
+                unset($data['teacher']);
+                unset($data['teacher_id']);
 
-    if (!$lesson) {
+                return $data;
+            });
+
+
         return response()->json([
-            'message' => 'Lesson not found'
-        ], 404);
+            'subject_id' => $subjectId,
+            'lessons' => $lessons
+        ]);
     }
+    public function getLessonRecord($lessonId)
+    {
+        $lesson = Lesson::with('records')->find($lessonId);
 
-    return response()->json([
-        'lesson_id' => $lessonId,
-        'record' => $lesson->record
-    ]);
-}
-public function getLessonsCountBySubject($subjectId)
-{
-    $count = Lesson::where('subject_id', $subjectId)->count();
+        if (!$lesson) {
+            return response()->json([
+                'message' => 'Lesson not found'
+            ], 404);
+        }
 
-    return response()->json([
-        'subject_id' => $subjectId,
-        'lessons_count' => $count
-    ]);
-}
-public function getLessonsProgress($subjectId)
-{
-    $currentCount = Lesson::where('subject_id', $subjectId)->count();
-
-    $subject = Subject::find($subjectId);
-
-    if (!$subject) {
         return response()->json([
-            'message' => 'Subject not found'
-        ], 404);
+            'lesson_id' => $lessonId,
+            'record' => $lesson->records
+        ]);
     }
+    public function getLessonsCountBySubject($subjectId)
+    {
+        $count = Lesson::where('subject_id', $subjectId)->count();
 
-    return response()->json([
-        'subject_id' => $subjectId,
-        'current_lessons' => $currentCount,
-        'total_lessons' => $subject->total_lessons,
-        'progress_text' => $currentCount . ' / ' . $subject->total_lessons
-    ]);
-}
+        return response()->json([
+            'subject_id' => $subjectId,
+            'lessons_count' => $count
+        ]);
+    }
+    public function getLessonsProgress($subjectId)
+    {
+        $currentCount = Lesson::where('subject_id', $subjectId)->count();
+
+        $subject = Subject::find($subjectId);
+
+        if (!$subject) {
+            return response()->json([
+                'message' => 'Subject not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'subject_id' => $subjectId,
+            'current_lessons' => $currentCount,
+            'total_lessons' => $subject->total_lessons,
+            'progress_text' => $currentCount . ' / ' . $subject->total_lessons
+        ]);
+    }
 
 }
