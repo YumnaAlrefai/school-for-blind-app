@@ -7,6 +7,7 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LessonSeeder extends Seeder
 {
@@ -18,19 +19,19 @@ class LessonSeeder extends Seeder
         $ninthClassId = DB::table('classes')->where('level', '=', 'ninth')->value('id');
         $twelfthClassId = DB::table('classes')->where('level', '=', 'twelfth')->value('id');
 
-    $this->command->info("=== مواد صف التاسع الموجودة بقاعدة البيانات ===");
-    foreach (Subject::where('grade_level', '=', 'ninth')->pluck('name') as $name) {
-        $this->command->line("- " . $name);
-    }
+        $this->command->info("=== مواد صف التاسع الموجودة بقاعدة البيانات ===");
+        foreach (Subject::where('grade_level', '=', 'ninth')->pluck('name') as $name) {
+            $this->command->line("- " . $name);
+        }
 
-    $this->command->info("=== مواد البكالوريا الموجودة بقاعدة البيانات ===");
-    foreach (Subject::where('grade_level', '=', 'twelfth')->pluck('name') as $name) {
-        $this->command->line("- " . $name);
-    }
+        $this->command->info("=== مواد البكالوريا الموجودة بقاعدة البيانات ===");
+        foreach (Subject::where('grade_level', '=', 'twelfth')->pluck('name') as $name) {
+            $this->command->line("- " . $name);
+        }
         $realLessons = [
             // === دروس البكالوريا (twelfth) ===
             [
-                'subject_name' => 'اللغة العربية', 
+                'subject_name' => 'اللغة العربية',
                 'level' => 'twelfth',
                 'lessons' => [
                     // قضية الأدب والقضايا القومية والوطنية
@@ -65,7 +66,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' =>'الفلسفة', 
+                'subject_name' => 'الفلسفة',
                 'level' => 'twelfth',
                 'lessons' => [
                     // الوحدة الأولى: المعرفة (الإبيستيمولوجيا)
@@ -106,7 +107,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'التاريخ', 
+                'subject_name' => 'التاريخ',
                 'level' => 'twelfth',
                 'lessons' => [
                     // الوحدة الأولى: بناء الدولة والمقاومة الوطنية
@@ -135,7 +136,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'الجغرافيا', 
+                'subject_name' => 'الجغرافيا',
                 'level' => 'twelfth',
                 'lessons' => [
                     // الوحدة الأولى: جغرافية الكون والفلك
@@ -166,7 +167,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'اللغة الإنكليزية', 
+                'subject_name' => 'اللغة الإنكليزية',
                 'level' => 'twelfth',
                 'lessons' => [
                     // Unit 1: World Issues (قضايا عالمية)
@@ -195,7 +196,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'اللغة الفرنسية', 
+                'subject_name' => 'اللغة الفرنسية',
                 'level' => 'twelfth',
                 'lessons' => [
                     // Dossier 1: Célébrations et Fêtes (الاحتفالات والأعياد)
@@ -218,28 +219,28 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'التربية الدينية', 
+                'subject_name' => 'التربية الدينية',
                 'level' => 'twelfth',
                 'lessons' => [
                     // وحدة القرآن الكريم والحديث الشريف
                     'منهج التفكير العلمي في القرآن الكريم',
                     'علو الهمة وبناء الشخصية',
                     'المنهج النبوي في صيانة مجتمعاتنا',
-                    
+
                     // وحدة العقيدة والفكر الإسلامي
                     'تجديد الفكر الإسلامي وتحديات العصر',
                     'الحرية والمسؤولية في الإسلام',
                     'سماحة الإسلام وعالميته',
-                    
+
                     // وحدة الفقه والأحكام
                     'المعاملات المالية المعاصرة ومقاصدها',
                     'الوقف العلمي وأثره في النهضة',
                     'الأحوال الشخصية وتماسك الأسرة',
-                    
+
                     // وحدة السيرة النبوية والتاريخ
                     'الدبلوماسية النبوية في العلاقات الدولية',
                     'الإعمار والنهضة في الحضارة الإسلامية',
-                    
+
                     // وحدة الأخلاق والقيم العقلية
                     'المواطنة والانتماء من منظور إسلامي',
                     'الأمن النفسي والاجتماعي',
@@ -249,7 +250,7 @@ class LessonSeeder extends Seeder
 
             // === دروس الصف التاسع (ninth) ===
             [
-                'subject_name' => 'الرياضيات (جبر)', 
+                'subject_name' => 'الرياضيات (جبر)',
                 'level' => 'ninth',
                 'lessons' => [
                     // الوحدة الأولى: الأعداد والعاديات (الحساب العددي)
@@ -284,7 +285,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'الفيزياء والكيمياء', 
+                'subject_name' => 'الفيزياء والكيمياء',
                 'level' => 'ninth',
                 'lessons' => [
                     // أولاً: قسم الفيزياء
@@ -310,7 +311,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'علم الأحياء والأرض', 
+                'subject_name' => 'علم الأحياء والأرض',
                 'level' => 'ninth',
                 'lessons' => [
                     // أولاً: قسم علم الأحياء (وظائف التنسيق والدعم)
@@ -338,7 +339,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'التاريخ', 
+                'subject_name' => 'التاريخ',
                 'level' => 'ninth',
                 'lessons' => [
                     // الوحدة الأولى: حضارات وممالك قديمة على أرض سورية
@@ -364,7 +365,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'الجغرافيا', 
+                'subject_name' => 'الجغرافيا',
                 'level' => 'ninth',
                 'lessons' => [
                     // الوحدة الأولى: الفلك وجغرافية الكون
@@ -393,7 +394,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'اللغة العربية', 
+                'subject_name' => 'اللغة العربية',
                 'level' => 'ninth',
                 'lessons' => [
                     // الوحدة الأولى: القضايا الوطنية والقومية
@@ -423,7 +424,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'اللغة الإنكليزية', 
+                'subject_name' => 'اللغة الإنكليزية',
                 'level' => 'ninth',
                 'lessons' => [
                     // Unit 1: Healthy Lifetyle (نمط الحياة الصحي)
@@ -452,7 +453,7 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' => 'اللغة الفرنسية', 
+                'subject_name' => 'اللغة الفرنسية',
                 'level' => 'ninth',
                 'lessons' => [
                     // Dossier 1: Vie saine et Sport (الحياة الصحية والرياضة)
@@ -475,28 +476,28 @@ class LessonSeeder extends Seeder
                 ]
             ],
             [
-                'subject_name' =>'التربية الدينية', 
+                'subject_name' => 'التربية الدينية',
                 'level' => 'ninth',
                 'lessons' => [
                     // وحدة التفسير والحديث الشريف
                     'منهج الحياة في سورة الحجرات',
                     'العلم والعمل أساس النهضة',
                     'المسؤولية الاجتماعية في الحديث النبوي',
-                    
+
                     // وحدة العقيدة والفكر الإسلامي
                     'الإيمان وأثره في سلوك الفرد',
                     'العقل وعمارة الأرض',
                     'القيم الإنسانية المشتركة',
-                    
+
                     // وحدة الفقه والأحكام
                     'أحكام البيوع والمعاملات في الإسلام',
                     'يسر الإسلام في العبادات',
                     'مكانة الأسرة ورعايتها',
-                    
+
                     // وحدة السيرة النبوية والتاريخ
                     'المدينة المنورة وبناء مجتمع المواطنة',
                     'أثر العلماء المسلمين في الحضارة الإنسانية',
-                    
+
                     // وحدة الأخلاق والقيم والآداب
                     'التسامح وقبول الآخر',
                     'حفظ اللسان والكلمة الطيبة',
@@ -505,7 +506,17 @@ class LessonSeeder extends Seeder
             ]
         ];
 
-     foreach ($realLessons as $item) {
+
+
+        $source = database_path('seeders/files/default_audio.ogg');
+        if (!Storage::disk('public')->exists('lessons/default_audio.ogg')) {
+            Storage::disk('public')->put(
+                'lessons/default_audio.ogg',
+                file_get_contents($source)
+            );
+        }
+
+        foreach ($realLessons as $item) {
 
             $subject = Subject::where('name', $item['subject_name'])->first();
             if (!$subject) {
@@ -544,4 +555,5 @@ class LessonSeeder extends Seeder
         ]);
 
         $this->command->line("$title");
-    }}
+    }
+}
