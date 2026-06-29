@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Favorite;
+use App\Models\Lesson;
+use App\Models\Question;
+use App\Models\QuizSubmission;
+use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Reverb\Loggers\Log;
+use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+
 class Quiz extends Model
 {
     use LogsActivity;
@@ -53,7 +60,6 @@ class Quiz extends Model
     {
         return LogOptions::defaults()
             ->logOnly([
-                'title',
                 'numofquestions',
                 'timelimit',
                 'totalmark',
