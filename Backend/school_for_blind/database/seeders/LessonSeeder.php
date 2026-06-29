@@ -547,7 +547,7 @@ class LessonSeeder extends Seeder
             'class_id' => $classId,
         ]);
 
-        $lesson->record()->create([
+        $lesson->records()->create([
             'record_path' => 'lessons/default_audio.ogg', // ضع ملف حقيقي إذا توفر
             'record_mime' => 'audio/ogg',
             'record_description' => null,
