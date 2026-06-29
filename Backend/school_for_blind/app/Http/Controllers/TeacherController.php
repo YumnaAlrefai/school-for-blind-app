@@ -73,14 +73,18 @@ class TeacherController extends Controller
 
     public function login(TeacherLoginRequest $request)
     {
-        if (!Auth::guard('teacher')->attempt($request->only('phone', 'password'))) {
-            return response()->json(['message' => 'معلومات تسجيل دخول خاطئة'], 401);
-        }
-
-        $teacher = Auth::guard('teacher')->user();
+        $teacher = Teacher::where('phone', $request->phone)->first();
 
         if (!$teacher) {
-            return response()->json(['message' => 'لا يوجد حساب على هذا الرقم'], 423);
+            return response()->json([
+                'message' => 'لا يوجد حساب بهذا الرقم'
+            ], 404);
+        }
+
+        if (!Hash::check($request->password, $teacher->password)) {
+            return response()->json([
+                'message' => 'كلمة المرور خاطئة'
+            ], 401);
         }
 
         if ($teacher->status == 'pending') {
