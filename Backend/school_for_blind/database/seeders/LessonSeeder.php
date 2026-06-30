@@ -516,6 +516,14 @@ class LessonSeeder extends Seeder
             );
         }
 
+        $source2 = database_path('seeders/files/default_audio2.ogg');
+        if (!Storage::disk('public')->exists('lessons/default_audio2.ogg')) {
+            Storage::disk('public')->put(
+                'lessons/default_audio2.ogg',
+                file_get_contents($source2)
+            );
+        }
+
         foreach ($realLessons as $item) {
 
             $subject = Subject::where('name', $item['subject_name'])->first();
@@ -569,10 +577,10 @@ class LessonSeeder extends Seeder
         ]);
 
          $lesson2->records()->create([
-            'record_path' => 'lessons/default_audio.ogg', // ضع ملف حقيقي إذا توفر
+            'record_path' => 'lessons/default_audio2.ogg', // ضع ملف حقيقي إذا توفر
             'record_mime' => 'audio/ogg',
             'record_description' => null,
-            'duration' => 18,
+            'duration' => 10,
         ]);
 
         $this->command->line("$title");
