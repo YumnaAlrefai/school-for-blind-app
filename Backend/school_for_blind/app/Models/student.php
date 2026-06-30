@@ -96,4 +96,20 @@ public function favoriteLessons()
 public function favoriteQuizzes()
 {
     return $this->morphToMany(Quiz::class, 'favorable', Favorite::class);   
-}}
+}
+public function deviceTokens()
+{
+    return $this->morphMany(DeviceToken::class, 'tokenable');
+}
+protected static function booted()
+    {
+        static::deleting(function ($student) {
+            $student->deviceTokens()->delete();
+            $student->notifications()->delete();
+        });
+    }
+    public function notifications()
+{
+    return $this->morphMany(Notification::class, 'notifiable');
+}
+}

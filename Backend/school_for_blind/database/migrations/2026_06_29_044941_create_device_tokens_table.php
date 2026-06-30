@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('device_tokens', function (Blueprint $table) {
             $table->id();
-$table->morphs('notifiable');
-    $table->string('title');
-    $table->text('body');
-    $table->json('data')->nullable();
-    $table->timestamp('read_at')->nullable();
-    $table->timestamps();
+            $table->morphs('tokenable'); 
+            $table->string('token')->unique()->index();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +24,6 @@ $table->morphs('notifiable');
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('device_tokens');
     }
 };

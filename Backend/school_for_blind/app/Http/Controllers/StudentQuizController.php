@@ -18,28 +18,36 @@ class StudentQuizController extends Controller
 {
     $request->validate([
       'subject_id' => 'required|integer|exists:subjects,id',
-        'teacher_id' => 'required|integer|exists:teachers,id',
-        'lesson_id'  => 'required|integer|exists:lessons,id',
+        'full_name' => 'required|string',
+        'title'  => 'required|string'
     ]);
 
-    $quiz = Quiz::whereHas('subject', function ($query) use ($request) {
+   $quiz = Quiz::whereHas('subject', function ($query) use ($request) {
                     $query->where('id', $request->subject_id);
                 })
                 ->whereHas('teacher', function ($query) use ($request) {
-                    $query->where('id', $request->teacher_id);
+                    $query->where('full_name', 'LIKE', '%' . trim($request->full_name) . '%');
                 })
                 ->whereHas('lesson', function ($query) use ($request) {
-                    $query->where('id', $request->lesson_id);
+                    $query->where('title', 'LIKE', '%' . trim($request->title) . '%');
                 })
                 ->first();
 
     if (!$quiz) {
+        // كود مساعد ذكي: رح يخبرك بالبوستمان بالضبط شو اللي مفقود
+        $teacher = DB::table('teachers')->where('full_name', 'LIKE', '%' . trim($request->full_name) . '%')->first();
+        $lesson  = DB::table('lessons')->where('title', 'LIKE', '%' . trim($request->title) . '%')->first();
+
         return response()->json([
             'status' => 'error', 
-            'message' => 'لم يتم العثور على كويز مطابق لهذه البيانات'
+            'message' => 'لم يتم العثور على كويز يجمع هذه البيانات معاً',
+            'debug_hints' => [
+                'المادة_المرسلة' => $request->subject_id . ' (تأكد أن الكويز يتبع لهذه المادة وليس لمادة أخرى مثل 8)',
+                'حالة_الأستاذ' => $teacher ? 'موجود بالداتابيز و الـ ID تبعه: ' . $teacher->id : 'غير موجود، تأكد من الاسم',
+                'حالة_الدرس'  => $lesson ? 'موجود بالداتابيز و الـ ID تبعه: ' . $lesson->id : 'غير موجود، تأكد من اسم الدرس',
+            ]
         ], 404);
     }
-
     
     return response()->json([
         'status' => 'success',
