@@ -551,7 +551,28 @@ class LessonSeeder extends Seeder
             'record_path' => 'lessons/default_audio.ogg', // ضع ملف حقيقي إذا توفر
             'record_mime' => 'audio/ogg',
             'record_description' => null,
-            'duration' => null,
+            'duration' => 18,
+        ]);
+
+         $lesson2 = Lesson::create([
+            'title' => $title . ' اكثر من قسم 1',
+            'subject_id' => $subjectId,
+            'teacher_id' => $teacherId,
+            'class_id' => $classId,
+        ]);
+
+        $lesson2->records()->create([
+            'record_path' => 'lessons/default_audio.ogg', // ضع ملف حقيقي إذا توفر
+            'record_mime' => 'audio/ogg',
+            'record_description' => null,
+            'duration' => 18,
+        ]);
+
+         $lesson2->records()->create([
+            'record_path' => 'lessons/default_audio.ogg', // ضع ملف حقيقي إذا توفر
+            'record_mime' => 'audio/ogg',
+            'record_description' => null,
+            'duration' => 18,
         ]);
 
         $this->command->line("$title");
