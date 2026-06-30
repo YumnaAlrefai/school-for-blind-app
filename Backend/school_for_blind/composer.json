@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "agence104/livekit-server-sdk": "^1.3",
+        "laravel-notification-channels/fcm": "^5.1",
         "laravel/cashier": "^16.5",
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.0",

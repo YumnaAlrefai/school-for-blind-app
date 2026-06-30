@@ -19,10 +19,10 @@ class StudentQuizController extends Controller
     $request->validate([
       'subject_id' => 'required|integer|exists:subjects,id',
         'teacher_id' => 'required|integer|exists:teachers,id',
-        'lesson_id'  => 'required|integer|exists:lessons,id',
+        'lesson_id'  => 'required|integer|exists:lessons,id'
     ]);
 
-    $quiz = Quiz::whereHas('subject', function ($query) use ($request) {
+   $quiz = Quiz::whereHas('subject', function ($query) use ($request) {
                     $query->where('id', $request->subject_id);
                 })
                 ->whereHas('teacher', function ($query) use ($request) {
@@ -33,13 +33,12 @@ class StudentQuizController extends Controller
                 })
                 ->first();
 
-    if (!$quiz) {
+                if (!$quiz) {
         return response()->json([
             'status' => 'error', 
             'message' => 'لم يتم العثور على كويز مطابق لهذه البيانات'
         ], 404);
     }
-
     
     return response()->json([
         'status' => 'success',
@@ -76,9 +75,10 @@ public function submitQuiz(Request $request): JsonResponse
         'answers.*.question_id' => 'required|integer|exists:questions,id',
         'answers.*.choice_id'   => 'nullable|integer|exists:choices,id',
         'answers.*.text_answer' => 'nullable|string', 
+        'answers.*.audio_answer' => 'nullable|file|mimes:audio/mpeg,mpga,mp3,wav,m4a|max:10240',
     ]);
 
-    $studentId = 1; 
+    $studentId = auth()->id(); 
     
     DB::beginTransaction();
     try {
