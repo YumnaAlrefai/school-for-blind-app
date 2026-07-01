@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->morphs('participant');
             $table->timestamp('joined_at')->nullable();
             $table->timestamp('left_at')->nullable();
+            $table->integer('duration_seconds')->default(0);
             $table->timestamps();
         });
     }
