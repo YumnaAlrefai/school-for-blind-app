@@ -126,8 +126,8 @@ class TeacherController extends Controller
             }
         ]);
 
-        $teacher->classes->makeHidden(['pivot', 'created_at', 'updated_at', 'level', 'number']);
-        $teacher->subjects->makeHidden(['pivot', 'created_at', 'updated_at', 'grade_level', 'number_of_lessons', 'total_lessons', 'deleted_at']);
+        // $teacher->classes->makeHidden(['pivot', 'created_at', 'updated_at', 'level', 'number']);
+        // $teacher->subjects->makeHidden(['pivot', 'created_at', 'updated_at', 'grade_level', 'number_of_lessons', 'total_lessons', 'deleted_at']);
 
         return response()->json([
             'message' => 'بيانات المدرس',
