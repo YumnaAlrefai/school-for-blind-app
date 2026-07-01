@@ -52,8 +52,9 @@
          </td>
          <td style="color: var(--text-muted); font-size: 0.9rem;">
           {{ $call->created_at->diffForHumans() }}
+         </td>
          <td class="text-center">
-          <a href="{{ route('admin.join-call', $call->room_name) }}"
+          <a href="{{ route('rooms.join', $call->room_name) }}"
            class="btn px-3 py-1.5 d-inline-flex align-items-center gap-2 fw-bold text-white shadow-sm"
            style="background-color: var(--accent-color); border: none; border-radius: 8px; font-size: 0.9rem;">
            <i class="fa-solid fa-eye"></i>

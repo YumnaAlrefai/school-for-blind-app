@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('room_name')->unique();
             $table->enum('status', ['active', 'ended'])->default('active');
             $table->json('kicked_participants')->nullable();
+            $table->json('muted_participants')->nullable();
             $table->timestamp('started_at')->useCurrent();
             $table->timestamp('ended_at')->nullable();
             $table->timestamps();
