@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_for_blind_app/business_logic/cubit/announcements_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/level_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
+import 'package:school_for_blind_app/data/models/record_model.dart';
 import 'package:school_for_blind_app/presentation/screens/splash_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_announcements_screen.dart';
@@ -37,14 +38,14 @@ class AppRouter {
     final authCubit = getIt<AuthCubit>();
     final studentCubit = getIt<StudentCubit>();
     final callCubit = getIt<CallCubit>();
-    final announcementsCubit = getIt<AnnouncementsCubit>();
+    final subjectProgressCubit = getIt<SubjectProgressCubit>();
 
     switch (settings.name) {
-      case AppRoutes.kSplashScreen:
-        return MaterialPageRoute(
-          builder: (_) =>
-              BlocProvider.value(value: authCubit, child: const SplashScreen()),
-        );
+      // case AppRoutes.kSplashScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) =>
+      //         BlocProvider.value(value: authCubit, child: const SplashScreen()),
+      //   );
       case AppRoutes.kSUserTypeScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -116,7 +117,7 @@ class AppRouter {
               BlocProvider.value(value: authCubit),
               BlocProvider.value(value: studentCubit),
               BlocProvider.value(value: callCubit),
-              BlocProvider.value(value: announcementsCubit),
+              BlocProvider.value(value: subjectProgressCubit),
             ],
             child: const StudentMainScreen(),
           ),
@@ -144,7 +145,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider<DonationCubit>.value(
             value: getIt<DonationCubit>(),
-            child: StudentPaymentScreen(clientSecret: args[0],paymentIntentId: args[1],),
+            child: StudentPaymentScreen(
+              clientSecret: args[0],
+              paymentIntentId: args[1],
+            ),
           ),
         );
 
@@ -158,31 +162,32 @@ class AppRouter {
         );
 
       case AppRoutes.kStudentSubjectDetailsScreen:
-        final args = settings.arguments as String;
+        final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (_) => StudentSubjectDetailsScreen(subjectName: args),
+          builder: (_) => StudentSubjectDetailsScreen(
+            subjectId: args['subjectId'] as int,
+            subjectName: args['subjectName'] as String,
+          ),
         );
       case AppRoutes.kStudentLessonRecordsScreen:
-        final args = settings.arguments as String;
+        final lesson = settings.arguments as List<dynamic>;
         return MaterialPageRoute(
-          builder: (_) => StudentLessonRecordsScreen(lessonName: args),
+          builder: (_) => StudentLessonRecordsScreen(
+            lesson: lesson[0],
+          ),
         );
+
       case AppRoutes.kStudentAudioPlayerScreen:
-        final args = settings.arguments as List<dynamic>;
+        final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           builder: (_) => StudentAudioPlayerScreen(
-            lessonName: args[0],
-            recordNumber: args[1],
+            lessonName: args["lessonName"] as String,
+            record: args['record'] as RecordModel,
           ),
         );
 
       case AppRoutes.kStudentAnnouncementsScreen:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider<AnnouncementsCubit>.value(
-            value: getIt<AnnouncementsCubit>(),
-            child: const StudentAnnouncementsScreen(),
-          ),
-        );
+        return MaterialPageRoute(builder: (_) => StudentAnnouncementsScreen());
 
       case AppRoutes.kStudentQuizScreen:
         return MaterialPageRoute(builder: (_) => const StudentQuizScreen());

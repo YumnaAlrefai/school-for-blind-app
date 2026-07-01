@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
-import 'package:school_for_blind_app/data/models/announcement.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
+import 'package:school_for_blind_app/data/models/lesson.dart';
+import 'package:school_for_blind_app/data/models/record_model.dart';
+import 'package:school_for_blind_app/data/models/subject_progress.dart';
 
 part 'student_web_services.g.dart';
 
@@ -51,12 +53,18 @@ abstract class StudentWebServices {
   @POST('call/join')
   Future<JoinCallResponse> joinCall(@Field("room_name") String roomName);
 
-  @GET('announcements')
-  Future<List<Announcement>> getAnnouncements();
-
   @POST("donation/checkout")
-  Future<dynamic> donate(@Body() Map<String,dynamic> donation);
-  
+  Future<dynamic> donate(@Body() Map<String, dynamic> donation);
+
   @POST("donation/confirm")
   Future<dynamic> confirmPayment(@Body() Map<String, dynamic> body);
+
+  @GET("subjects/{id}/lessons/progress")
+  Future<SubjectProgress> getSubjectProgress(@Path('id') int subjectId);
+  
+  @GET("subjects/{id}/lessons")
+  Future<SubjectLessonsResponse> getSubjectLessons(@Path('id') int subjectId);
+  
+  @GET("lessons/{id}/record")
+  Future<LessonRecordsResponse> getLessonRecords(@Path('id') int lessonId);
 }

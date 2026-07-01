@@ -64,6 +64,7 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
       return;
     }
     try {
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       context.read<DonationCubit>().emit(const ResultState.loading());
       await Stripe.instance.dangerouslyUpdateCardDetails(
         CardDetails(
@@ -86,6 +87,7 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
           );
         }
       } else {
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
         context.read<DonationCubit>().emit(const ResultState.idle());
         getIt<VoiceServices>().speak(
           'عملية الدفع غير مكتملة، يرجى المحاولة مجدداً',
@@ -93,6 +95,7 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
       }
     } catch (e) {
       if (mounted) {
+        // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
         context.read<DonationCubit>().emit(const ResultState.idle());
         getIt<VoiceServices>().speak(
           'فشلت عملية الدفع، يرجى التحقق من كَرت الدفع الخاص بك',

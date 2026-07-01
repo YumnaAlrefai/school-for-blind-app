@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_for_blind_app/business_logic/cubit/lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
+import 'package:school_for_blind_app/core/services/voice_services.dart';
+import 'package:school_for_blind_app/data/models/lesson.dart';
+import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
+import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
-import 'package:school_for_blind_app/presentation/widgets/custom_buttons.dart';
-import 'package:school_for_blind_app/presentation/widgets/glass_effect.dart';
 import 'package:school_for_blind_app/presentation/widgets/lesson_card.dart';
+import 'package:school_for_blind_app/presentation/widgets/lesson_skeleton.dart';
+import 'package:school_for_blind_app/presentation/widgets/online_offline_tabs.dart';
+import 'package:school_for_blind_app/presentation/widgets/search_lessons_bar.dart';
+import 'package:school_for_blind_app/presentation/widgets/subject_details_card.dart';
 
 class StudentSubjectDetailsScreen extends StatefulWidget {
+  final int subjectId;
   final String subjectName;
 
-  const StudentSubjectDetailsScreen({super.key, required this.subjectName});
+  const StudentSubjectDetailsScreen({
+    super.key,
+    required this.subjectId,
+    required this.subjectName,
+  });
 
   @override
   State<StudentSubjectDetailsScreen> createState() =>
@@ -24,212 +36,148 @@ class _StudentSubjectDetailsScreenState
     extends State<StudentSubjectDetailsScreen> {
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
-  List lessons = [
-    'قواعد المعرفة',
-    'قوانين الفكر',
-    'قواعد المعرفة',
-    'قوانين الفكر',
-  ];
+  late final LessonsCubit _lessonsCubit;
+  late final SubjectProgressCubit _progressCubit;
+  int _selectedTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _lessonsCubit = getIt<LessonsCubit>()
+      ..emitGetSubjectLessonsResponse(widget.subjectId);
+    _progressCubit = getIt<SubjectProgressCubit>()
+      ..emitGetSubjectProgress(widget.subjectId);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(helpMessage: ''),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SingleChildScrollView(
-            child: SizedBox(
-              width: 378.w,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 363.h,
-                        width: 378.w,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            width: 0.2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Theme.of(context).colorScheme.surface,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _lessonsCubit),
+        BlocProvider.value(value: _progressCubit),
+      ],
+      child: Scaffold(
+        appBar: const CustomAppBar(helpMessage: ''),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SingleChildScrollView(
+              child: SizedBox(
+                width: 378.w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SubjectDetailsCard(subjectName: widget.subjectName),
+                    _buildSearchLessonsBar(),
+                    SizedBox(height: 15.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        OnlineOfflineTabs(
+                          label: 'أونلاين',
+                          isSelected: _selectedTab == 0,
+                          onPressed: () => setState(() => _selectedTab = 0),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              widget.subjectName,
-                              style: AppTextStyles.kBigPrimary(context),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  'اسم المدرس',
-                                  style: TextStyle(fontSize: 36.sp),
-                                ),
-                                Text(
-                                  'عدد الدروس',
-                                  style: TextStyle(fontSize: 36.sp),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                PrimaryButton(
-                                  title: 'اختبارات',
-                                  width: 170,
-                                  height: 62,
-                                  fontSize: 40,
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.kStudentProfileScreen,
-                                  ),
-                                ),
-                                PrimaryButton(
-                                  title: 'المكتبة',
-                                  width: 170,
-                                  height: 62,
-                                  fontSize: 40,
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.kStudentProfileScreen,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                PrimaryButton(
-                                  title: 'قناة المدرس',
-                                  width: 170,
-                                  height: 62,
-                                  fontSize: 40,
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      AppRoutes.kStudentProfileScreen,
-                                    );
-                                  },
-                                ),
-                                PrimaryButton(
-                                  title: 'مجموعة المناقشة',
-                                  width: 170,
-                                  height: 62,
-                                  fontSize: 40,
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.kStudentProfileScreen,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                        OnlineOfflineTabs(
+                          label: 'المحملة',
+                          isSelected: _selectedTab == 1,
+                          onPressed: () => setState(() => _selectedTab = 1),
                         ),
-                      ),
-                      GlassEffect(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                    ],
-                  ),
-                  SearchLessonsBar(
-                    isSearching: _isSearching,
-                    controller: _searchController,
-                    onSearchTap: () {
-                      setState(() {
-                        _isSearching = !_isSearching;
-                        if (!_isSearching) {
-                          _searchController.clear();
-                          if (context.read<LessonsCubit>().state is Success) {
-                            context.read<LessonsCubit>().searchLessons("");
-                          }
-                        }
-                      });
-                    },
-                  ),
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: lessons.length,
-                    itemBuilder: (context, index) => LessonCard(
-                      lessonName: lessons[index],
-                      lessonNumber: (index + 1),
-                      viewMenu: true,
-                      route: AppRoutes.kStudentLessonRecordsScreen,
-                      args: lessons[index],
+                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 30.h),
+                    _selectedTab == 0
+                        ? _buildOnlineLessonsList()
+                        : //_buildOfflineLessonsList(),
+                        Container()
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
-}
 
-class SearchLessonsBar extends StatelessWidget {
-  final bool isSearching;
-  final TextEditingController controller;
-  final VoidCallback onSearchTap;
-  const SearchLessonsBar({
-    super.key,
-    required this.isSearching,
-    required this.controller,
-    required this.onSearchTap,
-  });
+  SearchLessonsBar _buildSearchLessonsBar() {
+    return SearchLessonsBar(
+      isSearching: _isSearching,
+      controller: _searchController,
+      onSearchTap: () {
+        setState(() {
+          _isSearching = !_isSearching;
+          if (!_isSearching) {
+            _searchController.clear();
+            if (_selectedTab == 0) {
+              _lessonsCubit.searchLessons("");
+            } else {
+              //بحث الاوفلاين
+            }
+          }
+        });
+      },
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Expanded(
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: isSearching
-                ? TextField(
-                    controller: controller,
-                    autofocus: true,
-                    onChanged: (value) {
-                      if (context.read<LessonsCubit>().state is Failure) {
-                        return;
-                      }
-                      context.read<LessonsCubit>().searchLessons(value);
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'البحث عن درس',
-                      //hintStyle: TextStyle(fontStyle: AppTextStyles.kMediumSecondary(context)),
-                      border: InputBorder.none,
-                    ),
-                  )
-                : Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'الدروس:',
-                      style: AppTextStyles.kMediumPrimary(context),
-                    ),
+  BlocBuilder<LessonsCubit, ResultState<SubjectLessonsResponse>> _buildOnlineLessonsList() {
+    return BlocBuilder<LessonsCubit, ResultState<SubjectLessonsResponse>>(
+      builder: (context, state) {
+        return state.when(
+          idle: () => const SizedBox(),
+          loading: () => const Center(child: LessonsSkeleton()),
+          success: (data) {
+            final lessonsList = data.lessons;
+            if (lessonsList.isEmpty) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    "لا يوجد دروس مطابقة",
+                    style: AppTextStyles.kMediumPrimary(context),
                   ),
-          ),
-        ),
-
-        IconButton(
-          onPressed: () {},
-          icon: Icon(isSearching ? Icons.close : Icons.search, size: 34),
-          color: isSearching
-              ? Theme.of(context).colorScheme.onBackground
-              : Theme.of(context).colorScheme.primary,
-        ),
-      ],
+                ),
+              );
+            }
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: lessonsList.length,
+              itemBuilder: (context, index) {
+                final lesson = lessonsList[index];
+                return LessonCard(
+                  lessonName: lesson.title,
+                  lessonNumber: (index + 1),
+                  viewMenu: true,
+                  route: AppRoutes.kStudentLessonRecordsScreen,
+                  args: [lesson],
+                );
+              },
+            );
+          },
+          failure: (networkException) {
+            getIt<VoiceServices>().speak(
+              NetworkExceptions.getErrorMessage(networkException),
+            );
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  "فشل تحميل الدروس",
+                  style: AppTextStyles.kMediumPrimary(context),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:school_for_blind_app/data/models/announcement.dart';
 import 'package:school_for_blind_app/data/models/call.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
+import 'package:school_for_blind_app/data/models/lesson.dart';
+import 'package:school_for_blind_app/data/models/record_model.dart';
+import 'package:school_for_blind_app/data/models/subject_progress.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
@@ -134,9 +136,30 @@ class StudentRepo {
     }
   }
 
-  Future<ApiResult<List<Announcement>>> getAnnouncements() async {
+  Future<ApiResult<SubjectProgress>> getSubjectProgress(int subjectId) async {
     try {
-      final List<Announcement> response = await webServices.getAnnouncements();
+      SubjectProgress response = await webServices.getSubjectProgress(subjectId);
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(NetworkExceptions.getDioException(error));
+    }
+  }
+  
+  Future<ApiResult<SubjectLessonsResponse>> getSubjectLessons(int subjectId) async {
+    try {
+      SubjectLessonsResponse response = await webServices.getSubjectLessons(subjectId);
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(NetworkExceptions.getDioException(error));
+    }
+  
+  }
+
+  Future<ApiResult<LessonRecordsResponse>> getLessonRecords(int lessonId) async {
+    try {
+      LessonRecordsResponse response = await webServices.getLessonRecords(
+        lessonId,
+      );
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(NetworkExceptions.getDioException(error));

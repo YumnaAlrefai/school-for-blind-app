@@ -4,17 +4,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
+import 'package:school_for_blind_app/data/models/record_model.dart';
+import 'package:school_for_blind_app/presentation/widgets/audio_bookmarks_list.dart';
 import 'package:school_for_blind_app/presentation/widgets/audio_wave_form.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
+import 'package:school_for_blind_app/presentation/widgets/flag_with_add_icon.dart';
 
 class StudentAudioPlayerScreen extends StatefulWidget {
   final String lessonName;
-  final int recordNumber;
+  final RecordModel record;
 
   const StudentAudioPlayerScreen({
     super.key,
     required this.lessonName,
-    required this.recordNumber,
+    required this.record,
   });
 
   @override
@@ -30,22 +33,30 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
   bool _showBookmarks = false;
 
   final List<AudioBookmark> _bookmarks = [];
-
   final List<double> _speeds = [0.5, 1.0, 1.5, 2.0];
   int _currentSpeedIndex = 1;
 
-  /////////////////////////بدو تعديل لما اربط مع الباك
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+    _initAudio();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
   Future<void> _initAudio() async {
     try {
-      await _audioPlayer.setUrl(
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-      );
+      await _audioPlayer.setUrl(widget.record.url);
 
       _audioPlayer.playerStateStream.listen((playerState) {
         if (mounted) {
           setState(() {
             _isPlaying = playerState.playing;
-
             if (playerState.processingState == ProcessingState.completed) {
               _audioPlayer.seek(Duration.zero);
               _audioPlayer.pause();
@@ -65,19 +76,6 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
     } catch (e) {
       debugPrint("خطأ أثناء تحميل ملف الصوت: $e");
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _audioPlayer = AudioPlayer();
-    _initAudio();
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
   }
 
   void _changeSpeed() {
@@ -111,20 +109,15 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
-          Row(
-            children: [
-              SizedBox(width: 30.w),
-              Text(
-                '${widget.lessonName} (${widget.recordNumber})',
-                style: AppTextStyles.kMediumPrimary(context),
-              ),
-            ],
+          Text(
+            '(${widget.lessonName})',
+            style: AppTextStyles.kMediumPrimary(context),
           ),
           SizedBox(
             height: 66.h,
             child: Text(
               _formatDuration(_currentPosition),
-              style: TextStyle(fontSize: 64),
+              style: const TextStyle(fontSize: 64),
             ),
           ),
           SizedBox(height: 10.h),
@@ -142,11 +135,8 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _showBookmarks = !_showBookmarks;
-                    });
-                  },
+                  onPressed: () =>
+                      setState(() => _showBookmarks = !_showBookmarks),
                   icon: FaIcon(
                     _showBookmarks
                         ? FontAwesomeIcons.solidFlag
@@ -167,21 +157,30 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
                     style: AppTextStyles.kMediumPrimary(context),
                   ),
                 ),
-                IconButton(onPressed: _addNewBookmark, icon: FlagWithAddIcon()),
+                IconButton(
+                  onPressed: _addNewBookmark,
+                  icon: const FlagWithAddIcon(),
+                ),
               ],
             ),
           ),
           SizedBox(height: 10.h),
           _showBookmarks
-              ? _buildBookmarksList()
+              ? AudioBookmarksList(
+                  bookmarks: _bookmarks,
+                  formatDuration: _formatDuration,
+                  onBookmarkTap: (pos) async => await _audioPlayer.seek(pos),
+                  onDelete: (index) =>
+                      setState(() => _bookmarks.removeAt(index)),
+                  onStateChanged: () => setState(() {}),
+                )
               : AudioWaveForm(
                   position: _currentPosition,
                   duration: _totalDuration,
                   bookmarkPositions: _bookmarks.map((b) => b.position).toList(),
-                  onSeek: (newPosition) {
-                    _audioPlayer.seek(newPosition);
-                  },
+                  onSeek: (newPosition) => _audioPlayer.seek(newPosition),
                 ),
+
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -212,13 +211,9 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
                       ),
                       SizedBox(width: 15.w),
                       GestureDetector(
-                        onTap: () {
-                          if (_isPlaying) {
-                            _audioPlayer.pause();
-                          } else {
-                            _audioPlayer.play();
-                          }
-                        },
+                        onTap: () => _isPlaying
+                            ? _audioPlayer.pause()
+                            : _audioPlayer.play(),
                         child: Container(
                           padding: EdgeInsets.all(12.r),
                           decoration: BoxDecoration(
@@ -260,223 +255,6 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildBookmarksList() {
-    if (_bookmarks.isEmpty) {
-      return Container(
-        height: 200.h,
-        width: double.infinity,
-        color: Theme.of(context).colorScheme.surface,
-        alignment: Alignment.center,
-        child: Text(
-          "لا يوجد علامات مضافة",
-          style: AppTextStyles.kMediumPrimary(context),
-        ),
-      );
-    }
-
-    return Container(
-      height: 200.h,
-      color: Theme.of(context).colorScheme.surface.withOpacity(0.6),
-
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: ListView.builder(
-        itemCount: _bookmarks.length,
-        itemBuilder: (context, index) {
-          final bookmark = _bookmarks[index];
-          return Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _bookmarks.removeAt(index);
-                  });
-                },
-                icon: Icon(Icons.remove_circle_outline),
-                color: Theme.of(context).colorScheme.onBackground,
-                iconSize: 32,
-              ),
-              SizedBox(width: 10.w),
-              GestureDetector(
-                onTap: () async{
-                  await _audioPlayer.seek(bookmark.position);
-                },
-                child: Text(
-                  _formatDuration(bookmark.position),
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-              SizedBox(width: 15.w),
-              Expanded(
-                child: bookmark.isEditing
-                    ? SizedBox(
-                        height: 48.h,
-                        child: TextField(
-                          cursorHeight: 24,
-                          controller: bookmark.controller,
-                          autofocus: true,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 30,
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Theme.of(context).colorScheme.background,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 1.5,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 1.5,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 1.5,
-                              ),
-                            ),
-                          ),
-                          onTapOutside: (event) {
-                            FocusScope.of(context).unfocus();
-                            setState(() {
-                              bookmark.isEditing = false;
-                              if (bookmark.controller.text.trim().isNotEmpty) {
-                                bookmark.title = bookmark.controller.text
-                                    .trim();
-                              } else {
-                                bookmark.title = "";
-                              }
-                            });
-                          },
-                          onSubmitted: (value) {
-                            setState(() {
-                              bookmark.isEditing = false;
-                              if (value.trim().isNotEmpty) {
-                                bookmark.title = value.trim();
-                              } else {
-                                bookmark.title = "";
-                              }
-                            });
-                          },
-                        ),
-                      )
-                    : ((bookmark.title != null) &&
-                              ((bookmark.title!.isNotEmpty))
-                          ? GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  bookmark.isEditing = true;
-                                });
-                              },
-                              child: Container(
-                                height: 48.h,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.background,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  border: Border.all(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                    width: 1.5,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    bookmark.title!,
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onBackground,
-                                      fontSize: 30,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  bookmark.isEditing = true;
-                                });
-                              },
-                              child: Container(
-                                height: 48.h,
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimary,
-                                      size: 25,
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      "إضافة ملاحظة",
-                                      style: TextStyle(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimary,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class FlagWithAddIcon extends StatelessWidget {
-  const FlagWithAddIcon({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        FaIcon(
-          FontAwesomeIcons.flag,
-          size: 34.r,
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        Positioned(
-          top: 6.h,
-          left: 8.w,
-          child: Icon(
-            Icons.add,
-            size: 14.r,
-            color: Theme.of(context).colorScheme.onBackground,
-          ),
-        ),
-      ],
     );
   }
 }

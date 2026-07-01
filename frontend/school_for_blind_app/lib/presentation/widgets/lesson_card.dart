@@ -49,9 +49,13 @@ class LessonCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      lessonName,
-                      style: AppTextStyles.kMediumPrimary(context),
+                    Expanded(
+                      child: Text(
+                        lessonName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.kMediumPrimary(context),
+                      ),
                     ),
                     viewMenu
                         ? PopupMenuButton<String>(
@@ -60,97 +64,17 @@ class LessonCard extends StatelessWidget {
                               size: 34.sp,
                               color: Theme.of(context).colorScheme.primary,
                             ),
-                            onSelected: (String value) {
+                            onSelected: (String value) async {
                               if (value == 'كويز') {
                                 QuizShowDialog.buildQuizShowDialog(context);
                               } else if (value == 'حفظ') {
-                                //اضافة للمحفوظات
-                              } else {
-                                //التنزيل وبيصير بتاب الاوفلاين
+                                // اضافة للمحفوظات
+                              } else if (value == 'تنزيل') {
+                                // تنزيل
                               }
                             },
                             itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<String>>[
-                                  PopupMenuItem<String>(
-                                    value: 'كويز',
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.quiz,
-                                              size: 30,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                            SizedBox(width: 15.w),
-                                            Text(
-                                              'كويز',
-                                              style: TextStyle(fontSize: 36),
-                                            ),
-                                          ],
-                                        ),
-                                        Divider(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onBackground,
-                                          height: 0,
-                                          thickness: 0.2.w,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  PopupMenuItem<String>(
-                                    value: 'حفظ',
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.bookmark_add_sharp,
-                                              size: 30,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                            SizedBox(width: 10.w),
-                                            Text(
-                                              'حفظ',
-                                              style: TextStyle(fontSize: 36),
-                                            ),
-                                          ],
-                                        ),
-                                        Divider(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onBackground,
-                                          height: 0,
-                                          thickness: 0.2.w,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  PopupMenuItem<String>(
-                                    value: 'تنزيل',
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.download,
-                                          size: 30,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        Text(
-                                          'تنزيل',
-                                          style: TextStyle(fontSize: 36),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                _buildPopupMenu(context),
                           )
                         : SizedBox(),
                   ],
@@ -191,5 +115,70 @@ class LessonCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Divider _buildCustomDivider(BuildContext context) {
+    return Divider(
+      color: Theme.of(context).colorScheme.onBackground,
+      height: 0,
+      thickness: 0.2.w,
+    );
+  }
+
+  List<PopupMenuEntry<String>> _buildPopupMenu(BuildContext context) {
+    return <PopupMenuEntry<String>>[
+      PopupMenuItem<String>(
+        value: 'كويز',
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.quiz,
+                  size: 30,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                SizedBox(width: 15.w),
+                Text('كويز', style: TextStyle(fontSize: 36)),
+              ],
+            ),
+            _buildCustomDivider(context),
+          ],
+        ),
+      ),
+      PopupMenuItem<String>(
+        value: 'حفظ',
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.bookmark_add_sharp,
+                  size: 30,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                SizedBox(width: 10.w),
+                Text('حفظ', style: TextStyle(fontSize: 36)),
+              ],
+            ),
+            _buildCustomDivider(context),
+          ],
+        ),
+      ),
+      PopupMenuItem<String>(
+        value: 'تنزيل',
+        child: Row(
+          children: [
+            Icon(
+              Icons.download,
+              size: 30,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            SizedBox(width: 10.w),
+            Text('تنزيل', style: TextStyle(fontSize: 36)),
+          ],
+        ),
+      ),
+    ];
   }
 }

@@ -10,11 +10,13 @@ import 'school_for_blind.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = "pk_test_51TkNlpHb6vvSAewAX80goBxYkrKudKIvMMUJWCWUtfBtz34M6b7nSkK856iN4VelOTa5A691otg1gYWZ7NU0GhCn00M54djgTI";
 
+  Stripe.publishableKey = "pk_test_51TkNlpHb6vvSAewAX80goBxYkrKudKIvMMUJWCWUtfBtz34M6b7nSkK856iN4VelOTa5A691otg1gYWZ7NU0GhCn00M54djgTI";
   await Stripe.instance.applySettings();
+
   initGetIt();
   getIt<DeepLinkService>().initDeepLinks();
+
 runApp(
     BlocProvider(
       create: (context) => getIt<ThemeCubit>(),

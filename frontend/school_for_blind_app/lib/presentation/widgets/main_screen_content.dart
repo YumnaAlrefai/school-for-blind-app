@@ -8,8 +8,8 @@ import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
-import 'package:school_for_blind_app/presentation/screens/student_main_screen.dart';
 import 'package:school_for_blind_app/presentation/widgets/small_button.dart';
+import 'package:school_for_blind_app/presentation/widgets/subjects.dart';
 
 class MainScreenContent extends StatelessWidget {
   const MainScreenContent({super.key});
@@ -104,7 +104,7 @@ class MainScreenContent extends StatelessWidget {
             ),
           ),
         ),
-        Subjects(progressList: []),
+        Subjects(),
       ],
     );
   }

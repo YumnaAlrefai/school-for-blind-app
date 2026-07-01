@@ -8,7 +8,6 @@ import 'package:school_for_blind_app/presentation/screens/student_bookmarks_scre
 import 'package:school_for_blind_app/presentation/screens/student_chats_screen.dart';
 import 'package:school_for_blind_app/presentation/widgets/app_drawer.dart';
 import 'package:school_for_blind_app/presentation/widgets/main_screen_content.dart';
-import 'package:school_for_blind_app/presentation/widgets/subject_card.dart';
 
 class StudentMainScreen extends StatefulWidget {
   const StudentMainScreen({super.key});
@@ -122,51 +121,3 @@ class SelectedIcon extends StatelessWidget {
   }
 }
 
-class Subjects extends StatelessWidget {
-  final List<String> progressList;
-  Subjects({super.key, required this.progressList});
-
-  final Map<String, IconData> twelfthClassSubjects = {
-    'الفلسفة': Icons.psychology,
-    'التاريخ': Icons.history_edu,
-    'الجغرافيا': Icons.public,
-    'اللغة العربية': Icons.auto_stories,
-    'اللغة الإنكليزية': Icons.translate,
-    'اللغة الفرنسية': Icons.language,
-    'التربية الدينية': Icons.mosque,
-  };
-
-  final Map<String, IconData> ninthClassSubjects = {
-    'الرياضيات': Icons.functions,
-    'الفيزياء والكيمياء': Icons.science,
-    'علم الأحياء والأرض': Icons.biotech,
-    'التاريخ': Icons.history_edu,
-    'الجغرافيا': Icons.public,
-    'اللغة العربية': Icons.auto_stories,
-    'اللغة الإنكليزية': Icons.translate,
-    'اللغة الفرنسية': Icons.language,
-    'التربية الدينية': Icons.mosque,
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    final subjectsList =
-        getIt<StudentCubit>().currentStudent?.level == 'twelfth'
-        ? twelfthClassSubjects.entries.toList()
-        : ninthClassSubjects.entries.toList();
-
-    return Expanded(
-      child: ListView.builder(
-        itemCount: subjectsList.length,
-        itemBuilder: (context, index) {
-          final currentSubject = subjectsList[index];
-          return SubjectCard(
-            subjectName: currentSubject.key,
-            icon: currentSubject.value,
-            progress: index < progressList.length ? progressList[index] : "0/0",
-          );
-        },
-      ),
-    );
-  }
-}
