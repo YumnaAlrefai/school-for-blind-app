@@ -39,125 +39,129 @@ class QuizSeeder extends Seeder
                 ]
             ]);
 
-            $lesson = Lesson::create([
-                'title' => "كويزات مادة {$subject->name}",
-                'subject_id' => $subject->id,
-                'teacher_id' => $teacher->id,
-                'class_id' => Classes::first()?->id,
-            ]);
 
-            $quiz = Quiz::create([
-                'numofquestions' => 12,
-                'timelimit' => 15,
-                'totalmark' => 12,
-                'subject_id' => $subject->id,
-                'lesson_id' => $lesson->id,
-                'teacher_id' => $teacher->id,
-            ]);
 
-            /*
-            |--------------------------------------------------------------------------
-            | MCQ
-            |--------------------------------------------------------------------------
-            */
-
-            for ($i = 1; $i <= 4; $i++) {
-
-                $question = Question::create([
+            foreach (Classes::all() as $cls) {
+                $lesson = Lesson::create([
+                    'title' => "كويزات مادة {$subject->name}",
+                    'subject_id' => $subject->id,
                     'teacher_id' => $teacher->id,
-                    'type' => 'mcq',
-                    'description' => "اختر الخيار الصحيح رقم {$i}",
-                    'points' => 1,
-                    'status' => 'publish',
+                    'class_id' => $cls->id,
                 ]);
 
-                $choices = [
-                    ['الخيار الأول', false],
-                    ['الخيار الثاني', false],
-                    ['الخيار الثالث', false],
-                    ['الخيار الرابع', true],
-                ];
+                $quiz = Quiz::create([
+                    'numofquestions' => 12,
+                    'timelimit' => 15,
+                    'totalmark' => 12,
+                    'subject_id' => $subject->id,
+                    'lesson_id' => $lesson->id,
+                    'teacher_id' => $teacher->id,
+                ]);
 
-                shuffle($choices);
+                /*
+                |--------------------------------------------------------------------------
+                | MCQ
+                |--------------------------------------------------------------------------
+                */
 
-                foreach ($choices as $choice) {
+                for ($i = 1; $i <= 4; $i++) {
 
-                    Choice::create([
-                        'question_id' => $question->id,
-                        'choice_text' => $choice[0],
-                        'is_correct' => $choice[1],
+                    $question = Question::create([
+                        'teacher_id' => $teacher->id,
+                        'type' => 'mcq',
+                        'description' => "اختر الخيار الصحيح رقم {$i}",
+                        'points' => 1,
+                        'status' => 'publish',
                     ]);
+
+                    $choices = [
+                        ['الخيار الأول', false],
+                        ['الخيار الثاني', false],
+                        ['الخيار الثالث', false],
+                        ['الخيار الرابع', true],
+                    ];
+
+                    shuffle($choices);
+
+                    foreach ($choices as $choice) {
+
+                        Choice::create([
+                            'question_id' => $question->id,
+                            'choice_text' => $choice[0],
+                            'is_correct' => $choice[1],
+                        ]);
+                    }
+
+                    $quiz->questions()->attach($question->id);
                 }
 
-                $quiz->questions()->attach($question->id);
+                /*
+                |--------------------------------------------------------------------------
+                | True False
+                |--------------------------------------------------------------------------
+                */
+
+                for ($i = 1; $i <= 4; $i++) {
+
+                    $answer = rand(0, 1) ? 'True' : 'False';
+
+                    $question = Question::create([
+                        'teacher_id' => $teacher->id,
+                        'type' => 'TF',
+                        'description' => "العبارة رقم {$i} صحيحة.",
+                        'correct_answer' => $answer,
+                        'points' => 1,
+                        'status' => 'publish',
+                    ]);
+
+                    $quiz->questions()->attach($question->id);
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Text
+                |--------------------------------------------------------------------------
+                */
+
+                $texts = [
+
+                    [
+                        'q' => 'اكتب اسم عاصمة سوريا.',
+                        'a' => 'دمشق'
+                    ],
+
+                    [
+                        'q' => 'ما لون السماء في النهار؟',
+                        'a' => 'أزرق'
+                    ],
+
+                    [
+                        'q' => 'اكتب كلمة الترحيب.',
+                        'a' => 'أهلاً وسهلاً'
+                    ],
+
+                    [
+                        'q' => 'ما حاصل 2 + 2 ؟',
+                        'a' => '4'
+                    ],
+
+                ];
+
+                foreach ($texts as $text) {
+
+                    $question = Question::create([
+                        'teacher_id' => $teacher->id,
+                        'type' => 'TEXT',
+                        'description' => $text['q'],
+                        'correct_answer' => $text['a'],
+                        'points' => 1,
+                        'status' => 'publish'
+                    ]);
+
+                    $quiz->questions()->attach($question->id);
+                }
+
             }
-
-            /*
-            |--------------------------------------------------------------------------
-            | True False
-            |--------------------------------------------------------------------------
-            */
-
-            for ($i = 1; $i <= 4; $i++) {
-
-                $answer = rand(0, 1) ? 'True' : 'False';
-
-                $question = Question::create([
-                    'teacher_id' => $teacher->id,
-                    'type' => 'TF',
-                    'description' => "العبارة رقم {$i} صحيحة.",
-                    'correct_answer' => $answer,
-                    'points' => 1,
-                    'status' => 'publish',
-                ]);
-
-                $quiz->questions()->attach($question->id);
-            }
-
-            /*
-            |--------------------------------------------------------------------------
-            | Text
-            |--------------------------------------------------------------------------
-            */
-
-            $texts = [
-
-                [
-                    'q' => 'اكتب اسم عاصمة سوريا.',
-                    'a' => 'دمشق'
-                ],
-
-                [
-                    'q' => 'ما لون السماء في النهار؟',
-                    'a' => 'أزرق'
-                ],
-
-                [
-                    'q' => 'اكتب كلمة الترحيب.',
-                    'a' => 'أهلاً وسهلاً'
-                ],
-
-                [
-                    'q' => 'ما حاصل 2 + 2 ؟',
-                    'a' => '4'
-                ],
-
-            ];
-
-            foreach ($texts as $text) {
-
-                $question = Question::create([
-                    'teacher_id' => $teacher->id,
-                    'type' => 'TEXT',
-                    'description' => $text['q'],
-                    'correct_answer' => $text['a'],
-                    'points' => 1,
-                    'status' => 'publish'
-                ]);
-
-                $quiz->questions()->attach($question->id);
-            }
-
         }
     }
 }
