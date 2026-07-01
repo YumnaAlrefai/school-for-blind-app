@@ -33,6 +33,21 @@ class RoomController extends Controller
         $userRole = ($creatorType === 'App\Models\Admin') ? 'Admin' : 'Teacher';
         $userName = ($userRole === 'Teacher' ? $user->full_name : $user->name);
 
+        $existingRoom = Room::where('creator_id', $user->id)
+            ->where('creator_type', $creatorType)
+            ->where('status', 'active')
+            ->first();
+
+        if ($existingRoom) {
+            $token = $this->roomService->generateToken($user, $existingRoom->room_name, $userRole, true, true);
+
+            return response()->json([
+                'message' => 'لديك مكالمة نشطة بالفعل، تم إعادة توليد توكن الانضمام بنجاح',
+                'room_name' => $existingRoom->room_name,
+                'token' => $token,
+            ]);
+        }
+
         $room = Room::create([
             'creator_id' => $user->id,
             'creator_type' => $creatorType,

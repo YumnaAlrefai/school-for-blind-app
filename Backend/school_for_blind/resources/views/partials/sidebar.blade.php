@@ -61,7 +61,8 @@
         <i class="fa-solid fa-users"></i>
       </a>
 
-      <div class="collapse {{ request()->routeIs('students.index', 'teachers.index') ? 'show' : '' }}" id="usersDropdown">
+      <div class="collapse {{ request()->routeIs('students.index', 'teachers.index') ? 'show' : '' }}"
+        id="usersDropdown">
         <ul class="nav flex-column me-4 mt-2 gap-1"
           style="border-right: 1px solid var(--border-color); padding-right: 15px;">
           <li class="nav-item">
@@ -80,6 +81,18 @@
           </li>
         </ul>
       </div>
+    </li>
+
+    <li>
+      <a href="{{ route('admin.active-calls') }}"
+        class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs('admin.active-calls') ? 'nav-link-active' : 'nav-link-custom' }}">
+        <span>الدروس الجارية حالياً</span>
+        <div class="d-flex align-items-center gap-2">
+          <span class="spinner-grow spinner-grow-sm text-danger" role="status"
+            style="--bs-spinner-width: 0.6rem; --bs-spinner-height: 0.6rem;"></span>
+          <i class="fa-solid fa-headset"></i>
+        </div>
+      </a>
     </li>
 
     <li>

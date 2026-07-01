@@ -18,8 +18,16 @@ class StartCallRequest extends BaseApiRequest
 
     public function rules()
     {
+        $user = $this->user();
+        $existingRoom = Room::where('creator_id', $user->id)
+            ->where('creator_type', get_class($user))
+            ->where('status', 'active')
+            ->first();
+
+        $ignoreId = $existingRoom ? ',' . $existingRoom->id : '';
+
         return [
-            'room_name' => 'required|string|unique:rooms,room_name',
+            'room_name' => 'required|string|unique:rooms,room_name' . $ignoreId,
             'class_id' => 'required|integer|exists:classes,id',
         ];
     }
@@ -36,11 +44,11 @@ class StartCallRequest extends BaseApiRequest
 
     public function withValidator($validator)
     {
-
         $validator->after(function ($validator) {
-            if (get_class($this->user()) === 'App\Models\Teacher') {
-                $isMyClass = $this->user()
-                    ->classes()
+            $user = $this->user();
+
+            if (get_class($user) === 'App\Models\Teacher') {
+                $isMyClass = $user->classes()
                     ->where('classes.id', $this->class_id)
                     ->exists();
 
@@ -50,8 +58,16 @@ class StartCallRequest extends BaseApiRequest
                 }
             }
 
+            $existingRoom = Room::where('creator_id', $user->id)
+                ->where('creator_type', get_class($user))
+                ->where('status', 'active')
+                ->first();
+
             $activeCallExists = Room::where('class_id', $this->class_id)
                 ->where('status', 'active')
+                ->when($existingRoom, function ($query) use ($existingRoom) {
+                    return $query->where('id', '!=', $existingRoom->id);
+                })
                 ->exists();
 
             if ($activeCallExists) {

@@ -12,9 +12,12 @@ class LiveKitWebhookController extends Controller
 {
     public function handle(Request $request)
     {
+        \Log::info('hello world');
         $apiKey = env('LIVEKIT_API_KEY');
         $apiSecret = env('LIVEKIT_API_SECRET');
         $receiver = new WebhookReceiver($apiKey, $apiSecret);
+
+        \Log::info('receiver ' );
 
         try {
             $event = $receiver->receive(
@@ -26,6 +29,8 @@ class LiveKitWebhookController extends Controller
             $roomName = $event->getRoom()->getName();
 
             $room = Room::where('room_name', $roomName)->first();
+            \Log::info('room is ' . $room);
+            \Log::info('event is ' .$eventName);
             if (!$room) {
                 return response()->json(['status' => 'Room not found'], 200);
             }

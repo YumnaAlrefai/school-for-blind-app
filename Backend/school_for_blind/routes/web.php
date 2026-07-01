@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\MagicLoginController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\Web\RoomWebController;
 use App\Http\Middleware\CheckAdminRole;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,9 @@ Route::middleware([CheckAdminRole::class . ':Super Admin,Academic Manager,Data E
     Route::post('/dashboard/teachers/{id}/complete-approval', [DashboardController::class, 'completeTeacherApproval'])->name('teachers.approve.submit');
 });
 
+Route::get('/active-calls', [DashboardController::class, 'activeCalls'])->name('admin.active-calls');
+Route::get('/join-call/{room_name}', [DashboardController::class, 'joinCall'])->name('admin.join-call');
+    
 // Route::get('/', function () {
 //     return view('auth.login');
 // })->name('login');

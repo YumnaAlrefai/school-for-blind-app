@@ -231,4 +231,13 @@ class DashboardController extends Controller
         $teachers = Teacher::with(['subjects', 'classes'])->latest()->paginate(15);
         return view('pages.teachers.index', compact('teachers'));
     }
+
+    public function activeCalls()
+    {
+        $activeCalls = \App\Models\Room::where('status', 'active')
+            ->with(['creator', 'schoolclass'])
+            ->get();
+
+        return view('pages.rooms.active_calls', compact('activeCalls'));
+    }
 }
