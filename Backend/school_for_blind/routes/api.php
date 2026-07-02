@@ -25,7 +25,7 @@ use App\Http\Middleware\IsTeacher;
 use App\Http\Middleware\PreventStudentCallActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\Http\Middleware\CheckAbilities;
+use App\Http\Controllers\LiveKitWebhookController;
 
 Route::post('verify-otp', [OtpController::class, 'verify']);
 Route::post('register', [StudentController::class, 'register']);
@@ -186,3 +186,5 @@ Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('ad
     Route::patch('/{id}/status', [ReportController::class, 'updateStatus']);
 });
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+
+Route::post('/livekit/webhook', [LiveKitWebhookController::class, 'handle']);

@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Web;
-
+namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Room;
-use App\Models\Classes; 
+use App\Models\Classes;
 use App\Services\RoomService;
 use Illuminate\Http\Request;
 
@@ -17,11 +16,6 @@ class RoomWebController extends Controller
         $this->roomService = $roomService;
     }
 
-    public function index()
-    {
-        $rooms = Room::latest()->get();
-        return view('pages.rooms.index', compact('rooms'));
-    }
     public function classRooms($class_id)
     {
         $rooms = Room::where('class_id', $class_id)->latest()->get();
@@ -50,22 +44,34 @@ class RoomWebController extends Controller
         ]);
         return redirect()->route('rooms.index')->with('success', 'تم إنشاء المكالمة بنجاح');
     }
-    public function joinRoom($room_name)
+    public function joinCall($room_name)
     {
-        $user = auth()->user();
-        $role = 'Admin';
+        $user = auth()->guard('admin')->user();
 
-        $token = $this->roomService->generateToken($user, $room_name, $role, true);
+        if (!$user) {
+            return redirect()->route('admin.login')->with('error', 'يجب تسجيل الدخول كأدمن أولاً');
+        }
 
-        return view('pages.rooms.room', [
-            'token' => $token,
-            'room_name' => $room_name
-        ]);
+        $identity = 'Admin--' . $user->id;
+        $room = Room::where('room_name', $room_name)->first();
+        $canPublish = true;
+        
+        $mutedParticipants = $room ? ($room->muted_participants ?? []) : [];
+
+        if (in_array($identity, $mutedParticipants)) {
+            $canPublish = false;
+        }
+
+        $roomService = new RoomService();
+        $token = $roomService->generateToken($user, $room_name, 'Admin', $canPublish, true);
+
+        return view('pages.rooms.room', compact('token', 'room_name', 'mutedParticipants'));
     }
 
     public function kickParticipant(Request $request)
     {
         $targetIdentity = $request->target_identity;
+        \Log::info('targetIdentity ' . $targetIdentity);
         $roomName = $request->room_name;
 
         try {
@@ -85,19 +91,43 @@ class RoomWebController extends Controller
             return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء الطرد'], 500);
         }
     }
+
     public function muteParticipant(Request $request)
     {
         try {
             $this->roomService->muteParticipant($request->room_name, $request->target_identity, $request->track_sid);
+
+            $room = Room::where('room_name', $request->room_name)->first();
+            if ($room) {
+                $muted = $room->muted_participants ?? [];
+                if (!in_array($request->target_identity, $muted)) {
+                    $muted[] = $request->target_identity;
+                    $room->muted_participants = $muted;
+                    $room->save();
+                }
+            }
+
             return response()->json(['success' => true, 'message' => 'تم الكتم بنجاح']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
     public function unmuteParticipant(Request $request)
     {
         try {
             $this->roomService->unmuteParticipant($request->room_name, $request->target_identity);
+
+            $room = Room::where('room_name', $request->room_name)->first();
+            if ($room) {
+                $muted = $room->muted_participants ?? [];
+                if (($key = array_search($request->target_identity, $muted)) !== false) {
+                    unset($muted[$key]);
+                    $room->muted_participants = array_values($muted);
+                    $room->save();
+                }
+            }
+
             return response()->json(['success' => true, 'message' => 'تم فك الكتم']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
@@ -122,5 +152,13 @@ class RoomWebController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء الإنهاء'], 500);
         }
+    }
+    public function activeCalls()
+    {
+        $activeCalls = Room::where('status', 'active')
+            ->with(['creator', 'schoolclass'])
+            ->get();
+
+        return view('pages.rooms.active_calls', compact('activeCalls'));
     }
 }

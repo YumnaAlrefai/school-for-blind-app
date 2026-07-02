@@ -8,8 +8,6 @@ use App\Models\Teacher;
 use App\Traits\UploadFileTrait;
 use Exception;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
@@ -119,7 +117,17 @@ class TeacherController extends Controller
 
         $teacher->cv_link = asset('storage/' . $teacher->cv_path);
 
-        $teacher->load('classes');
+        $teacher->load([
+            'classes' => function ($query) {
+                $query->select('classes.id', 'classes.name');
+            },
+            'subjects' => function ($query) {
+                $query->select('subjects.id', 'subjects.name');
+            }
+        ]);
+
+        // $teacher->classes->makeHidden(['pivot', 'created_at', 'updated_at', 'level', 'number']);
+        // $teacher->subjects->makeHidden(['pivot', 'created_at', 'updated_at', 'grade_level', 'number_of_lessons', 'total_lessons', 'deleted_at']);
 
         return response()->json([
             'message' => 'بيانات المدرس',

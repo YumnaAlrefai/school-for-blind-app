@@ -33,6 +33,7 @@ class Room extends Model
     protected $guarded = [];
     protected $casts = [
         'kicked_participants' => 'array',
+        'muted_participants' => 'array',
     ];
 
     public function getActivitylogOptions(): LogOptions

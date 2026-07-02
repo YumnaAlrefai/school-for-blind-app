@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\RoomWebController;
 use App\Http\Controllers\MagicLoginController;
-use App\Http\Controllers\Web\RoomWebController;
 use App\Http\Middleware\CheckAdminRole;
 use Illuminate\Support\Facades\Route;
 
@@ -41,11 +41,12 @@ Route::middleware([CheckAdminRole::class . ':Super Admin,Academic Manager,Modera
 });
 
 Route::middleware([CheckAdminRole::class . ':Super Admin,Academic Manager'])->group(function () {
+    Route::get('/active-calls', [RoomWebController::class, 'activeCalls'])->name('admin.active-calls');
     Route::get('/rooms', [RoomWebController::class, 'index'])->name('rooms.index');
     Route::get('/rooms/create', [RoomWebController::class, 'create'])->name('rooms.create');
     Route::post('/rooms', [RoomWebController::class, 'store'])->name('rooms.store');
     Route::get('/classes/{class_id}/rooms', [RoomWebController::class, 'classRooms'])->name('rooms.class');
-    Route::get('/rooms/{room_name}/join', [RoomWebController::class, 'joinRoom'])->name('rooms.join');
+    Route::get('/rooms/{room_name}/join', [RoomWebController::class, 'joincall'])->name('rooms.join');
     Route::prefix('rooms/actions')->name('rooms.actions.')->group(function () {
         Route::post('/kick', [RoomWebController::class, 'kickParticipant'])->name('kick');
         Route::post('/mute', [RoomWebController::class, 'muteParticipant'])->name('mute');
@@ -77,6 +78,7 @@ Route::middleware([CheckAdminRole::class . ':Super Admin,Academic Manager,Data E
     Route::post('/dashboard/teachers/{id}/complete-approval', [DashboardController::class, 'completeTeacherApproval'])->name('teachers.approve.submit');
 });
 
+    
 // Route::get('/', function () {
 //     return view('auth.login');
 // })->name('login');
