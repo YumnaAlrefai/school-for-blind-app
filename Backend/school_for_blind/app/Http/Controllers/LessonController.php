@@ -8,11 +8,14 @@ use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Classes;
 use App\Models\Lesson;
+use App\Models\QuizSubmission;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class LessonController extends Controller
 {
@@ -122,28 +125,51 @@ class LessonController extends Controller
             'message' => 'تم حذف الدرس والتسجيل بنجاح.'
         ], 200);
     }
-    // ============================
+    // ==============================================================================================================================================================================================================================================================================================================================
+   
     public function getLessonsBySubject($subjectId)
-    {
-        $lessons = Lesson::with('teacher:id,full_name')->where('subject_id', $subjectId)
+    {    $studentId = Auth::id();
+        $lessons = Lesson::with('teacher:id,full_name', 'quiz:id,lesson_id')->where('subject_id', $subjectId)
             //  ->with('record') 
-            ->get()
-            ->map(function ($lesson) {
-                $data = $lesson->toArray();
+            ->withExists([
+            'favorites as is_favorited' => function ($query) use ($studentId) {
+                $query->where('user_id', $studentId); 
+            }
+        ])
+        ->get();
+          $quizIds = $lessons->pluck('quiz.id')->filter();
 
-                $data['teacher_name'] = $lesson->teacher->full_name ?? 'غير معروف';
-                unset($data['teacher']);
-                unset($data['teacher_id']);
+    $solvedQuizIds = DB::table('quiz_submissions')
+        ->where('student_id', $studentId)
+        ->whereIn('quiz_id', $quizIds)
+        ->pluck('quiz_id')
+        ->toArray();
 
-                return $data;
-            });
+    $formattedLessons = $lessons->map(function ($lesson) use ($solvedQuizIds) {
+        $data = $lesson->toArray();
 
+        $data['teacher_name'] = $lesson->teacher->full_name ?? 'غير معروف';
+        unset($data['teacher'], $data['teacher_id']);
 
-        return response()->json([
-            'subject_id' => $subjectId,
-            'lessons' => $lessons
-        ]);
-    }
+        
+        $data['is_favorited'] = $lesson->is_favorited;
+
+        $data['is_quiz_solved'] = false; 
+        if ($lesson->quiz) {
+            $data['is_quiz_solved'] = in_array($lesson->quiz->id, $solvedQuizIds);
+        }
+
+        unset($data['quiz']); 
+        
+
+        return $data;
+    });
+
+    return response()->json([
+        'subject_id' => $subjectId,
+        'lessons'    => $formattedLessons
+    ]);
+}
     public function getLessonRecord($lessonId)
     {
         $lesson = Lesson::with('records')->find($lessonId);
