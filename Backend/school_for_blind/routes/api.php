@@ -120,14 +120,19 @@ Route::get('/announcements/exam/{id}', [AnnouncementController::class, 'showExam
 
 
 Route::prefix('student/quizzes')->group(function () {
-    Route::post('search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
-
+    
     Route::get('{id}/questions', [StudentQuizController::class, 'getQuizQuestions']);
+    
+    });
+    Route::middleware('auth:sanctum')->group(function () {
+        //  Route::post('search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
+        // Route::post('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfo']);
+        Route::post('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
+    });
 
-    Route::post('/', [StudentQuizController::class, 'getQuizInfo']);
-});
-Route::get('student/quizzes/search-info', [StudentQuizController::class, 'getQuizInfoByNames']);
 
+
+    Route::post('/get-quiz-info', [QuizController::class, 'getQuizInfoByNames']);
 Route::middleware(['auth:sanctum', IsTeacher::class])->prefix('question-bank')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index']);
     Route::post('/', [QuestionBankController::class, 'store']);
