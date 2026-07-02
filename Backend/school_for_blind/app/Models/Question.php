@@ -22,4 +22,16 @@ class Question extends Model
     {
         return $this->hasMany(Choice::class);
     }
+
+    public function pastExams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(PastExam::class, 'past_exam_question', 'question_id', 'past_exam_id')
+            ->withTimestamps();
+    }
+
+    public function exams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Exam::class, 'exam_question', 'question_id', 'exam_id')
+            ->withTimestamps();
+    }
 }

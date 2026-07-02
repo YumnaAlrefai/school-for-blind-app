@@ -129,6 +129,25 @@
       </a>
     </li>
 
+    {{-- قسم المحتوى الأكاديمي --}}
+    <li class="nav-item mt-3 mb-1 px-3" style="color: var(--text-muted); font-size: 0.85rem;">المحتوى الأكاديمي</li>
+
+    <li>
+      <a href="{{ route('dashboard.past-exams.index') }}"
+        class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs('dashboard.past-exams.*') ? 'nav-link-active' : 'nav-link-custom' }}">
+        <span>الدورات الوزارية</span>
+        <i class="fa-solid fa-book-open"></i>
+      </a>
+    </li>
+
+    <li>
+      <a href="{{ route('dashboard.exams.index') }}"
+        class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs('dashboard.exams.*') ? 'nav-link-active' : 'nav-link-custom' }}">
+        <span>الامتحانات والمذاكرات</span>
+        <i class="fa-solid fa-file-signature"></i>
+      </a>
+    </li>
+
   </ul>
 
   <hr style="border-color: var(--border-color);">
