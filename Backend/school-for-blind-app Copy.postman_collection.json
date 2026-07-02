@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "1f2d9f27-aad1-40b1-80db-087442edb136",
-    "name": "school-for-blind-app",
+    "_postman_id": "69ed107e-d42e-4b5f-9c27-11e53c1c3253",
+    "name": "school-for-blind-app Copy",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "56227181",
-    "_collection_link": "https://go.postman.co/collection/56192936-1f2d9f27-aad1-40b1-80db-087442edb136?source=collection_link"
+    "_exporter_id": "56192936",
+    "_collection_link": "https://go.postman.co/collection/56192936-69ed107e-d42e-4b5f-9c27-11e53c1c3253?source=collection_link"
   },
   "item": [
     {
@@ -2745,7 +2745,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Host",
@@ -4021,7 +4021,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "YftgK2gLUyyaX10OrhmJw8aoAhz9o7bXkDnKROsycd9885d5",
+                  "value": "TWiMioaQb1H0jm1tWYauiJcZkSATRgg4oHhNjFRZ4ae66fb0",
                   "type": "string"
                 }
               ]
@@ -4036,7 +4036,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\":\"حتى لا تضيع الهوية\",\r\n  \"lesson id\":1,\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_name\":\"حتى لا تضيع الهوية\",\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"title\":\"حتى لا تضيع الهوية\",\r\n  \"lesson_id\":1,\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_name\":\"حتى لا تضيع الهوية\",\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4877,7 +4877,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|reuFhwk7yzVc7Yb2FPLnHXA4L2s8gDnacv9TDqaFcaec27ee",
+                  "value": "TWiMioaQb1H0jm1tWYauiJcZkSATRgg4oHhNjFRZ4ae66fb0",
                   "type": "string"
                 }
               ]
@@ -4915,7 +4915,7 @@
                   "key": "audio_file",
                   "type": "file",
                   "uuid": "dd76d04f-5ef5-4799-bb16-8f3935334b2a",
-                  "src": "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
+                  "src": "/C:/Users/VISION/Music/بودكاست_267_وكيف_ينام_بالأسحار_عبدٌ؟m4a.m4a"
                 }
               ]
             },
@@ -5428,7 +5428,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:8000/api/lessons?subject_id=2&per_page=5",
+                  "raw": "http://localhost:8000/api/lessons?subject_id=2&per_page=5&teacher_id=1",
                   "protocol": "http",
                   "host": [
                     "localhost"
@@ -5446,6 +5446,11 @@
                     {
                       "key": "per_page",
                       "value": "5"
+                    },
+                    {
+                      "key": "teacher_id",
+                      "value": "1",
+                      "type": "text"
                     }
                   ]
                 }
@@ -6094,14 +6099,7 @@
           "name": "student_announcements",
           "request": {
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "1QsrbzqEXNlpfhRojnHxOSrLZijpOOovbDK3pJEQ249bbd6b",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
             "header": [
@@ -6113,7 +6111,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"type\": \"normal\",\r\n    \"target_audience\":\"parent\",\r\n    \"content\": \"توجه الإدارة الكريمة خالص الشكر والدعاء للطالبة يمنى الرفاعي نظراً لجهودها المبذولة في إنجاح تطبيق مدرستنا، نسأل الله أن يكون لها عوناً ويجبر بخاطرها.\"\r\n}",
+              "raw": "{\r\n    \"type\": \"school_timetable\",\r\n    \"target_audience\": \"student\",\r\n    \"level\": \"ninth\",\r\n    \"title\": \"برنامج الدوام الأسبوعي لعام 2026\", \r\n    \"content\": {\r\n        \"columns\": [\r\n            \"الحصة\",\r\n            \"الأحد\",\r\n            \"الإثنين\"\r\n        ],\r\n        \"rows\": [\r\n            {\r\n                \"period\": \"الأولى\",\r\n                \"sunday\": \"رياضيات\",\r\n                \"monday\": \"فيزياء\"\r\n            }\r\n        ]\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -6217,6 +6215,16 @@
             "disableBodyPruning": true
           },
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "jf1io24rLabVP41ZsevA59MZCFIPHWbdcoP8h2fa9308d9ea",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "body": {
@@ -6406,6 +6414,101 @@
               ],
               "cookie": [],
               "body": "{\n    \"id\": 2,\n    \"type\": \"exam_schedule\",\n    \"title\": \"برنامج امتحانات الفصل الثاني لعام 2026\",\n    \"exam_program\": {\n        \"columns\": [\n            \"اليوم والتاريخ\",\n            \"المادة\",\n            \"التوقيت\"\n        ],\n        \"rows\": [\n            {\n                \"date\": \"الأحد 2026-06-21\",\n                \"subject\": \"الرياضيات\",\n                \"time\": \"09:00 AM - 11:00 AM\"\n            }\n        ]\n    },\n    \"created_at\": \"2026-06-14T15:00:40.000000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "get_school_timetable",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "jf1io24rLabVP41ZsevA59MZCFIPHWbdcoP8h2fa9308d9ea",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/announcements/school-timetable/first",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "announcements",
+                "school-timetable",
+                "first"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "get_school_timetable",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/announcements/school-timetable/first",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "announcements",
+                    "school-timetable",
+                    "first"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 02 Jul 2026 17:28:58 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 3,\n    \"type\": \"school_timetable\",\n    \"title\": \"برنامج الدوام الأسبوعي لعام 2026\",\n    \"target_audience\": \"student\",\n    \"level\": \"ninth\",\n    \"timetable_data\": {\n        \"columns\": [\n            \"الحصة\",\n            \"الأحد\",\n            \"الإثنين\"\n        ],\n        \"rows\": [\n            {\n                \"period\": \"الأولى\",\n                \"sunday\": \"رياضيات\",\n                \"monday\": \"فيزياء\"\n            }\n        ]\n    },\n    \"created_at\": \"2026-07-02T17:24:32.000000Z\",\n    \"updated_at\": \"2026-07-02T17:24:32.000000Z\"\n}"
             }
           ]
         }
@@ -6673,6 +6776,16 @@
         {
           "name": "quiz_info",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "DWpYfZxihzSkp8HBFYEuOGKGsLSRcxItvgAo48in6954c46c",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [
               {
@@ -6683,7 +6796,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"subject_id\": 8,\r\n    \"teacher_id\":1,\r\n    \"lesson_id\": 110\r\n}",
+              "raw": "{\r\n    \"subject_id\": 4,\r\n    \"teacher_id\":1,\r\n    \"lesson_id\": 3\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -6823,7 +6936,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Host",
@@ -6856,6 +6969,80 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"quiz_id\": 17,\n        \"duration_minutes\": 30,\n        \"total_questions\": 2,\n        \"total_mark\": 20\n    }\n}"
+            },
+            {
+              "name": "quiz_info",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"subject_id\": 4,\r\n    \"teacher_id\":1,\r\n    \"lesson_id\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/student/quizzes/search-info",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "student",
+                    "quizzes",
+                    "search-info"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 02 Jul 2026 05:44:45 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"error\",\n    \"message\": \"لقد قمت بإجراء هذا الاختبار مسبقاً ولا يمكن إعادته.\"\n}"
             }
           ]
         },
@@ -6973,7 +7160,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "Yt8npO56AU23ITg9VIBm1E1gVnBQAFNdtvtLukmW58fba20a",
+                  "value": "DWpYfZxihzSkp8HBFYEuOGKGsLSRcxItvgAo48in6954c46c",
                   "type": "string"
                 }
               ]
@@ -6996,7 +7183,7 @@
               "formdata": [
                 {
                   "key": "quiz_id",
-                  "value": "18",
+                  "value": "17",
                   "type": "text",
                   "uuid": "234763b7-dbeb-4ed8-b228-6069a397a628"
                 },
@@ -7120,7 +7307,9 @@
                       "key": "answers[2][audio_answer]",
                       "type": "file",
                       "uuid": "94c7cb96-4555-4fde-857f-c2877e79d5a5",
-                      "src": "postman-cloud:///1f1745d9-d44d-4330-988f-4dca0a9c0567"
+                      "src": [
+                        "postman-cloud:///1f1745d9-d44d-4330-988f-4dca0a9c0567"
+                      ]
                     },
                     {
                       "key": "answers[2][question_id]",
@@ -7149,7 +7338,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Host",
@@ -7182,6 +7371,264 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تسليم الكويز بنجاح وتصحيح الأسئلة المؤتمتة تلقائياً!\",\n    \"data\": {\n        \"submission_id\": 1,\n        \"auto_score\": 20,\n        \"status\": \"pending\"\n    }\n}"
+            },
+            {
+              "name": "submit",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "quiz_id",
+                      "value": "17",
+                      "type": "text",
+                      "uuid": "234763b7-dbeb-4ed8-b228-6069a397a628"
+                    },
+                    {
+                      "key": "answers[0][question_id]",
+                      "value": "193",
+                      "type": "text",
+                      "uuid": "99962cab-b73e-40b0-b948-c39c0507b7d1"
+                    },
+                    {
+                      "key": "answers[0][choice_id]",
+                      "value": "257",
+                      "type": "text",
+                      "uuid": "347506e6-54ce-4349-b1b3-0557dc6892f9"
+                    },
+                    {
+                      "key": "answers[1][question_id]",
+                      "value": "194",
+                      "type": "text",
+                      "uuid": "7ef746ad-bcd4-4e7c-b131-0fa9d9276da5",
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[1][text_answer]",
+                      "value": "True",
+                      "type": "text",
+                      "uuid": "54d63907-0de7-498d-bcac-b189d0a56483",
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[2][audio_answer]",
+                      "type": "file",
+                      "uuid": "94c7cb96-4555-4fde-857f-c2877e79d5a5",
+                      "src": [
+                        "postman-cloud:///1f1745d9-d44d-4330-988f-4dca0a9c0567"
+                      ],
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[2][question_id]",
+                      "value": "195",
+                      "type": "text",
+                      "uuid": "b0bf8893-7bb8-4ba8-ac59-c383d56e9c78",
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[2][text_answer]",
+                      "value": "سورةالعلق",
+                      "type": "text",
+                      "uuid": "a29df64c-8929-4f82-92be-7f7dd948d31b",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/quiz/submit",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quiz",
+                    "submit"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 01 Jul 2026 11:42:01 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، لقد قمت بتقديم هذا الاختبار مسبقاً ولا يمكنك إعادته.\"\n}"
+            },
+            {
+              "name": "submit",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "quiz_id",
+                      "value": "18",
+                      "type": "text",
+                      "uuid": "234763b7-dbeb-4ed8-b228-6069a397a628"
+                    },
+                    {
+                      "key": "answers[0][question_id]",
+                      "value": "193",
+                      "type": "text",
+                      "uuid": "99962cab-b73e-40b0-b948-c39c0507b7d1"
+                    },
+                    {
+                      "key": "answers[0][choice_id]",
+                      "value": "257",
+                      "type": "text",
+                      "uuid": "347506e6-54ce-4349-b1b3-0557dc6892f9"
+                    },
+                    {
+                      "key": "answers[1][question_id]",
+                      "value": "194",
+                      "type": "text",
+                      "uuid": "7ef746ad-bcd4-4e7c-b131-0fa9d9276da5",
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[1][text_answer]",
+                      "value": "True",
+                      "type": "text",
+                      "uuid": "54d63907-0de7-498d-bcac-b189d0a56483",
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[2][audio_answer]",
+                      "type": "file",
+                      "uuid": "94c7cb96-4555-4fde-857f-c2877e79d5a5",
+                      "src": [
+                        "postman-cloud:///1f1745d9-d44d-4330-988f-4dca0a9c0567"
+                      ],
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[2][question_id]",
+                      "value": "195",
+                      "type": "text",
+                      "uuid": "b0bf8893-7bb8-4ba8-ac59-c383d56e9c78",
+                      "disabled": true
+                    },
+                    {
+                      "key": "answers[2][text_answer]",
+                      "value": "سورةالعلق",
+                      "type": "text",
+                      "uuid": "a29df64c-8929-4f82-92be-7f7dd948d31b",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/quiz/submit",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quiz",
+                    "submit"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 01 Jul 2026 11:48:43 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تسليم الكويز بنجاح وتصحيح الأسئلة المؤتمتة تلقائياً!\",\n    \"data\": {\n        \"submission_id\": 5,\n        \"auto_score\": 0,\n        \"status\": \"graded\",\n        \"quiz_review\": [\n            {\n                \"question_id\": 196,\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"type\": \"mcq\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"دمشق\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            },\n            {\n                \"question_id\": 197,\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"type\": \"TF\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"True\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            },\n            {\n                \"question_id\": 198,\n                \"description\": \"ماهي أول سورة نزلت في القرآن الكريم\",\n                \"type\": \"TEXT\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"سورة العلق\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            }\n        ]\n    }\n}"
             },
             {
               "name": "submit",
@@ -7296,7 +7743,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Wed, 01 Jul 2026 11:42:01 GMT"
+                  "value": "Thu, 02 Jul 2026 05:47:46 GMT"
                 },
                 {
                   "key": "Content-Type",
@@ -7309,83 +7756,63 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، لقد قمت بتقديم هذا الاختبار مسبقاً ولا يمكنك إعادته.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7mfAS5Nd4N7TJEDTx53C3UbOLB3hE2wynQ3K4E1P4c61149a",
+                  "type": "string"
+                }
+              ]
             },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/student/quizzes/321/review",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "student",
+                "quizzes",
+                "321",
+                "review"
+              ]
+            }
+          },
+          "response": [
             {
-              "name": "submit",
+              "name": "New Request",
               "originalRequest": {
-                "method": "POST",
+                "method": "GET",
                 "header": [
                   {
                     "key": "Accept",
                     "value": "application/json",
                     "type": "text"
-                  },
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json",
-                    "type": "text"
                   }
                 ],
-                "body": {
-                  "mode": "formdata",
-                  "formdata": [
-                    {
-                      "key": "quiz_id",
-                      "value": "18",
-                      "type": "text",
-                      "uuid": "234763b7-dbeb-4ed8-b228-6069a397a628"
-                    },
-                    {
-                      "key": "answers[0][question_id]",
-                      "value": "193",
-                      "type": "text",
-                      "uuid": "99962cab-b73e-40b0-b948-c39c0507b7d1"
-                    },
-                    {
-                      "key": "answers[0][choice_id]",
-                      "value": "257",
-                      "type": "text",
-                      "uuid": "347506e6-54ce-4349-b1b3-0557dc6892f9"
-                    },
-                    {
-                      "key": "answers[1][question_id]",
-                      "value": "194",
-                      "type": "text",
-                      "uuid": "7ef746ad-bcd4-4e7c-b131-0fa9d9276da5",
-                      "disabled": true
-                    },
-                    {
-                      "key": "answers[1][text_answer]",
-                      "value": "True",
-                      "type": "text",
-                      "uuid": "54d63907-0de7-498d-bcac-b189d0a56483",
-                      "disabled": true
-                    },
-                    {
-                      "key": "answers[2][audio_answer]",
-                      "type": "file",
-                      "uuid": "94c7cb96-4555-4fde-857f-c2877e79d5a5",
-                      "src": "postman-cloud:///1f1745d9-d44d-4330-988f-4dca0a9c0567",
-                      "disabled": true
-                    },
-                    {
-                      "key": "answers[2][question_id]",
-                      "value": "195",
-                      "type": "text",
-                      "uuid": "b0bf8893-7bb8-4ba8-ac59-c383d56e9c78",
-                      "disabled": true
-                    },
-                    {
-                      "key": "answers[2][text_answer]",
-                      "value": "سورةالعلق",
-                      "type": "text",
-                      "uuid": "a29df64c-8929-4f82-92be-7f7dd948d31b",
-                      "disabled": true
-                    }
-                  ]
-                },
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/quiz/submit",
+                  "raw": "http://127.0.0.1:8000/api/student/quizzes/1/review",
                   "protocol": "http",
                   "host": [
                     "127",
@@ -7396,8 +7823,76 @@
                   "port": "8000",
                   "path": [
                     "api",
-                    "quiz",
-                    "submit"
+                    "student",
+                    "quizzes",
+                    "1",
+                    "review"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 02 Jul 2026 07:14:00 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"error\",\n    \"message\": \"عذراً، لا يمكنك عرض الإجابات لأنك لم تقم بحل هذا الاختبار بعد.\"\n}"
+            },
+            {
+              "name": "review",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/student/quizzes/321/review",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "student",
+                    "quizzes",
+                    "321",
+                    "review"
                   ]
                 }
               },
@@ -7423,7 +7918,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Wed, 01 Jul 2026 11:48:43 GMT"
+                  "value": "Thu, 02 Jul 2026 07:17:16 GMT"
                 },
                 {
                   "key": "Content-Type",
@@ -7435,7 +7930,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"status\": \"success\",\n    \"message\": \"تم تسليم الكويز بنجاح وتصحيح الأسئلة المؤتمتة تلقائياً!\",\n    \"data\": {\n        \"submission_id\": 5,\n        \"auto_score\": 0,\n        \"status\": \"graded\",\n        \"quiz_review\": [\n            {\n                \"question_id\": 196,\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"type\": \"mcq\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"دمشق\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            },\n            {\n                \"question_id\": 197,\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"type\": \"TF\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"True\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            },\n            {\n                \"question_id\": 198,\n                \"description\": \"ماهي أول سورة نزلت في القرآن الكريم\",\n                \"type\": \"TEXT\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"سورة العلق\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            }\n        ]\n    }\n}"
+              "body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"quiz_id\": 321,\n        \"total_score\": 0,\n        \"status\": \"graded\",\n        \"quiz_review\": [\n            {\n                \"question_id\": 3841,\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"type\": \"mcq\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"دمشق\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            },\n            {\n                \"question_id\": 3842,\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"type\": \"TF\",\n                \"points\": \"10.00\",\n                \"correct_answer\": \"True\",\n                \"student_answer\": {\n                    \"is_correct\": 0,\n                    \"text_answer\": null,\n                    \"audio_path\": null,\n                    \"choice_text\": null\n                }\n            }\n        ]\n    }\n}"
             }
           ]
         }
@@ -7446,16 +7941,13 @@
       "item": [
         {
           "name": "lesson_subject",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|k8dKSPELYyCILqPZaZk5l17OauUtBBXbSkXuwDoL5c9566d5",
+                  "value": "7mfAS5Nd4N7TJEDTx53C3UbOLB3hE2wynQ3K4E1P4c61149a",
                   "type": "string"
                 }
               ]
@@ -7468,35 +7960,6 @@
                 "type": "text"
               }
             ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "subject_id",
-                  "value": "4",
-                  "type": "text",
-                  "uuid": "eeabafa0-f31b-4934-8e91-b5c64270855e"
-                },
-                {
-                  "key": "class_id",
-                  "value": "4",
-                  "type": "text",
-                  "uuid": "6946b9a7-4e22-4f2c-82c5-a913cb78e41d"
-                },
-                {
-                  "key": "title",
-                  "value": "Test lesson #1",
-                  "type": "text",
-                  "uuid": "eded6f18-a1f1-4be1-b2a9-696039a6be36"
-                },
-                {
-                  "key": "audio_file",
-                  "type": "file",
-                  "uuid": "dd76d04f-5ef5-4799-bb16-8f3935334b2a",
-                  "src": "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
-                }
-              ]
-            },
             "url": {
               "raw": "http://127.0.0.1:8000/api/subjects/1/lessons",
               "protocol": "http",
@@ -7645,6 +8108,71 @@
               ],
               "cookie": [],
               "body": "{\n    \"subject_id\": \"31\",\n    \"lessons\": []\n}"
+            },
+            {
+              "name": "lesson_subject",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/subjects/1/lessons",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "subjects",
+                    "1",
+                    "lessons"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 02 Jul 2026 06:57:35 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"subject_id\": \"1\",\n    \"lessons\": [\n        {\n            \"id\": 41,\n            \"title\": \"المعرفة ومصادرها\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": true,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 42,\n            \"title\": \"المعرفة ومصادرها اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 43,\n            \"title\": \"المعرفة العلمية والمعرفة العامية\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": true,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 44,\n            \"title\": \"المعرفة العلمية والمعرفة العامية اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 45,\n            \"title\": \"مشكلة الحقيقة\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 46,\n            \"title\": \"مشكلة الحقيقة اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 47,\n            \"title\": \"مناهج البحث العلمي\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 48,\n            \"title\": \"مناهج البحث العلمي اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 49,\n            \"title\": \"مشكلة الوجود\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 50,\n            \"title\": \"مشكلة الوجود اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 51,\n            \"title\": \"المادة والوعي\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 52,\n            \"title\": \"المادة والوعي اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 53,\n            \"title\": \"الحتمية واللاحتمية\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 54,\n            \"title\": \"الحتمية واللاحتمية اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 55,\n            \"title\": \"التطور والتقدم\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 56,\n            \"title\": \"التطور والتقدم اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 57,\n            \"title\": \"القيم وتصنيفها\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 58,\n            \"title\": \"القيم وتصنيفها اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 59,\n            \"title\": \"الحق والعدالة\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 60,\n            \"title\": \"الحق والعدالة اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 61,\n            \"title\": \"الخير والمسؤولية الأخلاقية\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 62,\n            \"title\": \"الخير والمسؤولية الأخلاقية اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 63,\n            \"title\": \"الجمال والتذوق الجمالي\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 64,\n            \"title\": \"الجمال والتذوق الجمالي اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 65,\n            \"title\": \"ملامح الفكر العربي الحديث\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 66,\n            \"title\": \"ملامح الفكر العربي الحديث اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 67,\n            \"title\": \"مشكلة الأصالة والمعاصرة\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 68,\n            \"title\": \"مشكلة الأصالة والمعاصرة اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 69,\n            \"title\": \"إشكالية النهضة في الفكر العربي\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 70,\n            \"title\": \"إشكالية النهضة في الفكر العربي اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 71,\n            \"title\": \"أبعاد الهوية الثقافية العربية\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 72,\n            \"title\": \"أبعاد الهوية الثقافية العربية اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 73,\n            \"title\": \"العمليات المعرفية (الانتباه والإدراك)\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 74,\n            \"title\": \"العمليات المعرفية (الانتباه والإدراك) اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 75,\n            \"title\": \"الذاكرة والذكاء\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 76,\n            \"title\": \"الذاكرة والذكاء اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 77,\n            \"title\": \"الشخصية ومحدداتها\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 78,\n            \"title\": \"الشخصية ومحدداتها اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 79,\n            \"title\": \"التوافق النفسي والإحباط\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 80,\n            \"title\": \"التوافق النفسي والإحباط اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 81,\n            \"title\": \"التغير الاجتماعي ومظاهره\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 82,\n            \"title\": \"التغير الاجتماعي ومظاهره اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 83,\n            \"title\": \"العولمة وأثرها الاجتماعي\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 84,\n            \"title\": \"العولمة وأثرها الاجتماعي اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 85,\n            \"title\": \"المشكلات الاجتماعية المعاصرة\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 86,\n            \"title\": \"المشكلات الاجتماعية المعاصرة اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 87,\n            \"title\": \"الثقافة والمجتمع\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 88,\n            \"title\": \"الثقافة والمجتمع اكثر من قسم 1\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:32.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ يامن قيس\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 469,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 1,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 470,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 2,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 471,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 3,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 472,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 4,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 473,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 5,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 474,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 6,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 475,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 7,\n            \"created_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:34.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 476,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 8,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 477,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 9,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 478,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 10,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 479,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 480,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 12,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 481,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 13,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 482,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 14,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 483,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 15,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 484,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 16,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 485,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 17,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 486,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 18,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 487,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 19,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        },\n        {\n            \"id\": 488,\n            \"title\": \"كويزات مادة الفلسفة\",\n            \"subject_id\": 1,\n            \"class_id\": 20,\n            \"created_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"updated_at\": \"2026-07-02T06:23:35.000000Z\",\n            \"deleted_at\": null,\n            \"is_favorited\": false,\n            \"teacher_name\": \"الأستاذ التجريبي الشامل\",\n            \"is_quiz_solved\": false\n        }\n    ]\n}"
             }
           ]
         },
@@ -8075,7 +8603,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "iswnf4DVPMh32s93BdZdoG8bN3r7o8kmRXcnLbN9f2198277",
+                  "value": "7mfAS5Nd4N7TJEDTx53C3UbOLB3hE2wynQ3K4E1P4c61149a",
                   "type": "string"
                 }
               ]
@@ -8084,7 +8612,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"id\": 1,\r\n  \"type\": \"quiz\"\r\n}\r\n",
+              "raw": "{\r\n  \"id\": 41,\r\n  \"type\": \"lesson\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
