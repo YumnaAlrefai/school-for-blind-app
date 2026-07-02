@@ -150,7 +150,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-Route::get('/subjects/{id}/lessons', [LessonController::class, 'getLessonsBySubject']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/subjects/{id}/lessons', [LessonController::class, 'getLessonsBySubject']);
+    Route::get('student/quizzes/{quizId}/review', [StudentQuizController::class, 'getQuizReview']);
+});
 Route::get('/lessons/{id}/record', [LessonController::class, 'getLessonRecord']);
 Route::get('/subjects/{id}/lessons/count', [LessonController::class, 'getLessonsCountBySubject']);
 Route::get('/subjects/{id}/lessons/progress', [LessonController::class, 'getLessonsProgress']);

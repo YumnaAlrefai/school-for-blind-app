@@ -15,6 +15,7 @@ use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class LessonController extends Controller
 {
@@ -124,21 +125,22 @@ class LessonController extends Controller
             'message' => 'تم حذف الدرس والتسجيل بنجاح.'
         ], 200);
     }
-    // ============================
+    // ==============================================================================================================================================================================================================================================================================================================================
+   
     public function getLessonsBySubject($subjectId)
     {    $studentId = Auth::id();
         $lessons = Lesson::with('teacher:id,full_name', 'quiz:id,lesson_id')->where('subject_id', $subjectId)
             //  ->with('record') 
             ->withExists([
             'favorites as is_favorited' => function ($query) use ($studentId) {
-                $query->where('student_id', $studentId); 
+                $query->where('user_id', $studentId); 
             }
         ])
-        ->where('subject_id', $subjectId)
         ->get();
           $quizIds = $lessons->pluck('quiz.id')->filter();
 
-    $solvedQuizIds = QuizSubmission::where('student_id', $studentId)
+    $solvedQuizIds = DB::table('quiz_submissions')
+        ->where('student_id', $studentId)
         ->whereIn('quiz_id', $quizIds)
         ->pluck('quiz_id')
         ->toArray();

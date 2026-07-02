@@ -159,49 +159,15 @@ public function submitQuiz(SubmitQuizRequest $request): JsonResponse
         $submission->save();
 
         DB::commit();
-        $quiz = Quiz::with('questions.choices')->find($request->quiz_id);
-                $questionIds = $quiz->questions->pluck('id')->all();
-                $studentAnswers = StudentAnswer::query()
-                    ->where('student_id', $studentId)
-                    ->whereIn('question_id', $questionIds)
-                    ->get()
-                    ->keyBy('question_id');
-$questionsWithAnswers = $quiz->questions->map(function ($question) use ($studentAnswers) {
-    $studentAnswer = $studentAnswers->get($question->id);
-     $correctAnswerText = null;
-    if ($question->type === 'mcq') {
-        $correctChoice = $question->choices->where('is_correct', 1)->first();
-        $correctAnswerText = $correctChoice ? $correctChoice->choice_text : null;
-    } else {
-        $correctAnswerText = $question->correct_answer;
-    }
-    return [
-        'question_id'    => $question->id,
-        'description'    => $question->description,
-        'type'           => $question->type,
-        'points'         => $question->points,
-        'correct_answer' => $correctAnswerText, 
-        'student_answer' => [                   
-            'is_correct'  => $studentAnswer ? $studentAnswer->is_correct : 0,
-            'text_answer' => $studentAnswer ? $studentAnswer->text_answer : null,
-            'audio_path'  => $studentAnswer ? $studentAnswer->audio_path : null,
-            'choice_text' => ($studentAnswer && $studentAnswer->choice_id && $question->type === 'mcq') 
-                ? $question->choices->where('id', $studentAnswer->choice_id)->first()->choice_text ?? null 
-                : null,
-        ]
-    ];
-});
-return response()->json([
+        return response()->json([
             'status' => 'success',
             'message' => 'تم تسليم الكويز بنجاح وتصحيح الأسئلة المؤتمتة تلقائياً!',
             'data' => [
                 'submission_id' => $submission->id,
                 'auto_score'    => $totalAutoScore,
                 'status'        => $submission->status,
-                'quiz_review'     => $questionsWithAnswers 
             ]
         ]);
-
     } catch (\Exception $e) {
         DB::rollBack();
         return response()->json([
@@ -210,6 +176,71 @@ return response()->json([
         ], 500);
     }
 }
+public function getQuizReview($quizId): JsonResponse
+{
+    $studentId = Auth::id();
+    $submission = QuizSubmission::whereStudentId($studentId)
+                                ->whereQuizId($quizId)
+                                ->first();
 
+    if (!$submission) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'عذراً، لا يمكنك عرض الإجابات لأنك لم تقم بحل هذا الاختبار بعد.'
+        ], 403);
+    }
+
+    $quiz = Quiz::with('questions.choices')->find($quizId);
+    
+    if (!$quiz) {
+        return response()->json(['status' => 'error', 'message' => 'الكويز غير موجود'], 404);
+    }
+
+    $questionIds = $quiz->questions->pluck('id')->all();
+
+    $studentAnswers = StudentAnswer::query()
+        ->where('student_id', $studentId)
+        ->whereIn('question_id', $questionIds)
+        ->get()
+        ->keyBy('question_id');
+
+    $questionsWithAnswers = $quiz->questions->map(function ($question) use ($studentAnswers) {
+        $studentAnswer = $studentAnswers->get($question->id);
+        $correctAnswerText = null;
+
+        if ($question->type === 'mcq') {
+            $correctChoice = $question->choices->where('is_correct', 1)->first();
+            $correctAnswerText = $correctChoice ? $correctChoice->choice_text : null;
+        } else {
+            $correctAnswerText = $question->correct_answer;
+        }
+
+        return [
+            'question_id'    => $question->id,
+            'description'    => $question->description,
+            'type'           => $question->type,
+            'points'         => $question->points,
+            'correct_answer' => $correctAnswerText, 
+            'student_answer' => [                   
+                'is_correct'  => $studentAnswer ? $studentAnswer->is_correct : 0,
+                'text_answer' => $studentAnswer ? $studentAnswer->text_answer : null,
+                'audio_path'  => $studentAnswer ? $studentAnswer->audio_answer : null, 
+                'choice_text' => ($studentAnswer && $studentAnswer->choice_id && $question->type === 'mcq') 
+                    ? $question->choices->where('id', $studentAnswer->choice_id)->first()->choice_text ?? null 
+                    : null,
+            ]
+        ];
+    });
+
+    return response()->json([
+        'status' => 'success',
+        'data' => [
+            'quiz_id'      => $quiz->id,
+            'total_score'  => $submission->total_score,
+            'status'       => $submission->status,
+            'quiz_review'  => $questionsWithAnswers 
+        ]
+    ]);
+}
 
 }
