@@ -143,58 +143,52 @@ class PastExamController extends Controller
         $pastExam = PastExam::findOrFail($pastExamId);
 
         $request->validate([
-            'type' => 'required|in:mcq,tf,text',
+            'type' => 'required|in:mcq,TF,TEXT',
             'description' => 'required|string',
             'points' => 'required|numeric|min:0',
-            'tf_answer' => 'required_if:type,tf|in:T,F',
-            'text_answer' => 'required_if:type,text|string',
-            'choices' => 'required_if:type,mcq|array|min:2',
-            'choices.*.text' => 'required_if:type,mcq|string',
-            'correct_choice' => 'required_if:type,mcq|integer',
+            'correct_answer' => 'nullable|required_unless:type,mcq|string',
+            'choices' => 'nullable|required_if:type,mcq|array|min:2',
+            'choices.*.text' => 'nullable|required_if:type,mcq|string', 
+            'correct_choice' => 'nullable|required_if:type,mcq|integer',
         ]);
 
         $adminTeacher = Teacher::where('phone', '0000000000')->first();
 
         if (!$adminTeacher) {
-            return redirect()->back()->with('error', 'حساب أستاذ الإدارة غير موجود، يرجى تشغيل الـ Seeder أولاً.');
+            return redirect()->back()->with('error', 'حساب أستاذ الإدارة غير موجود.');
         }
 
         DB::beginTransaction();
         try {
-            $correctAnswer = null;
-            if ($request->type == 'tf') {
-                $correctAnswer = $request->tf_answer;
-            } elseif ($request->type == 'text') {
-                $correctAnswer = $request->text_answer;
-            }
-
             $question = Question::create([
                 'teacher_id' => $adminTeacher->id,
                 'type' => $request->type,
                 'description' => $request->description,
                 'points' => $request->points,
-                'correct_answer' => $correctAnswer,
+                'correct_answer' => $request->type !== 'mcq' ? $request->correct_answer : null,
                 'status' => 'publish',
             ]);
 
-            if ($request->type == 'mcq') {
+            if ($request->type === 'mcq' && $request->has('choices')) {
                 foreach ($request->choices as $index => $choiceData) {
-                    Choice::create([
-                        'question_id' => $question->id,
-                        'choice_text' => $choiceData['text'],
-                        'is_correct' => $index == $request->correct_choice,
-                    ]);
+                    if (isset($choiceData['text'])) {
+                        Choice::create([
+                            'question_id' => $question->id,
+                            'choice_text' => $choiceData['text'],
+                            'is_correct' => $index == $request->correct_choice,
+                        ]);
+                    }
                 }
             }
 
             $pastExam->questions()->attach($question->id);
 
             DB::commit();
-            return redirect()->back()->with('success', 'تم إضافة السؤال التفاعلي للدورة بنجاح.');
+            return redirect()->back()->with('success', 'تم إضافة السؤال التفاعلي بنجاح.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'حدث خطأ أثناء إضافة السؤال: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'حدث خطأ أثناء الحفظ: ' . $e->getMessage());
         }
     }
 
