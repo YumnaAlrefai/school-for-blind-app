@@ -191,3 +191,4 @@ Route::middleware(['auth:sanctum', CheckUserType::class . ':admin'])->prefix('ad
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
 Route::post('/livekit/webhook', [LiveKitWebhookController::class, 'handle']);
+

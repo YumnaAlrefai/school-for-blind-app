@@ -25,21 +25,20 @@ class StoreAnnouncementRequest extends FormRequest
         $type = $this->input('type');
 
         $rules = [
-            'type'            => 'required|in:normal,exam_schedule',
+            'type'            => 'required|in:normal,exam_schedule,school_timetable',
             'title'           => 'required_if:type,exam_schedule|string|max:255',
             'target_audience' => 'required|in:student,parent,teacher',
             'level'           => 'required_if:target_audience,student|required_if:target_audience,parent|in:ninth,twelfth,all',
         ];
 
-        $rules['content'] = $type === 'exam_schedule' ? 'required|array' : 'required|string';
-
+$rules['content'] = in_array($type, ['exam_schedule', 'school_timetable']) ? 'required|array' : 'required|string';
         return $rules;
     }
     public function messages(): array
     {
         return [
             'type.required' => 'نوع الإعلان مطلوب.',
-            'type.in' => 'نوع الإعلان يجب أن يكون إما "normal" أو "exam_schedule".',
+            'type.in' => 'نوع الإعلان يجب أن يكون إما "normal" أو "exam_schedule" أو "school_timetable".',
             'content.required' => 'محتوى الإعلان مطلوب.',
             'content.array' => 'محتوى الإعلان يجب أن يكون مصفوفة إذا كان نوعه "exam_schedule".',
             'title.required_if' => 'العنوان مطلوب إذا كان نوع الإعلان "exam_schedule".',

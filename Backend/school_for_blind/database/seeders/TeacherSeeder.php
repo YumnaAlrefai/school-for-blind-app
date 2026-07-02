@@ -83,7 +83,7 @@ class TeacherSeeder extends Seeder
 
             $assignedSubjectIds = [];
             if ($dbSubject) {
-                $assignedSubjectIds[] = $dbSubject->id;
+$assignedClassesIds[] = $availableClasses[$key];
             } else {
                 $fallbackSubject = Subject::where('grade_level', $level)->first();
                 if ($fallbackSubject) {
