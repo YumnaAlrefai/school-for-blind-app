@@ -154,7 +154,7 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
           String teacherJson = jsonEncode(teacherData.toJson());
 
           await prefs.setString('cachedteacher', teacherJson);
-          await prefs.setBool('login', true);
+          await prefs.setBool('teacherLoggedIn', true); // ← مفتاح واضح للمدرّس
 
           emit(ResultState.success(teacherData));
         } catch (parseError) {
@@ -182,5 +182,33 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
       }
     } catch (e) {}
   }
-  
+
+  void emitLogoutTeacher() async {
+    emit(const ResultState.loading());
+
+    final result = await teacherRepo.logoutTeacher();
+
+    result.when(
+      success: (data) async {
+        await _clearLocalTeacherData();
+        emit(ResultState.success(data));
+      },
+      failure: (networkException) async {
+        // حتى لو فشل الاتصال بالسيرفر، نفضل مسح البيانات محلياً لكي لا يعلق المستخدم داخل التطبيق
+        await _clearLocalTeacherData();
+        emit(ResultState.failure(networkException));
+      },
+    );
+  }
+
+  // دالة مساعدة لتنظيف كاش الجهاز بالكامل
+  Future<void> _clearLocalTeacherData() async {
+    currentTeacher = null;
+    await SecureStorage.deleteToken(); // تأكدي أن كلاس SecureStorage يحتوي على دالة الحذف delete أو المسح
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('cachedteacher');
+    await prefs.remove('login');
+    await prefs.setBool('teacherLoggedIn', false); // ← نفس المفتاح
+    await prefs.remove('cachedteacher');
+  }
 }

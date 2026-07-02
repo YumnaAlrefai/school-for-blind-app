@@ -1,26 +1,40 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_models.dart';
-
 import 'call_screen.dart';
 
 /// نقطة الدخول لزر المكالمات:
-/// 1) يجلب شعب المدرس من teacher/info.
-/// 2) يعرضها بقائمة (أو يدخل مباشرة لو شعبة واحدة).
-/// 3) عند الاختيار يبدأ المكالمة لتلك الشعبة.
+/// 1) يفحص الاتصال بالإنترنت أولاً.
+/// 2) يجلب شعب المدرس من teacher/info.
+/// 3) شعبة واحدة → يبدأ المكالمة فوراً.
+///    أكثر من شعبة → يعرض قائمة صغيرة منسدلة بجانب الزر ليختار منها.
 ///
-/// الاستعمال في زر المكالمات:
+/// الاستعمال في زر المكالمات (مرّري الـ context الخاص بالأيقونة نفسها):
 /// ```dart
-/// onPressed: () => openCallClassPicker(context, getIt<TeacherRepo>()),
+/// IconButton(
+///   icon: const Icon(Icons.call),
+///   onPressed: () => openCallClassPicker(context, getIt<TeacherRepo>()),
+/// )
 /// ```
 Future<void> openCallClassPicker(
   BuildContext context,
   TeacherRepo teacherRepo,
 ) async {
-  // مؤشّر تحميل بسيط أثناء جلب الشعب
+  // 1) فحص الاتصال أولاً — قبل أي نداء للسيرفر.
+  final connectivity = await Connectivity().checkConnectivity();
+  final hasNet = !connectivity.contains(ConnectivityResult.none);
+  if (!hasNet) {
+    if (context.mounted) {
+      _snack(context, 'لا يوجد اتصال بالإنترنت، تحقق من الشبكة وحاول مجدداً');
+    }
+    return;
+  }
+
+  // 2) مؤشّر تحميل بسيط أثناء جلب الشعب.
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -60,24 +74,92 @@ Future<void> openCallClassPicker(
     return;
   }
 
-  // شعبة واحدة → ابدأ مباشرة بدون قائمة
+  // شعبة واحدة → ابدأ مباشرة بدون قائمة.
   if (classes.length == 1) {
     _startCall(context, teacherRepo, classes.first);
     return;
   }
 
-  // أكثر من شعبة → اعرض قائمة الاختيار
-  final selected = await showModalBottomSheet<SchoolClass>(
-    context: context,
-    backgroundColor: const Color(0xFF14202F),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    ),
-    builder: (_) => _ClassPickerSheet(classes: classes),
-  );
-
+  // أكثر من شعبة → اعرض قائمة صغيرة منسدلة بجانب الزر.
+  final selected = await _showClassMenuNearButton(context, classes);
   if (selected == null || !context.mounted) return;
   _startCall(context, teacherRepo, selected);
+}
+
+/// يعرض قائمة منسدلة صغيرة عند موقع الزر الذي استُدعي منه.
+Future<SchoolClass?> _showClassMenuNearButton(
+  BuildContext context,
+  List<SchoolClass> classes,
+) async {
+  // نحسب موقع الزر على الشاشة لإظهار القائمة بجانبه.
+  final overlay =
+      Overlay.of(context).context.findRenderObject() as RenderBox?;
+  final button = context.findRenderObject() as RenderBox?;
+  if (overlay == null || button == null) {
+    // احتياط: لو تعذّر تحديد الموقع، نعرض قرب أعلى-يمين الشاشة.
+    return showMenu<SchoolClass>(
+      context: context,
+      position: const RelativeRect.fromLTRB(1000, 80, 16, 0),
+      color: const Color(0xFF14202F),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      items: _menuItems(classes),
+    );
+  }
+
+  final position = RelativeRect.fromRect(
+    Rect.fromPoints(
+      button.localToGlobal(button.size.bottomLeft(Offset.zero),
+          ancestor: overlay),
+      button.localToGlobal(button.size.bottomRight(Offset.zero),
+          ancestor: overlay),
+    ),
+    Offset.zero & overlay.size,
+  );
+
+  return showMenu<SchoolClass>(
+    context: context,
+    position: position,
+    color: const Color(0xFF14202F),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+    items: _menuItems(classes),
+  );
+}
+
+List<PopupMenuEntry<SchoolClass>> _menuItems(List<SchoolClass> classes) {
+  return [
+    const PopupMenuItem<SchoolClass>(
+      enabled: false,
+      height: 34,
+      child: Text(
+        'اختر الشعبة',
+        style: TextStyle(
+          color: Colors.white54,
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    const PopupMenuDivider(),
+    ...classes.map(
+      (c) => PopupMenuItem<SchoolClass>(
+        value: c,
+        child: Row(
+          textDirection: TextDirection.rtl,
+          children: [
+            const Icon(Icons.groups, color: Color(0xFFC8F526), size: 20),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                c.name,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ];
 }
 
 void _startCall(BuildContext context, TeacherRepo repo, SchoolClass cls) {
@@ -96,57 +178,4 @@ void _startCall(BuildContext context, TeacherRepo repo, SchoolClass cls) {
 
 void _snack(BuildContext context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-}
-
-class _ClassPickerSheet extends StatelessWidget {
-  const _ClassPickerSheet({required this.classes});
-  final List<SchoolClass> classes;
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'اختر الشعبة لبدء المكالمة',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const Divider(color: Colors.white12, height: 1),
-            Flexible(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: classes.length,
-                separatorBuilder: (_, __) =>
-                    const Divider(color: Colors.white10, height: 1),
-                itemBuilder: (context, i) {
-                  final c = classes[i];
-                  return ListTile(
-                    leading: const Icon(Icons.groups, color: Color(0xFFC8F526)),
-                    title: Text(
-                      c.name,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    trailing: const Icon(Icons.call,
-                        color: Colors.white54, size: 20),
-                    onTap: () => Navigator.of(context).pop(c),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
-    );
-  }
 }

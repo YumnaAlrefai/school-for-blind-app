@@ -7,6 +7,9 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 
+/// الحد الأقصى لحجم ملف الصوت (بالميجابايت)
+const int _kMaxAudioSizeMB = 100;
+
 class AddLessonScreen extends StatefulWidget {
   const AddLessonScreen({super.key});
 
@@ -18,6 +21,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
   final TextEditingController _titleController = TextEditingController();
   File? _audioFile;
   String? _audioFileName;
+  String? _audioFileSizeLabel;
 
   @override
   void dispose() {
@@ -26,21 +30,42 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
   }
 
   Future<void> _pickAudioFile() async {
-    // ✅ تصحيح: FilePicker.platform وليس FilePicker مباشرة
+    // ✅ التصحيح الفعلي: لازم نمر عبر FilePicker.platform
     final result = await FilePicker.pickFiles(type: FileType.audio);
 
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        _audioFile = File(result.files.single.path!);
-        _audioFileName = result.files.single.name;
+    if (result == null || result.files.single.path == null) return;
 
-        // اقتراح اسم الملف كعنوان إذا كان الحقل فارغاً
-        if (_titleController.text.trim().isEmpty) {
-          _titleController.text =
-              _audioFileName!.replaceAll(RegExp(r'\.[^.]+$'), '');
-        }
-      });
+    final pickedFile = File(result.files.single.path!);
+    final sizeInBytes = await pickedFile.length();
+    final sizeInMB = sizeInBytes / (1024 * 1024);
+
+    if (sizeInMB > _kMaxAudioSizeMB) {
+      _showMessage(
+        'حجم الملف كبير جداً (${sizeInMB.toStringAsFixed(1)} م.ب). '
+        'الحد الأقصى $_kMaxAudioSizeMB م.ب',
+      );
+      return;
     }
+
+    setState(() {
+      _audioFile = pickedFile;
+      _audioFileName = result.files.single.name;
+      _audioFileSizeLabel = '${sizeInMB.toStringAsFixed(1)} م.ب';
+
+      // اقتراح اسم الملف كعنوان إذا كان الحقل فارغاً
+      if (_titleController.text.trim().isEmpty) {
+        _titleController.text =
+            _audioFileName!.replaceAll(RegExp(r'\.[^.]+$'), '');
+      }
+    });
+  }
+
+  void _clearAudioFile() {
+    setState(() {
+      _audioFile = null;
+      _audioFileName = null;
+      _audioFileSizeLabel = null;
+    });
   }
 
   void _uploadLesson() {
@@ -52,6 +77,14 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
     }
     if (_audioFile == null) {
       _showMessage('اختر ملف الصوت أولاً');
+      return;
+    }
+    if (!_audioFile!.existsSync()) {
+      _showMessage('الملف المختار لم يعد موجوداً، اختر ملفاً آخر');
+      setState(() {
+        _audioFile = null;
+        _audioFileName = null;
+      });
       return;
     }
 
@@ -76,19 +109,20 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          automaticallyImplyLeading: false, // نلغي السهم الافتراضي (يمين)
+          automaticallyImplyLeading: false,
           centerTitle: true,
           title: const Text(
             'إضافة درس جديد',
             style: TextStyle(color: Colors.white, fontSize: 25),
           ),
-          // ✅ في RTL الـ actions تظهر يساراً — هنا نضع سهم الرجوع
           actions: [
             IconButton(
-             icon: Transform.flip(
-                  flipX: true, 
-                  child: const Icon(Icons.shortcut, color: Colors.white,size: 30),
-                ),
+              icon: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+                size: 26,
+              ),
+              tooltip: 'رجوع',
               onPressed: () => Navigator.pop(context),
             ),
             const SizedBox(width: 8),
@@ -145,7 +179,8 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
                   const SizedBox(height: 25),
 
                   // صندوق اختيار ملف الصوت
-                  GestureDetector(
+                  InkWell(
+                    borderRadius: BorderRadius.circular(15),
                     onTap: isUploading ? null : _pickAudioFile,
                     child: Container(
                       padding: const EdgeInsets.all(20),
@@ -171,17 +206,39 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
                           ),
                           const SizedBox(width: 15),
                           Expanded(
-                            child: Text(
-                              _audioFileName ?? 'اضغط لاختيار ملف الصوت',
-                              style: TextStyle(
-                                color: _audioFile != null
-                                    ? Colors.white
-                                    : Colors.white54,
-                                fontSize: 25,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _audioFileName ?? 'اضغط لاختيار ملف الصوت',
+                                  style: TextStyle(
+                                    color: _audioFile != null
+                                        ? Colors.white
+                                        : Colors.white54,
+                                    fontSize: 22,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                if (_audioFileSizeLabel != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      _audioFileSizeLabel!,
+                                      style: const TextStyle(
+                                        color: Colors.white38,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
+                          if (_audioFile != null && !isUploading)
+                            IconButton(
+                              icon: const Icon(Icons.close,
+                                  color: Colors.white54),
+                              onPressed: _clearAudioFile,
+                            ),
                         ],
                       ),
                     ),
@@ -203,7 +260,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
 
                   const Spacer(),
 
-                  // ✅ زر الرفع: عرض مصغّر وفي المنتصف بدل امتداد الشاشة
+                  // زر الرفع
                   Center(
                     child: SizedBox(
                       width: 200,

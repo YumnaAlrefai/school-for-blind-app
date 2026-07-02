@@ -28,10 +28,9 @@ abstract class WebServices {
     @Part(name: "subjects") required String subjects,
     @Part(name: "level") required String level,
     @Part(name: "fcm_token") required String fcmToken,
-    @Part(name: "cv") required MultipartFile cvFile, 
+    @Part(name: "cv") required MultipartFile cvFile,
   });
 
-  
   @POST("teacher/login")
   @FormUrlEncoded()
   Future<dynamic> loginTeacher(
@@ -39,53 +38,64 @@ abstract class WebServices {
     @Field("password") String password,
   );
 
-@GET("teacher/lessons")
-Future<dynamic> getLessons();
+  @POST("teacher/logout")
+  Future<dynamic> logoutTeacher();
 
-@POST("teacher/lessons")
-@MultiPart()
-Future<dynamic> uploadLesson({
-  @Part(name: "title") required String title,
-  @Part(name: "audio") required MultipartFile audioFile,
-});
-@DELETE("teacher/lessons/{id}")
-Future<dynamic> deleteLesson(@Path("id") int id);
-@GET("teacher/info")
-Future<dynamic> getTeacherInfo();
+  // ✅ المسار الصحيح: /api/lessons  (كان teacher/lessons وبيرجّع 404)
+  //    + فلتر حسب المادة. مرّري null عشان تجيب دروس كل المواد.
+  @GET("lessons")
+  Future<dynamic> getLessons(@Query("subject_id") int? subjectId);
 
-@POST("call/start")
-@FormUrlEncoded()
-Future<dynamic> startCall(
-  @Field("room_name") String roomName,
-  @Field("class_id") String classId,
-);
+  // ✅ صحّحنا المسار (lessons) واسم حقل الملف (audio_file).
+  // ⚠️ لسا ناقص subject_id + class_id — بدونهم الرفع رح يرجّع 422.
+  //    منضيفهم لما تحسمي مصدر class_id (شوفي ملاحظتي بالرسالة).
+  @POST("lessons")
+  @MultiPart()
+  Future<dynamic> uploadLesson({
+    @Part(name: "title") required String title,
+    @Part(name: "audio_file") required MultipartFile audioFile,
+  });
 
-@POST("call/mute")
-@FormUrlEncoded()
-Future<dynamic> muteParticipant(
-  @Field("room_name") String roomName,
-  @Field("target_id") String targetId,
-  @Field("target_type") String targetType,
-  @Field("track_sid") String trackSid,
-);
+  // ✅ المسار الصحيح: /api/lessons/{id}
+  @DELETE("lessons/{id}")
+  Future<dynamic> deleteLesson(@Path("id") int id);
 
-@POST("unmute-participant")
-@FormUrlEncoded()
-Future<dynamic> unmuteParticipant(
-  @Field("room_name") String roomName,
-  @Field("target_id") String targetId,
-  @Field("target_type") String targetType,
-);
+  @GET("teacher/info")
+  Future<dynamic> getTeacherInfo();
 
-@POST("call/kick")
-@FormUrlEncoded()
-Future<dynamic> kickParticipant(
-  @Field("room_name") String roomName,
-  @Field("target_id") String targetId,
-  @Field("target_type") String targetType,
-);
+  @POST("call/start")
+  @FormUrlEncoded()
+  Future<dynamic> startCall(
+    @Field("room_name") String roomName,
+    @Field("class_id") String classId,
+  );
 
-@POST("call/end")
-@FormUrlEncoded()
-Future<dynamic> endCall(@Field("room_name") String roomName);
+  @POST("call/mute")
+  @FormUrlEncoded()
+  Future<dynamic> muteParticipant(
+    @Field("room_name") String roomName,
+    @Field("target_id") String targetId,
+    @Field("target_type") String targetType,
+    @Field("track_sid") String trackSid,
+  );
+
+  @POST("unmute-participant")
+  @FormUrlEncoded()
+  Future<dynamic> unmuteParticipant(
+    @Field("room_name") String roomName,
+    @Field("target_id") String targetId,
+    @Field("target_type") String targetType,
+  );
+
+  @POST("call/kick")
+  @FormUrlEncoded()
+  Future<dynamic> kickParticipant(
+    @Field("room_name") String roomName,
+    @Field("target_id") String targetId,
+    @Field("target_type") String targetType,
+  );
+
+  @POST("call/end")
+  @FormUrlEncoded()
+  Future<dynamic> endCall(@Field("room_name") String roomName);
 }

@@ -79,6 +79,11 @@ class CallController extends ChangeNotifier {
   Room? _room;
   EventsListener<RoomEvent>? _events;
 
+  // تتبّع حالة الغرفة على السيرفر لمنع تعليقها
+  bool _started = false; // هل نجح start (انفتحت الغرفة بالسيرفر)؟
+  bool _ended = false; // هل أُغلقت الغرفة (لمنع الإغلاق المزدوج)؟
+  String? _activeRoomName; // اسم الغرفة الفعلي كما رجع من السيرفر
+
   // الوضع التجريبي فقط
   Timer? _demoTimer;
   final Random _rand = Random();
@@ -95,13 +100,37 @@ class CallController extends ChangeNotifier {
       }
 
       // 1) بدء الدرس عبر الـ Repo (يرجّع توكن LiveKit + الطلاب)
-      final data = _unwrap(
-        await teacherRepo.startCall(roomName: roomName, classId: classId),
-      );
+      Map<String, dynamic> data;
+      try {
+        data = _unwrap(
+          await teacherRepo.startCall(roomName: roomName, classId: classId),
+        );
+      } on CallException catch (e) {
+        // إنعاش تلقائي: لو في درس قائم عالق لنفس الشعبة، اقفله وأعد المحاولة مرة.
+        if (_looksLikeExistingCall(e.message)) {
+          try {
+            await teacherRepo.endCall(roomName: roomName);
+          } catch (_) {}
+          await Future.delayed(const Duration(milliseconds: 600));
+          data = _unwrap(
+            await teacherRepo.startCall(roomName: roomName, classId: classId),
+          );
+        } else {
+          rethrow;
+        }
+      }
+
       final token = data['token']?.toString() ?? '';
       if (token.isEmpty) {
         throw CallException('لم يصل توكن LiveKit من الخادم');
       }
+
+      // الغرفة انفتحت بالسيرفر — خزّن اسمها الفعلي لاستخدامه في end/mute/kick.
+      _started = true;
+      final serverRoom = data['room_name']?.toString();
+      _activeRoomName =
+          (serverRoom != null && serverRoom.isNotEmpty) ? serverRoom : roomName;
+
       _roster
         ..clear()
         ..addAll(_parseStudents(data['students']));
@@ -119,13 +148,31 @@ class CallController extends ChangeNotifier {
 
       _setState(CallConnectionState.connected);
     } on CallException catch (e) {
+      await _cleanupOrphanRoom(); // لو start نجح ثم فشل ما بعده، اقفل الغرفة
       errorMessage = e.message;
       _setState(CallConnectionState.error);
     } catch (e) {
+      await _cleanupOrphanRoom();
       errorMessage = 'تعذّر الاتصال بالمكالمة';
       if (kDebugMode) debugPrint('Call connect error: $e');
       _setState(CallConnectionState.error);
     }
+  }
+
+  bool _looksLikeExistingCall(String msg) =>
+      msg.contains('درس قائم') || msg.contains('موجود');
+
+  /// إن نجح start (انفتحت الغرفة) ثم فشل ما بعده (مثل LiveKit)، اقفل الغرفة
+  /// على السيرفر حتى لا تبقى عالقة وتمنع المكالمة القادمة.
+  Future<void> _cleanupOrphanRoom() async {
+    if (!_started || _ended || demoMode) return;
+    _ended = true;
+    try {
+      await teacherRepo.endCall(roomName: _activeRoomName ?? roomName);
+    } catch (e) {
+      if (kDebugMode) debugPrint('cleanup end error: $e');
+    }
+    await _room?.disconnect();
   }
 
   void _bindRoomEvents(Room room) {
@@ -209,14 +256,14 @@ class CallController extends ChangeNotifier {
       final trackSid = _audioTrackSid(p.id);
       if (trackSid == null) return;
       _unwrap(await teacherRepo.muteParticipant(
-        roomName: roomName,
+        roomName: _activeRoomName ?? roomName,
         targetId: target.id,
         targetType: target.type,
         trackSid: trackSid,
       ));
     } else {
       _unwrap(await teacherRepo.unmuteParticipant(
-        roomName: roomName,
+        roomName: _activeRoomName ?? roomName,
         targetId: target.id,
         targetType: target.type,
       ));
@@ -230,7 +277,7 @@ class CallController extends ChangeNotifier {
     try {
       if (!demoMode) {
         _unwrap(await teacherRepo.kickParticipant(
-          roomName: roomName,
+          roomName: _activeRoomName ?? roomName,
           targetId: target.id,
           targetType: target.type,
         ));
@@ -247,12 +294,17 @@ class CallController extends ChangeNotifier {
   // ===================== إنهاء المكالمة =====================
   Future<void> endCall() async {
     _demoTimer?.cancel();
-    try {
-      if (!demoMode) {
-        _unwrap(await teacherRepo.endCall(roomName: roomName));
+    if (!_ended) {
+      _ended = true;
+      try {
+        if (!demoMode && _started) {
+          _unwrap(await teacherRepo.endCall(
+            roomName: _activeRoomName ?? roomName,
+          ));
+        }
+      } catch (e) {
+        if (kDebugMode) debugPrint('end call error: $e');
       }
-    } catch (e) {
-      if (kDebugMode) debugPrint('end call error: $e');
     }
     await _room?.disconnect();
     _setState(CallConnectionState.disconnected);
@@ -450,6 +502,10 @@ class CallController extends ChangeNotifier {
   @override
   void dispose() {
     _demoTimer?.cancel();
+    // ملاحظة: لا نستدعي end هنا عمداً.
+    // المكالمة تبقى قائمة على السيرفر عند الخروج بزر الرجوع (back)،
+    // ولا تُنهى إلا عبر زر الإنهاء الأحمر (endCall).
+    // ننظّف اتصال LiveKit المحلي فقط لتحرير الموارد.
     _room?.removeListener(_syncFromRoom);
     _events?.dispose();
     _room?.dispose();

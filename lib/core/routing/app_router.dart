@@ -29,7 +29,6 @@ import 'package:school_for_blind_app/presentation/screens/student_otp_screen.dar
 import 'package:school_for_blind_app/presentation/screens/student_register_data_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_register_number_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_register_photo_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/teacher_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/user_type_screen.dart';
 import 'dart:io' as io;
 

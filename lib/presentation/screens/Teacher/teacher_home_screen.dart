@@ -27,11 +27,24 @@ class Lesson {
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
+    // الرد الجديد: رابط الصوت يجي من أول تسجيل داخل records (record_url).
+    // بنجيب أول تسجيل فقط حالياً (الدرس ممكن يكون له عدة تسجيلات لاحقاً).
+    String audio = '';
+    final records = json['records'];
+    if (records is List && records.isNotEmpty && records.first is Map) {
+      final first = records.first as Map;
+      audio = (first['record_url'] ?? first['record_path'] ?? '').toString();
+    }
+    // fallback للأشكال القديمة إذا رجع audio_url مباشرة
+    if (audio.isEmpty) {
+      audio = (json['audio_url'] ?? '').toString();
+    }
+
     return Lesson(
       id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      duration: json['duration'] ?? '00:00',
-      audioUrl: json['audio_url'] ?? '',
+      title: (json['title'] ?? '').toString(),
+      duration: (json['duration'] ?? '00:00').toString(),
+      audioUrl: audio,
     );
   }
 }
@@ -48,7 +61,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
   final LessonAudioService _audioService = LessonAudioService();
 
   int _currentNavIndex = 4;
-  int _selectedCategoryIndex = 2;
   int? _expandedIndex;
   double _speed = 1.0;
   int? _deleteModeIndex;
@@ -59,7 +71,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
   @override
   void initState() {
     super.initState();
-    getIt<LessonsCubit>().emitGetLessons();
+    // ✅ صار يجيب مواد المدرس + دروس أول مادة (بدل emitGetLessons)
+    getIt<LessonsCubit>().emitInitLessons();
   }
 
   @override
@@ -82,9 +95,17 @@ class _LessonsScreenState extends State<LessonsScreen> {
     await _audioService.stop();
     setState(() => _expandedIndex = null);
 
-    if (mounted) {
-      Navigator.pushNamed(context, AppRoutes.kAddLesson);
-    }
+    if (!mounted) return;
+
+    // نمرّر المادة الحالية لشاشة الرفع (بدل اختيارها من قائمة)
+    await Navigator.pushNamed(
+      context,
+      AppRoutes.kAddLesson,
+      arguments: getIt<LessonsCubit>().selectedSubject?.id,
+    );
+
+    // بعد الرجوع من شاشة الرفع، نحدّث دروس المادة الحالية
+    getIt<LessonsCubit>().emitGetLessons();
   }
 
   Future<void> _onLessonTap(int index, Lesson lesson) async {
@@ -142,7 +163,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 const SizedBox(height: 20),
                 _buildSearchField(),
                 const SizedBox(height: 25),
-                _buildCategories(),
+                _buildSubjectHeader(), // ⬅️ بدل صف الفئات الثلاث
                 const SizedBox(height: 25),
                 _buildLessonsList(),
               ],
@@ -167,11 +188,21 @@ class _LessonsScreenState extends State<LessonsScreen> {
         ),
         Row(
           children: [
-            // 📞 زر المكالمات — يجيب شعب المدرس ثم يبدأ المكالمة
+            // 📞 زر المكالمات المطور — يوقف الصوت أولاً ثم يفتح قائمة اختيار الشعب
             IconButton(
               icon: const Icon(Icons.call, size: 28, color: Colors.white),
-              onPressed: () =>
-                  openCallClassPicker(context, getIt<TeacherRepo>()),
+              onPressed: () async {
+                // 1) إيقاف أي درس صوتي شغال فوراً لمنع تداخل الأصوات
+                await _audioService.stop();
+                if (mounted) {
+                  setState(() => _expandedIndex = null);
+                }
+
+                // 2) استدعاء الدالة الذكية لجلب الشعب وبدء الاتصال
+                if (mounted) {
+                  openCallClassPicker(context, getIt<TeacherRepo>());
+                }
+              },
             ),
             IconButton(
               icon: const Icon(
@@ -212,39 +243,83 @@ class _LessonsScreenState extends State<LessonsScreen> {
     );
   }
 
-  Widget _buildCategories() {
-    return Row(
-      children: [
-        _buildCategoryButton('الدروس', 2),
-        const SizedBox(width: 10),
-        _buildCategoryButton('الإختبارات', 1),
-        const SizedBox(width: 10),
-        _buildCategoryButton('حلول الطلاب', 0),
-      ],
+  /// اسم المادة الحالية + سهم يظهر فقط إذا المدرس يدرّس أكثر من مادة.
+  /// الضغط على السهم يفتح قائمة المواد، واختيار مادة يبدّل الدروس المعروضة.
+  Widget _buildSubjectHeader() {
+    final cubit = getIt<LessonsCubit>();
+    return BlocBuilder<LessonsCubit, ResultState<dynamic>>(
+      bloc: cubit,
+      builder: (context, state) {
+        final subject = cubit.selectedSubject;
+        final hasMultiple = cubit.taughtSubjects.length > 1;
+
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: hasMultiple ? () => _showSubjectsSheet(cubit) : null,
+          child: Row(
+            children: [
+              Text(
+                subject?.name ?? 'الدروس',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              if (hasMultiple) ...[
+                const SizedBox(width: 6),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildCategoryButton(String text, int index) {
-    final isSelected = _selectedCategoryIndex == index;
-    return GestureDetector(
-      onTap: () => setState(() => _selectedCategoryIndex = index),
-      child: Container(
-        width: 100,
-        height: 37,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.kPrimaryColor
-              : Colors.white.withOpacity(0.10),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: isSelected ? Colors.black : Colors.white,
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
+  /// قائمة المواد التي يدرّسها المدرس (تظهر بالضغط على السهم)
+  void _showSubjectsSheet(LessonsCubit cubit) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.kBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            children: cubit.taughtSubjects.map((s) {
+              final selected = s.id == cubit.selectedSubject?.id;
+              return ListTile(
+                title: Text(
+                  s.name,
+                  style: TextStyle(
+                    color: selected ? AppColors.kPrimaryColor : Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                trailing: selected
+                    ? Icon(Icons.check, color: AppColors.kPrimaryColor)
+                    : null,
+                onTap: () async {
+                  Navigator.pop(sheetCtx);
+                  await _audioService.stop();
+                  if (!mounted) return;
+                  setState(() {
+                    _expandedIndex = null;
+                    _deleteModeIndex = null;
+                  });
+                  cubit.selectSubject(s); // يعيد جلب دروس المادة المختارة
+                },
+              );
+            }).toList(),
           ),
         ),
       ),
@@ -266,7 +341,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
               final lessons = getIt<LessonsCubit>().lessons;
               if (lessons.isEmpty) return _buildEmptyState();
 
-              // سحب للأسفل = تحديث القائمة من السيرفر
+              // سحب للأسفل = تحديث دروس المادة الحالية من السيرفر
               return RefreshIndicator(
                 color: AppColors.kPrimaryColor,
                 backgroundColor: AppColors.kBackgroundColor,
@@ -279,12 +354,12 @@ class _LessonsScreenState extends State<LessonsScreen> {
                   itemBuilder: (context, index) => LessonAudioCard(
                     lesson: lessons[index],
                     isExpanded: _expandedIndex == index,
-                    isDeleteMode: _deleteModeIndex == index, // جديد
+                    isDeleteMode: _deleteModeIndex == index,
                     audioService: _audioService,
                     speed: _speed,
                     onTap: () => _onLessonTap(index, lessons[index]),
-                    onLongPress: () => _onLessonLongPress(index), // جديد
-                    onDelete: () => _confirmDelete(lessons[index]), // جديد
+                    onLongPress: () => _onLessonLongPress(index),
+                    onDelete: () => _confirmDelete(lessons[index]),
                     onSpeedTap: _onSpeedTap,
                   ),
                 ),
@@ -355,7 +430,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
           ),
           const SizedBox(height: 15),
           TextButton.icon(
-            onPressed: () => getIt<LessonsCubit>().emitGetLessons(),
+            onPressed: () => getIt<LessonsCubit>().emitInitLessons(),
             icon: const Icon(Icons.refresh, color: Colors.white),
             label: const Text(
               'إعادة المحاولة',

@@ -12,13 +12,11 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
   AuthCubit(this.authRepo) : super(const ResultState.idle());
 
   String studentPhone = "";
+
   String fullName = "";
   String fatherName = "";
   String parentPhone = "";
   String studentLevel = "";
-  String teacherphone = "";
-
-
 
   void resetState() {
     emit(const ResultState.idle());
@@ -26,20 +24,6 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
 
   void emitSendOTP(String phone) async {
     studentPhone = phone;
-    emit(const ResultState.loading());
-
-    final result = await authRepo.sendOTP(phone);
-    result.when(
-      success: (data) {
-        emit(ResultState.success(data['message']));
-      },
-      failure: (networkException) {
-        emit(ResultState.failure(networkException));
-      },
-    );
-  }
-void emitSendOTPTeacher(String phone) async {
-    teacherphone = phone;
     emit(const ResultState.loading());
 
     final result = await authRepo.sendOTP(phone);

@@ -9,8 +9,10 @@ import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
+import 'package:school_for_blind_app/core/theme/theme_cubit.dart';
 import 'package:school_for_blind_app/data/repository/auth_repo.dart';
 import 'package:school_for_blind_app/data/web_services/auth_web_services.dart';
+
 
 final getIt = GetIt.instance;
 
@@ -33,6 +35,7 @@ void initGetIt() {
 
   // ===== 3) الـ Cubits (تعتمد على الـ Repos) — تُسجّل أخيراً =====
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(getIt()));
+  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
   getIt.registerLazySingleton<TeacherCubit>(() => TeacherCubit(getIt()));
   getIt.registerLazySingleton<LessonsCubit>(
     () => LessonsCubit(getIt<TeacherRepo>()),
@@ -42,8 +45,8 @@ void initGetIt() {
 Dio createAndSetupDio() {
   Dio dio = Dio();
   dio
-    ..options.connectTimeout = const Duration(seconds: 30)
-    ..options.receiveTimeout = const Duration(seconds: 30);
+    ..options.connectTimeout = const Duration(seconds: 15)
+    ..options.receiveTimeout = const Duration(seconds: 15);
 
   dio.options.headers['Accept'] = 'application/json';
   dio.options.headers['Content-Type'] = 'application/json';
