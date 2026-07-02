@@ -106,7 +106,7 @@
                         <button type="button" class="btn btn-primary rounded-pill py-2 fw-bold" data-bs-toggle="modal"
                             data-bs-target="#createQuestionModal">
                             <i class="fa-solid fa-plus me-2"></i> إنشاء سؤال تفاعلي جديد
-                        </button>   
+                        </button>
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                                     <div>
                                         <span class="badge bg-secondary me-2">
                                             @if($question->type == 'mcq') خيارات
-                                            @elseif($question->type == 'tf') صح / خطأ
+                                            @elseif($question->type == 'TF') صح / خطأ
                                             @else مقالي @endif
                                         </span>
                                         <span class="text-muted small">الدرجات: <strong>{{ $question->points }}</strong></span>
@@ -160,7 +160,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                @elseif($question->type == 'tf')
+                                @elseif($question->type == 'TF')
                                     <div class="p-2 rounded-2 fw-bold"
                                         style="background-color: var(--hover-bg); color: var(--text-main); border-right: 4px solid #a3e635;">
                                         الإجابة الصحيحة: {{ $question->correct_answer == 'T' ? 'صح' : 'خطأ' }}
@@ -176,7 +176,7 @@
                         @empty
                             <div class="text-center py-5 text-muted">
                                 <i class="fa-solid fa-circle-question fs-1 d-block mb-3"></i>
-                                لا توجد أسئلة مرتبطة بهذه الدورة حالياً. يمكنك إنشاء سؤال جديد أو الاستيراد من بنك الأسئلة.
+                                لا توجد أسئلة مرتبطة بهذه الدورة حالياً. يمكنك إنشاء سؤال جديد.
                             </div>
                         @endforelse
                     </div>
@@ -200,11 +200,11 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">نوع السؤال</label>
-                                <select name="type" id="question_type_select" class="form-select search-input" required
+                                <select name="type" class="form-select search-input" required
                                     onchange="toggleQuestionFields(this.value)">
-                                    <option value="mcq">خيارات من متعدد</option>
-                                    <option value="tf">صح وخطأ</option>
-                                    <option value="text">سؤال مقالي كتابي</option>
+                                    <option value="mcq">خيارات من متعدد (mcq)</option>
+                                    <option value="TF">صح وخطأ (TF)</option>
+                                    <option value="TEXT">سؤال مقالي كتابي (TEXT)</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -231,24 +231,22 @@
                                                 value="{{ $i }}" {{ $i == 0 ? 'checked' : '' }}>
                                         </div>
                                         <input type="text" name="choices[{{ $i }}][text]" class="form-control search-input"
-                                            placeholder="نص الخيار رقم {{ $i + 1 }}" id="choice_input_{{ $i }}">
+                                            placeholder="نص الخيار رقم {{ $i + 1 }}">
                                     </div>
                                 @endfor
                             </div>
                         </div>
 
-                        <div id="tf_fields_wrapper" class="d-none">
+                        <div id="correct_answer_wrapper" class="d-none">
                             <label class="form-label fw-bold">الإجابة الصحيحة</label>
-                            <select name="tf_answer" id="tf_correct_select" class="form-select search-input">
-                                <option value="T">صح</option>
-                                <option value="F">خطأ</option>
-                            </select>
-                        </div>
 
-                        <div id="text_fields_wrapper" class="d-none">
-                            <label class="form-label fw-bold">نموذج الإجابة الصحيحة</label>
-                            <textarea name="text_answer" id="text_correct_textarea" class="form-control search-input"
-                                rows="2" placeholder="أدخل معيار الإجابة الصحيحة..."></textarea>
+                            <select id="tf_input" class="form-select search-input d-none">
+                                <option value="T">صح (T)</option>
+                                <option value="F">خطأ (F)</option>
+                            </select>
+
+                            <textarea id="text_input" class="form-control search-input d-none" rows="2"
+                                placeholder="أدخل نموذج الإجابة الصحيحة..."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer border-0">
@@ -261,76 +259,31 @@
         </div>
     </div>
 
-    <div class="modal fade" id="attachQuestionModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content glass-modal"
-                style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main);">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold">استيراد أسئلة من بنك الإدارة العام</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="max-height: 450px; overflow-y: auto;">
-                    <div class="d-flex flex-column gap-3">
-                        @forelse($bankQuestions as $bQuestion)
-                            <div class="p-3 rounded-3 d-flex justify-content-between align-items-center"
-                                style="background-color: var(--bg-main); border: 1px solid var(--border-color);">
-                                <div class="me-3">
-                                    <span class="badge bg-dark mb-1">
-                                        @if($bQuestion->type == 'mcq') خيارات
-                                        @elseif($bQuestion->type == 'tf') صح/خطأ
-                                        @else مقالي @endif
-                                    </span>
-                                    <p class="m-0 fw-bold small text-wrap">{{ $bQuestion->description }}</p>
-                                </div>
-                                <form action="{{ route('dashboard.past-exams.questions.attach', $pastExam->id) }}"
-                                    method="POST">
-                                    @csrf
-                                    <input type="hidden" name="question_id" value="{{ $bQuestion->id }}">
-                                    <button type="submit" class="btn btn-sm btn-accept rounded-pill px-3">
-                                        <i class="fa-solid fa-link me-1"></i> ربط
-                                    </button>
-                                </form>
-                            </div>
-                        @empty
-                            <div class="text-center py-4 text-muted">
-                                لا توجد أسئلة متوفرة حالياً في بنك أسئلة الإدارة غير مرتبطة بهذه الدورة.
-                            </div>
-                        @endforelse
-                    </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">إغلاق</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         function toggleQuestionFields(type) {
-            const mcq = document.getElementById('mcq_fields_wrapper');
-            const tf = document.getElementById('tf_fields_wrapper');
-            const txt = document.getElementById('text_fields_wrapper');
+            const mcqWrapper = document.getElementById('mcq_fields_wrapper');
+            const answerWrapper = document.getElementById('correct_answer_wrapper');
+            const tfInput = document.getElementById('tf_input');
+            const textInput = document.getElementById('text_input');
 
-            mcq.classList.add('d-none');
-            tf.classList.add('d-none');
-            txt.classList.add('d-none');
+            mcqWrapper.classList.add('d-none');
+            answerWrapper.classList.add('d-none');
+            tfInput.classList.add('d-none');
+            textInput.classList.add('d-none');
 
-            document.getElementById('choice_input_0').removeAttribute('required');
-            document.getElementById('choice_input_1').removeAttribute('required');
-            document.getElementById('tf_correct_select').removeAttribute('required');
-            document.getElementById('text_correct_textarea').removeAttribute('required');
+            tfInput.removeAttribute('name');
+            textInput.removeAttribute('name');
 
             if (type === 'mcq') {
-                mcq.classList.remove('d-none');
-                document.getElementById('choice_input_0').setAttribute('required', 'required');
-                document.getElementById('choice_input_1').setAttribute('required', 'required');
-            } else if (type === 'tf') {
-                tf.classList.remove('d-none');
-                document.getElementById('tf_correct_select').setAttribute('required', 'required');
-            } else if (type === 'text') {
-                txt.classList.remove('d-none');
-                document.getElementById('text_correct_textarea').setAttribute('required', 'required');
+                mcqWrapper.classList.remove('d-none');
+            } else if (type === 'TF') {
+                answerWrapper.classList.remove('d-none');
+                tfInput.classList.remove('d-none');
+                tfInput.setAttribute('name', 'correct_answer');
+            } else if (type === 'TEXT') {
+                answerWrapper.classList.remove('d-none');
+                textInput.classList.remove('d-none');
+                textInput.setAttribute('name', 'correct_answer');
             }
         }
     </script>
