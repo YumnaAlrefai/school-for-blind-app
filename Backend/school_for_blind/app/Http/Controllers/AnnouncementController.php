@@ -11,11 +11,15 @@ class AnnouncementController extends Controller
 {
     public function store(StoreAnnouncementRequest $request)
     {
-       
+       $contentData = $request->input('content');
+        
+        if (is_array($contentData)) {
+            $contentData = json_encode($contentData, JSON_UNESCAPED_UNICODE);
+        }
         $announcement = Announcement::create([
             'type' =>$request->input('type'),
             'title' => $request->input('title'),
-            'content' => $request->input('content'),
+         'content'=> $request->input('content'),
             'level'=>$request->input('level'),
             'target_audience'=>$request->input('target_audience'),
         ]);
@@ -126,7 +130,7 @@ if ($announcements->isEmpty()) {
 {
         $announcement = Announcement::find($id, ['*']);
 
-    if (!$announcement || $announcement->type !== 'exam_schedule') {
+    if (!$announcement || $announcement->type !== 'exam_schedule'|| $announcement->type === 'school_timetable') {
         return response()->json([
             'message' => 'برنامج الامتحان غير موجود أو قد تم حذفه'
         ], 404);
@@ -146,4 +150,61 @@ if ($announcements->isEmpty()) {
         'exam_program' => $announcement->content, 
         'created_at'   => $announcement->created_at
     ], 200);
-}}
+}
+public function firstSchoolTimetable()
+    {
+        $query = Announcement::where('type', '=', 'school_timetable', 'and');
+
+        if (auth()->guard('student')->check()) {
+            $student = auth()->guard('student')->user();
+            $query->where('target_audience', 'student')
+                  ->whereIn('level', [$student->level, 'all']); 
+
+        } elseif (auth()->guard('caregiver')->check()) {
+            $caregiver = auth()->guard('caregiver')->user();
+            $query->where('target_audience', 'caregiver')
+                  ->whereIn('level', [$caregiver->level, 'all']); 
+
+        } elseif (auth()->guard('teacher')->check()) {
+            $teacher = auth()->guard('teacher')->user();
+            $query->where('target_audience', 'teacher')
+                  ->whereIn('level', [$teacher->level, 'all']);
+
+        } elseif (auth()->guard('admin')->check()) {
+            $admin = auth()->guard('admin')->user();
+            if ($admin->role === 'teacher') {
+                $query->where('target_audience', 'teacher')
+                      ->whereIn('level', [$admin->level, 'all']);
+            }
+        } else {
+            return response()->json(['message' => 'غير مصرح لك برؤية الجداول الدراسية.'], 401);
+        }
+
+        $timetable = $query->latest('created_at')->first();
+
+        if (!$timetable) {
+            return response()->json([
+                'message' => 'لا يوجد جدول دوام مدرسي متاح حالياً.'
+            ], 404);
+        }
+
+        $contentData = $timetable->content;
+        if (is_string($timetable->content)) {
+            $decodedContent = json_decode($timetable->content, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decodedContent)) {
+                $contentData = $decodedContent;
+            }
+        }
+
+        return response()->json([
+            'id'              => $timetable->id,
+            'type'            => $timetable->type,
+            'title'           => $timetable->title,
+            'target_audience' => $timetable->target_audience,
+            'level'           => $timetable->level,
+            'timetable_data'  => $contentData,
+            'created_at'      => $timetable->created_at,
+            'updated_at'      => $timetable->updated_at,
+        ], 200);
+    }
+}

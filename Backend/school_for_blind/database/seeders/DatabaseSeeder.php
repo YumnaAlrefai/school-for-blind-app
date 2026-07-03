@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             ContentSeeder::class,
             AdminSeeder::class,
             TeacherSeeder::class,
+            PastExamSeeder::class,  
+            ExamSeeder::class,
             StudentSeeder::class,
             LessonSeeder::class,
             SubjectLessonsCountSeeder::class,
