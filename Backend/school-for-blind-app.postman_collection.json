@@ -2022,7 +2022,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "41|sLH44PF0XFlGWU8HqTMHOAGfyeQH43sGlQwpLTjH7d28fcfa",
+                  "value": "7|JdGzSyOszWvyijJAarR65HqGfzFKc3AG1NwhSrdDe2efad74",
                   "type": "string"
                 }
               ]
@@ -2034,7 +2034,7 @@
               "formdata": [
                 {
                   "key": "room_name",
-                  "value": "test #2",
+                  "value": "test-#2",
                   "type": "text",
                   "uuid": "21871f2d-332a-439e-8799-65f6ba6ea14b"
                 }
@@ -2511,6 +2511,16 @@
         {
           "name": "Login",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [
               {
@@ -2524,13 +2534,13 @@
               "formdata": [
                 {
                   "key": "phone",
-                  "value": "0919249352",
+                  "value": "0943576695",
                   "type": "text",
                   "uuid": "2d290ad0-1e83-4554-9164-70f27eeb77e5"
                 },
                 {
                   "key": "password",
-                  "value": "12345678",
+                  "value": "00000000",
                   "type": "text",
                   "uuid": "24c5e1e6-f1df-4e2f-9da3-e89684690ce3"
                 }
@@ -2684,7 +2694,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "2|2MmWMeCqUfe68gjeSwdkL9RH0asr1NMuTXtOxLQbf62ec642",
+                  "value": "7|cE3ex3pIfQ6YcKuGl8JxmK9DKfoNGvCdNrE716m5e939c56e",
                   "type": "string"
                 }
               ]
@@ -4021,7 +4031,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "YftgK2gLUyyaX10OrhmJw8aoAhz9o7bXkDnKROsycd9885d5",
+                  "value": "43|rCECBPw03VaUFk7McualTzIVIO3N4f4yaCarFYH1adb6d716",
                   "type": "string"
                 }
               ]
@@ -4036,7 +4046,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\":\"حتى لا تضيع الهوية\",\r\n  \"lesson id\":1,\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"lesson_name\":\"حتى لا تضيع الهوية\",\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"lesson_id\":1,\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    },\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TEXT\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"دمشق\"\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4125,26 +4135,102 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 4,\n        \"lesson_id\": 1,\n        \"teacher_id\": 1,\n        \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n        \"id\": 2,\n        \"subject_name\": \"اللغة الإنجليزية\",\n        \"teacher_name\": \"الأستاذ باهر (ninth)\",\n        \"subject\": {\n            \"id\": 4,\n            \"name\": \"اللغة الإنجليزية\",\n            \"grade_level\": \"twelfth\",\n            \"number_of_lessons\": null,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-06-17T06:03:11.000000Z\",\n            \"updated_at\": \"2026-06-17T06:03:11.000000Z\"\n        },\n        \"lesson\": {\n            \"id\": 1,\n            \"title\": \"Test lesson #1\",\n            \"subject_id\": 4,\n            \"teacher_id\": 1,\n            \"class_id\": 4,\n            \"order\": null,\n            \"created_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"updated_at\": \"2026-06-17T06:08:29.000000Z\",\n            \"deleted_at\": null\n        },\n        \"teacher\": {\n            \"id\": 1,\n            \"created_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"updated_at\": \"2025-12-08T05:22:52.000000Z\",\n            \"full_name\": \"الأستاذ باهر (ninth)\",\n            \"phone\": \"0987073684\",\n            \"subjects\": \"فيزياء\",\n            \"level\": \"ninth\",\n            \"status\": \"approved\",\n            \"cv_path\": \"cv_dummy.pdf\"\n        },\n        \"questions\": [\n            {\n                \"id\": 3,\n                \"quiz_id\": 2,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": [\n                    {\n                        \"id\": 3,\n                        \"question_id\": 3,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    },\n                    {\n                        \"id\": 4,\n                        \"question_id\": 3,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                        \"updated_at\": \"2026-06-17T06:11:26.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 4,\n                \"quiz_id\": 2,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"updated_at\": \"2026-06-17T06:11:26.000000Z\",\n                \"choices\": []\n            }\n        ]\n    }\n}"
+            },
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"lesson_id\":1,\r\n  \"numofquestions\": 2,\r\n  \"timelimit\": 30,\r\n  \"totalmark\": 20,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TF\",\r\n      \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"True\"\r\n    },\r\n    {\r\n      \"type\": \"mcq\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"choices\": [\r\n        { \"text\": \"حلب\", \"is_correct\": false },\r\n        { \"text\": \"دمشق\", \"is_correct\": true }\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"TEXT\",\r\n      \"description\": \"ما هي عاصمة سوريا؟\",\r\n      \"points\": 10,\r\n      \"correct_answer\": \"دمشق\"\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 03 Jul 2026 10:52:45 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"تم إنشاء الكويز بنجاح!\",\n    \"quiz\": {\n        \"numofquestions\": 2,\n        \"timelimit\": 30,\n        \"totalmark\": 20,\n        \"subject_id\": 1,\n        \"lesson_id\": 1,\n        \"teacher_id\": 2,\n        \"updated_at\": \"2026-07-03T10:52:45.000000Z\",\n        \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n        \"id\": 541,\n        \"subject_name\": \"الفلسفة\",\n        \"teacher_name\": \"غالية الياسين\",\n        \"subject\": {\n            \"id\": 1,\n            \"name\": \"الفلسفة\",\n            \"grade_level\": \"twelfth\",\n            \"number_of_lessons\": null,\n            \"total_lessons\": 24,\n            \"deleted_at\": null,\n            \"created_at\": \"2026-07-03T10:47:10.000000Z\",\n            \"updated_at\": \"2026-07-03T10:48:07.000000Z\"\n        },\n        \"lesson\": {\n            \"id\": 1,\n            \"title\": \"المعرفة ومصادرها\",\n            \"subject_id\": 1,\n            \"teacher_id\": 2,\n            \"class_id\": 11,\n            \"created_at\": \"2026-07-03T10:47:12.000000Z\",\n            \"updated_at\": \"2026-07-03T10:47:12.000000Z\",\n            \"deleted_at\": null\n        },\n        \"teacher\": {\n            \"id\": 2,\n            \"created_at\": \"2026-07-03T10:47:11.000000Z\",\n            \"updated_at\": \"2026-07-03T10:47:11.000000Z\",\n            \"full_name\": \"غالية الياسين\",\n            \"phone\": \"0943576695\",\n            \"subjects\": \"كل المواد\",\n            \"level\": \"twelfth\",\n            \"status\": \"approved\",\n            \"stripe_account_id\": null,\n            \"cv_path\": \"system/ghalia_cv.pdf\"\n        },\n        \"questions\": [\n            {\n                \"id\": 3865,\n                \"teacher_id\": 2,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"updated_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"pivot\": {\n                    \"quiz_id\": 541,\n                    \"question_id\": 3865\n                },\n                \"choices\": [\n                    {\n                        \"id\": 5153,\n                        \"question_id\": 3865,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                        \"updated_at\": \"2026-07-03T10:52:45.000000Z\"\n                    },\n                    {\n                        \"id\": 5154,\n                        \"question_id\": 3865,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                        \"updated_at\": \"2026-07-03T10:52:45.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 3866,\n                \"teacher_id\": 2,\n                \"type\": \"TF\",\n                \"description\": \"الماء يتكون من هيدروجين وأوكسجين.\",\n                \"correct_answer\": \"True\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"updated_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"pivot\": {\n                    \"quiz_id\": 541,\n                    \"question_id\": 3866\n                },\n                \"choices\": []\n            },\n            {\n                \"id\": 3867,\n                \"teacher_id\": 2,\n                \"type\": \"mcq\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": null,\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"updated_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"pivot\": {\n                    \"quiz_id\": 541,\n                    \"question_id\": 3867\n                },\n                \"choices\": [\n                    {\n                        \"id\": 5155,\n                        \"question_id\": 3867,\n                        \"choice_text\": \"حلب\",\n                        \"is_correct\": 0,\n                        \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                        \"updated_at\": \"2026-07-03T10:52:45.000000Z\"\n                    },\n                    {\n                        \"id\": 5156,\n                        \"question_id\": 3867,\n                        \"choice_text\": \"دمشق\",\n                        \"is_correct\": 1,\n                        \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                        \"updated_at\": \"2026-07-03T10:52:45.000000Z\"\n                    }\n                ]\n            },\n            {\n                \"id\": 3868,\n                \"teacher_id\": 2,\n                \"type\": \"TEXT\",\n                \"description\": \"ما هي عاصمة سوريا؟\",\n                \"correct_answer\": \"دمشق\",\n                \"points\": \"10.00\",\n                \"status\": \"publish\",\n                \"created_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"updated_at\": \"2026-07-03T10:52:45.000000Z\",\n                \"pivot\": {\n                    \"quiz_id\": 541,\n                    \"question_id\": 3868\n                },\n                \"choices\": []\n            }\n        ]\n    }\n}"
             }
           ]
         },
         {
           "name": "view quizzes",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "auth": {
               "type": "bearer",
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|KpKOwHdHRiBY6jatN5cjQRamN1XCPW0GyGGHoBoOdceb9bd4",
+                  "value": "43|rCECBPw03VaUFk7McualTzIVIO3N4f4yaCarFYH1adb6d716",
                   "type": "string"
                 }
               ]
             },
             "method": "GET",
             "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
             "url": {
-              "raw": "http://localhost:8000/api/quizzes/teacher/list",
+              "raw": "http://localhost:8000/api/quizzes/teacher/list?subject_id=8&lesson_id=101&class_id=1",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -4155,6 +4241,23 @@
                 "quizzes",
                 "teacher",
                 "list"
+              ],
+              "query": [
+                {
+                  "key": "subject_id",
+                  "value": "8",
+                  "type": "text"
+                },
+                {
+                  "key": "lesson_id",
+                  "value": "101",
+                  "type": "text"
+                },
+                {
+                  "key": "class_id",
+                  "value": "1",
+                  "type": "text"
+                }
               ]
             }
           },
@@ -4181,7 +4284,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "Text",
+              "_postman_previewlanguage": null,
               "header": [
                 {
                   "key": "Host",
@@ -4201,7 +4304,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Mon, 15 Jun 2026 11:04:50 GMT"
+                  "value": "Fri, 03 Jul 2026 10:28:59 GMT"
                 },
                 {
                   "key": "Content-Type",
@@ -4213,7 +4316,84 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"numofquestions\": 2,\n            \"timelimit\": 30,\n            \"totalmark\": 20,\n            \"subject_id\": 1,\n            \"teacher_id\": 1,\n            \"created_at\": \"2026-06-15T11:04:23.000000Z\",\n            \"updated_at\": \"2026-06-15T11:04:23.000000Z\",\n            \"subject_name\": \"الرياضيات\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الرياضيات\",\n                \"grade_level\": \"ninth\",\n                \"number_of_lessons\": null,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-06-15T11:01:01.000000Z\",\n                \"updated_at\": \"2026-06-15T11:01:01.000000Z\"\n            }\n        }\n    ],\n    \"first_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"from\": 1,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"links\": [\n        {\n            \"url\": null,\n            \"label\": \"pagination.previous\",\n            \"page\": null,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n            \"label\": \"1\",\n            \"page\": 1,\n            \"active\": true\n        },\n        {\n            \"url\": null,\n            \"label\": \"pagination.next\",\n            \"page\": null,\n            \"active\": false\n        }\n    ],\n    \"next_page_url\": null,\n    \"path\": \"http://localhost:8000/api/quizzes/teacher/list\",\n    \"per_page\": 20,\n    \"prev_page_url\": null,\n    \"to\": 1,\n    \"total\": 1\n}"
+              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 1,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 2,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 1,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 3,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 2,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 4,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 2,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 5,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 3,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 6,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 3,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 7,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 4,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 8,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 4,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 9,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 5,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 10,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 5,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 11,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 6,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 12,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 6,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 13,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 7,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 14,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 7,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 15,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 8,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 16,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 8,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 17,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 9,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 18,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 9,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 19,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 10,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        },\n        {\n            \"id\": 20,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 1,\n            \"lesson_id\": 10,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"updated_at\": \"2026-07-03T10:15:20.000000Z\",\n            \"subject_name\": \"الفلسفة\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 1,\n                \"name\": \"الفلسفة\",\n                \"grade_level\": \"twelfth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:16:08.000000Z\"\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"updated_at\": \"2026-07-03T10:15:19.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        }\n    ],\n    \"first_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"from\": 1,\n    \"last_page\": 19,\n    \"last_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=19\",\n    \"links\": [\n        {\n            \"url\": null,\n            \"label\": \"pagination.previous\",\n            \"page\": null,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n            \"label\": \"1\",\n            \"page\": 1,\n            \"active\": true\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=2\",\n            \"label\": \"2\",\n            \"page\": 2,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=3\",\n            \"label\": \"3\",\n            \"page\": 3,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=4\",\n            \"label\": \"4\",\n            \"page\": 4,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=5\",\n            \"label\": \"5\",\n            \"page\": 5,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=6\",\n            \"label\": \"6\",\n            \"page\": 6,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=7\",\n            \"label\": \"7\",\n            \"page\": 7,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=8\",\n            \"label\": \"8\",\n            \"page\": 8,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=9\",\n            \"label\": \"9\",\n            \"page\": 9,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=10\",\n            \"label\": \"10\",\n            \"page\": 10,\n            \"active\": false\n        },\n        {\n            \"url\": null,\n            \"label\": \"...\",\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=18\",\n            \"label\": \"18\",\n            \"page\": 18,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=19\",\n            \"label\": \"19\",\n            \"page\": 19,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=2\",\n            \"label\": \"pagination.next\",\n            \"page\": 2,\n            \"active\": false\n        }\n    ],\n    \"next_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=2\",\n    \"path\": \"http://localhost:8000/api/quizzes/teacher/list\",\n    \"per_page\": 20,\n    \"prev_page_url\": null,\n    \"to\": 20,\n    \"total\": 370\n}"
+            },
+            {
+              "name": "filtered success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": []
+                },
+                "url": {
+                  "raw": "http://localhost:8000/api/quizzes/teacher/list?subject_id=8&lesson_id=101&class_id=1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "quizzes",
+                    "teacher",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "subject_id",
+                      "value": "8",
+                      "type": "text"
+                    },
+                    {
+                      "key": "lesson_id",
+                      "value": "101",
+                      "type": "text"
+                    },
+                    {
+                      "key": "class_id",
+                      "value": "1",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.3.30"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 03 Jul 2026 10:50:57 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 41,\n            \"numofquestions\": 12,\n            \"timelimit\": 15,\n            \"totalmark\": 12,\n            \"subject_id\": 8,\n            \"lesson_id\": 101,\n            \"teacher_id\": 2,\n            \"created_at\": \"2026-07-03T10:47:13.000000Z\",\n            \"updated_at\": \"2026-07-03T10:47:13.000000Z\",\n            \"subject_name\": \"الرياضيات (جبر)\",\n            \"teacher_name\": \"غالية الياسين\",\n            \"subject\": {\n                \"id\": 8,\n                \"name\": \"الرياضيات (جبر)\",\n                \"grade_level\": \"ninth\",\n                \"number_of_lessons\": null,\n                \"total_lessons\": 24,\n                \"deleted_at\": null,\n                \"created_at\": \"2026-07-03T10:47:10.000000Z\",\n                \"updated_at\": \"2026-07-03T10:48:07.000000Z\"\n            },\n            \"lesson\": {\n                \"id\": 101,\n                \"title\": \"القاسم المشترك الأكبر (GCD)\",\n                \"subject_id\": 8,\n                \"teacher_id\": 2,\n                \"class_id\": 1,\n                \"created_at\": \"2026-07-03T10:47:13.000000Z\",\n                \"updated_at\": \"2026-07-03T10:47:13.000000Z\",\n                \"deleted_at\": null,\n                \"class\": {\n                    \"id\": 1,\n                    \"name\": \"First Division\",\n                    \"level\": \"ninth\",\n                    \"number\": 1,\n                    \"created_at\": \"2026-07-03T10:47:10.000000Z\",\n                    \"updated_at\": \"2026-07-03T10:47:10.000000Z\"\n                }\n            },\n            \"teacher\": {\n                \"id\": 2,\n                \"created_at\": \"2026-07-03T10:47:11.000000Z\",\n                \"updated_at\": \"2026-07-03T10:47:11.000000Z\",\n                \"full_name\": \"غالية الياسين\",\n                \"phone\": \"0943576695\",\n                \"subjects\": \"كل المواد\",\n                \"level\": \"twelfth\",\n                \"status\": \"approved\",\n                \"stripe_account_id\": null,\n                \"cv_path\": \"system/ghalia_cv.pdf\"\n            }\n        }\n    ],\n    \"first_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"from\": 1,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n    \"links\": [\n        {\n            \"url\": null,\n            \"label\": \"pagination.previous\",\n            \"page\": null,\n            \"active\": false\n        },\n        {\n            \"url\": \"http://localhost:8000/api/quizzes/teacher/list?page=1\",\n            \"label\": \"1\",\n            \"page\": 1,\n            \"active\": true\n        },\n        {\n            \"url\": null,\n            \"label\": \"pagination.next\",\n            \"page\": null,\n            \"active\": false\n        }\n    ],\n    \"next_page_url\": null,\n    \"path\": \"http://localhost:8000/api/quizzes/teacher/list\",\n    \"per_page\": 20,\n    \"prev_page_url\": null,\n    \"to\": 1,\n    \"total\": 1\n}"
             }
           ]
         },
@@ -4877,7 +5057,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|reuFhwk7yzVc7Yb2FPLnHXA4L2s8gDnacv9TDqaFcaec27ee",
+                  "value": "7|4ksoabqmZepEYWhZtME4lUp0og1cMskJIn4ocNys1ada4e12",
                   "type": "string"
                 }
               ]
@@ -4901,7 +5081,7 @@
                 },
                 {
                   "key": "class_id",
-                  "value": "4",
+                  "value": "1",
                   "type": "text",
                   "uuid": "6946b9a7-4e22-4f2c-82c5-a913cb78e41d"
                 },
@@ -4915,7 +5095,10 @@
                   "key": "audio_file",
                   "type": "file",
                   "uuid": "dd76d04f-5ef5-4799-bb16-8f3935334b2a",
-                  "src": "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
+                  "src": [
+                    "postman-cloud:///1f176c08-d447-4bb0-b6c7-03c744168ea6",
+                    "postman-cloud:///1f167451-bcd9-4be0-b9f7-ce0004289ba7"
+                  ]
                 }
               ]
             },
@@ -5933,7 +6116,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|ZP3ucWhVreNRVP3sMy7EDEgEatiRJKelonm8Ksqhd4354332",
+                  "value": "7|cE3ex3pIfQ6YcKuGl8JxmK9DKfoNGvCdNrE716m5e939c56e",
                   "type": "string"
                 }
               ]
@@ -6673,6 +6856,16 @@
         {
           "name": "quiz_info",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9pderaPZtz1ieZHrNWxYDG279YMXkhKKYbZMV4Ok4ebbd345",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [
               {
@@ -6683,7 +6876,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"subject_id\": 8,\r\n    \"teacher_id\":1,\r\n    \"lesson_id\": 110\r\n}",
+              "raw": "{\r\n    \"subject_id\": 4,\r\n    \"teacher_id\":1,\r\n    \"lesson_id\": 3\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -6856,6 +7049,80 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"quiz_id\": 17,\n        \"duration_minutes\": 30,\n        \"total_questions\": 2,\n        \"total_mark\": 20\n    }\n}"
+            },
+            {
+              "name": "quiz_info",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"subject_id\": 4,\r\n    \"teacher_id\":1,\r\n    \"lesson_id\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/student/quizzes/search-info",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "student",
+                    "quizzes",
+                    "search-info"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 02 Jul 2026 05:38:50 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": \"error\",\n    \"message\": \"لقد قمت بإجراء هذا الاختبار مسبقاً ولا يمكن إعادته.\"\n}"
             }
           ]
         },
@@ -8452,22 +8719,6 @@
                 "favorites",
                 "all"
               ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "filter",
-      "item": [
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": ""
             }
           },
           "response": []

@@ -33,13 +33,13 @@ class ExamController extends Controller
         $exams = $query->latest('exam_date')->paginate(10);
         $subjects = Subject::all();
 
-        return view('dashboard.exams.index', compact('exams', 'subjects'));
+        return view('pages.exams.index', compact('exams', 'subjects'));
     }
 
     public function create()
     {
         $subjects = Subject::all();
-        return view('dashboard.exams.create', compact('subjects'));
+        return view('pages.exams.create', compact('subjects'));
     }
 
     public function store(Request $request)
@@ -67,10 +67,10 @@ class ExamController extends Controller
     public function show($id)
     {
         $exam = Exam::with(['subject', 'questions.choices'])->findOrFail($id);
-        
+
         $adminTeacher = Teacher::where('phone', '0000000000')->first();
         $bankQuestions = [];
-        
+
         if ($adminTeacher) {
             $bankQuestions = Question::where('teacher_id', $adminTeacher->id)
                 ->where('status', 'Bank')
@@ -78,14 +78,14 @@ class ExamController extends Controller
                 ->get();
         }
 
-        return view('dashboard.exams.show', compact('exam', 'bankQuestions'));
+        return view('pages.exams.show', compact('exam', 'bankQuestions'));
     }
 
     public function edit($id)
     {
         $exam = Exam::findOrFail($id);
         $subjects = Subject::all();
-        return view('dashboard.exams.edit', compact('exam', 'subjects'));
+        return view('pages.exams.edit', compact('exam', 'subjects'));
     }
 
     public function update(Request $request, $id)
@@ -130,10 +130,10 @@ class ExamController extends Controller
             'type' => 'required|in:mcq,TF,TEXT',
             'description' => 'required|string',
             'points' => 'required|numeric|min:0',
-            'correct_answer' => 'nullable|string',
-            'choices' => 'required_if:type,mcq|array|min:2',
-            'choices.*.text' => 'required_if:type,mcq|string',
-            'correct_choice' => 'required_if:type,mcq|integer',
+            'correct_answer' => 'nullable|required_unless:type,mcq|string',
+            'choices' => 'nullable|required_if:type,mcq|array|min:2',
+            'choices.*.text' => 'nullable|required_if:type,mcq|string',
+            'correct_choice' => 'nullable|required_if:type,mcq|integer',
         ]);
 
         $adminTeacher = Teacher::where('phone', '0000000000')->first();
@@ -149,17 +149,19 @@ class ExamController extends Controller
                 'type' => $request->type,
                 'description' => $request->description,
                 'points' => $request->points,
-                'correct_answer' => $request->type == 'mcq' ? null : $request->correct_answer,
+                'correct_answer' => $request->type !== 'mcq' ? $request->correct_answer : null,
                 'status' => 'publish',
             ]);
 
-            if ($request->type == 'mcq') {
+            if ($request->type === 'mcq' && $request->has('choices')) {
                 foreach ($request->choices as $index => $choiceData) {
-                    Choice::create([
-                        'question_id' => $question->id,
-                        'choice_text' => $choiceData['text'],
-                        'is_correct' => $index == $request->correct_choice,
-                    ]);
+                    if (isset($choiceData['text'])) {
+                        Choice::create([
+                            'question_id' => $question->id,
+                            'choice_text' => $choiceData['text'],
+                            'is_correct' => $index == $request->correct_choice,
+                        ]);
+                    }
                 }
             }
 
@@ -181,7 +183,7 @@ class ExamController extends Controller
         ]);
 
         $exam = Exam::findOrFail($examId);
-        
+
         if (!$exam->questions()->where('question_id', $request->question_id)->exists()) {
             $exam->questions()->attach($request->question_id);
         }

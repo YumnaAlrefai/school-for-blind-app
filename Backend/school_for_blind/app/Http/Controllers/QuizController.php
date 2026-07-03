@@ -57,8 +57,8 @@ class QuizController extends Controller
             ]);
 
 
-          //  $lesson->quiz_id = $quiz->id;
-           // $lesson->save();
+            //  $lesson->quiz_id = $quiz->id;
+            // $lesson->save();
 
             if ($request->has('question_ids') && !empty($request->question_ids)) {
                 $quiz->questions()->attach($request->question_ids);
@@ -104,12 +104,29 @@ class QuizController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $teacher_id = auth()->id();
-        $quizzes = Quiz::with('subject')
-            ->where('teacher_id', $teacher_id)
-            ->paginate(20);
+
+        $query = Quiz::with(['subject', 'lesson.class'])
+            ->where('teacher_id', $teacher_id);
+
+        if ($request->has('subject_id')) {
+            $query->where('subject_id', $request->subject_id);
+        }
+
+        if ($request->has('class_id')) {
+            $query->whereHas('lesson', function ($q) use ($request) {
+                $q->where('class_id', $request->class_id);
+            });
+        }
+
+        if ($request->has('lesson_id')) {
+            $query->where('lesson_id', $request->lesson_id);
+        }
+
+        $quizzes = $query->paginate(20);
+
         return response()->json($quizzes);
     }
 
