@@ -18,6 +18,7 @@ class Lesson extends Model
 
 
     protected $guarded = [];
+    protected $appends = ['has_quiz'];
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -63,8 +64,6 @@ class Lesson extends Model
             'lesson_title' => $this->title,
             'subject_name' => $this->subject->name ?? 'غير محدد',
             'teacher_name' => $this->teacher->full_name ?? 'غير محدد',
-            // ملاحظة: كلمة class محجوزة بالـ PHP، لذلك غالباً علاقتك رح يكون اسمها مختلف (مثلاً classroom أو schoolClass)
-            // تأكد من تغييرها لتطابق اسم العلاقة عندك في المودل
             'class_name' => $this->class->name ?? 'غير محدد',
             'class_level' => $this->class->level ?? 'غير محدد',
         ];
@@ -78,6 +77,12 @@ class Lesson extends Model
         return $this->morphMany(Favorite::class, 'favorable');
     }
 
-
+    public function getHasQuizAttribute()
+    {
+        if ($this->relationLoaded('quiz')) {
+            return $this->quiz !== null;
+        }
+        return $this->quiz()->exists();
+    }
 
 }

@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
-            $table->dateTime('exam_date');
+            $table->dateTime('exam_date')->nullable();
             $table->integer('duration_minutes')->default(60);
             $table->boolean('is_published')->default(false);
             $table->timestamps();

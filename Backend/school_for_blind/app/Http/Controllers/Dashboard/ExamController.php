@@ -131,9 +131,9 @@ class ExamController extends Controller
             'description' => 'required|string',
             'points' => 'required|numeric|min:0',
             'correct_answer' => 'nullable|required_unless:type,mcq|string',
-            'choices' => 'nullable|required_if:type,mcq|array|min:2',
+            'choices' => 'nullable|required_if:type,mcq|array|min:2|max:10',
             'choices.*.text' => 'nullable|required_if:type,mcq|string',
-            'correct_choice' => 'nullable|required_if:type,mcq|integer',
+            'correct_choice' => 'nullable|required_if:type,mcq|integer|min:0|max:9',
         ]);
 
         $adminTeacher = Teacher::where('phone', '0000000000')->first();

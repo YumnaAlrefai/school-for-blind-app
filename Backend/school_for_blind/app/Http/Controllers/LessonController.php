@@ -95,7 +95,8 @@ class LessonController extends Controller
             $query->where('teacher_id', $request->teacher_id);
         }
 
-        $lessons = $query->orderBy('created_at', 'desc')->paginate($perPage);
+        $lessons = $query->orderBy('created_at', 'desc')->get();
+        //->paginate($perPage);
 
         return response()->json([
             'lessons' => $lessons

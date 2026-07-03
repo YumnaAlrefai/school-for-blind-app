@@ -55,7 +55,7 @@ class SpecialTeacherSeeder extends Seeder
         $yumnaTeacher = Teacher::firstOrCreate(
             ['phone' => '0989898989'],
             [
-                'full_name' => 'يمنى الرقاعي',
+                'full_name' => 'يمنى الرفاعي',
                 'password' => $commonPassword,
                 'subjects' => 'كل المواد',
                 'level' => 'twelfth',
