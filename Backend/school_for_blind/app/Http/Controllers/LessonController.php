@@ -149,9 +149,7 @@ class LessonController extends Controller
         $data = $lesson->toArray();
 
         $data['teacher_name'] = $lesson->teacher->full_name ?? 'غير معروف';
-        unset($data['teacher'], $data['teacher_id']);
-
-        
+        unset($data['teacher']);
         $data['is_favorited'] = $lesson->is_favorited;
 
         $data['is_quiz_solved'] = false; 

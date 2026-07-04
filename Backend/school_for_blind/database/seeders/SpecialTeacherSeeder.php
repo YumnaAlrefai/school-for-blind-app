@@ -42,7 +42,7 @@ class SpecialTeacherSeeder extends Seeder
             [
                 'full_name' => 'غالية الياسين',
                 'password' => $commonPassword,
-                'subjects' => 'كل المواد',
+                'subjects' => 'الفلسفة',
                 'level' => 'twelfth',
                 'status' => 'approved',
                 'cv_path' => 'system/ghalia_cv.pdf',

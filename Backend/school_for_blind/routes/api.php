@@ -26,6 +26,7 @@ use App\Http\Middleware\PreventStudentCallActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LiveKitWebhookController;
+use App\Http\Controllers\SupportTicketController;
 
 Route::post('verify-otp', [OtpController::class, 'verify']);
 Route::post('register', [StudentController::class, 'register']);
@@ -192,3 +193,4 @@ Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']
 
 Route::post('/livekit/webhook', [LiveKitWebhookController::class, 'handle']);
 
+Route::post('/support-tickets', [SupportTicketController::class, 'store'])->middleware('auth:sanctum');
