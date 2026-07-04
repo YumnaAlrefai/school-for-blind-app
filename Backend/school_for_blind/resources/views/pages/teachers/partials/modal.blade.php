@@ -1,7 +1,8 @@
 <div class="modal fade" id="teacherModal{{ $teacher->id }}" tabindex="-1" aria-hidden="true">
  <div class="modal-dialog modal-dialog-centered modal-lg">
-  <div class="modal-content text-end" dir="rtl"
-   style="background-color: var(--bg-main); border: 1px solid var(--border-color);">
+  {{-- أضفنا كلاس glass-modal وحذفنا لون الخلفية الصلب --}}
+  <div class="modal-content glass-modal text-end" dir="rtl"
+   style="border: 1px solid var(--border-color); color: var(--text-main);">
    <div class="modal-header d-flex justify-content-between" style="border-bottom: 1px solid var(--border-color);">
     <h5 class="modal-title fw-bold" style="color: var(--text-main);">التفاصيل الكاملة للمعلم</h5>
     <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -55,7 +56,3 @@
       </div>
      @endif
     </div>
-   </div>
-  </div>
- </div>
-</div>

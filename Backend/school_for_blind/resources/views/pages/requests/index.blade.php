@@ -44,16 +44,15 @@
     </div>
   </div>
 
-  <div class="modal fade glass-modal" id="dynamicDetailsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="dynamicDetailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content"
-        style="background-color: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-color);">
+      <div class="modal-content glass-modal" style="border: 1px solid var(--border-color); color: var(--text-main);">
         <div class="modal-header border-0 p-4">
           <div>
             <h4 class="fw-bold mb-0" id="modal-user-name" style="color: var(--text-main);">جاري التحميل...</h4>
             <span id="modal-user-type" class="badge bg-soft-info mt-2"></span>
           </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body p-4">
@@ -65,8 +64,7 @@
 
           <div id="classSelectionWrapper" class="mt-4 pt-3 border-top d-none">
             <label id="classSelectLabel" class="form-label fw-bold" style="color: var(--text-main);"></label>
-            <select id="modal_class_id" class="form-select"
-              style="background-color: var(--bg-card); color: var(--text-main); border-color: var(--border-color); min-height: 45px;">
+            <select id="modal_class_id" class="form-select search-input" style="min-height: 45px;">
               <option value="">-- اختر الشعبة --</option>
               @foreach($classes as $class)
                 <option value="{{ $class->id }}" data-level="{{ $class->level }}">
@@ -74,8 +72,7 @@
                 </option>
               @endforeach
             </select>
-            <small id="classSelectionHint" class="text-muted d-none mt-2 d-block">💡 يمكنك اختيار أكثر من شعبة بالضغط
-              المستمر على زر <b>Ctrl</b> في الويندوز أو <b>Cmd</b> في الماك أثناء الضغط على الخيارات.</small>
+            <small id="classSelectionHint" class="text-muted d-none mt-2 d-block">💡 يمكنك اختيار أكثر من شعبة بالضغط المستمر على زر <b>Ctrl</b> في الويندوز أو <b>Cmd</b> في الماك أثناء الضغط على الخيارات.</small>
           </div>
         </div>
 
@@ -156,17 +153,14 @@
           });
       }
 
-      // عند الضغط على زر "معاينة وقبول" من الجدول
       document.querySelectorAll('.btn-view-details').forEach(button => {
         button.addEventListener('click', function () {
           activeId = this.getAttribute('data-id');
           activeType = this.getAttribute('data-type');
 
-          // إعادة تهيئة واجهة القائمة المنسدلة للشعب
           classSelect.value = '';
           classWrapper.classList.remove('d-none');
 
-          // تحويل الـ Select ديناميكياً بناءً على نوع مقدم الطلب
           if (activeType === 'teacher') {
             classSelect.setAttribute('multiple', 'multiple');
             classSelect.style.height = 'auto';
@@ -182,7 +176,6 @@
           const myModal = new bootstrap.Modal(document.getElementById('dynamicDetailsModal'));
           myModal.show();
 
-          // جلب تفاصيل الشخص عبر الـ AJAX
           fetch(`/request-details/${activeType}/${activeId}`)
             .then(response => response.json())
             .then(data => {
@@ -190,25 +183,22 @@
               document.getElementById('modal-user-type').innerText = data.type_label;
               document.getElementById('modal-body-content').innerHTML = data.html;
 
-              // 💡 بداية منطق الفلترة الذكية بناءً على اللفل
-              const userLevel = data.level; // اللفل القادم من السيرفر (مثلاً Grade 1)
+              const userLevel = data.level;
 
               Array.from(classSelect.options).forEach(option => {
-                // إبقاء الخيار الافتراضي "-- اختر الشعبة --" ظاهراً دائماً
                 if (option.value === "") {
                   option.style.display = "block";
                   return;
                 }
 
-                // قراءة لفل الشعبة ومقارنته بلفل المستخدم
                 const classLevel = option.getAttribute('data-level');
 
                 if (classLevel === userLevel) {
-                  option.style.display = "block";  // إظهار الشعبة المتطابقة
+                  option.style.display = "block";
                   option.disabled = false;
                 } else {
-                  option.style.display = "none";   // إخفاء الشعبة غير المتطابقة
-                  option.disabled = true;          // تعطيلها لضمان عدم إرسالها بالخطأ
+                  option.style.display = "none";
+                  option.disabled = true;
                 }
               });
             });

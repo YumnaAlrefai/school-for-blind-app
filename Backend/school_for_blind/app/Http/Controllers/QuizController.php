@@ -224,7 +224,7 @@ class QuizController extends Controller
                             $isCorrect = true;
                         }
                     }
-                } else {
+                } elseif ($answerData['type'] === 'TF') {
                     if (
                         isset($answerData['text_answer']) &&
                         strcasecmp(trim($answerData['text_answer']), trim($question->correct_answer)) === 0
@@ -322,5 +322,73 @@ class QuizController extends Controller
             'quiz_details' => $quiz->only(['id', 'numofquestions', 'timelimit', 'totalmark', 'subject_id', 'subject_name', 'lesson_id']),
             'data' => $data
         ]);
+    }
+
+    public function gradeTextAnswers(Request $request, $quizId, $studentId)
+    {
+        $request->validate([
+            'grades' => 'required|array',
+            'grades.*.answer_id' => 'required|exists:student_answers,id',
+            'grades.*.points' => 'required|numeric|min:0',
+        ]);
+
+        $submission = QuizSubmission::where('quiz_id', $quizId)
+            ->where('student_id', $studentId)
+            ->first();
+
+        if (!$submission) {
+            return response()->json([
+                'error' => 'لم يتم العثور على تسليم لهذا الطالب في هذا الكويز.'
+            ], 404);
+        }
+
+        DB::beginTransaction();
+        try {
+            foreach ($request->grades as $gradeData) {
+                $studentAnswer = StudentAnswer::with('question')
+                    ->where('id', $gradeData['answer_id'])
+                    ->where('student_id', $studentId)
+                    ->first();
+
+                if ($studentAnswer) {
+                    $maxPoints = $studentAnswer->question->points;
+
+                    if ($gradeData['points'] > $maxPoints) {
+                        DB::rollBack();
+                        return response()->json([
+                            'error' => "عذراً، لا يمكن إعطاء علامة ({$gradeData['points']}) أكبر من علامة السؤال الأصلية وهي ({$maxPoints}).",
+                            'answer_id' => $gradeData['answer_id']
+                        ], 400);
+                    }
+
+                    $studentAnswer->points_earned = $gradeData['points'];
+                    $studentAnswer->is_correct = $gradeData['points'] > 0;
+                    $studentAnswer->save();
+                }
+            }
+
+            $newTotalScore = StudentAnswer::where('student_id', $studentId)
+                ->whereHas('question.quizzes', function ($query) use ($quizId) {
+                    $query->where('quizzes.id', $quizId);
+                })
+                ->sum('points_earned');
+
+            $submission->score = $newTotalScore;
+            $submission->save();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'تم رصد العلامات وتحديث النتيجة النهائية بنجاح!',
+                'new_total_score' => $newTotalScore
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => 'حدث خطأ أثناء حفظ العلامات',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 }

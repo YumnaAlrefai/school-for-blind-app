@@ -189,3 +189,16 @@ body {
 .modal-body code {
     color: var(--text-main);
 }
+
+.modal-backdrop.show {
+    opacity: 0.8 !important; 
+}
+
+.glass-modal {
+    background-color: rgba(205, 205, 205, 0.2) !important; 
+    
+    backdrop-filter: blur(12px) !important; 
+    -webkit-backdrop-filter: blur(12px) !important;
+    
+    border-radius: 1rem !important;
+}

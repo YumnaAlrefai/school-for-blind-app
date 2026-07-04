@@ -188,7 +188,7 @@
     <div class="modal fade" id="createQuestionModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content glass-modal"
-                style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main);">
+                style="border: 1px solid var(--border-color); color: var(--text-main);">
                 <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold">إنشاء سؤال تفاعلي جديد</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
@@ -221,20 +221,38 @@
                         </div>
 
                         <div id="mcq_fields_wrapper">
-                            <label class="form-label fw-bold mb-2">الخيارات المتاحة (حدد الخيار الصحيح)</label>
-                            <div class="d-flex flex-column gap-2">
-                                @for($i = 0; $i < 4; $i++)
-                                    <div class="input-group">
-                                        <div class="input-group-text"
-                                            style="background-color: var(--hover-bg); border-color: var(--border-color);">
-                                            <input class="form-check-input mt-0" type="radio" name="correct_choice"
-                                                value="{{ $i }}" {{ $i == 0 ? 'checked' : '' }}>
-                                        </div>
-                                        <input type="text" name="choices[{{ $i }}][text]" class="form-control search-input"
-                                            placeholder="نص الخيار رقم {{ $i + 1 }}">
-                                    </div>
-                                @endfor
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label fw-bold m-0">الخيارات المتاحة (حدد الخيار الصحيح)</label>
+                                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill" id="addChoiceBtn"
+                                    onclick="addNewChoice()">
+                                    <i class="fa-solid fa-plus"></i> إضافة خيار
+                                </button>
                             </div>
+
+                            <div class="d-flex flex-column gap-2" id="choicesContainer">
+                                {{-- الخيارين الأول والثاني (إجباريين كحد أدنى) --}}
+                                <div class="input-group choice-row">
+                                    <div class="input-group-text"
+                                        style="background-color: var(--hover-bg); border-color: var(--border-color);">
+                                        <input class="form-check-input mt-0" type="radio" name="correct_choice" value="0"
+                                            checked>
+                                    </div>
+                                    <input type="text" name="choices[0][text]" class="form-control search-input"
+                                        placeholder="نص الخيار رقم 1" id="choice_input_0">
+                                </div>
+
+                                <div class="input-group choice-row">
+                                    <div class="input-group-text"
+                                        style="background-color: var(--hover-bg); border-color: var(--border-color);">
+                                        <input class="form-check-input mt-0" type="radio" name="correct_choice" value="1">
+                                    </div>
+                                    <input type="text" name="choices[1][text]" class="form-control search-input"
+                                        placeholder="نص الخيار رقم 2" id="choice_input_1">
+                                </div>
+                            </div>
+
+                            <small id="choicesLimitText" class="text-danger mt-2 d-none fw-bold">وصلت للحد الأقصى (10
+                                خيارات).</small>
                         </div>
 
                         <div id="correct_answer_wrapper" class="d-none">
@@ -259,32 +277,65 @@
         </div>
     </div>
 
-    <script>
-        function toggleQuestionFields(type) {
-            const mcqWrapper = document.getElementById('mcq_fields_wrapper');
-            const answerWrapper = document.getElementById('correct_answer_wrapper');
-            const tfInput = document.getElementById('tf_input');
-            const textInput = document.getElementById('text_input');
+   <script>
+let choiceCount = 2; // نبدأ دائماً بخيارين
 
-            mcqWrapper.classList.add('d-none');
-            answerWrapper.classList.add('d-none');
-            tfInput.classList.add('d-none');
-            textInput.classList.add('d-none');
+function addNewChoice() {
+    if (choiceCount >= 10) return; // منع التجاوز عن 10
 
-            tfInput.removeAttribute('name');
-            textInput.removeAttribute('name');
+    const container = document.getElementById('choicesContainer');
+    const newRow = document.createElement('div');
+    newRow.className = 'input-group choice-row';
+    
+    // بناء الـ HTML للخيار الجديد ديناميكياً
+    newRow.innerHTML = `
+        <div class="input-group-text" style="background-color: var(--hover-bg); border-color: var(--border-color);">
+            <input class="form-check-input mt-0" type="radio" name="correct_choice" value="${choiceCount}">
+        </div>
+        <input type="text" name="choices[${choiceCount}][text]" class="form-control search-input" placeholder="نص الخيار رقم ${choiceCount + 1}">
+    `;
+    
+    container.appendChild(newRow);
+    choiceCount++;
 
-            if (type === 'mcq') {
-                mcqWrapper.classList.remove('d-none');
-            } else if (type === 'TF') {
-                answerWrapper.classList.remove('d-none');
-                tfInput.classList.remove('d-none');
-                tfInput.setAttribute('name', 'correct_answer');
-            } else if (type === 'TEXT') {
-                answerWrapper.classList.remove('d-none');
-                textInput.classList.remove('d-none');
-                textInput.setAttribute('name', 'correct_answer');
-            }
-        }
-    </script>
+    // إخفاء الزر إذا وصلنا للحد الأقصى
+    if (choiceCount >= 10) {
+        document.getElementById('addChoiceBtn').classList.add('d-none');
+        document.getElementById('choicesLimitText').classList.remove('d-none');
+    }
+}
+
+function toggleQuestionFields(type) {
+    const mcqWrapper = document.getElementById('mcq_fields_wrapper');
+    const answerWrapper = document.getElementById('correct_answer_wrapper');
+    const tfInput = document.getElementById('tf_input');
+    const textInput = document.getElementById('text_input');
+    
+    mcqWrapper.classList.add('d-none');
+    answerWrapper.classList.add('d-none');
+    tfInput.classList.add('d-none');
+    textInput.classList.add('d-none');
+    
+    tfInput.removeAttribute('name');
+    textInput.removeAttribute('name');
+
+    // إزالة الإجبارية عن الحقول حتى لا تتعارض
+    document.getElementById('choice_input_0').removeAttribute('required');
+    document.getElementById('choice_input_1').removeAttribute('required');
+
+    if (type === 'mcq') {
+        mcqWrapper.classList.remove('d-none');
+        document.getElementById('choice_input_0').setAttribute('required', 'required');
+        document.getElementById('choice_input_1').setAttribute('required', 'required');
+    } else if (type === 'TF') {
+        answerWrapper.classList.remove('d-none');
+        tfInput.classList.remove('d-none');
+        tfInput.setAttribute('name', 'correct_answer'); 
+    } else if (type === 'TEXT') {
+        answerWrapper.classList.remove('d-none');
+        textInput.classList.remove('d-none');
+        textInput.setAttribute('name', 'correct_answer');
+    }
+}
+</script>
 @endsection
