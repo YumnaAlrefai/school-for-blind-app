@@ -46,17 +46,16 @@ abstract class WebServices {
   @GET("lessons")
   Future<dynamic> getLessons(@Query("subject_id") int? subjectId);
 
-  // ✅ صحّحنا المسار (lessons) واسم حقل الملف (audio_file).
-  // ⚠️ لسا ناقص subject_id + class_id — بدونهم الرفع رح يرجّع 422.
-  //    منضيفهم لما تحسمي مصدر class_id (شوفي ملاحظتي بالرسالة).
-  @POST("lessons")
-  @MultiPart()
-  Future<dynamic> uploadLesson({
-    @Part(name: "title") required String title,
-    @Part(name: "audio_file") required MultipartFile audioFile,
-  });
 
-  // ✅ المسار الصحيح: /api/lessons/{id}
+ @POST("lessons")
+@MultiPart()
+Future<dynamic> uploadLesson({
+  @Part(name: "title") required String title,
+  @Part(name: "subject_id") required int subjectId,
+  @Part(name: "class_id") required int classId,
+  @Part(name: "audio_file") required MultipartFile audioFile,
+});
+
   @DELETE("lessons/{id}")
   Future<dynamic> deleteLesson(@Path("id") int id);
 
@@ -98,4 +97,10 @@ abstract class WebServices {
   @POST("call/end")
   @FormUrlEncoded()
   Future<dynamic> endCall(@Field("room_name") String roomName);
+
+  @POST("quizzes")
+Future<dynamic> createQuiz(@Body() Map<String, dynamic> body);
+
+@POST("exam")
+Future<dynamic> createExam(@Body() Map<String, dynamic> body);
 }

@@ -17,6 +17,8 @@ class AppRoutes {
   static const String kDonationPaymentScreen = '/donation_payment_screen';
   static const String kTechnicalSupportScreen = '/technical_support_screen';
   static const String kQuizzes = '/teacher_quizzes_screen';
+  static const String kTest = '/teacher_test_screen';
+
 
   static const String kStudentLoginScreen = '/student_login_screen';
   static const String kStudentRegisterDataScreen =

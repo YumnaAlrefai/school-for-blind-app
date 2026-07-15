@@ -15,25 +15,30 @@ import 'package:school_for_blind_app/presentation/widgets/lesson_audio_card.dart
 
 class Lesson {
   final int id;
-  final String title;
-  final String duration;
-  final String audioUrl;
+final String title;
+final String duration;
+final String audioUrl;
+final bool hasQuiz;
 
   const Lesson({
     required this.id,
     required this.title,
     required this.duration,
     required this.audioUrl,
+    required this.hasQuiz,
+    
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
-    // الرد الجديد: رابط الصوت يجي من أول تسجيل داخل records (record_url).
+    // رابط الصوت يجي من أول تسجيل داخل records (record_url).
     // بنجيب أول تسجيل فقط حالياً (الدرس ممكن يكون له عدة تسجيلات لاحقاً).
     String audio = '';
     final records = json['records'];
     if (records is List && records.isNotEmpty && records.first is Map) {
       final first = records.first as Map;
-      audio = (first['record_url'] ?? first['record_path'] ?? '').toString();
+      audio =
+          (first['url'] ?? first['record_url'] ?? first['record_path'] ?? '')
+              .toString();
     }
     // fallback للأشكال القديمة إذا رجع audio_url مباشرة
     if (audio.isEmpty) {
@@ -42,9 +47,10 @@ class Lesson {
 
     return Lesson(
       id: json['id'] ?? 0,
-      title: (json['title'] ?? '').toString(),
-      duration: (json['duration'] ?? '00:00').toString(),
+      title: json['title'] ?? '',
+      duration: json['duration'] ?? '00:00',
       audioUrl: audio,
+      hasQuiz: json['has_quiz'] == true,
     );
   }
 }
@@ -61,6 +67,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
   final LessonAudioService _audioService = LessonAudioService();
 
   int _currentNavIndex = 4;
+  int _selectedCategoryIndex = 1;
   int? _expandedIndex;
   double _speed = 1.0;
   int? _deleteModeIndex;
@@ -71,7 +78,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
   @override
   void initState() {
     super.initState();
-    // ✅ صار يجيب مواد المدرس + دروس أول مادة (بدل emitGetLessons)
+    // يجيب مواد المدرس + دروس أول مادة
     getIt<LessonsCubit>().emitInitLessons();
   }
 
@@ -95,31 +102,20 @@ class _LessonsScreenState extends State<LessonsScreen> {
     await _audioService.stop();
     setState(() => _expandedIndex = null);
 
-    if (!mounted) return;
-
-    // نمرّر المادة الحالية لشاشة الرفع (بدل اختيارها من قائمة)
-    await Navigator.pushNamed(
-      context,
-      AppRoutes.kAddLesson,
-      arguments: getIt<LessonsCubit>().selectedSubject?.id,
-    );
-
-    // بعد الرجوع من شاشة الرفع، نحدّث دروس المادة الحالية
-    getIt<LessonsCubit>().emitGetLessons();
+    if (mounted) {
+      Navigator.pushNamed(context, AppRoutes.kAddLesson);
+    }
   }
 
   Future<void> _onLessonTap(int index, Lesson lesson) async {
-    // لمسة على أي بطاقة أثناء وضع الحذف = إلغاء الوضع
-    if (_deleteModeIndex != null) {
-      setState(() => _deleteModeIndex = null);
-      return;
-    }
+    
+
 
     setState(() => _expandedIndex = index);
 
     try {
       await _audioService.playUrl(lesson.audioUrl, speed: _speed);
-    } catch (_) {
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('تعذر تشغيل الدرس، تأكد من الاتصال')),
@@ -147,11 +143,17 @@ class _LessonsScreenState extends State<LessonsScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: AppColors.kBackgroundColor,
-        drawer: CustomDrawer(
-          userName: getIt<TeacherCubit>().currentTeacher?.fullName ?? 'مدرس',
-          userPhone:
-              getIt<TeacherCubit>().currentTeacher?.phone ?? '09********',
-        ),
+drawer: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
+  bloc: getIt<LessonsCubit>(),
+  builder: (context, state) {
+    final cubit = getIt<LessonsCubit>();
+    return CustomDrawer(
+      userName: cubit.teacherName.isNotEmpty ? cubit.teacherName : 'مدرس',
+      userPhone:
+          cubit.teacherPhone.isNotEmpty ? cubit.teacherPhone : '09********',
+    );
+  },
+),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -162,8 +164,10 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 _buildTopBar(),
                 const SizedBox(height: 20),
                 _buildSearchField(),
-                const SizedBox(height: 25),
-                _buildSubjectHeader(), // ⬅️ بدل صف الفئات الثلاث
+                const SizedBox(height: 20),
+                _buildSubjectHeader(), // اسم المادة + السهم
+                const SizedBox(height: 15),
+                _buildCategories(),
                 const SizedBox(height: 25),
                 _buildLessonsList(),
               ],
@@ -259,19 +263,19 @@ class _LessonsScreenState extends State<LessonsScreen> {
           child: Row(
             children: [
               Text(
-                subject?.name ?? 'الدروس',
+                subject != null ? '${subject.name}:' : 'الدروس',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
               if (hasMultiple) ...[
-                const SizedBox(width: 6),
+                const SizedBox(width: 4),
                 const Icon(
                   Icons.keyboard_arrow_down,
                   color: Colors.white,
-                  size: 28,
+                  size: 26,
                 ),
               ],
             ],
@@ -326,6 +330,43 @@ class _LessonsScreenState extends State<LessonsScreen> {
     );
   }
 
+  Widget _buildCategories() {
+    return Row(
+      children: [
+        _buildCategoryButton('الدروس', 1),
+        const SizedBox(width: 50),
+        _buildCategoryButton('حلول الطلاب', 0),
+      ],
+    );
+  }
+
+  Widget _buildCategoryButton(String text, int index) {
+    final isSelected = _selectedCategoryIndex == index;
+    return GestureDetector(
+      onTap: () => setState(() => _selectedCategoryIndex = index),
+      child: Container(
+        width: 140,
+        height: 37,
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors.kPrimaryColor
+              : Colors.white.withOpacity(0.10),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: isSelected ? Colors.black : Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildLessonsList() {
     return Expanded(
       child: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
@@ -354,12 +395,11 @@ class _LessonsScreenState extends State<LessonsScreen> {
                   itemBuilder: (context, index) => LessonAudioCard(
                     lesson: lessons[index],
                     isExpanded: _expandedIndex == index,
-                    isDeleteMode: _deleteModeIndex == index,
                     audioService: _audioService,
                     speed: _speed,
                     onTap: () => _onLessonTap(index, lessons[index]),
-                    onLongPress: () => _onLessonLongPress(index),
                     onDelete: () => _confirmDelete(lessons[index]),
+                    onCreateQuiz: () => _openCreateQuiz(lessons[index]),
                     onSpeedTap: _onSpeedTap,
                   ),
                 ),
@@ -370,7 +410,13 @@ class _LessonsScreenState extends State<LessonsScreen> {
       ),
     );
   }
-
+void _openCreateQuiz(Lesson lesson) {
+  Navigator.pushNamed(
+    context,
+    AppRoutes.kQuizzes,
+    arguments: lesson.id,
+  );
+}
   /// شاشة فارغة توجّه المدرس لزر +
   Widget _buildEmptyState() {
     return Center(

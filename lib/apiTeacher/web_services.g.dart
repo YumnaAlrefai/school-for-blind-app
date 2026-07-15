@@ -154,16 +154,17 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<dynamic> getLessons() async {
+  Future<dynamic> getLessons(int? subjectId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'subject_id': subjectId};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<dynamic>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'teacher/lessons',
+            'lessons',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -177,6 +178,8 @@ class _WebServices implements WebServices {
   @override
   Future<dynamic> uploadLesson({
     required String title,
+    required int subjectId,
+    required int classId,
     required MultipartFile audioFile,
   }) async {
     final _extra = <String, dynamic>{};
@@ -184,7 +187,9 @@ class _WebServices implements WebServices {
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
-    _data.files.add(MapEntry('audio', audioFile));
+    _data.fields.add(MapEntry('subject_id', subjectId.toString()));
+    _data.fields.add(MapEntry('class_id', classId.toString()));
+    _data.files.add(MapEntry('audio_file', audioFile));
     final _options = _setStreamType<dynamic>(
       Options(
             method: 'POST',
@@ -194,7 +199,7 @@ class _WebServices implements WebServices {
           )
           .compose(
             _dio.options,
-            'teacher/lessons',
+            'lessons',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -215,7 +220,7 @@ class _WebServices implements WebServices {
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'teacher/lessons/${id}',
+            'lessons/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -393,6 +398,50 @@ class _WebServices implements WebServices {
           .compose(
             _dio.options,
             'call/end',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
+  Future<dynamic> createQuiz(Map<String, dynamic> body) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'quizzes',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
+  Future<dynamic> createExam(Map<String, dynamic> body) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'exam',
             queryParameters: queryParameters,
             data: _data,
           )

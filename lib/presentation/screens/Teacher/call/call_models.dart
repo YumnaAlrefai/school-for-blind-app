@@ -1,21 +1,16 @@
 import 'package:flutter/foundation.dart';
 
-/// يمثّل مشاركاً واحداً في المكالمة (معلّم أو طالب).
 @immutable
 class CallParticipant {
-  /// هوية المشارك في LiveKit، بصيغة "Student--15" أو "Teacher--1".
   final String id;
   final String name;
   final bool isTeacher;
   final bool isLocal;
 
-  /// هل دخل الطالب المكالمة فعلياً؟ false = من الشعبة لكن لم ينضم بعد.
   final bool isPresent;
 
-  /// هل ميكروفونه مفعّل؟ (false = مكتوم).
   final bool isMicEnabled;
 
-  /// هل يتحدّث الآن؟ (يفعّل اللون الفوسفوري).
   final bool isSpeaking;
 
   final double audioLevel;
@@ -53,7 +48,6 @@ class CallParticipant {
   }
 }
 
-/// طالب من شعبة الدرس (ضمن قائمة المُبلّغين) — يُقرأ من حقل "students" في رد start.
 class RosterStudent {
   RosterStudent({required this.id, required this.name});
   final String id;
@@ -65,7 +59,6 @@ class RosterStudent {
       );
 }
 
-/// شعبة يدرّسها المدرس (تأتي من data.classes في رد teacher/info).
 class SchoolClass {
   SchoolClass({required this.id, required this.name});
   final String id;

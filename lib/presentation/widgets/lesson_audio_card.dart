@@ -4,31 +4,29 @@ import 'package:school_for_blind_app/apiTeacher/lesson_audio_service.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_home_screen.dart';
 
-/// بطاقة درس بثلاث حالات:
-/// 1) مغلقة: عنوان + زر تشغيل
+/// بطاقة درس بحالتين:
+/// 1) مغلقة: عنوان + زر تشغيل + زر ⋮
 /// 2) موسّعة: مشغل كامل (وقت + شريط + سرعة)
-/// 3) وضع الحذف (ضغطة مطولة): تظهر سلة المهملات
+/// زر ⋮ يفتح قائمة سفلية بخيارين: إنشاء كويز / حذف
 class LessonAudioCard extends StatelessWidget {
   final Lesson lesson;
   final bool isExpanded;
-  final bool isDeleteMode;
   final LessonAudioService audioService;
   final double speed;
   final VoidCallback onTap;
-  final VoidCallback onLongPress;
   final VoidCallback onDelete;
+  final VoidCallback onCreateQuiz;
   final VoidCallback onSpeedTap;
 
   const LessonAudioCard({
     super.key,
     required this.lesson,
     required this.isExpanded,
-    required this.isDeleteMode,
     required this.audioService,
     required this.speed,
     required this.onTap,
-    required this.onLongPress,
     required this.onDelete,
+    required this.onCreateQuiz,
     required this.onSpeedTap,
   });
 
@@ -36,7 +34,6 @@ class LessonAudioCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      onLongPress: onLongPress, // ⬅️ الضغطة المطولة تفعّل وضع الحذف
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -47,52 +44,113 @@ class LessonAudioCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.10),
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            // إطار أحمر خفيف في وضع الحذف للتنبيه
-            color: isDeleteMode
-                ? Colors.redAccent.withOpacity(0.7)
-                : Colors.white.withOpacity(0.50),
-            width: isDeleteMode ? 1.2 : 0.5,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.50), width: 0.5),
         ),
         child: Column(
           children: [
-            _buildHeader(),
-            if (isExpanded && !isDeleteMode) _buildPlayer(context),
+            _buildHeader(context),
+            if (isExpanded) _buildPlayer(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       textDirection: TextDirection.rtl,
       children: [
-        Text(
-          lesson.title,
-          style: const TextStyle(color: Colors.white, fontSize: 24),
-        ),
-        if (isDeleteMode)
-          _buildDeleteButton()
-        else if (isExpanded)
+        // زر التشغيل/الإيقاف على اليمين (بداية السطر في RTL)
+        if (isExpanded)
           _buildPlayPauseButton()
         else
-          const Icon(Icons.play_circle_outline,
-              size: 33, color: Colors.white),
+          const Icon(Icons.play_circle_outline, size: 33, color: Colors.white),
+
+        // العنوان بالوسط
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              lesson.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontSize: 24),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+
+        // زر ⋮ على اليسار (نهاية السطر في RTL)
+        GestureDetector(
+          onTap: () => _showOptionsSheet(context),
+          child: const Icon(
+            Icons.more_vert,
+            size: 28,
+            color: AppColors.kPrimaryColor,
+          ),
+        ),
       ],
     );
   }
 
-  /// سلة المهملات — تظهر مكان زر التشغيل في وضع الحذف (مثل الصورة)
-  Widget _buildDeleteButton() {
-    return GestureDetector(
-      onTap: onDelete,
-      child: const Icon(
-        Icons.delete_outline,
-        size: 33,
-        color: Colors.redAccent,
+  /// قائمة سفلية بخيارين: إنشاء كويز / حذف
+  void _showOptionsSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.kBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => Directionality(
+        textDirection: TextDirection.ltr,
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.white24,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 8),
+              // يظهر "إنشاء كويز" فقط إذا الدرس ما عنده كويز مسبقاً
+              if (!lesson.hasQuiz)
+                ListTile(
+                  leading: const Icon(
+                    Icons.quiz_outlined,
+                    color: AppColors.kPrimaryColor,
+                  ),
+                  title: const Text(
+                    'إنشاء كويز',
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                  onTap: () {
+                    Navigator.pop(sheetCtx);
+                    onCreateQuiz();
+                  },
+                ),
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: AppColors.kPrimaryColor,
+                ),
+                title: const Text(
+                  'حذف الدرس',
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+                onTap: () {
+                  Navigator.pop(sheetCtx);
+                  onDelete();
+                },
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -154,16 +212,17 @@ class LessonAudioCard extends StatelessWidget {
   }
 
   Widget _buildSliderRow(
-      BuildContext context, Duration position, Duration total) {
+    BuildContext context,
+    Duration position,
+    Duration total,
+  ) {
     return Row(
       textDirection: TextDirection.ltr,
       children: [
         GestureDetector(
           onTap: onSpeedTap,
           child: Text(
-            speed == speed.roundToDouble()
-                ? '${speed.toInt()}x'
-                : '${speed}x',
+            speed == speed.roundToDouble() ? '${speed.toInt()}x' : '${speed}x',
             style: const TextStyle(color: Colors.white, fontSize: 13),
           ),
         ),
@@ -171,10 +230,8 @@ class LessonAudioCard extends StatelessWidget {
           child: SliderTheme(
             data: SliderTheme.of(context).copyWith(
               trackHeight: 3,
-              thumbShape:
-                  const RoundSliderThumbShape(enabledThumbRadius: 8),
-              overlayShape:
-                  const RoundSliderOverlayShape(overlayRadius: 14),
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
               activeTrackColor: Colors.white30,
               inactiveTrackColor: Colors.white,
               thumbColor: Colors.white,

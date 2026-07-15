@@ -11,10 +11,8 @@ import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_models.dart';
 
 
-/// إعدادات LiveKit. الرابط الأساسي لـ API يُدار من Retrofit (@RestApi baseUrl).
 class LiveKitConfig {
-  /// عنوان سيرفر LiveKit (WebSocket) لمشروع school-for-blind.
-  /// نستخدم بادئة wss:// (وليس https://) للاتصال من العميل.
+ 
   static const String url = 'wss://school-for-blind-i8afqt3h.livekit.cloud';
 }
 
@@ -27,7 +25,6 @@ enum CallConnectionState {
   error,
 }
 
-/// خطأ مكالمة برسالة عربية جاهزة للعرض.
 class CallException implements Exception {
   CallException(this.message);
   final String message;
@@ -35,13 +32,7 @@ class CallException implements Exception {
   String toString() => message;
 }
 
-/// متحكّم شاشة المدرس. يبدأ الدرس عبر TeacherRepo، يتصل بـ LiveKit،
-/// ويتحكّم بالكتم/الطرد/الإنهاء. التوكن يُضاف تلقائياً من Dio interceptor.
-///
-/// مبني على [ChangeNotifier] (مناسب للتحديث اللحظي من LiveKit)، ويستعمل
-/// نفس طبقة الشبكة عندك (Retrofit + Repo) لكل نداءات الـ API.
-///
-/// تنبيه: مكتوب لإصدار livekit_client ^2.x.
+
 class CallController extends ChangeNotifier {
   CallController({
     required this.roomName,
@@ -72,23 +63,19 @@ class CallController extends ChangeNotifier {
   final List<CallParticipant> _participants = [];
   List<CallParticipant> get participants => List.unmodifiable(_participants);
 
-  /// طلاب الشعبة المُبلّغون (الـ roster).
   final List<RosterStudent> _roster = [];
 
   // LiveKit
   Room? _room;
   EventsListener<RoomEvent>? _events;
 
-  // تتبّع حالة الغرفة على السيرفر لمنع تعليقها
-  bool _started = false; // هل نجح start (انفتحت الغرفة بالسيرفر)؟
-  bool _ended = false; // هل أُغلقت الغرفة (لمنع الإغلاق المزدوج)؟
-  String? _activeRoomName; // اسم الغرفة الفعلي كما رجع من السيرفر
+  bool _started = false; 
+  bool _ended = false; 
+  String? _activeRoomName; 
 
-  // الوضع التجريبي فقط
   Timer? _demoTimer;
   final Random _rand = Random();
 
-  // ===================== 1) بدء المكالمة =====================
   Future<void> connect() async {
     _setState(CallConnectionState.connecting);
     try {
@@ -99,14 +86,12 @@ class CallController extends ChangeNotifier {
         return;
       }
 
-      // 1) بدء الدرس عبر الـ Repo (يرجّع توكن LiveKit + الطلاب)
       Map<String, dynamic> data;
       try {
         data = _unwrap(
           await teacherRepo.startCall(roomName: roomName, classId: classId),
         );
       } on CallException catch (e) {
-        // إنعاش تلقائي: لو في درس قائم عالق لنفس الشعبة، اقفله وأعد المحاولة مرة.
         if (_looksLikeExistingCall(e.message)) {
           try {
             await teacherRepo.endCall(roomName: roomName);
@@ -125,7 +110,6 @@ class CallController extends ChangeNotifier {
         throw CallException('لم يصل توكن LiveKit من الخادم');
       }
 
-      // الغرفة انفتحت بالسيرفر — خزّن اسمها الفعلي لاستخدامه في end/mute/kick.
       _started = true;
       final serverRoom = data['room_name']?.toString();
       _activeRoomName =
@@ -135,20 +119,18 @@ class CallController extends ChangeNotifier {
         ..clear()
         ..addAll(_parseStudents(data['students']));
 
-      // 2) الاتصال بغرفة LiveKit
       final room = Room();
       _room = room;
       await room.connect(LiveKitConfig.url, token);
       await room.localParticipant?.setMicrophoneEnabled(true);
       _selfMicEnabled = true;
 
-      // 3) الاستماع للأحداث
       _bindRoomEvents(room);
       _syncFromRoom();
 
       _setState(CallConnectionState.connected);
     } on CallException catch (e) {
-      await _cleanupOrphanRoom(); // لو start نجح ثم فشل ما بعده، اقفل الغرفة
+      await _cleanupOrphanRoom(); 
       errorMessage = e.message;
       _setState(CallConnectionState.error);
     } catch (e) {
@@ -162,8 +144,7 @@ class CallController extends ChangeNotifier {
   bool _looksLikeExistingCall(String msg) =>
       msg.contains('درس قائم') || msg.contains('موجود');
 
-  /// إن نجح start (انفتحت الغرفة) ثم فشل ما بعده (مثل LiveKit)، اقفل الغرفة
-  /// على السيرفر حتى لا تبقى عالقة وتمنع المكالمة القادمة.
+  
   Future<void> _cleanupOrphanRoom() async {
     if (!_started || _ended || demoMode) return;
     _ended = true;
@@ -188,7 +169,6 @@ class CallController extends ChangeNotifier {
       ..on<ParticipantDisconnectedEvent>((_) => _syncFromRoom());
   }
 
-  // ===================== أزرار التحكّم السفلية =====================
   Future<void> toggleSelfMic() async {
     _selfMicEnabled = !_selfMicEnabled;
     if (!demoMode) {
@@ -202,7 +182,6 @@ class CallController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// كتم/فك كتم كل الطلاب (لا يوجد endpoint جماعي، فنكرّر على كل طالب).
   Future<void> toggleMuteAllStudents() async {
     final mute = !_allStudentsMuted;
     _allStudentsMuted = mute;
@@ -231,7 +210,6 @@ class CallController extends ChangeNotifier {
     }
   }
 
-  // ===================== أزرار بطاقة كل طالب =====================
   Future<void> toggleMuteStudent(String id) async {
     final p = _participantById(id);
     if (p == null || !p.isPresent) return;
@@ -291,7 +269,6 @@ class CallController extends ChangeNotifier {
     }
   }
 
-  // ===================== إنهاء المكالمة =====================
   Future<void> endCall() async {
     _demoTimer?.cancel();
     if (!_ended) {
@@ -310,7 +287,6 @@ class CallController extends ChangeNotifier {
     _setState(CallConnectionState.disconnected);
   }
 
-  // ===================== مزامنة حالة LiveKit =====================
   void _syncFromRoom() {
     final room = _room;
     if (room == null) return;
@@ -385,8 +361,7 @@ class CallController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ===================== مساعدات =====================
-  /// يفك ApiResult: يرجّع البيانات أو يرمي CallException برسالة الخادم.
+  
   Map<String, dynamic> _unwrap(ApiResult<dynamic> result) {
     Map<String, dynamic> data = const {};
     String? message;
@@ -394,7 +369,6 @@ class CallController extends ChangeNotifier {
       success: (d) {
         if (d is Map) data = Map<String, dynamic>.from(d);
       },
-      // ملاحظة: لو اختلف اسم الدالة في نسختك، بدّلها هنا فقط.
       failure: (e) => message = NetworkExceptions.getErrorMessage(e),
     );
     if (message != null) throw CallException(message!);
@@ -439,7 +413,6 @@ class CallController extends ChangeNotifier {
     return rp.audioTrackPublications.first.sid;
   }
 
-  /// يحوّل "Student--15" إلى (type, id) لـ API لارافيل.
   ({String type, String id})? _parseIdentity(String identity) {
     final i = identity.indexOf('--');
     if (i <= 0) return null;
@@ -463,7 +436,6 @@ class CallController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ---------- الوضع التجريبي ----------
   void _loadDemoParticipants() {
     _participants
       ..clear()
@@ -502,13 +474,20 @@ class CallController extends ChangeNotifier {
   @override
   void dispose() {
     _demoTimer?.cancel();
-    // ملاحظة: لا نستدعي end هنا عمداً.
-    // المكالمة تبقى قائمة على السيرفر عند الخروج بزر الرجوع (back)،
-    // ولا تُنهى إلا عبر زر الإنهاء الأحمر (endCall).
-    // ننظّف اتصال LiveKit المحلي فقط لتحرير الموارد.
+   
+    if (_started && !_ended && !demoMode) {
+      _ended = true;
+      _endQuietly();
+    }
     _room?.removeListener(_syncFromRoom);
     _events?.dispose();
     _room?.dispose();
     super.dispose();
+  }
+
+  Future<void> _endQuietly() async {
+    try {
+      await teacherRepo.endCall(roomName: _activeRoomName ?? roomName);
+    } catch (_) {}
   }
 }

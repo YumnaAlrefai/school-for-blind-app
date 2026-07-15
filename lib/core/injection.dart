@@ -45,8 +45,9 @@ void initGetIt() {
 Dio createAndSetupDio() {
   Dio dio = Dio();
   dio
-    ..options.connectTimeout = const Duration(seconds: 15)
-    ..options.receiveTimeout = const Duration(seconds: 15);
+    ..options.connectTimeout = const Duration(seconds: 30)
+    ..options.receiveTimeout = const Duration(minutes: 5)
+    ..options.sendTimeout = const Duration(minutes: 5);
 
   dio.options.headers['Accept'] = 'application/json';
   dio.options.headers['Content-Type'] = 'application/json';

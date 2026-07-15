@@ -6,7 +6,6 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_cont
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/participant_tile.dart';
 
 
-
 /// شاشة المدرس للمكالمة الصوتية الجماعية.
 ///
 /// مثال الفتح:
@@ -30,17 +29,14 @@ class CallScreen extends StatefulWidget {
     this.demoMode = false,
   });
 
-  /// معرّف الغرفة المُرسل للـ API (مثلاً class-2).
   final String roomName;
 
-  /// العنوان المعروض في الأعلى (اسم الشعبة). إن لم يُمرّر يُستخدم roomName.
   final String? title;
 
   final String classId;
   final TeacherRepo teacherRepo;
   final String teacherName;
 
-  /// true لمعاينة الواجهة بدون باك إند.
   final bool demoMode;
 
   @override
@@ -76,12 +72,62 @@ class _CallScreenState extends State<CallScreen> {
     if (mounted) Navigator.of(context).maybePop();
   }
 
+  Future<bool> _confirmExit() async {
+    if (_controller.state != CallConnectionState.connected &&
+        _controller.state != CallConnectionState.connecting) {
+      return true;
+    }
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (_) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: const Color(0xFF14202F),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: const Text(
+            'إنهاء المكالمة؟',
+            style: TextStyle(color: Colors.white,fontSize: 25),
+          ),
+          content: const Text(
+            'الخروج سيُنهي المكالمة الحالية للطلاب. هل تريد المتابعة؟',
+            style: TextStyle(color: Colors.white70,fontSize: 25),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('بقاء',
+                  style: TextStyle(color: Colors.white54,fontSize: 25)),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('إنهاء',
+                  style: TextStyle(color: Colors.redAccent,fontSize: 25)),
+            ),
+          ],
+        ),
+      ),
+    );
+    return result ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: _bg,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final shouldLeave = await _confirmExit();
+        if (shouldLeave && mounted) {
+          await _controller.endCall();
+          if (mounted) Navigator.of(context).pop();
+        }
+      },
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          backgroundColor: _bg,
         appBar: AppBar(
           backgroundColor: _bg,
           elevation: 0,
@@ -102,7 +148,7 @@ class _CallScreenState extends State<CallScreen> {
                 ),
                 Text(
                   _statusLine(),
-                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                  style: const TextStyle(color: Colors.white54, fontSize: 25),
                 ),
               ],
             ),
@@ -131,7 +177,7 @@ class _CallScreenState extends State<CallScreen> {
                       ? const Center(
                           child: Text(
                             'بانتظار انضمام الطلاب…',
-                            style: TextStyle(color: Colors.white54),
+                            style: TextStyle(color: Colors.white54,fontSize: 25),
                           ),
                         )
                       : GridView.builder(
@@ -169,6 +215,7 @@ class _CallScreenState extends State<CallScreen> {
           },
         ),
       ),
+    ),
     );
   }
 

@@ -89,20 +89,24 @@ class TeacherRepo {
     }
   }
 
-  Future<ApiResult<dynamic>> uploadLesson({
-    required String title,
-    required MultipartFile audioFile,
-  }) async {
-    try {
-      var response = await webServices.uploadLesson(
-        title: title,
-        audioFile: audioFile,
-      );
-      return ApiResult.success(response);
-    } catch (e) {
-      return ApiResult.failure(NetworkExceptions.getDioException(e));
-    }
+Future<ApiResult<dynamic>> uploadLesson({
+  required String title,
+  required MultipartFile audioFile,
+  required int subjectId,
+  required int classId,
+}) async {
+  try {
+    var response = await webServices.uploadLesson(
+      title: title,
+      subjectId: subjectId,
+      classId: classId,
+      audioFile: audioFile,
+    );
+    return ApiResult.success(response);
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
   }
+}
 
   Future<ApiResult<dynamic>> deleteLesson(int lessonId) async {
     try {
@@ -210,4 +214,20 @@ class TeacherRepo {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }
+  Future<ApiResult<dynamic>> createQuiz(Map<String, dynamic> body) async {
+  try {
+    var response = await webServices.createQuiz(body);
+    return ApiResult.success(response);
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> createExam(Map<String, dynamic> body) async {
+  try {
+    var response = await webServices.createExam(body);
+    return ApiResult.success(response);
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
 }

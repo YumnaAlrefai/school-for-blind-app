@@ -23,7 +23,6 @@ class TaughtSubject {
 class LessonsCubit extends Cubit<ResultState<dynamic>> {
   final TeacherRepo teacherRepo;
 
-  /// دروس المادة المختارة حالياً
   List<Lesson> lessons = [];
 
   /// كل المواد التي يدرّسها المدرس (للسهم/القائمة)
@@ -31,7 +30,8 @@ class LessonsCubit extends Cubit<ResultState<dynamic>> {
 
   /// المادة المعروضة حالياً
   TaughtSubject? selectedSubject;
-
+ String teacherName = '';
+String teacherPhone = '';
   LessonsCubit(this.teacherRepo) : super(const ResultState.idle());
 
   /// تُستدعى عند فتح الشاشة: تجيب مواد المدرس ثم دروس أول مادة
@@ -42,9 +42,13 @@ class LessonsCubit extends Cubit<ResultState<dynamic>> {
 
     await infoResult.when(
       success: (data) async {
-        final Map teacher = _asMap(_asMap(data)['data'] ?? data);
-        final List subs = (teacher['taught_subjects'] ?? []) as List;
+  final Map teacher = _asMap(_asMap(data)['data'] ?? data);
 
+teacherName = (teacher['full_name'] ?? '').toString();
+teacherPhone = (teacher['phone'] ?? '').toString();
+print('🟣 DRAWER DATA — name: "$teacherName", phone: "$teacherPhone"');
+
+final List subs = (teacher['subjects'] ?? []) as List;
         taughtSubjects =
             subs.map((e) => TaughtSubject.fromJson(_castMap(e))).toList();
         selectedSubject =
@@ -71,68 +75,71 @@ class LessonsCubit extends Cubit<ResultState<dynamic>> {
   }
 
   Future<void> _fetchLessons() async {
-    final result = await teacherRepo.getLessons(subjectId: selectedSubject?.id);
-
-    result.when(
-      success: (data) {
-        lessons = _parseLessons(data);
-        emit(ResultState.success(List<Lesson>.from(lessons)));
-      },
+  print('🟤 FETCHING lessons for subject: ${selectedSubject?.id} (${selectedSubject?.name})');
+  final result = await teacherRepo.getLessons(subjectId: selectedSubject?.id);
+  result.when(
+    success: (data) {
+      lessons = _parseLessons(data);
+      print('🟤 PARSED ${lessons.length} lessons');
+      emit(ResultState.success(List<Lesson>.from(lessons)));
+    },
+    
       failure: (e) => emit(ResultState.failure(e)),
     );
   }
 
   /// يفكّ شكل رد Laravel: { "lessons": { "data": [...] } }
-  List<Lesson> _parseLessons(dynamic data) {
+ List<Lesson> _parseLessons(dynamic data) {
+  try {
     final Map map = _asMap(data);
-    final block = map['lessons'];
-
-    List list;
-    if (block is Map) {
-      list = (block['data'] ?? []) as List;
-    } else if (map['data'] is List) {
-      list = map['data'] as List;
-    } else if (data is List) {
-      list = data;
-    } else {
-      list = const [];
-    }
-
-    return list.map((json) => Lesson.fromJson(_castMap(json))).toList();
+    final List rawList = (map['lessons'] ?? []) as List;
+    return rawList.map((e) => Lesson.fromJson(_castMap(e))).toList();
+  } catch (e, st) {
+    print('🔴 PARSE ERROR: $e');   // ⬅️ يكشف السطر الغلط
+    print(st);
+    return [];
   }
+}
 
   // ────────────────────────────────────────────────────────────
   // ⚠️ الرفع لسا زي ما هو (title + audio فقط).
   // لازم نضيف subject_id (من selectedSubject) + class_id قبل ما يشتغل فعلياً.
   // متوقّف على قرار الـ class_id (شوفي الملاحظة بالرسالة).
   // ────────────────────────────────────────────────────────────
-  void emitUploadLesson({
-    required String title,
-    required File audioFile,
-  }) async {
-    emit(const ResultState.loading());
+void emitUploadLesson({
+  required String title,
+  required File audioFile,
+  required int subjectId,
+  required int classId,
+}) async {
+  emit(const ResultState.loading());
 
-    try {
-      MultipartFile multipartFile = await MultipartFile.fromFile(
-        audioFile.path,
-        filename: audioFile.path.split('/').last,
-        contentType: MediaType('audio', 'mpeg'),
-      );
+  try {
+    MultipartFile multipartFile = await MultipartFile.fromFile(
+      audioFile.path,
+      filename: audioFile.path.split('/').last,
+      contentType: MediaType('audio', 'mpeg'),
+    );
 
-      final result = await teacherRepo.uploadLesson(
-        title: title.trim(),
-        audioFile: multipartFile,
-      );
+    final result = await teacherRepo.uploadLesson(
+      title: title.trim(),
+      audioFile: multipartFile,
+      subjectId: subjectId,
+      classId: classId,
+    );
 
-      result.when(
-        success: (data) => emit(const ResultState.success('lesson_uploaded')),
-        failure: (networkException) =>
-            emit(ResultState.failure(networkException)),
-      );
-    } catch (e) {
-      emit(ResultState.failure(NetworkExceptions.getDioException(e)));
-    }
+    result.when(
+  success: (data) => emit(const ResultState.success('lesson_uploaded')),
+  failure: (networkException) {
+    print('🔴 UPLOAD FAILED: $networkException'); // ⬅️ مؤقت
+    emit(ResultState.failure(networkException));
+  },
+);
+  } catch (e) {
+    
+    emit(ResultState.failure(NetworkExceptions.getDioException(e)));
   }
+}
 
   void emitDeleteLesson(int lessonId) async {
     emit(const ResultState.loading());
@@ -147,6 +154,28 @@ class LessonsCubit extends Cubit<ResultState<dynamic>> {
       failure: (networkException) => emit(ResultState.failure(networkException)),
     );
   }
+  void emitCreateQuiz(Map<String, dynamic> body) async {
+  emit(const ResultState.loading());
+
+  final result = await teacherRepo.createQuiz(body);
+
+  result.when(
+    success: (data) => emit(const ResultState.success('quiz_created')),
+    failure: (networkException) =>
+        emit(ResultState.failure(networkException)),
+  );
+}
+void emitCreateExam(Map<String, dynamic> body) async {
+  emit(const ResultState.loading());
+
+  final result = await teacherRepo.createExam(body);
+
+  result.when(
+    success: (data) => emit(const ResultState.success('exam_created')),
+    failure: (networkException) =>
+        emit(ResultState.failure(networkException)),
+  );
+}
 
   // helpers
   Map _asMap(dynamic v) => v is Map ? v : const {};

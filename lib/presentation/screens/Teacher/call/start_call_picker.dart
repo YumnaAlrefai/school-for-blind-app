@@ -5,6 +5,7 @@ import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_models.dart';
+
 import 'call_screen.dart';
 
 /// نقطة الدخول لزر المكالمات:
@@ -163,11 +164,16 @@ List<PopupMenuEntry<SchoolClass>> _menuItems(List<SchoolClass> classes) {
 }
 
 void _startCall(BuildContext context, TeacherRepo repo, SchoolClass cls) {
+  // اسم غرفة فريد لكل مكالمة (وقت + رقم عشوائي) لتفادي رفض السيرفر
+  // "اسم الغرفة موجود مسبقاً". الشعبة تُحدّد عبر classId وليس عبر الاسم.
+  final unique = DateTime.now().millisecondsSinceEpoch;
+  final roomName = 'class-${cls.id}-$unique';
+
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (_) => CallScreen(
-        roomName: 'class-${cls.id}', // معرّف الغرفة المرسل للـ API
+        roomName: roomName, // معرّف غرفة فريد يُرسل للـ API
         title: cls.name, // الاسم المعروض
         classId: cls.id,
         teacherRepo: repo,

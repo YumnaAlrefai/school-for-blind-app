@@ -15,7 +15,8 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_notifi
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_otp_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_account_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_profile_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_quizzes_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_quize_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_test_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_register_number_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_register_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_safenumber_screen.dart';
@@ -147,11 +148,15 @@ class AppRouter {
             child: const TechnicalSupportScreen(),
           ),
         );
-         case AppRoutes.kQuizzes:
+         case AppRoutes.kTest:
         return MaterialPageRoute(
-          builder: (context) => const AddQuizScreen(),
+          builder: (context) => const AddTestScreen(),
         );
-
+ case AppRoutes.kQuizzes:
+  final lessonId = settings.arguments as int;
+  return MaterialPageRoute(
+    builder: (_) => AddQuizScreen(lessonId: lessonId),
+  );
       case AppRoutes.kStudentRegisterNumberScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
