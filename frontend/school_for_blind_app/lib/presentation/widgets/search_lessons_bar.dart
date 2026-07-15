@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school_for_blind_app/business_logic/cubit/lessons_cubit.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 
 class SearchLessonsBar extends StatelessWidget {
@@ -30,9 +28,6 @@ class SearchLessonsBar extends StatelessWidget {
                   ? TextField(
                       controller: controller,
                       autofocus: true,
-                      onChanged: (value) {
-                        context.read<LessonsCubit>().searchLessons(value);
-                      },
                       style: AppTextStyles.kMediumPrimary(context),
                       cursorHeight: 50.h,
                       decoration: InputDecoration(

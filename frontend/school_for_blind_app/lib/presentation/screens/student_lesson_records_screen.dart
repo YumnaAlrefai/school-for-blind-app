@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_for_blind_app/business_logic/cubit/lesson_records_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
+import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
+import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
+import 'package:school_for_blind_app/core/helpers/url_helper.dart';
+import 'package:school_for_blind_app/core/helpers/user_key_helper.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
@@ -12,8 +17,16 @@ import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/lesson_card.dart';
 
 class StudentLessonRecordsScreen extends StatefulWidget {
-  final Lesson lesson;
-  const StudentLessonRecordsScreen({super.key, required this.lesson});
+  final String subjectName;
+  final dynamic lesson;
+  final bool isOffline;
+
+  const StudentLessonRecordsScreen({
+    super.key,
+    required this.lesson,
+    this.isOffline = false,
+    required this.subjectName,
+  });
 
   @override
   State<StudentLessonRecordsScreen> createState() =>
@@ -23,12 +36,61 @@ class StudentLessonRecordsScreen extends StatefulWidget {
 class _StudentLessonRecordsScreenState
     extends State<StudentLessonRecordsScreen> {
   late final LessonRecordsCubit _recordsCubit;
+  late final SavesCubit _savesCubit;
+  late final OfflineLessonsCubit _offlineCubit;
 
   @override
   void initState() {
     super.initState();
-    _recordsCubit = getIt<LessonRecordsCubit>()
-      ..emitGetLessonRecords(widget.lesson.id);
+    _recordsCubit = getIt<LessonRecordsCubit>();
+    _savesCubit = getIt<SavesCubit>();
+    _offlineCubit = getIt<OfflineLessonsCubit>();
+
+    _initOfflineCubit();
+
+    if (widget.isOffline) {
+      _loadOfflineRecords();
+    } else {
+      _recordsCubit.emitGetLessonRecords(widget.lesson.id);
+    }
+  }
+
+  Future<void> _initOfflineCubit() async {
+    final userKey = await UserKeyHelper.getCurrentUserKey();
+    await _offlineCubit.setUser(userKey);
+  }
+
+  Future<void> _loadOfflineRecords() async {
+    try {
+      final userKey = await UserKeyHelper.getCurrentUserKey();
+
+      final offlineLessons = await _recordsCubit.offlineManager.getLessons(
+        userKey,
+      );
+
+      final currentOfflineLesson = offlineLessons.firstWhere(
+        (l) => l.id == widget.lesson.id,
+        orElse: () => throw Exception("Lesson not found"),
+      );
+
+      final mappedRecords = currentOfflineLesson.records.map((offlineRecord) {
+        return RecordModel(
+          id: offlineRecord.id,
+          name: offlineRecord.name,
+          url: offlineRecord.localUrl,
+        );
+      }).toList();
+
+      final recordsResponse = LessonRecordsResponse(
+        lessonId: widget.lesson.id.toString(),
+        record: mappedRecords,
+      );
+
+      _recordsCubit.emitSuccess(recordsResponse);
+    } catch (e) {
+      debugPrint('🔴 خطأ تحميل الدروس الأوفلاين: $e');
+      _recordsCubit.emitFailure(e);
+    }
   }
 
   String _formatRecordName(String originalName) {
@@ -50,8 +112,12 @@ class _StudentLessonRecordsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _recordsCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _recordsCubit),
+        BlocProvider.value(value: _savesCubit),
+        BlocProvider.value(value: _offlineCubit),
+      ],
       child: Scaffold(
         appBar: const CustomAppBar(helpMessage: ''),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -75,7 +141,7 @@ class _StudentLessonRecordsScreenState
                     if (recordsData.record.isEmpty) {
                       return Center(
                         child: Padding(
-                          padding: EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Text(
                             "لا يوجد أقسام مضافة لهذا الدرس",
                             style: AppTextStyles.kMediumPrimary(context),
@@ -105,15 +171,39 @@ class _StudentLessonRecordsScreenState
                               final formattedName = _formatRecordName(
                                 recordItem.name,
                               );
+
+                              final updatedRecord = RecordModel(
+                                id: recordItem.id,
+                                name: recordItem.name,
+                                url: widget.isOffline
+                                    ? recordItem.url
+                                    : UrlHelper.fixLocalhost(recordItem.url),
+                              );
+
+                              String currentTeacherName =
+                                  widget.lesson.teacherName ?? 'غير محدد';
+
+                              final recordLessonObject = Lesson(
+                                id: widget.lesson.id,
+                                title: formattedName,
+                                teacherName: currentTeacherName,
+                                teacherId: 1,
+                                isSaved: false,
+                                isQuizSolved: false,
+                              );
+
                               return LessonCard(
-                                lessonName: formattedName,
+                                lesson: recordLessonObject,
                                 lessonNumber: (index + 1),
                                 viewMenu: false,
                                 route: AppRoutes.kStudentAudioPlayerScreen,
                                 args: {
                                   'lessonName': formattedName,
-                                  'record': recordItem,
+                                  'record': updatedRecord,
+                                  'lessonId': widget.lesson.id,
+                                  'isOffline': widget.isOffline,
                                 },
+                                subjectName: widget.subjectName,
                               );
                             },
                           ),

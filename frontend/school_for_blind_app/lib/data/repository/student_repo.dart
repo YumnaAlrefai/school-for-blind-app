@@ -4,7 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:school_for_blind_app/data/models/call.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
+import 'package:school_for_blind_app/data/models/quiz_info.dart';
+import 'package:school_for_blind_app/data/models/quiz_questions.dart';
+import 'package:school_for_blind_app/data/models/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
+import 'package:school_for_blind_app/data/models/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/subject_progress.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
@@ -138,24 +142,31 @@ class StudentRepo {
 
   Future<ApiResult<SubjectProgress>> getSubjectProgress(int subjectId) async {
     try {
-      SubjectProgress response = await webServices.getSubjectProgress(subjectId);
+      SubjectProgress response = await webServices.getSubjectProgress(
+        subjectId,
+      );
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(NetworkExceptions.getDioException(error));
     }
-  }
-  
-  Future<ApiResult<SubjectLessonsResponse>> getSubjectLessons(int subjectId) async {
-    try {
-      SubjectLessonsResponse response = await webServices.getSubjectLessons(subjectId);
-      return ApiResult.success(response);
-    } catch (error) {
-      return ApiResult.failure(NetworkExceptions.getDioException(error));
-    }
-  
   }
 
-  Future<ApiResult<LessonRecordsResponse>> getLessonRecords(int lessonId) async {
+  Future<ApiResult<SubjectLessonsResponse>> getSubjectLessons(
+    int subjectId,
+  ) async {
+    try {
+      SubjectLessonsResponse response = await webServices.getSubjectLessons(
+        subjectId,
+      );
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(NetworkExceptions.getDioException(error));
+    }
+  }
+
+  Future<ApiResult<LessonRecordsResponse>> getLessonRecords(
+    int lessonId,
+  ) async {
     try {
       LessonRecordsResponse response = await webServices.getLessonRecords(
         lessonId,
@@ -163,6 +174,73 @@ class StudentRepo {
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(NetworkExceptions.getDioException(error));
+    }
+  }
+
+  Future<ApiResult<QuizInfoResponse>> getQuizInfo(
+    int subjectId,
+    int teacherId,
+    int lessonId,
+  ) async {
+    try {
+      var response = await webServices.getQuizInfo({
+        "subject_id": subjectId,
+        "teacher_id": teacherId,
+        "lesson_id": lessonId,
+      });
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<QuizQuestionsResponse>> getQuizQuestions(int quizId) async {
+    try {
+      var response = await webServices.getQuizQuestions(quizId);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<QuizSubmissionResponse>> submitQuiz({
+    required FormData formData,
+  }) async {
+    try {
+      var response = await webServices.submitQuiz(formData);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<dynamic>> addToSaved(int id, String type) async {
+    try {
+      var response = await webServices.addToSaved({"id": id, "type": type});
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<dynamic>> removeFromSaved(int id, String type) async {
+    try {
+      var response = await webServices.removeFromSaved({
+        "id": id,
+        "type": type,
+      });
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+Future<ApiResult<List<SavedLesson>>> getSavedLessons() async {
+    try {
+      var response = await webServices.getSavedLessons();
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }
 }

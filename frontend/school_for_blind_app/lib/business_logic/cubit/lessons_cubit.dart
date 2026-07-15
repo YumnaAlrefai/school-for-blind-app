@@ -30,10 +30,22 @@ class LessonsCubit extends Cubit<ResultState<SubjectLessonsResponse>> {
   }
 
   void searchLessons(String query) {
+    bool isFailureState = state.maybeWhen(
+      failure: (_) => true,
+      orElse: () => false,
+    );
+
+    if (isFailureState) {
+      return;
+    }
+
     if (query.isEmpty) {
       emit(
         ResultState.success(
-          SubjectLessonsResponse(subjectId: _currentSubjectId, lessons: _allLessons),
+          SubjectLessonsResponse(
+            subjectId: _currentSubjectId,
+            lessons: _allLessons,
+          ),
         ),
       );
     } else {
@@ -42,7 +54,10 @@ class LessonsCubit extends Cubit<ResultState<SubjectLessonsResponse>> {
           .toList();
       emit(
         ResultState.success(
-          SubjectLessonsResponse(subjectId: _currentSubjectId, lessons: filtered),
+          SubjectLessonsResponse(
+            subjectId: _currentSubjectId,
+            lessons: filtered,
+          ),
         ),
       );
     }

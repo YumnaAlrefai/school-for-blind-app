@@ -7,8 +7,8 @@ class AudioBookmarksList extends StatelessWidget {
   final List<AudioBookmark> bookmarks;
   final Function(int) onDelete;
   final Function(Duration) onBookmarkTap;
-  final VoidCallback
-  onStateChanged;
+  final Function(int index, String? newTitle) onTitleChanged;
+  final Function(int index, bool isEditing) onEditingChanged;
   final String Function(Duration) formatDuration;
 
   const AudioBookmarksList({
@@ -16,7 +16,8 @@ class AudioBookmarksList extends StatelessWidget {
     required this.bookmarks,
     required this.onDelete,
     required this.onBookmarkTap,
-    required this.onStateChanged,
+    required this.onTitleChanged,
+    required this.onEditingChanged,
     required this.formatDuration,
   });
 
@@ -102,26 +103,26 @@ class AudioBookmarksList extends StatelessWidget {
                           ),
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
-                            onStateChanged();
-                            bookmark.isEditing = false;
-                            bookmark.title =
-                                bookmark.controller.text.trim().isNotEmpty
-                                ? bookmark.controller.text.trim()
-                                : "";
+                            final newTitle = bookmark.controller.text.trim();
+                            onTitleChanged(
+                              index,
+                              newTitle.isNotEmpty ? newTitle : null,
+                            );
+                            onEditingChanged(index, false);
                           },
                           onSubmitted: (value) {
-                            onStateChanged();
-                            bookmark.isEditing = false;
-                            bookmark.title = value.trim().isNotEmpty
-                                ? value.trim()
-                                : "";
+                            final newTitle = value.trim();
+                            onTitleChanged(
+                              index,
+                              newTitle.isNotEmpty ? newTitle : null,
+                            );
+                            onEditingChanged(index, false);
                           },
                         ),
                       )
                     : GestureDetector(
                         onTap: () {
-                          onStateChanged();
-                          bookmark.isEditing = true;
+                          onEditingChanged(index, true);
                         },
                         child: Container(
                           height: 48.h,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
@@ -110,7 +111,6 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
 
     if (token.isNotEmpty) {
       tempToken = token;
-
     }
   }
 
@@ -128,6 +128,9 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
           Student studentData = Student.fromJson(data['student']);
 
           await SecureStorage.saveToken(accessToken);
+
+          final userKey = accessToken.hashCode.toString();
+          getIt<OfflineLessonsCubit>().setUser(userKey);
 
           final prefs = await SharedPreferences.getInstance();
 

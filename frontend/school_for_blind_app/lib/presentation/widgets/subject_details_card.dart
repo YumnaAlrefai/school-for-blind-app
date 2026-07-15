@@ -99,7 +99,7 @@ class _SubjectDetailsCardState extends State<SubjectDetailsCard> {
                     fontSize: 40,
                     onPressed: () => Navigator.pushNamed(
                       context,
-                      AppRoutes.kStudentProfileScreen,
+                      AppRoutes.kStudentLibraryScreen,
                     ),
                   ),
                 ],

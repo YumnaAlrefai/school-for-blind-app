@@ -19,7 +19,8 @@ class AppRoutes {
   static const String kStudentProfileScreen = '/student_profile_screen';
   static const String kStudentContactSupportScreen =
       '/student_contact_support_screen';
-  static const String kStudentPaymentIntentScreen = '/student_payment_intent_screen';
+  static const String kStudentPaymentIntentScreen =
+      '/student_payment_intent_screen';
   static const String kStudentPaymentScreen = '/student_payment_screen';
 
   static const String kStudentLiveCallScreen = '/student_live_call_screen';
@@ -35,4 +36,5 @@ class AppRoutes {
       '/student_announcements_screen';
 
   static const String kStudentQuizScreen = '/student_quiz_screen';
+  static const String kStudentLibraryScreen = '/student_library_screen';
 }

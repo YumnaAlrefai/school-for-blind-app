@@ -5,16 +5,19 @@ import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/level_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
+import 'package:school_for_blind_app/data/models/lesson.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
 import 'package:school_for_blind_app/presentation/screens/splash_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_announcements_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_audio_player_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_contact_support_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student_library_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_payment_intent_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_payment_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_lesson_records_screen.dart';
@@ -170,11 +173,49 @@ class AppRouter {
           ),
         );
       case AppRoutes.kStudentLessonRecordsScreen:
-        final lesson = settings.arguments as List<dynamic>;
+        dynamic lesson;
+        bool isOffline = false;
+        String subjectName = '';
+        SavesCubit? savesCubit;
+
+        final args = settings.arguments;
+
+        if (args is Map<String, dynamic>) {
+          lesson = args['lesson'];
+          isOffline = args['isOffline'] as bool? ?? false;
+          subjectName = args['subjectName'] as String? ?? '';
+          savesCubit = args['savesCubit'] as SavesCubit?;
+        } else if (args is Lesson) {
+          lesson = args;
+          isOffline = false;
+        } else if (args is List<Lesson> && args.isNotEmpty) {
+          lesson = args.first;
+          isOffline = false;
+        }
+
+        if (lesson == null) {
+          return MaterialPageRoute(
+            builder: (_) => const Scaffold(
+              body: Center(child: Text('خطأ في تحميل بيانات الدرس')),
+            ),
+          );
+        }
+
         return MaterialPageRoute(
-          builder: (_) => StudentLessonRecordsScreen(
-            lesson: lesson[0],
-          ),
+          builder: (_) => savesCubit != null
+              ? BlocProvider.value(
+                  value: savesCubit,
+                  child: StudentLessonRecordsScreen(
+                    subjectName: subjectName,
+                    lesson: lesson,
+                    isOffline: isOffline,
+                  ),
+                )
+              : StudentLessonRecordsScreen(
+                  subjectName: subjectName,
+                  lesson: lesson,
+                  isOffline: isOffline,
+                ),
         );
 
       case AppRoutes.kStudentAudioPlayerScreen:
@@ -183,6 +224,8 @@ class AppRouter {
           builder: (_) => StudentAudioPlayerScreen(
             lessonName: args["lessonName"] as String,
             record: args['record'] as RecordModel,
+            lessonId: args['lessonId'] as int,
+            isOffline: args['isOffline'] as bool? ?? false,
           ),
         );
 
@@ -190,7 +233,18 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => StudentAnnouncementsScreen());
 
       case AppRoutes.kStudentQuizScreen:
-        return MaterialPageRoute(builder: (_) => const StudentQuizScreen());
+        final args = settings.arguments as List<dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => StudentQuizScreen(
+            subjectId: args[0],
+            subjectName: args[1],
+            quizId: args[2],
+            totalQuestions: args[3],
+            durationMinutes: args[4],
+          ),
+        );
+      case AppRoutes.kStudentLibraryScreen:
+        return MaterialPageRoute(builder: (_) => StudentLibraryScreen());
 
       default:
         return MaterialPageRoute(

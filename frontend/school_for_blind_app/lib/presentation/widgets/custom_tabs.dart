@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OnlineOfflineTabs extends StatelessWidget {
+class CustomTabs extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onPressed;
 
-  const OnlineOfflineTabs({
+  const CustomTabs({
     super.key,
     required this.label,
     required this.isSelected,
