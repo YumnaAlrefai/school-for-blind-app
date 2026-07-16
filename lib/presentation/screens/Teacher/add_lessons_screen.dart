@@ -543,7 +543,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
           text,
           style: TextStyle(
             color: isSelected ? Colors.black : Colors.white,
-            fontSize: 18,
+            fontSize: 25,
           ),
         ),
       ),

@@ -89,8 +89,8 @@ class _AddTestScreenState extends State<AddTestScreen> {
                         const SizedBox(height: 40),
                         _buildInputField(
                           controller: _titleController,
-                          hint: 'عنوان الاختبار',
                           icon: Icons.description_outlined,
+                          hint: 'عنوان الاختبار',
                         ),
                         const SizedBox(height: 20),
                         _buildInputField(
@@ -127,11 +127,12 @@ class _AddTestScreenState extends State<AddTestScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        
         const Text(
           'رفع الاختبارات',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 26,
+            fontSize: 32,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -152,6 +153,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
     required TextEditingController controller,
     required String hint,
     required IconData icon,
+    
     TextInputType keyboardType = TextInputType.text,
   }) {
     return Container(
@@ -159,23 +161,26 @@ class _AddTestScreenState extends State<AddTestScreen> {
       decoration: BoxDecoration(
         color: AppColors.kBackgroundColor.withOpacity(0.20),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white.withOpacity(0.30)),
+        border: Border.all(color:AppColors.kPrimaryColor,width: 0.5),
+        
       ),
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
         textAlign: TextAlign.right,
-        style: const TextStyle(color: Colors.white, fontSize: 20),
+        textDirection: TextDirection.rtl,
+        style: const TextStyle(color: Colors.white, fontSize: 40),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
             color: Colors.white.withOpacity(0.45),
-            fontSize: 20,
+            
+            fontSize: 32,
           ),
           // الأيقونة على اليسار (نهاية السطر في RTL) مثل الصورة
-          suffixIcon: Icon(icon, color: AppColors.kPrimaryColor, size: 26),
+          prefixIcon: Icon(icon, color: AppColors.kPrimaryColor, size: 26),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
         ),
       ),
     );
@@ -186,7 +191,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
       onTap: _onEnterQuestions,
       child: Container(
         height: 75,
-        width: double.infinity,
+        width:35,
         decoration: BoxDecoration(
           color: AppColors.kSurfaceColor.withOpacity(0.50),
           borderRadius: BorderRadius.circular(10),
@@ -199,7 +204,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
               child: Text(
                 'إدخال الأسئلة',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 32),
               ),
             ),
             Icon(Icons.login, color: AppColors.kPrimaryColor, size: 26),
@@ -242,8 +247,8 @@ class _AddTestScreenState extends State<AddTestScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 120,
-        height: 40,
+        width: 161,
+        height: 30,
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.kPrimaryColor
@@ -255,7 +260,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
           text,
           style: TextStyle(
             color: isSelected ? Colors.black : Colors.white,
-            fontSize: 18,
+            fontSize: 25,
           ),
         ),
       ),

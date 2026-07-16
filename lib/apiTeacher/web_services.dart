@@ -103,4 +103,43 @@ Future<dynamic> createQuiz(@Body() Map<String, dynamic> body);
 
 @POST("exam")
 Future<dynamic> createExam(@Body() Map<String, dynamic> body);
+
+@GET("exam/my-exams")
+Future<dynamic> getMyExams();
+
+@GET("quizzes/teacher/list")
+Future<dynamic> getMyQuizzes({@Query("subject_id") int? subjectId});
+
+@GET("question-bank")
+Future<dynamic> getQuestionBank();
+
+@DELETE("quizzes/{id}")
+Future<dynamic> deleteQuiz(@Path("id") int id);
+
+@DELETE("question-bank/{id}")
+Future<dynamic> deleteBankQuestion(@Path("id") int id);
+
+@POST("question-bank")
+Future<dynamic> addBankQuestion(@Body() Map<String, dynamic> body);
+@GET("quizzes/{id}")
+Future<dynamic> getQuizById(@Path("id") int id);
+
+@POST("quizzes/{id}")
+Future<dynamic> updateQuiz(@Path("id") int id, @Body() Map<String, dynamic> body);
+@GET("exam/my-exams/{id}")
+Future<dynamic> getExamById(@Path("id") int id);
+@GET("quizzes/teacher/pending-grading")
+Future<dynamic> getQuizzesPendingGrading();
+
+@GET("quizzes/{id}/submissions")
+Future<dynamic> getQuizSubmissions(@Path("id") int id);
+
+@GET("quizzes/{id}/students/{sid}/pending-answers")
+Future<dynamic> getPendingTextAnswers(
+    @Path("id") int quizId, @Path("sid") int studentId);
+
+@POST("quizzes/{id}/students/{sid}/grade")
+Future<dynamic> gradeTextAnswers(
+    @Path("id") int quizId, @Path("sid") int studentId,
+    @Body() Map<String, dynamic> body);
 }

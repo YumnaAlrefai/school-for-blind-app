@@ -59,8 +59,8 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
           message,
           textAlign: TextAlign.right,
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: 32,
+            fontFamily: 'ArabicTypesetting',
             color: Colors.black,
           ),
         ),
@@ -98,7 +98,7 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ArabicTypesetting',
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -150,10 +150,10 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                         ),
                         decoration: BoxDecoration(
                           color: _pdfName != null
-                              ? const Color(0xFFD3FF54).withOpacity(0.1)
+                              ? AppColors.kPrimaryColor
                               : Colors.transparent,
                           border: Border.all(
-                            color: const Color(0xFFD3FF54).withOpacity(0.5),
+                            color: AppColors.kPrimaryColor.withOpacity(0.5),
                             width: 0.5,
                           ),
                           borderRadius: BorderRadius.circular(15),
@@ -166,7 +166,7 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                               _pdfName != null
                                   ? Icons.check_circle_outline
                                   : Icons.file_upload_outlined,
-                              color: const Color(0xFFD3FF54),
+                              color: AppColors.kPrimaryColor,
                             ),
                             const SizedBox(width: 10),
                             Flexible(
@@ -174,7 +174,7 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                                 _pdfName ?? "إضافة ملف",
                                 style: const TextStyle(
                                   color: Colors.white70,
-                                  fontSize: 20,
+                                  fontSize: 32,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -217,7 +217,7 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                         if (isLoading) {
                           return const Center(
                             child: CircularProgressIndicator(
-                              color: Color(0xFFD3FF54),
+                              color: AppColors.kPrimaryColor,
                             ),
                           );
                         }
@@ -256,15 +256,14 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                                   Navigator.pushNamed(
                                     context,
                                     AppRoutes.kTeachersecurity,
-                                    arguments:
-                                        _cvFile,
+                                    arguments: _cvFile,
                                   );
                                 });
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFD3FF54),
-                              minimumSize: const Size(200, 55),
+                              backgroundColor: AppColors.kPrimaryColor,
+                              minimumSize: const Size(194, 54),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -275,7 +274,7 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 32,
-                                fontWeight: FontWeight.bold,
+                                fontFamily: 'ArabicTypesetting',
                               ),
                             ),
                           ),
@@ -303,7 +302,7 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
       child: TextFormField(
         controller: controller,
         textAlign: TextAlign.right,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white,fontSize: 30),
         keyboardType: isPhone ? TextInputType.phone : TextInputType.text,
         inputFormatters: isPhone
             ? [
@@ -313,15 +312,15 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
             : [],
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(color: Colors.white38, fontSize: 22),
+          hintStyle: const TextStyle(color: Colors.white38, fontSize: 32),
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 10, right: 12),
-            child: Icon(icon, color: const Color(0xFFD3FF54), size: 22),
+            child: Icon(icon, color: AppColors.kPrimaryColor, size: 22),
           ),
-          prefixIconConstraints: const BoxConstraints(
-            minWidth: 40,
-            minHeight: 0,
-          ),
+          // prefixIconConstraints: const BoxConstraints(
+          //   minWidth: 40,
+          //   minHeight: 0,
+          // ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: Color(0xFFD3FF54), width: 0.5),
@@ -363,14 +362,14 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
                   ),
                 ]
               : [],
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: isSelected ? const Color(0xFFD3FF54) : Colors.white,
-              fontSize: 20,
+              color: isSelected ? AppColors.kPrimaryColor : Colors.white,
+              fontSize: 30,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),

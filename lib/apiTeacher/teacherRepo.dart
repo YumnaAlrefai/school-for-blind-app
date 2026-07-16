@@ -230,4 +230,108 @@ Future<ApiResult<dynamic>> createExam(Map<String, dynamic> body) async {
     return ApiResult.failure(NetworkExceptions.getDioException(e));
   }
 }
+Future<ApiResult<dynamic>> getMyExams() async {
+  try {
+    return ApiResult.success(await webServices.getMyExams());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getMyQuizzes({int? subjectId}) async {
+  try {
+    return ApiResult.success(
+        await webServices.getMyQuizzes(subjectId: subjectId));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getQuestionBank() async {
+  try {
+    return ApiResult.success(await webServices.getQuestionBank());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> deleteQuiz(int id) async {
+  try {
+    return ApiResult.success(await webServices.deleteQuiz(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> deleteBankQuestion(int id) async {
+  try {
+    return ApiResult.success(await webServices.deleteBankQuestion(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> addBankQuestion(Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(await webServices.addBankQuestion(body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getQuizById(int id) async {
+  try {
+    return ApiResult.success(await webServices.getQuizById(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> updateQuiz(int id, Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(await webServices.updateQuiz(id, body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getExamById(int id) async {
+  try {
+    return ApiResult.success(await webServices.getExamById(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getQuizzesPendingGrading() async {
+  try {
+    return ApiResult.success(await webServices.getQuizzesPendingGrading());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getQuizSubmissions(int id) async {
+  try {
+    return ApiResult.success(await webServices.getQuizSubmissions(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getPendingTextAnswers(int quizId, int studentId) async {
+  try {
+    return ApiResult.success(
+        await webServices.getPendingTextAnswers(quizId, studentId));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> gradeTextAnswers(
+    int quizId, int studentId, Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(
+        await webServices.gradeTextAnswers(quizId, studentId, body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
 }

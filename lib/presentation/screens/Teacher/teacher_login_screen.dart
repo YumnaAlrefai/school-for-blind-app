@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
@@ -37,7 +38,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
           message,
           textAlign: TextAlign.right,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -66,14 +67,16 @@ class _LoginTeacherState extends State<LoginTeacher> {
             body: Container(
               width: double.infinity,
               height: double.infinity,
-              decoration: const BoxDecoration(color: AppColors.kBackgroundColor),
+              decoration: const BoxDecoration(
+                color: AppColors.kBackgroundColor,
+              ),
               child: Center(
                 child: SingleChildScrollView(
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.85,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 30,
+                      vertical: 150,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -127,23 +130,24 @@ class _LoginTeacherState extends State<LoginTeacher> {
                                 color: Colors.white,
                                 fontSize: 24,
                               ),
-                              decoration: _buildInputDecoration(
-                                "كلمة المرور",
-                                Icons.lock_outline,
-                              ).copyWith(
-                                prefixIcon: IconButton(
-                                  icon: Icon(
-                                    _isObscured
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Colors.white54,
-                                    size: 20,
+                              decoration:
+                                  _buildInputDecoration(
+                                    "كلمة المرور",
+                                    Icons.lock_outline,
+                                  ).copyWith(
+                                    prefixIcon: IconButton(
+                                      icon: Icon(
+                                        _isObscured
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Colors.white54,
+                                        size: 20,
+                                      ),
+                                      onPressed: () => setState(
+                                        () => _isObscured = !_isObscured,
+                                      ),
+                                    ),
                                   ),
-                                  onPressed: () => setState(
-                                    () => _isObscured = !_isObscured,
-                                  ),
-                                ),
-                              ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "يرجى إدخال كلمة المرور";
@@ -159,12 +163,14 @@ class _LoginTeacherState extends State<LoginTeacher> {
                             listener: (context, state) {
                               state.whenOrNull(
                                 success: (data) {
-                                  _showSnackBar(
-                                    "تم تسجيل الدخول بنجاح",
-                                    isError: false,
-                                  );
+                                  // _showSnackBar(
+                                  //   "تم تسجيل الدخول بنجاح",
+                                  //   isError: false,
+                                  // );
 
-                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  WidgetsBinding.instance.addPostFrameCallback((
+                                    _,
+                                  ) {
                                     if (context.mounted) {
                                       Navigator.pushNamedAndRemoveUntil(
                                         context,
@@ -206,14 +212,16 @@ class _LoginTeacherState extends State<LoginTeacher> {
                                   }
                                 },
                                 child: Container(
-                                  width: 180,
+                                  width: 193,
                                   height: 54,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFD3FF54),
+                                    color: AppColors.kPrimaryColor,
                                     borderRadius: BorderRadius.circular(15),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color(0xFFD3FF54).withOpacity(0.3),
+                                        color: const Color(
+                                          0xFFD3FF54,
+                                        ).withOpacity(0.3),
                                         blurRadius: 10,
                                         offset: const Offset(0, 4),
                                       ),
@@ -224,7 +232,8 @@ class _LoginTeacherState extends State<LoginTeacher> {
                                       "تأكيد",
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: 26,
+                                        fontSize: 32,
+                                        fontFamily: 'ArabicTypesetting',
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -232,6 +241,32 @@ class _LoginTeacherState extends State<LoginTeacher> {
                                 ),
                               );
                             },
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'ليس لديك حساب؟',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.kTeacherRegister,
+                                ),
+                                child: const Text(
+                                  'إنشاء حساب',
+                                  style: TextStyle(
+                                    color: Color(0xFFD3FF54),
+                                    fontSize: 24,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -249,9 +284,12 @@ class _LoginTeacherState extends State<LoginTeacher> {
   InputDecoration _buildInputDecoration(String hint, IconData icon) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(color: Colors.white54, fontSize: 18),
-      suffixIcon: Icon(icon, color: const Color(0xFFD3FF54)),
-      errorStyle: const TextStyle(color: Colors.redAccent),
+      hintStyle: const TextStyle(color: Colors.white54, fontSize: 32),
+      prefixIcon: Icon(icon, color: const Color(0xFFD3FF54)),
+      errorStyle: const TextStyle(
+        color: Colors.redAccent,
+        fontFamily: 'ArabicTypesetting',
+      ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
         borderSide: const BorderSide(color: Colors.white24),

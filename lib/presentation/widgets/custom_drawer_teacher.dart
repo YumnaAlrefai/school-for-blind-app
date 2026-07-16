@@ -96,30 +96,35 @@ class CustomDrawer extends StatelessWidget {
                             offset: const Offset(0, 45),
                             itemBuilder: (BuildContext context) =>
                                 <PopupMenuEntry<ThemeMode>>[
-                              const PopupMenuItem<ThemeMode>(
-                                value: ThemeMode.light,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text('الوضع الفاتح'),
-                                    SizedBox(width: 10),
-                                    Icon(Icons.light_mode, color: Colors.amber),
-                                  ],
-                                ),
-                              ),
-                              const PopupMenuItem<ThemeMode>(
-                                value: ThemeMode.dark,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text('الوضع الداكن'),
-                                    SizedBox(width: 10),
-                                    Icon(Icons.dark_mode,
-                                        color: Colors.blueGrey),
-                                  ],
-                                ),
-                              ),
-                            ],
+                                  const PopupMenuItem<ThemeMode>(
+                                    value: ThemeMode.light,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text('الوضع الفاتح'),
+                                        SizedBox(width: 10),
+                                        Icon(
+                                          Icons.light_mode,
+                                          color: Colors.amber,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const PopupMenuItem<ThemeMode>(
+                                    value: ThemeMode.dark,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text('الوضع الداكن'),
+                                        SizedBox(width: 10),
+                                        Icon(
+                                          Icons.dark_mode,
+                                          color: Colors.blueGrey,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                             child: _buildThemeDropdownButton(
                               icon: isDark ? Icons.dark_mode : Icons.light_mode,
                               title: 'الثيمات',
@@ -129,20 +134,26 @@ class CustomDrawer extends StatelessWidget {
                         },
                       ),
 
-                      _buildDrawerItem(
-                        Icons.volunteer_activism,
-                        'تبرع لنا',
-                        () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _buildDrawerItem(
-                        Icons.contact_support,
-                        'تواصل معنا',
-                        () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                      _buildDrawerItem(Icons.volunteer_activism, 'تبرع لنا', () {
+                        Navigator.pop(
+                          context,
+                        ); // إغلاق القائمة الجانبية (Drawer) أولاً
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes
+                              .kDonationInfoScreen, // الانتقال إلى واجهة التبرع باستخدام الـ Route المعرف لديكِ
+                        );
+                      }),
+                      _buildDrawerItem(Icons.contact_support, 'تواصل معنا', () {
+                        Navigator.pop(
+                          context,
+                        ); // إغلاق القائمة الجانبية (Drawer) أولاً
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes
+                              .kTechnicalSupportScreen, // الانتقال لواجهة الدعم الفني
+                        );
+                      }),
                     ],
                   ),
                 ),

@@ -31,6 +31,12 @@ import 'package:school_for_blind_app/presentation/screens/student_register_data_
 import 'package:school_for_blind_app/presentation/screens/student_register_number_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_register_photo_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/user_type_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/question_bank_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/add_bank_questions_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/edit_quiz_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/view_exam_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/quiz_submissions_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/grade_student_answers_screen.dart';
 import 'dart:io' as io;
 
 class AppRouter {
@@ -157,6 +163,56 @@ class AppRouter {
   return MaterialPageRoute(
     builder: (_) => AddQuizScreen(lessonId: lessonId),
   );
+
+  case AppRoutes.kQuestionBank:
+        return MaterialPageRoute(
+          builder: (_) => const QuestionBankScreen(),
+        );
+
+      case AppRoutes.kAddBankQuestions:
+        return MaterialPageRoute(
+          builder: (_) => const AddBankQuestionsScreen(),
+        );
+
+      case AppRoutes.kEditQuiz:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => EditQuizScreen(
+            quizId: args['quizId'] as int,
+            lessonTitle: (args['lessonTitle'] ?? '') as String,
+          ),
+        );
+
+      case AppRoutes.kViewExam:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => ViewExamScreen(
+            examId: args['examId'] as int,
+            examTitle: (args['examTitle'] ?? '') as String,
+          ),
+        );
+
+      case AppRoutes.kQuizSubmissions:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => QuizSubmissionsScreen(
+            quizId: args['quizId'] as int,
+            quizTitle: (args['quizTitle'] ?? '') as String,
+          ),
+        );
+
+      case AppRoutes.kGradeStudentAnswers:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => GradeStudentAnswersScreen(
+            quizId: args['quizId'] as int,
+            studentId: args['studentId'] as int,
+            studentName: (args['studentName'] ?? '') as String,
+          ),
+        );
+
+
+        // 
       case AppRoutes.kStudentRegisterNumberScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

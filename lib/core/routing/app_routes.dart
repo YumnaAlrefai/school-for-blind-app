@@ -18,6 +18,12 @@ class AppRoutes {
   static const String kTechnicalSupportScreen = '/technical_support_screen';
   static const String kQuizzes = '/teacher_quizzes_screen';
   static const String kTest = '/teacher_test_screen';
+  static const String kQuestionBank = '/question_bank_screen';
+  static const String kAddBankQuestions = '/add_bank_questions_screen';
+  static const String kEditQuiz = '/edit_quiz_screen';
+  static const String kViewExam = '/view_exam_screen';
+  static const String kQuizSubmissions = '/quiz_submissions_screen';
+  static const String kGradeStudentAnswers = '/grade_student_answers_screen';
 
 
   static const String kStudentLoginScreen = '/student_login_screen';

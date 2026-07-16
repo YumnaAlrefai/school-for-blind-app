@@ -8,17 +8,19 @@ import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
+import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/start_call_picker.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/question_bank_screen.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_bottomNav_teacher.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_drawer_teacher.dart';
 import 'package:school_for_blind_app/presentation/widgets/lesson_audio_card.dart';
 
 class Lesson {
   final int id;
-final String title;
-final String duration;
-final String audioUrl;
-final bool hasQuiz;
+  final String title;
+  final String duration;
+  final String audioUrl;
+  final bool hasQuiz;
 
   const Lesson({
     required this.id,
@@ -26,7 +28,6 @@ final bool hasQuiz;
     required this.duration,
     required this.audioUrl,
     required this.hasQuiz,
-    
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
@@ -71,6 +72,10 @@ class _LessonsScreenState extends State<LessonsScreen> {
   int? _expandedIndex;
   double _speed = 1.0;
   int? _deleteModeIndex;
+  // حلول الطلاب
+  bool _loadingSolutions = false;
+  String? _solutionsError;
+  List<Map<String, dynamic>> _pendingQuizzes = [];
 
   /// ⬅️ رقم زر + في الـ bottom nav — عدّله ليطابق ترتيب الأزرار عندك
   static const int _addButtonIndex = 2;
@@ -92,7 +97,11 @@ class _LessonsScreenState extends State<LessonsScreen> {
   void _onNavTap(int index) {
     if (index == _addButtonIndex) {
       _openAddLesson();
-      return; // لا نغيّر التبويب المحدد
+      return;
+    }
+    if (index == 1) {
+      Navigator.pushNamed(context, AppRoutes.kQuestionBank);
+      return;
     }
     setState(() => _currentNavIndex = index);
   }
@@ -108,9 +117,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
   }
 
   Future<void> _onLessonTap(int index, Lesson lesson) async {
-    
-
-
     setState(() => _expandedIndex = index);
 
     try {
@@ -143,17 +149,20 @@ class _LessonsScreenState extends State<LessonsScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: AppColors.kBackgroundColor,
-drawer: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
-  bloc: getIt<LessonsCubit>(),
-  builder: (context, state) {
-    final cubit = getIt<LessonsCubit>();
-    return CustomDrawer(
-      userName: cubit.teacherName.isNotEmpty ? cubit.teacherName : 'مدرس',
-      userPhone:
-          cubit.teacherPhone.isNotEmpty ? cubit.teacherPhone : '09********',
-    );
-  },
-),
+        drawer: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
+          bloc: getIt<LessonsCubit>(),
+          builder: (context, state) {
+            final cubit = getIt<LessonsCubit>();
+            return CustomDrawer(
+              userName: cubit.teacherName.isNotEmpty
+                  ? cubit.teacherName
+                  : 'مدرس',
+              userPhone: cubit.teacherPhone.isNotEmpty
+                  ? cubit.teacherPhone
+                  : '09********',
+            );
+          },
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -169,7 +178,9 @@ drawer: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
                 const SizedBox(height: 15),
                 _buildCategories(),
                 const SizedBox(height: 25),
-                _buildLessonsList(),
+                _selectedCategoryIndex == 0
+                    ? _buildSolutionsList()
+                    : _buildLessonsList(),
               ],
             ),
           ),
@@ -343,7 +354,11 @@ drawer: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
   Widget _buildCategoryButton(String text, int index) {
     final isSelected = _selectedCategoryIndex == index;
     return GestureDetector(
-      onTap: () => setState(() => _selectedCategoryIndex = index),
+      onTap: () {
+        if (_selectedCategoryIndex == index) return;
+        setState(() => _selectedCategoryIndex = index);
+        if (index == 0) _loadSolutions(); // حلول الطلاب
+      },
       child: Container(
         width: 140,
         height: 37,
@@ -410,13 +425,11 @@ drawer: BlocBuilder<LessonsCubit, ResultState<dynamic>>(
       ),
     );
   }
-void _openCreateQuiz(Lesson lesson) {
-  Navigator.pushNamed(
-    context,
-    AppRoutes.kQuizzes,
-    arguments: lesson.id,
-  );
-}
+
+  void _openCreateQuiz(Lesson lesson) {
+    Navigator.pushNamed(context, AppRoutes.kQuizzes, arguments: lesson.id);
+  }
+
   /// شاشة فارغة توجّه المدرس لزر +
   Widget _buildEmptyState() {
     return Center(
@@ -506,24 +519,27 @@ void _openCreateQuiz(Lesson lesson) {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          title: const Text('حذف الدرس', style: TextStyle(color: Colors.white)),
+          title: const Text(
+            'حذف الدرس',
+            style: TextStyle(color: Colors.white, fontSize: 26),
+          ),
           content: Text(
             'هل أنت متأكد من حذف "${lesson.title}"؟\nسيُحذف نهائياً من السيرفر.',
-            style: const TextStyle(color: Colors.white70),
+            style: const TextStyle(color: Colors.white70, fontSize: 24),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: const Text(
                 'إلغاء',
-                style: TextStyle(color: Colors.white54),
+                style: TextStyle(color: Colors.white54, fontSize: 24),
               ),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: const Text(
                 'حذف',
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: Colors.redAccent, fontSize: 24),
               ),
             ),
           ],
@@ -535,5 +551,164 @@ void _openCreateQuiz(Lesson lesson) {
       getIt<LessonsCubit>().emitDeleteLesson(lesson.id);
     }
     setState(() => _deleteModeIndex = null);
+  }
+
+  Future<void> _loadSolutions() async {
+    setState(() {
+      _loadingSolutions = true;
+      _solutionsError = null;
+    });
+
+    final result = await getIt<TeacherRepo>().getQuizzesPendingGrading();
+
+    result.when(
+      success: (data) {
+        final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
+        final raw = (map['quizzes'] is List)
+            ? map['quizzes'] as List
+            : const [];
+        final sid = getIt<LessonsCubit>().selectedSubject?.id;
+
+        final items = <Map<String, dynamic>>[];
+        for (final e in raw) {
+          if (e is! Map) continue;
+          final q = Map<String, dynamic>.from(e);
+          // فلترة حسب المادة المختارة
+          if (sid != null && int.tryParse('${q['subject_id']}') != sid)
+            continue;
+          items.add(q);
+        }
+
+        setState(() {
+          _pendingQuizzes = items;
+          _loadingSolutions = false;
+        });
+      },
+      failure: (_) {
+        setState(() {
+          _loadingSolutions = false;
+          _solutionsError = 'تعذّر تحميل الحلول، حاول مجدداً';
+        });
+      },
+    );
+  }
+
+  Widget _buildSolutionsList() {
+    if (_loadingSolutions) {
+      return const Expanded(
+        child: Center(child: CircularProgressIndicator(color: Colors.white)),
+      );
+    }
+
+    if (_solutionsError != null) {
+      return Expanded(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _solutionsError!,
+                style: const TextStyle(color: Colors.white70, fontSize: 20),
+              ),
+              TextButton(
+                onPressed: _loadSolutions,
+                child: const Text(
+                  'إعادة المحاولة',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_pendingQuizzes.isEmpty) {
+      return Expanded(
+        child: Center(
+          child: Text(
+            'لا توجد حلول بانتظار التصحيح',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.5),
+              fontSize: 22,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Expanded(
+      child: RefreshIndicator(
+        color: AppColors.kPrimaryColor,
+        backgroundColor: AppColors.kBackgroundColor,
+        onRefresh: _loadSolutions,
+        child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: _pendingQuizzes.length,
+          itemBuilder: (context, i) {
+            final q = _pendingQuizzes[i];
+            final lesson = (q['lesson'] is Map) ? q['lesson'] as Map : const {};
+            final title = (lesson['title'] ?? 'كويز').toString();
+            final count = q['submissions_count'] ?? 0;
+            final id = int.tryParse('${q['id']}') ?? 0;
+
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () async {
+                await Navigator.pushNamed(
+                  context,
+                  AppRoutes.kQuizSubmissions,
+                  arguments: {'quizId': id, 'quizTitle': title},
+                );
+                if (mounted) _loadSolutions();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.white.withOpacity(0.30)),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.orangeAccent.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '$count بانتظار التصحيح',
+                        style: const TextStyle(
+                          color: Colors.orangeAccent,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
