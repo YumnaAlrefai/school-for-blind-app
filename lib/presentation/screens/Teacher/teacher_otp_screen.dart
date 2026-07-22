@@ -4,8 +4,8 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
-// تأكدي من استيراد ملف الـ routes الخاص بك، كمثال:
-// import 'package:school_for_blind_app/core/routing/routes.dart';
+
+
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -160,7 +160,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           state.whenOrNull(
                             success: (data) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
-                                // التعديل الجوهري: الانتقال لشاشة التسجيل باستخدام الـ Named Route المعرف في الـ Router الخاص بك
+                                
                                 Navigator.pushReplacementNamed(
                                   context,
                                   AppRoutes.kTeacherRegister,

@@ -52,7 +52,7 @@ class _TeacherProfilState extends State<TeacherProfil> {
         final Map map = (data is Map) ? data : const {};
         final Map t = (map['data'] is Map) ? map['data'] : map;
 
-        // المواد: من taught_subjects (أسماء مفصولة بفاصلة)، مع fallback للحقل النصي
+        
         String subjects = '';
         final taught = t['subjects'];
         if (taught is List && taught.isNotEmpty) {

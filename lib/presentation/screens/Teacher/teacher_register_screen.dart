@@ -317,10 +317,10 @@ class _RegisterTeacherState extends State<RegisterTeacher> {
             padding: const EdgeInsets.only(left: 10, right: 12),
             child: Icon(icon, color: AppColors.kPrimaryColor, size: 22),
           ),
-          // prefixIconConstraints: const BoxConstraints(
-          //   minWidth: 40,
-          //   minHeight: 0,
-          // ),
+          
+          
+          
+          
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: Color(0xFFD3FF54), width: 0.5),

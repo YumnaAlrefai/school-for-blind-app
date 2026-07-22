@@ -78,7 +78,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                   ),
                   const SizedBox(height: 30),
 
-                  // حقل كلمة المرور
+                  
                   buildPasswordField(
                     hint: 'كلمة المرور',
                     controller: _passwordController,
@@ -95,7 +95,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
                   const SizedBox(height: 15),
 
-                  // حقل تأكيد كلمة المرور
+                  
                   buildPasswordField(
                     hint: 'تأكيد كلمة المرور',
                     controller: _confirmPasswordController,
@@ -109,14 +109,14 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
                   const SizedBox(height: 40),
 
-                  // زر التأكيد مع الـ BlocConsumer
+                  
                   Center(
                     child: BlocConsumer<TeacherCubit, ResultState<dynamic>>(
                       listener: (context, state) {
                         state.whenOrNull(
                           success: (message) {
                             _showSnackBar("تم إنشاء الحساب بنجاح!", isError: false);
-                            // الانتقال لواجهة تسجيل الدخول
+                            
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               AppRoutes.kTeacherLogin,
@@ -144,12 +144,12 @@ class _SecurityScreenState extends State<SecurityScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // 1. تخزين كلمات المرور في الـ Cubit
+                                
                                 final cubit = context.read<TeacherCubit>();
                                 cubit.password = _passwordController.text;
                                 cubit.passwordConfirmation = _confirmPasswordController.text;
 
-                                // 2. إرسال الطلب النهائي للسيرفر مع ملف الـ CV
+                                
                                 cubit.emitRegisterTeacher(widget.cvFile);
                               }
                             },

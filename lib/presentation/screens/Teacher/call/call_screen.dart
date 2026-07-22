@@ -6,18 +6,18 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_cont
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/participant_tile.dart';
 
 
-/// شاشة المدرس للمكالمة الصوتية الجماعية.
-///
-/// مثال الفتح:
-/// ```dart
-/// Navigator.push(context, MaterialPageRoute(
-///   builder: (_) => CallScreen(
-///     roomName: lesson.title,
-///     classId: '8',
-///     teacherRepo: teacherRepo, // نفس الـ Repo المستخدم في الكيوبت
-///   ),
-/// ));
-/// ```
+
+
+
+
+
+
+
+
+
+
+
+
 class CallScreen extends StatefulWidget {
   const CallScreen({
     super.key,

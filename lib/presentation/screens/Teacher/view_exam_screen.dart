@@ -4,7 +4,7 @@ import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 
-/// عرض اختبار كامل للقراءة فقط (بدون أي تعديل)
+
 class ViewExamScreen extends StatefulWidget {
   final int examId;
   final String examTitle;
@@ -74,7 +74,7 @@ class _ViewExamScreenState extends State<ViewExamScreen> {
         _ => 'مقالي',
       };
 
-  /// "2.00" → "2"
+  
   String _cleanNumber(dynamic v) {
     final s = (v ?? '').toString();
     final d = double.tryParse(s);
@@ -174,7 +174,7 @@ class _ViewExamScreenState extends State<ViewExamScreen> {
     );
   }
 
-  /// معلومات الاختبار: المدة + حالة النشر
+  
   Widget _buildInfoRow() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
@@ -206,7 +206,7 @@ class _ViewExamScreenState extends State<ViewExamScreen> {
     );
   }
 
-  /// كارد سؤال — للقراءة فقط
+  
   Widget _buildQuestionCard(int index) {
     final e = _questions[index];
     final q = (e is Map) ? Map<String, dynamic>.from(e) : <String, dynamic>{};
@@ -228,7 +228,7 @@ class _ViewExamScreenState extends State<ViewExamScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // رقم السؤال + النوع + الدرجة
+          
           Row(
             children: [
               Text(
@@ -243,14 +243,14 @@ class _ViewExamScreenState extends State<ViewExamScreen> {
           ),
           const SizedBox(height: 12),
 
-          // نص السؤال
+          
           Text(
             description,
             style: const TextStyle(color: Colors.white, fontSize: 25),
           ),
           const SizedBox(height: 16),
 
-          // الإجابة
+          
           if (choices.isNotEmpty)
             ...choices.map((c) {
               final m = (c is Map) ? c : const {};

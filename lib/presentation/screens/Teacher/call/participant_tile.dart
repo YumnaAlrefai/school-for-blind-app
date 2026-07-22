@@ -3,13 +3,8 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_mode
 
 import 'audio_waveform.dart';
 
-/// لون التحدّث الفوسفوري.
 const Color kSpeakingLime = Color(0xFFC8F526);
 
-/// بطاقة مشارك واحد داخل شبكة شاشة المدرس.
-///
-/// - طالب لم ينضم بعد → بطاقة باهتة مكتوب عليها "لم ينضم بعد" (بدون أزرار).
-/// - طالب متصل → موجة صوتية + توهّج فوسفوري عند التحدّث + أزرار كتم/طرد.
 class ParticipantTile extends StatelessWidget {
   const ParticipantTile({
     super.key,
@@ -26,7 +21,6 @@ class ParticipantTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // حالة: طالب من الشعبة لم ينضم بعد
     if (!participant.isPresent) {
       return _NotJoinedTile(name: participant.name);
     }
@@ -47,14 +41,13 @@ class ParticipantTile extends StatelessWidget {
                   color: kSpeakingLime.withOpacity(0.35),
                   blurRadius: 14,
                   spreadRadius: 1,
-                )
+                ),
               ]
             : null,
       ),
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          // الصف العلوي — مثبّت LTR: الطرد يسار، الكتم يمين.
           Directionality(
             textDirection: TextDirection.ltr,
             child: Row(
@@ -115,7 +108,6 @@ class ParticipantTile extends StatelessWidget {
   }
 }
 
-/// بطاقة طالب من الشعبة لم ينضم للمكالمة بعد.
 class _NotJoinedTile extends StatelessWidget {
   const _NotJoinedTile({required this.name});
   final String name;

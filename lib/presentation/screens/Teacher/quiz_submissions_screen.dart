@@ -8,7 +8,7 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/grade_student_
 class StudentSubmission {
   final int studentId;
   final String fullName;
-  final String status; // pending / graded
+  final String status; 
   final num totalScore;
 
   const StudentSubmission({
@@ -21,15 +21,20 @@ class StudentSubmission {
   bool get isGraded => status.toLowerCase() == 'graded';
 }
 
-/// الطلاب الذين قدّموا كويزاً معيّناً
+
 class QuizSubmissionsScreen extends StatefulWidget {
+  
   final int quizId;
   final String quizTitle;
+
+  
+  final bool isExam;
 
   const QuizSubmissionsScreen({
     super.key,
     required this.quizId,
     this.quizTitle = '',
+    this.isExam = false,
   });
 
   @override
@@ -53,7 +58,10 @@ class _QuizSubmissionsScreenState extends State<QuizSubmissionsScreen> {
       _error = null;
     });
 
-    final result = await getIt<TeacherRepo>().getQuizSubmissions(widget.quizId);
+    final repo = getIt<TeacherRepo>();
+    final result = widget.isExam
+        ? await repo.getExamSubmissions(widget.quizId)
+        : await repo.getQuizSubmissions(widget.quizId);
 
     result.when(
       success: (data) {
@@ -71,7 +79,9 @@ class _QuizSubmissionsScreenState extends State<QuizSubmissionsScreen> {
 
           items.add(StudentSubmission(
             studentId: int.tryParse('${s['student_id']}') ?? 0,
-            fullName: (student['fullname'] ?? 'طالب').toString(),
+            fullName:
+                (student['fullname'] ?? student['full_name'] ?? 'طالب')
+                    .toString(),
             status: (s['status'] ?? '').toString(),
             totalScore: num.tryParse('${s['total_score']}') ?? 0,
           ));
@@ -191,6 +201,7 @@ class _QuizSubmissionsScreenState extends State<QuizSubmissionsScreen> {
               quizId: widget.quizId,
               studentId: s.studentId,
               studentName: s.fullName,
+              isExam: widget.isExam,
             ),
           ),
         );
@@ -214,7 +225,7 @@ class _QuizSubmissionsScreenState extends State<QuizSubmissionsScreen> {
               ),
             ),
             const SizedBox(width: 10),
-            // حالة التصحيح
+            
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(

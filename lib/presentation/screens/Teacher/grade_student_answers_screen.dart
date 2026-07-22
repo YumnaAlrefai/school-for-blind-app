@@ -4,7 +4,6 @@ import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 
-/// إجابة مقالية بانتظار التصحيح
 class TextAnswerItem {
   final int answerId;
   final String questionText;
@@ -22,8 +21,8 @@ class TextAnswerItem {
     required this.earnedPoints,
     required this.isGraded,
   }) : pointsController = TextEditingController(
-          text: isGraded ? _clean(earnedPoints) : '',
-        );
+         text: isGraded ? _clean(earnedPoints) : '',
+       );
 
   static String _clean(num v) =>
       v == v.roundToDouble() ? v.toInt().toString() : v.toString();
@@ -31,18 +30,19 @@ class TextAnswerItem {
   void dispose() => pointsController.dispose();
 }
 
-/// تصحيح الإجابات المقالية لطالب في كويز
-/// (الخيارات وصح/خطأ تُصحّح تلقائياً في الباك)
 class GradeStudentAnswersScreen extends StatefulWidget {
   final int quizId;
   final int studentId;
   final String studentName;
+
+  final bool isExam;
 
   const GradeStudentAnswersScreen({
     super.key,
     required this.quizId,
     required this.studentId,
     this.studentName = '',
+    this.isExam = false,
   });
 
   @override
@@ -84,8 +84,10 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
       _error = null;
     });
 
-    final result = await getIt<TeacherRepo>()
-        .getPendingTextAnswers(widget.quizId, widget.studentId);
+    final repo = getIt<TeacherRepo>();
+    final result = widget.isExam
+        ? await repo.getExamPendingTextAnswers(widget.quizId, widget.studentId)
+        : await repo.getPendingTextAnswers(widget.quizId, widget.studentId);
 
     result.when(
       success: (data) {
@@ -102,14 +104,16 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
               ? Map<String, dynamic>.from(a['question'])
               : <String, dynamic>{};
 
-          items.add(TextAnswerItem(
-            answerId: int.tryParse('${a['id']}') ?? 0,
-            questionText: (q['description'] ?? '').toString(),
-            studentAnswer: (a['text_answer'] ?? '').toString(),
-            maxPoints: num.tryParse('${q['points']}') ?? 0,
-            earnedPoints: num.tryParse('${a['points_earned']}') ?? 0,
-            isGraded: a['is_graded'] == 1 || a['is_graded'] == true,
-          ));
+          items.add(
+            TextAnswerItem(
+              answerId: int.tryParse('${a['id']}') ?? 0,
+              questionText: (q['description'] ?? '').toString(),
+              studentAnswer: (a['text_answer'] ?? '').toString(),
+              maxPoints: num.tryParse('${q['points']}') ?? 0,
+              earnedPoints: num.tryParse('${a['points_earned']}') ?? 0,
+              isGraded: a['is_graded'] == 1 || a['is_graded'] == true,
+            ),
+          );
         }
 
         setState(() {
@@ -153,10 +157,10 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
         return;
       }
 
-      // الباك يرفض علامة أكبر من علامة السؤال
       if (points > a.maxPoints) {
         _showMessage(
-            'علامة السؤال رقم $n لا يمكن أن تتجاوز ${_cleanNumber(a.maxPoints)}');
+          'علامة السؤال رقم $n لا يمكن أن تتجاوز ${_cleanNumber(a.maxPoints)}',
+        );
         return;
       }
 
@@ -170,8 +174,11 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
 
     setState(() => _saving = true);
 
-    final result = await getIt<TeacherRepo>()
-        .gradeTextAnswers(widget.quizId, widget.studentId, {'grades': grades});
+    final repo = getIt<TeacherRepo>();
+    final body = {'grades': grades};
+    final result = widget.isExam
+        ? await repo.gradeExamTextAnswers(widget.quizId, widget.studentId, body)
+        : await repo.gradeTextAnswers(widget.quizId, widget.studentId, body);
 
     if (!mounted) return;
     setState(() => _saving = false);
@@ -180,9 +187,11 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
       success: (data) {
         final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
         final newScore = map['new_total_score'];
-        _showMessage(newScore != null
-            ? 'تم رصد العلامات — المجموع: ${_cleanNumber(newScore)}'
-            : 'تم رصد العلامات بنجاح');
+        _showMessage(
+          newScore != null
+              ? 'تم رصد العلامات — المجموع: ${_cleanNumber(newScore)}'
+              : 'تم رصد العلامات بنجاح',
+        );
         Navigator.pop(context, true);
       },
       failure: (_) => _showMessage('تعذّر حفظ العلامات، حاول مجدداً'),
@@ -229,8 +238,11 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.subdirectory_arrow_left,
-              size: 30, color: Colors.white),
+          icon: const Icon(
+            Icons.subdirectory_arrow_left,
+            size: 30,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ],
@@ -240,7 +252,8 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
   Widget _buildBody() {
     if (_loading) {
       return const Center(
-          child: CircularProgressIndicator(color: Colors.white));
+        child: CircularProgressIndicator(color: Colors.white),
+      );
     }
 
     if (_error != null) {
@@ -248,13 +261,17 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(_error!,
-                style: const TextStyle(color: Colors.white70, fontSize: 20)),
+            Text(
+              _error!,
+              style: const TextStyle(color: Colors.white70, fontSize: 20),
+            ),
             const SizedBox(height: 12),
             TextButton(
               onPressed: _load,
-              child: const Text('إعادة المحاولة',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
+              child: const Text(
+                'إعادة المحاولة',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
             ),
           ],
         ),
@@ -288,7 +305,6 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
     );
   }
 
-  /// العلامة الحالية (المحسوبة تلقائياً من الأسئلة الموضوعية)
   Widget _buildScoreChip() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
@@ -299,13 +315,16 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
             decoration: BoxDecoration(
               color: AppColors.kPrimaryColor.withOpacity(0.12),
               borderRadius: BorderRadius.circular(8),
-              border:
-                  Border.all(color: AppColors.kPrimaryColor.withOpacity(0.4)),
+              border: Border.all(
+                color: AppColors.kPrimaryColor.withOpacity(0.4),
+              ),
             ),
             child: Text(
               'العلامة الحالية: ${_cleanNumber(_currentScore)}',
               style: const TextStyle(
-                  color: AppColors.kPrimaryColor, fontSize: 16),
+                color: AppColors.kPrimaryColor,
+                fontSize: 16,
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -334,35 +353,43 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
         children: [
           Row(
             children: [
-              Text('${index + 1}.',
-                  style: const TextStyle(color: Colors.white54, fontSize: 22)),
+              Text(
+                '${index + 1}.',
+                style: const TextStyle(color: Colors.white54, fontSize: 22),
+              ),
               const Spacer(),
               if (a.isGraded)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.kPrimaryColor.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text('مصحّح',
-                      style: TextStyle(
-                          color: AppColors.kPrimaryColor, fontSize: 14)),
+                  child: const Text(
+                    'مصحّح',
+                    style: TextStyle(
+                      color: AppColors.kPrimaryColor,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
             ],
           ),
           const SizedBox(height: 10),
 
-          // نص السؤال
           Text(
             a.questionText,
             style: const TextStyle(color: Colors.white, fontSize: 25),
           ),
           const SizedBox(height: 16),
 
-          // إجابة الطالب
-          const Text('إجابة الطالب',
-              style: TextStyle(color: Colors.white54, fontSize: 18)),
+          const Text(
+            'إجابة الطالب',
+            style: TextStyle(color: Colors.white54, fontSize: 18),
+          ),
           const SizedBox(height: 6),
           Container(
             width: double.infinity,
@@ -386,17 +413,19 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
           ),
           const SizedBox(height: 16),
 
-          // إدخال العلامة
           Row(
             children: [
-              const Text('العلامة: ',
-                  style: TextStyle(color: Colors.white54, fontSize: 20)),
+              const Text(
+                'العلامة: ',
+                style: TextStyle(color: Colors.white54, fontSize: 20),
+              ),
               SizedBox(
                 width: 70,
                 child: TextField(
                   controller: a.pointsController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white, fontSize: 25),
                   decoration: const InputDecoration(
@@ -442,7 +471,9 @@ class _GradeStudentAnswersScreenState extends State<GradeStudentAnswersScreen> {
                   width: 20,
                   height: 26,
                   child: CircularProgressIndicator(
-                      color: Colors.black, strokeWidth: 3),
+                    color: Colors.black,
+                    strokeWidth: 3,
+                  ),
                 )
               : const Text(
                   'رصد العلامات ',

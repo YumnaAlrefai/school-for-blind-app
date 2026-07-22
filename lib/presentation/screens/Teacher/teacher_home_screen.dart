@@ -11,6 +11,7 @@ import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/call/start_call_picker.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/question_bank_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/quiz_submissions_screen.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_bottomNav_teacher.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_drawer_teacher.dart';
 import 'package:school_for_blind_app/presentation/widgets/lesson_audio_card.dart';
@@ -31,8 +32,6 @@ class Lesson {
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
-    // رابط الصوت يجي من أول تسجيل داخل records (record_url).
-    // بنجيب أول تسجيل فقط حالياً (الدرس ممكن يكون له عدة تسجيلات لاحقاً).
     String audio = '';
     final records = json['records'];
     if (records is List && records.isNotEmpty && records.first is Map) {
@@ -41,7 +40,7 @@ class Lesson {
           (first['url'] ?? first['record_url'] ?? first['record_path'] ?? '')
               .toString();
     }
-    // fallback للأشكال القديمة إذا رجع audio_url مباشرة
+
     if (audio.isEmpty) {
       audio = (json['audio_url'] ?? '').toString();
     }
@@ -72,18 +71,17 @@ class _LessonsScreenState extends State<LessonsScreen> {
   int? _expandedIndex;
   double _speed = 1.0;
   int? _deleteModeIndex;
-  // حلول الطلاب
+
   bool _loadingSolutions = false;
   String? _solutionsError;
   List<Map<String, dynamic>> _pendingQuizzes = [];
 
-  /// ⬅️ رقم زر + في الـ bottom nav — عدّله ليطابق ترتيب الأزرار عندك
   static const int _addButtonIndex = 2;
 
   @override
   void initState() {
     super.initState();
-    // يجيب مواد المدرس + دروس أول مادة
+
     getIt<LessonsCubit>().emitInitLessons();
   }
 
@@ -92,9 +90,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
     _audioService.dispose();
     super.dispose();
   }
-
-  /// التنقل في الشريط السفلي — زر + يفتح شاشة رفع درس
-  void _onNavTap(int index) {
+void _onNavTap(int index) {
     if (index == _addButtonIndex) {
       _openAddLesson();
       return;
@@ -103,11 +99,13 @@ class _LessonsScreenState extends State<LessonsScreen> {
       Navigator.pushNamed(context, AppRoutes.kQuestionBank);
       return;
     }
+    if (index == 0) {                           
+      Navigator.pushNamed(context, AppRoutes.kTeacherChats);
+      return;
+    }
     setState(() => _currentNavIndex = index);
   }
-
   Future<void> _openAddLesson() async {
-    // نوقف أي درس قيد التشغيل قبل مغادرة الشاشة
     await _audioService.stop();
     setState(() => _expandedIndex = null);
 
@@ -174,7 +172,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 const SizedBox(height: 20),
                 _buildSearchField(),
                 const SizedBox(height: 20),
-                _buildSubjectHeader(), // اسم المادة + السهم
+                _buildSubjectHeader(),
                 const SizedBox(height: 15),
                 _buildCategories(),
                 const SizedBox(height: 25),
@@ -187,7 +185,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
         ),
         bottomNavigationBar: CustomBottomNav(
           currentIndex: _currentNavIndex,
-          onTap: _onNavTap, // ⬅️ ربط زر +
+          onTap: _onNavTap,
         ),
       ),
     );
@@ -203,17 +201,14 @@ class _LessonsScreenState extends State<LessonsScreen> {
         ),
         Row(
           children: [
-            // 📞 زر المكالمات المطور — يوقف الصوت أولاً ثم يفتح قائمة اختيار الشعب
             IconButton(
               icon: const Icon(Icons.call, size: 28, color: Colors.white),
               onPressed: () async {
-                // 1) إيقاف أي درس صوتي شغال فوراً لمنع تداخل الأصوات
                 await _audioService.stop();
                 if (mounted) {
                   setState(() => _expandedIndex = null);
                 }
 
-                // 2) استدعاء الدالة الذكية لجلب الشعب وبدء الاتصال
                 if (mounted) {
                   openCallClassPicker(context, getIt<TeacherRepo>());
                 }
@@ -258,8 +253,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
     );
   }
 
-  /// اسم المادة الحالية + سهم يظهر فقط إذا المدرس يدرّس أكثر من مادة.
-  /// الضغط على السهم يفتح قائمة المواد، واختيار مادة يبدّل الدروس المعروضة.
   Widget _buildSubjectHeader() {
     final cubit = getIt<LessonsCubit>();
     return BlocBuilder<LessonsCubit, ResultState<dynamic>>(
@@ -273,15 +266,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
           onTap: hasMultiple ? () => _showSubjectsSheet(cubit) : null,
           child: Row(
             children: [
-              Text(
-                subject != null ? '${subject.name}:' : 'الدروس',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              if (hasMultiple) ...[
+                  if (hasMultiple) ...[
                 const SizedBox(width: 4),
                 const Icon(
                   Icons.keyboard_arrow_down,
@@ -289,6 +274,15 @@ class _LessonsScreenState extends State<LessonsScreen> {
                   size: 26,
                 ),
               ],
+              Text(
+                subject != null ? '${subject.name} : ' : 'الدروس',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+          
             ],
           ),
         );
@@ -296,7 +290,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
     );
   }
 
-  /// قائمة المواد التي يدرّسها المدرس (تظهر بالضغط على السهم)
   void _showSubjectsSheet(LessonsCubit cubit) {
     showModalBottomSheet(
       context: context,
@@ -317,7 +310,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                   s.name,
                   style: TextStyle(
                     color: selected ? AppColors.kPrimaryColor : Colors.white,
-                    fontSize: 18,
+                    fontSize: 25,
                   ),
                 ),
                 trailing: selected
@@ -331,7 +324,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                     _expandedIndex = null;
                     _deleteModeIndex = null;
                   });
-                  cubit.selectSubject(s); // يعيد جلب دروس المادة المختارة
+                  cubit.selectSubject(s);
                 },
               );
             }).toList(),
@@ -357,7 +350,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
       onTap: () {
         if (_selectedCategoryIndex == index) return;
         setState(() => _selectedCategoryIndex = index);
-        if (index == 0) _loadSolutions(); // حلول الطلاب
+        if (index == 0) _loadSolutions();
       },
       child: Container(
         width: 140,
@@ -397,7 +390,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
               final lessons = getIt<LessonsCubit>().lessons;
               if (lessons.isEmpty) return _buildEmptyState();
 
-              // سحب للأسفل = تحديث دروس المادة الحالية من السيرفر
               return RefreshIndicator(
                 color: AppColors.kPrimaryColor,
                 backgroundColor: AppColors.kBackgroundColor,
@@ -430,7 +422,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
     Navigator.pushNamed(context, AppRoutes.kQuizzes, arguments: lesson.id);
   }
 
-  /// شاشة فارغة توجّه المدرس لزر +
   Widget _buildEmptyState() {
     return Center(
       child: Column(
@@ -475,7 +466,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
     );
   }
 
-  /// حالة فشل التحميل مع زر إعادة محاولة واضح
   Widget _buildErrorState() {
     return Center(
       child: Column(
@@ -502,7 +492,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
   }
 
   void _onLessonLongPress(int index) async {
-    await _audioService.stop(); // أوقف الصوت عند الدخول بوضع الحذف
+    await _audioService.stop();
     setState(() {
       _expandedIndex = null;
       _deleteModeIndex = index;
@@ -559,38 +549,66 @@ class _LessonsScreenState extends State<LessonsScreen> {
       _solutionsError = null;
     });
 
-    final result = await getIt<TeacherRepo>().getQuizzesPendingGrading();
+    final repo = getIt<TeacherRepo>();
+    final sid = getIt<LessonsCubit>().selectedSubject?.id;
+    final items = <Map<String, dynamic>>[];
+    bool anyFailed = false;
 
-    result.when(
+    final quizRes = await repo.getQuizzesPendingGrading();
+    quizRes.when(
       success: (data) {
         final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
+
         final raw = (map['quizzes'] is List)
             ? map['quizzes'] as List
             : const [];
-        final sid = getIt<LessonsCubit>().selectedSubject?.id;
-
-        final items = <Map<String, dynamic>>[];
         for (final e in raw) {
           if (e is! Map) continue;
           final q = Map<String, dynamic>.from(e);
-          // فلترة حسب المادة المختارة
           if (sid != null && int.tryParse('${q['subject_id']}') != sid)
             continue;
-          items.add(q);
-        }
 
-        setState(() {
-          _pendingQuizzes = items;
-          _loadingSolutions = false;
-        });
+          final lesson = (q['lesson'] is Map) ? q['lesson'] as Map : const {};
+          items.add({
+            'id': int.tryParse('${q['id']}') ?? 0,
+            'title': (lesson['title'] ?? 'كويز').toString(),
+            'count': q['submissions_count'] ?? 0,
+            'isExam': false,
+          });
+        }
       },
-      failure: (_) {
-        setState(() {
-          _loadingSolutions = false;
-          _solutionsError = 'تعذّر تحميل الحلول، حاول مجدداً';
-        });
-      },
+      failure: (_) => anyFailed = true,
     );
+
+    final examRes = await repo.getExamsPendingGrading();
+    examRes.when(
+      success: (data) {
+        final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
+        final raw = (map['exams'] is List) ? map['exams'] as List : const [];
+        for (final e in raw) {
+          if (e is! Map) continue;
+          final x = Map<String, dynamic>.from(e);
+          if (sid != null && int.tryParse('${x['subject_id']}') != sid)
+            continue;
+
+          items.add({
+            'id': int.tryParse('${x['id']}') ?? 0,
+            'title': (x['title'] ?? 'اختبار').toString(),
+            'count': x['submissions_count'] ?? 0,
+            'isExam': true,
+          });
+        }
+      },
+      failure: (_) => anyFailed = true,
+    );
+
+    setState(() {
+      _pendingQuizzes = items;
+      _loadingSolutions = false;
+      _solutionsError = (items.isEmpty && anyFailed)
+          ? 'تعذّر تحميل الحلول، حاول مجدداً'
+          : null;
+    });
   }
 
   Widget _buildSolutionsList() {
@@ -646,19 +664,24 @@ class _LessonsScreenState extends State<LessonsScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: _pendingQuizzes.length,
           itemBuilder: (context, i) {
-            final q = _pendingQuizzes[i];
-            final lesson = (q['lesson'] is Map) ? q['lesson'] as Map : const {};
-            final title = (lesson['title'] ?? 'كويز').toString();
-            final count = q['submissions_count'] ?? 0;
-            final id = int.tryParse('${q['id']}') ?? 0;
+            final item = _pendingQuizzes[i];
+            final title = item['title'] as String;
+            final count = item['count'];
+            final id = item['id'] as int;
+            final isExam = item['isExam'] as bool;
 
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () async {
-                await Navigator.pushNamed(
+                await Navigator.push(
                   context,
-                  AppRoutes.kQuizSubmissions,
-                  arguments: {'quizId': id, 'quizTitle': title},
+                  MaterialPageRoute(
+                    builder: (_) => QuizSubmissionsScreen(
+                      quizId: id,
+                      quizTitle: title,
+                      isExam: isExam,
+                    ),
+                  ),
                 );
                 if (mounted) _loadSolutions();
               },
@@ -675,6 +698,30 @@ class _LessonsScreenState extends State<LessonsScreen> {
                 ),
                 child: Row(
                   children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color:
+                            (isExam
+                                    ? AppColors.kPrimaryColor
+                                    : Colors.lightBlueAccent)
+                                .withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        isExam ? 'اختبار' : 'كويز',
+                        style: TextStyle(
+                          color: isExam
+                              ? AppColors.kPrimaryColor
+                              : Colors.lightBlueAccent,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         title,
@@ -695,7 +742,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '$count بانتظار التصحيح',
+                        '$count',
                         style: const TextStyle(
                           color: Colors.orangeAccent,
                           fontSize: 14,

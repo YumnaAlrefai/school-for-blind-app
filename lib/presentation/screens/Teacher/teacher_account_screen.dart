@@ -27,7 +27,7 @@ class _AccountTeacherState extends State<AccountTeacher> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // زر تسجيل الدخول (معبأ)
+              
               AccountButton(
                 label: "تسجيل الدخول",
                 filled: true,
@@ -43,7 +43,7 @@ class _AccountTeacherState extends State<AccountTeacher> {
 
               const SizedBox(height: 20),
 
-              // زر إنشاء حساب (محدد فقط - Outline)
+              
               AccountButton(
                 label: "إنشاء حساب",
                 filled: false,

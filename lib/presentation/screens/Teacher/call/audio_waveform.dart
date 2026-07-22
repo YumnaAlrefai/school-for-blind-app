@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-/// موجة صوتية زخرفية تتحرّك عندما [isActive] صحيحة.
+
 class AudioWaveform extends StatefulWidget {
   const AudioWaveform({
     super.key,

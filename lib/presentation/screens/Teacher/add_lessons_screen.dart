@@ -10,10 +10,10 @@ import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 
-/// الحد الأقصى لحجم ملف الصوت (بالميجابايت)
+
 const int _kMaxAudioSizeMB = 100;
 
-/// شعبة (صف) يدرّسها المدرس — تجي من teacher/info ضمن classes
+
 class TeacherClass {
   final int id;
   final String name;
@@ -38,7 +38,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
   String? _audioFileName;
   String? _audioFileSizeLabel;
 
-  // قوائم المادة والشعبة (تُجلب من teacher/info)
+  
   List<TaughtSubject> _subjects = [];
   List<TeacherClass> _classes = [];
   TaughtSubject? _selectedSubject;
@@ -47,7 +47,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
   bool _loadingInfo = true;
   String? _infoError;
 
-  /// الفئة المختارة تحت: 1 = الدروس (الحالية) ، 0 = الاختبارات
+  
   int _selectedCategoryIndex = 1;
 
   @override
@@ -295,7 +295,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
         children: [
           const SizedBox(height: 40),
 
-          // اختيار المادة
+          
           _buildDropdown<TaughtSubject>(
             hint: 'اسم المادة',
             icon: Icons.menu_book,
@@ -307,7 +307,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
           ),
           const SizedBox(height: 20),
 
-          // اختيار الشعبة
+          
           _buildDropdown<TeacherClass>(
             hint: 'الشعبة',
             icon: Icons.menu_book,
@@ -319,11 +319,11 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
           ),
           const SizedBox(height: 20),
 
-          // اسم الدرس
+          
           _buildTitleField(isUploading),
           const SizedBox(height: 20),
 
-          // اختيار الملف الصوتي
+          
           _buildAudioBox(isUploading),
 
           if (isUploading) ...[
@@ -342,7 +342,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
 
           const SizedBox(height: 40),
 
-          // زر رفع الدرس
+          
           _buildUploadButton(isUploading),
           const SizedBox(height: 20),
         ],
@@ -350,7 +350,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
     );
   }
 
-  /// حقل موحّد الشكل: 75 ارتفاع، حواف 10، خلفية #000F24 بشفافية 20%
+  
   BoxDecoration get _fieldDecoration => BoxDecoration(
     color: AppColors.kBackgroundColor.withOpacity(0.20),
     borderRadius: BorderRadius.circular(10),
@@ -372,7 +372,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
             color: Colors.white.withOpacity(0.45),
             fontSize: 30,
           ),
-          // الأيقونة على اليسار (نهاية السطر في RTL) مثل الصورة
+          
           prefixIcon: const Icon(
             Icons.description_outlined,
             color: AppColors.kPrimaryColor,
@@ -497,7 +497,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
     );
   }
 
-  /// فئتان تحت: الدروس (الحالية) + الاختبارات (تنتقل لشاشة الكويز)
+  
   Widget _buildCategories() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -513,7 +513,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
           text: 'الإختبارات',
           index: 0,
           onTap: () {
-            // الانتقال لشاشة رفع الكويز
+            
             Navigator.pushNamed(context, AppRoutes.kTest);
           },
         ),
@@ -550,7 +550,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
     );
   }
 
-  /// قائمة منسدلة موحّدة الشكل (75 ارتفاع، الأيقونة على اليسار مثل الصورة)
+  
   Widget _buildDropdown<T>({
     required String hint,
     required IconData icon,
@@ -570,7 +570,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
           isExpanded: true,
           dropdownColor: AppColors.kSurfaceColor,
           iconEnabledColor: Colors.white54,
-          // الأيقونة على اليسار (نهاية السطر في RTL) مثل الصورة
+          
           hint: Row(
             children: [
               Icon(icon, color: AppColors.kPrimaryColor, size: 26),

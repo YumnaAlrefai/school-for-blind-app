@@ -19,7 +19,7 @@ extension EditQuestionTypeX on EditQuestionType {
         EditQuestionType.tf => 'TF',
       };
 
-  /// تحويل نوع السؤال القادم من الباك
+  
   static EditQuestionType fromApi(String v) => switch (v.toLowerCase()) {
         'mcq' => EditQuestionType.mcq,
         'tf' => EditQuestionType.tf,
@@ -66,8 +66,8 @@ class EditQuestionModel {
   }
 }
 
-/// تعديل كويز: يُحمّل الكويز الحالي بأسئلته، ويُرسل الأسئلة كاملة عند الحفظ
-/// (الباك يحذف الأسئلة القديمة وينشئ الجديدة)
+
+
 class EditQuizScreen extends StatefulWidget {
   final int quizId;
   final String lessonTitle;
@@ -157,7 +157,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
             }
           }
 
-          // صح/خطأ
+          
           bool? tfValue;
           if (type == EditQuestionType.tf) {
             final a = answer.toLowerCase();
@@ -421,7 +421,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
-            itemCount: _questions.length + 2, // حقل المدة + زر الإضافة
+            itemCount: _questions.length + 2, 
             itemBuilder: (context, index) {
               if (index == 0) return _buildTimeLimitField();
               if (index == _questions.length + 1) {

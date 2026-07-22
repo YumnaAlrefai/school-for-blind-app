@@ -6,7 +6,7 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF021024), // نفس لون خلفية تطبيقك
+      backgroundColor: const Color(0xFF021024), 
       appBar: AppBar(
         title: const Text("الإشعارات", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.transparent,
@@ -15,7 +15,7 @@ class NotificationsScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(20),
-        itemCount: 5, // عدد تجريبي للإشعارات
+        itemCount: 5, 
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.only(bottom: 15),

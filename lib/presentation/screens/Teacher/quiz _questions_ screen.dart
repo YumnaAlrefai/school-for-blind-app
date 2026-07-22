@@ -8,14 +8,14 @@ import 'package:school_for_blind_app/core/theme/app_colors.dart';
 enum QuestionType { text, mcq, tf }
 
 extension QuestionTypeX on QuestionType {
-  /// الاسم المعروض بالعربي
+  
   String get label => switch (this) {
     QuestionType.text => 'مقالي',
     QuestionType.mcq => 'خيارات',
     QuestionType.tf => 'صح أو خطأ',
   };
 
-  /// القيمة المرسلة للباك
+  
   String get apiValue => switch (this) {
     QuestionType.text => 'TEXT',
     QuestionType.mcq => 'mcq',
@@ -23,7 +23,7 @@ extension QuestionTypeX on QuestionType {
   };
 }
 
-/// خيار ضمن سؤال من نوع mcq
+
 class ChoiceModel {
   final TextEditingController textController;
   bool isCorrect;
@@ -31,19 +31,19 @@ class ChoiceModel {
     : textController = TextEditingController(text: text);
 }
 
-/// نموذج سؤال محلي (قبل الإرسال)
+
 class QuestionModel {
   QuestionType type;
   final TextEditingController descriptionController;
   final TextEditingController pointsController;
 
-  // مقالي (TEXT)
+  
   final TextEditingController textAnswerController;
 
-  // صح أو خطأ (TF): true = صح
+  
   bool? tfCorrectIsTrue;
 
-  // خيارات (mcq)
+  
   List<ChoiceModel> choices;
   int? correctChoiceIndex;
 
@@ -194,7 +194,7 @@ if (q.type == QuestionType.text) {
     return;
   }
   
-  // التعديل هنا: نتحقق إذا كان المؤشر فارغاً أو يشير إلى خيار نصّه فارغ
+  
   if (q.correctChoiceIndex == null || 
       q.choices[q.correctChoiceIndex!].textController.text.trim().isEmpty) {
     _showMessage('حدد الإجابة الصحيحة للسؤال رقم $n');
@@ -342,7 +342,7 @@ if (q.type == QuestionType.text) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // سطر: نص السؤال (يمين) + نوع السؤال (يسار)
+          
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

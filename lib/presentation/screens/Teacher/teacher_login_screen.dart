@@ -163,11 +163,6 @@ class _LoginTeacherState extends State<LoginTeacher> {
                             listener: (context, state) {
                               state.whenOrNull(
                                 success: (data) {
-                                  // _showSnackBar(
-                                  //   "تم تسجيل الدخول بنجاح",
-                                  //   isError: false,
-                                  // );
-
                                   WidgetsBinding.instance.addPostFrameCallback((
                                     _,
                                   ) {

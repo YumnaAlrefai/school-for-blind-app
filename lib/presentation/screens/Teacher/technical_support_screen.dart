@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
+import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
+import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/donation_info_screen.dart';
 
 class TechnicalSupportScreen extends StatefulWidget {
@@ -15,9 +18,8 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
   final TextEditingController _problemController = TextEditingController();
   File? _selectedImage;
 
-  // الزر يتفعّل فقط عند وجود نص في حقل المشكلة
   bool _isButtonEnabled = false;
-
+  bool _sending = false;
   @override
   void initState() {
     super.initState();
@@ -38,7 +40,6 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
     super.dispose();
   }
 
-  // اختيار الصورة (اختياري — لا يوجد عليه أي شرط)
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(source: ImageSource.gallery);
@@ -47,12 +48,42 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
     }
   }
 
-  void _onSend() {
-    if (!_isButtonEnabled) return;
-    // هنا منطق الإرسال (إرسال المشكلة + الصورة إن وُجدت)
+  void _showMessage(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message, style: const TextStyle(fontSize: 20))),
+    );
+  }
+
+  Future<void> _onSend() async {
+    if (!_isButtonEnabled || _sending) return;
+
     final problem = _problemController.text.trim();
-    final hasImage = _selectedImage != null;
-    debugPrint('المشكلة: $problem | يوجد صورة: $hasImage');
+    if (problem.isEmpty) {
+      _showMessage('اكتب وصف المشكلة');
+      return;
+    }
+
+    setState(() => _sending = true);
+
+    final result = await getIt<TeacherRepo>().sendSupportTicket(
+      message: problem,
+      image: _selectedImage,
+    );
+
+    if (!mounted) return;
+    setState(() => _sending = false);
+
+    result.when(
+      success: (_) {
+        _showMessage('تم إرسال المشكلة للدعم الفني');
+        _problemController.clear();
+        setState(() => _selectedImage = null);
+        Navigator.pop(context);
+      },
+      failure: (_) =>
+          _showMessage('تعذّر الإرسال، تأكد من الاتصال وحاول مجدداً'),
+    );
   }
 
   @override
@@ -70,12 +101,8 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Divider(
-                  color: Colors.white24, // لون الخط (أبيض شفاف)
-                  thickness: 1, // سماكة الخط
-                  height: 20, // المساحة الكلية التي يحجزها الخط
-                ),
-                // ===== الشريط العلوي =====
+                const Divider(color: Colors.white24, thickness: 1, height: 20),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -102,15 +129,10 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
                     ),
                   ],
                 ),
-                const Divider(
-                  color: Colors.white24, // لون الخط (أبيض شفاف)
-                  thickness: 1, // سماكة الخط
-                  height: 20, // المساحة الكلية التي يحجزها الخط
-                ),
+                const Divider(color: Colors.white24, thickness: 1, height: 20),
 
                 const SizedBox(height: 20),
 
-                // ===== حقل وصف المشكلة =====
                 const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -156,7 +178,6 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
 
                 const SizedBox(height: 30),
 
-                // ===== لقطة الشاشة (اختياري) =====
                 const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -193,10 +214,12 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
 
                 const Spacer(),
 
-                // ===== زر الإرسال =====
                 const SizedBox(height: 28),
                 Center(
-                  child: DonationButton(label: 'إرسال', onTap: _onSend),
+                  child: DonationButton(
+                    label: _sending ? 'جارٍ الإرسال...' : 'إرسال',
+                    onTap: _sending ? () {} : _onSend,
+                  ),
                 ),
 
                 const SizedBox(height: 40),

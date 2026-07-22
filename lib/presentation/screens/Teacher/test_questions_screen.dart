@@ -8,14 +8,14 @@ import 'package:school_for_blind_app/core/theme/app_colors.dart';
 enum QuestionType { text, mcq, tf }
 
 extension QuestionTypeX on QuestionType {
-  /// الاسم المعروض بالعربي
+  
   String get label => switch (this) {
     QuestionType.text => 'مقالي',
     QuestionType.mcq => 'خيارات',
     QuestionType.tf => 'صح أو خطأ',
   };
 
-  /// القيمة المرسلة للباك
+  
   String get apiValue => switch (this) {
     QuestionType.text => 'TEXT',
     QuestionType.mcq => 'mcq',
@@ -23,7 +23,7 @@ extension QuestionTypeX on QuestionType {
   };
 }
 
-/// خيار ضمن سؤال من نوع mcq
+
 class ChoiceModel {
   final TextEditingController textController;
   bool isCorrect;
@@ -31,19 +31,19 @@ class ChoiceModel {
     : textController = TextEditingController(text: text);
 }
 
-/// نموذج سؤال محلي (قبل الإرسال)
+
 class QuestionModel {
   QuestionType type;
   final TextEditingController descriptionController;
   final TextEditingController pointsController;
 
-  // مقالي (TEXT)
+  
   final TextEditingController textAnswerController;
 
-  // صح أو خطأ (TF): true = صح
+  
   bool? tfCorrectIsTrue;
 
-  // خيارات (mcq)
+  
   List<ChoiceModel> choices;
   int? correctChoiceIndex;
 
@@ -135,7 +135,7 @@ class _TestQuestionsScreenState extends State<TestQuestionsScreen> {
       return;
     }
     setState(() {
-      // تعديل مؤشر الإجابة الصحيحة عند حذف خيار
+      
       if (q.correctChoiceIndex != null) {
         if (choiceIndex == q.correctChoiceIndex) {
           q.correctChoiceIndex = null;
@@ -160,7 +160,7 @@ class _TestQuestionsScreenState extends State<TestQuestionsScreen> {
   }
 
   void _uploadTest() {
-    // المادة من السياق (المادة المختارة حالياً في شاشة الدروس)
+    
     final subjectId = getIt<LessonsCubit>().selectedSubject?.id;
     if (subjectId == null) {
       _showMessage('تعذّر تحديد المادة، افتح الدروس واختر المادة أولاً');
@@ -243,7 +243,7 @@ class _TestQuestionsScreenState extends State<TestQuestionsScreen> {
       return base;
     }).toList();
 
-    // الحقول التي يطلبها الباك: title, subject_id, duration_minutes, questions
+    
     final body = {
       'title': widget.testTitle,
       'subject_id': subjectId,
@@ -356,7 +356,7 @@ class _TestQuestionsScreenState extends State<TestQuestionsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // سطر: نص السؤال (يمين) + نوع السؤال (يسار)
+          
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

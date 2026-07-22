@@ -20,9 +20,23 @@ class _DonationInfoScreenState extends State<DonationInfoScreen> {
     _amountController.dispose();
     super.dispose();
   }
+void _goToPayment() {
+    final amount = num.tryParse(_amountController.text.trim());
+    if (amount == null || amount <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('أدخل مبلغاً صحيحاً', style: TextStyle(fontSize: 20))),
+      );
+      return;
+    }
 
-  void _goToPayment() {
-    Navigator.pushNamed(context, AppRoutes.kDonationPaymentScreen);
+    Navigator.pushNamed(
+      context,
+      AppRoutes.kDonationPaymentScreen,
+      arguments: {
+        'name': _nameController.text.trim(),   // اختياري
+        'amount': amount,
+      },
+    );
   }
 
   @override
@@ -40,7 +54,7 @@ class _DonationInfoScreenState extends State<DonationInfoScreen> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 40.sp,
-            fontFamily: 'ArabicTypesetting',
+                fontFamily: 'ArabicTypesetting',
               ),
             ),
           ),
@@ -65,11 +79,6 @@ class _DonationInfoScreenState extends State<DonationInfoScreen> {
   }
 }
 
-// ============================================================
-// Shared widgets used by both donation screens
-// ============================================================
-
-/// خلفية موحّدة (لون داكن + توهّج أخضر منتشر + زر رجوع + بطاقة)
 class DonationScaffold extends StatelessWidget {
   final Widget child;
   const DonationScaffold({super.key, required this.child});
@@ -83,28 +92,9 @@ class DonationScaffold extends StatelessWidget {
         backgroundColor: const Color(0xFF0D1E2D),
         body: Stack(
           children: [
-            // التوهّج الأخضر المنتشر في الخلفية كلها
-            // Positioned.fill(
-            //   child: DecoratedBox(
-            //     decoration: BoxDecoration(
-            //       gradient: RadialGradient(
-            //         center: const Alignment(0, -0.35),
-            //         radius: 1.0,
-            //         colors: [
-            //           AppColors.kPrimaryColor.withOpacity(0.16),
-            //           const Color(0xFF12281F).withOpacity(0.5),
-            //           const Color(0xFF0D1E2D),
-            //         ],
-            //         stops: const [0.0, 0.45, 0.85],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
             SafeArea(
               child: Stack(
                 children: [
-                  // زر الرجوع أعلى اليسار (شكل ↰)
                   Positioned(
                     top: 4.h,
                     left: 8.w,
@@ -121,7 +111,6 @@ class DonationScaffold extends StatelessWidget {
                     ),
                   ),
 
-                  // البطاقة 362×707 — top 83 / left 20 — radius 25
                   Positioned(
                     top: 83.h,
                     left: 20.w,
@@ -137,7 +126,7 @@ class DonationScaffold extends StatelessWidget {
                         ),
                         color: Colors.white.withOpacity(0.015),
                       ),
-                      // المحتوى في منتصف البطاقة عمودياً
+
                       child: Center(child: child),
                     ),
                   ),
@@ -151,7 +140,6 @@ class DonationScaffold extends StatelessWidget {
   }
 }
 
-/// حقل إدخال موحّد — 330×60 — radius 15
 class DonationField extends StatelessWidget {
   final IconData icon;
   final String hint;
@@ -203,7 +191,6 @@ class DonationField extends StatelessWidget {
   }
 }
 
-/// زر أخضر موحّد — 193×54 — radius 15 — موسّط
 class DonationButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;

@@ -5,15 +5,15 @@ import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
-// تأكدي من استيراد ملف الـ routes الخاص بك، كمثال:
-// import 'package:school_for_blind_app/core/routing/routes.dart'; 
+
+
 
 class Phoneteacher extends StatelessWidget {
   const Phoneteacher({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // تم إزالة الـ BlocProvider من هنا لأن الـ Router يقوم بحقنه تلقائياً الآن
+    
     return const PhoneTeacherForm();
   }
 }
@@ -120,7 +120,7 @@ class _PhoneTeacherFormState extends State<PhoneTeacherForm> {
                           listener: (context, state) {
                             state.whenOrNull(
                               success: (data) {
-                                // التعديل الجوهري: الانتقال باستخدام الـ Named Route المعرف في الـ Router
+                                
                                 Navigator.pushNamed(context, AppRoutes.kTeacherotb);
                               },
                               failure: (networkException) {

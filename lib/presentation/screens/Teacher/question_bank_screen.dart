@@ -11,12 +11,12 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/add_bank_quest
 import 'package:school_for_blind_app/presentation/screens/Teacher/edit_quiz_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/view_exam_screen.dart';
 
-/// عنصر معروض في البنك (اختبار / كويز / سؤال إضافي)
+
 class BankItem {
   final int id;
   final String title;
   final int? subjectId;
-  final Map<String, dynamic> raw; // ⬅️ البيانات الكاملة
+  final Map<String, dynamic> raw; 
 
   const BankItem({
     required this.id,
@@ -26,7 +26,7 @@ class BankItem {
   });
 }
 
-/// فئات البنك
+
 enum BankTab { exams, quizzes, extra }
 
 extension BankTabX on BankTab {
@@ -36,11 +36,11 @@ extension BankTabX on BankTab {
     BankTab.extra => 'أسئلة إضافية',
   };
 
-  /// الاختبارات للعرض فقط (بدون تعديل/حذف)
-  /// التعديل متاح للكويزات فقط
+  
+  
   bool get canEdit => this == BankTab.quizzes;
 
-  /// الحذف متاح للكويزات والأسئلة الإضافية (الاختبارات عرض فقط)
+  
   bool get canDelete => this != BankTab.exams;
 }
 
@@ -95,7 +95,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
     );
   }
 
-  /// يستخرج القائمة من أشكال الردود المختلفة (data / مصفوفة مباشرة / مرقّمة)
+  
   List _rawList(dynamic data) {
     if (data is List) return data;
     if (data is Map) {
@@ -253,7 +253,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
     );
   }
 
-  /// عرض السؤال كاملاً مع إجابته
+  
   void _showQuestionDetails(BankItem item) {
     final map = item.raw;
     final type = (map['type'] ?? '').toString();
@@ -421,7 +421,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
     );
   }
 
-  /// اسم المادة المختارة (نفس مادة شاشة الدروس) + سهم لتبديلها
+  
   Widget _buildSubjectHeader() {
     final cubit = getIt<LessonsCubit>();
     return BlocBuilder<LessonsCubit, ResultState<dynamic>>(
@@ -487,7 +487,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
                 onTap: () async {
                   Navigator.pop(sheetCtx);
                   await cubit.selectSubject(s);
-                  if (mounted) _load(); // إعادة الفلترة على المادة الجديدة
+                  if (mounted) _load(); 
                 },
               );
             }).toList(),
@@ -502,11 +502,11 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
       children: BankTab.values.map((t) {
         final isSelected = _tab == t;
         return Expanded(
-          // يجعل كل زر يأخذ مساحة متساوية تماماً
+          
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 4,
-            ), // مسافة صغيرة متساوية بين الأزرار
+            ), 
             child: GestureDetector(
               onTap: () {
                 if (_tab == t) return;
@@ -567,7 +567,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
       );
     }
 
-    // زر إضافة الأسئلة يظهر في فئة "أسئلة إضافية" فقط
+    
     final showAddButton = _tab == BankTab.extra;
 
     if (_items.isEmpty && !showAddButton) {
@@ -589,7 +589,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
     );
   }
 
-  /// زر "إضافة أسئلة جديدة" — يفتح شاشة إدخال الأسئلة ثم يحدّث القائمة
+  
   Widget _buildAddQuestionsButton() {
     return GestureDetector(
       onTap: () async {
@@ -658,8 +658,8 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            // الاختبارات: عرض فقط — بدون أزرار
-            // التعديل للكويزات فقط
+            
+            
             if (_tab.canEdit) ...[
               GestureDetector(
                 onTap: () => _onEdit(item),
@@ -671,7 +671,7 @@ class _QuestionBankScreenState extends State<QuestionBankScreen> {
               ),
               const SizedBox(width: 16),
             ],
-            // الحذف للكويزات والأسئلة الإضافية
+            
             if (_tab.canDelete)
               GestureDetector(
                 onTap: () => _confirmDelete(item),

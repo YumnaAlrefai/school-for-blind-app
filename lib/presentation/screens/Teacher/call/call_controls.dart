@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'participant_tile.dart' show kSpeakingLime;
 
-/// شريط التحكّم السفلي للمدرس على شكل كبسولة.
-/// الترتيب البصري (يسار ← يمين): إنهاء | ميكروفون المدرس | كتم كل الطلاب.
 class CallControls extends StatelessWidget {
   const CallControls({
     super.key,
@@ -32,13 +30,12 @@ class CallControls extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
           border: Border.all(color: Colors.white10),
         ),
-        // تثبيت LTR ليبقى زر الإنهاء يساراً وكتم الطلاب يميناً كما في التصميم.
+
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // يسار: إنهاء المكالمة
               _ControlButton(
                 icon: Icons.call_end,
                 background: const Color(0xFFE53935),
@@ -46,25 +43,28 @@ class CallControls extends StatelessWidget {
                 tooltip: 'إنهاء المكالمة',
                 onTap: onEndCall,
               ),
-              // وسط: ميكروفون المدرس
+
               _ControlButton(
                 icon: selfMicEnabled ? Icons.mic : Icons.mic_off,
-                background:
-                    selfMicEnabled ? const Color(0xFF26374A) : kSpeakingLime,
+                background: selfMicEnabled
+                    ? const Color(0xFF26374A)
+                    : kSpeakingLime,
                 iconColor: selfMicEnabled ? Colors.white : Colors.black,
                 tooltip: selfMicEnabled ? 'كتم صوتي' : 'فك كتم صوتي',
                 onTap: onToggleSelfMic,
               ),
-              // يمين: كتم كل الطلاب
+
               _ControlButton(
                 icon: allStudentsMuted
                     ? Icons.voice_over_off
                     : Icons.record_voice_over,
-                background:
-                    allStudentsMuted ? kSpeakingLime : const Color(0xFF26374A),
+                background: allStudentsMuted
+                    ? kSpeakingLime
+                    : const Color(0xFF26374A),
                 iconColor: allStudentsMuted ? Colors.black : Colors.white,
-                tooltip:
-                    allStudentsMuted ? 'فك كتم كل الطلاب' : 'كتم كل الطلاب',
+                tooltip: allStudentsMuted
+                    ? 'فك كتم كل الطلاب'
+                    : 'كتم كل الطلاب',
                 onTap: onToggleMuteAll,
               ),
             ],

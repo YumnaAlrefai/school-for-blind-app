@@ -48,7 +48,6 @@ class CallController extends ChangeNotifier {
   final String teacherName;
   final bool demoMode;
 
-  // ===================== الحالة =====================
   CallConnectionState _state = CallConnectionState.idle;
   CallConnectionState get state => _state;
 
@@ -65,7 +64,6 @@ class CallController extends ChangeNotifier {
 
   final List<RosterStudent> _roster = [];
 
-  // LiveKit
   Room? _room;
   EventsListener<RoomEvent>? _events;
 
@@ -145,7 +143,7 @@ class CallController extends ChangeNotifier {
       msg.contains('درس قائم') || msg.contains('موجود');
 
   
-  Future<void> _cleanupOrphanRoom() async {
+ Future<void> _cleanupOrphanRoom() async {
     if (!_started || _ended || demoMode) return;
     _ended = true;
     try {
@@ -153,7 +151,16 @@ class CallController extends ChangeNotifier {
     } catch (e) {
       if (kDebugMode) debugPrint('cleanup end error: $e');
     }
-    await _room?.disconnect();
+    try {
+      await _room?.disconnect().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          if (kDebugMode) debugPrint('room disconnect timeout — تجاهل');
+        },
+      );
+    } catch (e) {
+      if (kDebugMode) debugPrint('room disconnect error: $e');
+    }
   }
 
   void _bindRoomEvents(Room room) {

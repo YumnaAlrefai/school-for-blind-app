@@ -8,24 +8,10 @@ import 'package:school_for_blind_app/presentation/screens/Teacher/call/call_mode
 
 import 'call_screen.dart';
 
-/// نقطة الدخول لزر المكالمات:
-/// 1) يفحص الاتصال بالإنترنت أولاً.
-/// 2) يجلب شعب المدرس من teacher/info.
-/// 3) شعبة واحدة → يبدأ المكالمة فوراً.
-///    أكثر من شعبة → يعرض قائمة صغيرة منسدلة بجانب الزر ليختار منها.
-///
-/// الاستعمال في زر المكالمات (مرّري الـ context الخاص بالأيقونة نفسها):
-/// ```dart
-/// IconButton(
-///   icon: const Icon(Icons.call),
-///   onPressed: () => openCallClassPicker(context, getIt<TeacherRepo>()),
-/// )
-/// ```
 Future<void> openCallClassPicker(
   BuildContext context,
   TeacherRepo teacherRepo,
 ) async {
-  // 1) فحص الاتصال أولاً — قبل أي نداء للسيرفر.
   final connectivity = await Connectivity().checkConnectivity();
   final hasNet = !connectivity.contains(ConnectivityResult.none);
   if (!hasNet) {
@@ -35,7 +21,6 @@ Future<void> openCallClassPicker(
     return;
   }
 
-  // 2) مؤشّر تحميل بسيط أثناء جلب الشعب.
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -47,7 +32,7 @@ Future<void> openCallClassPicker(
   final result = await teacherRepo.getTeacherInfo();
 
   if (!context.mounted) return;
-  Navigator.of(context).pop(); // إغلاق التحميل
+  Navigator.of(context).pop();
 
   List<SchoolClass> classes = const [];
   String? error;
@@ -75,29 +60,23 @@ Future<void> openCallClassPicker(
     return;
   }
 
-  // شعبة واحدة → ابدأ مباشرة بدون قائمة.
   if (classes.length == 1) {
     _startCall(context, teacherRepo, classes.first);
     return;
   }
 
-  // أكثر من شعبة → اعرض قائمة صغيرة منسدلة بجانب الزر.
   final selected = await _showClassMenuNearButton(context, classes);
   if (selected == null || !context.mounted) return;
   _startCall(context, teacherRepo, selected);
 }
 
-/// يعرض قائمة منسدلة صغيرة عند موقع الزر الذي استُدعي منه.
 Future<SchoolClass?> _showClassMenuNearButton(
   BuildContext context,
   List<SchoolClass> classes,
 ) async {
-  // نحسب موقع الزر على الشاشة لإظهار القائمة بجانبه.
-  final overlay =
-      Overlay.of(context).context.findRenderObject() as RenderBox?;
+  final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
   final button = context.findRenderObject() as RenderBox?;
   if (overlay == null || button == null) {
-    // احتياط: لو تعذّر تحديد الموقع، نعرض قرب أعلى-يمين الشاشة.
     return showMenu<SchoolClass>(
       context: context,
       position: const RelativeRect.fromLTRB(1000, 80, 16, 0),
@@ -109,10 +88,14 @@ Future<SchoolClass?> _showClassMenuNearButton(
 
   final position = RelativeRect.fromRect(
     Rect.fromPoints(
-      button.localToGlobal(button.size.bottomLeft(Offset.zero),
-          ancestor: overlay),
-      button.localToGlobal(button.size.bottomRight(Offset.zero),
-          ancestor: overlay),
+      button.localToGlobal(
+        button.size.bottomLeft(Offset.zero),
+        ancestor: overlay,
+      ),
+      button.localToGlobal(
+        button.size.bottomRight(Offset.zero),
+        ancestor: overlay,
+      ),
     ),
     Offset.zero & overlay.size,
   );
@@ -164,8 +147,6 @@ List<PopupMenuEntry<SchoolClass>> _menuItems(List<SchoolClass> classes) {
 }
 
 void _startCall(BuildContext context, TeacherRepo repo, SchoolClass cls) {
-  // اسم غرفة فريد لكل مكالمة (وقت + رقم عشوائي) لتفادي رفض السيرفر
-  // "اسم الغرفة موجود مسبقاً". الشعبة تُحدّد عبر classId وليس عبر الاسم.
   final unique = DateTime.now().millisecondsSinceEpoch;
   final roomName = 'class-${cls.id}-$unique';
 
@@ -173,8 +154,8 @@ void _startCall(BuildContext context, TeacherRepo repo, SchoolClass cls) {
     context,
     MaterialPageRoute(
       builder: (_) => CallScreen(
-        roomName: roomName, // معرّف غرفة فريد يُرسل للـ API
-        title: cls.name, // الاسم المعروض
+        roomName: roomName,
+        title: cls.name,
         classId: cls.id,
         teacherRepo: repo,
       ),

@@ -54,7 +54,7 @@ class BankQuestionModel {
   }
 }
 
-/// إضافة أسئلة إلى بنك الأسئلة — تُرفع سؤالاً سؤالاً إلى POST /api/question-bank
+
 class AddBankQuestionsScreen extends StatefulWidget {
   const AddBankQuestionsScreen({super.key});
 
@@ -124,7 +124,7 @@ class _AddBankQuestionsScreenState extends State<AddBankQuestionsScreen> {
     );
   }
 
-  /// يبني جسم سؤال واحد بشكل ما يتوقّعه الباك
+  
   Map<String, dynamic> _questionBody(BankQuestionModel q) {
     final base = <String, dynamic>{
       'type': q.type.apiValue,

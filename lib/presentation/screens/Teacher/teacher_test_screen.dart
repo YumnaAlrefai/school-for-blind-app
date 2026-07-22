@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/test_questions_screen.dart';
 
-/// شاشة رفع اختبار (Test) بالشكل الجديد:
-/// عنوان الاختبار + مدة الاختبار + عدد الأسئلة + زر إدخال الأسئلة،
-/// وفئتان تحت (الاختبارات الحالية / الدروس).
+
+
+
 class AddTestScreen extends StatefulWidget {
   const AddTestScreen({super.key});
 
@@ -18,7 +18,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
   final TextEditingController _questionsCountController =
       TextEditingController();
 
-  /// 0 = الاختبارات (الحالية) ، 1 = الدروس
+  
   int _selectedCategoryIndex = 0;
 
   @override
@@ -35,7 +35,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
     );
   }
 
-  /// التحقق من المدخلات ثم الانتقال إلى شاشة أسئلة الاختبار
+  
   void _onEnterQuestions() {
     final title = _titleController.text.trim();
     final duration = int.tryParse(_durationController.text.trim());
@@ -148,7 +148,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
     );
   }
 
-  /// حقل موحّد: 75 ارتفاع، حواف 10، خلفية #000F24 بشفافية 20%، الأيقونة يسار
+  
   Widget _buildInputField({
     required TextEditingController controller,
     required String hint,
@@ -177,7 +177,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
             
             fontSize: 32,
           ),
-          // الأيقونة على اليسار (نهاية السطر في RTL) مثل الصورة
+          
           prefixIcon: Icon(icon, color: AppColors.kPrimaryColor, size: 26),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -215,7 +215,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
     );
   }
 
-  /// فئتان تحت: الاختبارات (الحالية) + الدروس (ترجع لشاشة الدروس)
+  
   Widget _buildCategories() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -230,7 +230,7 @@ class _AddTestScreenState extends State<AddTestScreen> {
           text: 'الدروس',
           index: 1,
           onTap: () {
-            // الرجوع لشاشة الدروس
+            
             Navigator.pop(context);
           },
         ),
