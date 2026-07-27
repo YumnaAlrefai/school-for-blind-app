@@ -24,7 +24,13 @@ class AppRoutes {
   static const String kViewExam = '/view_exam_screen';
   static const String kQuizSubmissions = '/quiz_submissions_screen';
   static const String kGradeStudentAnswers = '/grade_student_answers_screen';
-
+  static const String kSchoolTimetable = '/school_timetable_screen';
+  static const String kStatistics = '/statistics_screen';
+  static const String kTeacherChats = '/teacher_chats_screen';
+  static const String kTeacherChannels = '/teacher_channels_screen';
+  static const String kTeacherChannel = '/teacher_channel_screen';
+  static const String kTeacherGroups = '/teacher_groups_screen';
+  static const String kTeacherAnnouncements = '/teacher_announcements_screen';
 
   static const String kStudentLoginScreen = '/student_login_screen';
   static const String kStudentRegisterDataScreen =

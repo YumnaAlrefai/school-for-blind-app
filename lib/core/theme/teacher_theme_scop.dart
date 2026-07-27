@@ -14,15 +14,13 @@ class TeacherThemeScope extends StatelessWidget {
     return BlocBuilder<ThemeCubit, ThemeMode>(
       bloc: getIt<ThemeCubit>(),
       builder: (context, mode) {
-        final theme =
-            mode == ThemeMode.light ? AppThemes.light : AppThemes.dark;
-        // نطبّق الثيم + نلوّن الخلفية تلقائياً حسب الثيم المختار.
+        final theme = mode == ThemeMode.light
+            ? AppThemes.light
+            : AppThemes.dark;
+
         return Theme(
           data: theme,
-          child: Material(
-            color: theme.scaffoldBackgroundColor,
-            child: child,
-          ),
+          child: Material(color: theme.scaffoldBackgroundColor, child: child),
         );
       },
     );

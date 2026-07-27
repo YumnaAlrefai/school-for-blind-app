@@ -4,10 +4,10 @@ import 'package:school_for_blind_app/apiTeacher/lesson_audio_service.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_home_screen.dart';
 
-/// بطاقة درس بحالتين:
-/// 1) مغلقة: عنوان + زر تشغيل + زر ⋮
-/// 2) موسّعة: مشغل كامل (وقت + شريط + سرعة)
-/// زر ⋮ يفتح قائمة سفلية بخيارين: إنشاء كويز / حذف
+
+
+
+
 class LessonAudioCard extends StatelessWidget {
   final Lesson lesson;
   final bool isExpanded;
@@ -61,13 +61,13 @@ class LessonAudioCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       textDirection: TextDirection.rtl,
       children: [
-        // زر التشغيل/الإيقاف على اليمين (بداية السطر في RTL)
+        
         if (isExpanded)
           _buildPlayPauseButton()
         else
           const Icon(Icons.play_circle_outline, size: 33, color: Colors.white),
 
-        // العنوان بالوسط
+        
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -80,7 +80,7 @@ class LessonAudioCard extends StatelessWidget {
           ),
         ),
 
-        // زر ⋮ على اليسار (نهاية السطر في RTL)
+        
         GestureDetector(
           onTap: () => _showOptionsSheet(context),
           child: const Icon(
@@ -93,7 +93,7 @@ class LessonAudioCard extends StatelessWidget {
     );
   }
 
-  /// قائمة سفلية بخيارين: إنشاء كويز / حذف
+  
   void _showOptionsSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -117,7 +117,7 @@ class LessonAudioCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              // يظهر "إنشاء كويز" فقط إذا الدرس ما عنده كويز مسبقاً
+              
               if (!lesson.hasQuiz)
                 ListTile(
                   leading: const Icon(

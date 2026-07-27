@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 
-/// ثيما التطبيق (فاتح/داكن). الخلفية والنصوص والبطاقات تتبدّل معاً.
+
 class AppThemes {
-  // ===== ألوان الوضع الداكن =====
-  static const Color _darkBg = Color(0xFF000F24); // خلفيتك الحالية
+  
+  static const Color _darkBg = Color(0xFF000F24); 
   static const Color _darkText = Color(0xFFFFFFFF);
   static const Color _darkCard = Color(0xFF0D1E2D);
 
-  // ===== ألوان الوضع الفاتح =====
+  
   static const Color _lightBg = Color(0xFFFFFFFF);
   static const Color _lightText = Color(0xFF000F24);
   static const Color _lightCard = Color(0xFFF2F4F7);
 
-  /// الوضع الداكن (الافتراضي).
+  
   static ThemeData get dark => ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: _darkBg,
@@ -37,7 +37,7 @@ class AppThemes {
         useMaterial3: true,
       );
 
-  /// الوضع الفاتح.
+  
   static ThemeData get light => ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: _lightBg,

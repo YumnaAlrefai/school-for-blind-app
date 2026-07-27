@@ -10,6 +10,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_tts
   flutter_webrtc
   livekit_client
+  record_windows
   smart_auth
   speech_to_text_windows
   url_launcher_windows

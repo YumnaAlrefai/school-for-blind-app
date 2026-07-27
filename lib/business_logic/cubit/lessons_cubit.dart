@@ -8,7 +8,7 @@ import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_home_screen.dart';
 
-/// مادة يدرّسها المدرس — تجي من teacher/info ضمن مصفوفة taught_subjects
+
 class TaughtSubject {
   final int id;
   final String name;
@@ -25,16 +25,16 @@ class LessonsCubit extends Cubit<ResultState<dynamic>> {
 
   List<Lesson> lessons = [];
 
-  /// كل المواد التي يدرّسها المدرس (للسهم/القائمة)
+  
   List<TaughtSubject> taughtSubjects = [];
 
-  /// المادة المعروضة حالياً
+  
   TaughtSubject? selectedSubject;
  String teacherName = '';
 String teacherPhone = '';
   LessonsCubit(this.teacherRepo) : super(const ResultState.idle());
 
-  /// تُستدعى عند فتح الشاشة: تجيب مواد المدرس ثم دروس أول مادة
+  
   Future<void> emitInitLessons() async {
     emit(const ResultState.loading());
 
@@ -60,7 +60,7 @@ final List subs = (teacher['subjects'] ?? []) as List;
     );
   }
 
-  /// تبديل المادة المعروضة — يعيد جلب دروسها فقط
+  
   Future<void> selectSubject(TaughtSubject subject) async {
     if (selectedSubject?.id == subject.id) return;
     selectedSubject = subject;
@@ -68,7 +68,7 @@ final List subs = (teacher['subjects'] ?? []) as List;
     await _fetchLessons();
   }
 
-  /// جلب دروس المادة المختارة (نفس المنطق القديم بس مع فلتر subject_id)
+  
   void emitGetLessons() async {
     emit(const ResultState.loading());
     await _fetchLessons();
@@ -88,24 +88,24 @@ final List subs = (teacher['subjects'] ?? []) as List;
     );
   }
 
-  /// يفكّ شكل رد Laravel: { "lessons": { "data": [...] } }
+  
  List<Lesson> _parseLessons(dynamic data) {
   try {
     final Map map = _asMap(data);
     final List rawList = (map['lessons'] ?? []) as List;
     return rawList.map((e) => Lesson.fromJson(_castMap(e))).toList();
   } catch (e, st) {
-    print('🔴 PARSE ERROR: $e');   // ⬅️ يكشف السطر الغلط
+    print('🔴 PARSE ERROR: $e');   
     print(st);
     return [];
   }
 }
 
-  // ────────────────────────────────────────────────────────────
-  // ⚠️ الرفع لسا زي ما هو (title + audio فقط).
-  // لازم نضيف subject_id (من selectedSubject) + class_id قبل ما يشتغل فعلياً.
-  // متوقّف على قرار الـ class_id (شوفي الملاحظة بالرسالة).
-  // ────────────────────────────────────────────────────────────
+  
+  
+  
+  
+  
 void emitUploadLesson({
   required String title,
   required File audioFile,
@@ -131,7 +131,7 @@ void emitUploadLesson({
     result.when(
   success: (data) => emit(const ResultState.success('lesson_uploaded')),
   failure: (networkException) {
-    print('🔴 UPLOAD FAILED: $networkException'); // ⬅️ مؤقت
+    print('🔴 UPLOAD FAILED: $networkException'); 
     emit(ResultState.failure(networkException));
   },
 );
@@ -177,7 +177,7 @@ void emitCreateExam(Map<String, dynamic> body) async {
   );
 }
 
-  // helpers
+  
   Map _asMap(dynamic v) => v is Map ? v : const {};
   Map<String, dynamic> _castMap(dynamic v) =>
       v is Map ? Map<String, dynamic>.from(v) : <String, dynamic>{};

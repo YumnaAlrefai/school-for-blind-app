@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
+import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
+import 'package:school_for_blind_app/core/injection.dart';
+import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_chat_conversation_screen.dart';
 
 /// فئات المحادثات
@@ -32,17 +36,73 @@ class TeacherChatsScreen extends StatefulWidget {
 class _TeacherChatsScreenState extends State<TeacherChatsScreen> {
   ChatTab _tab = ChatTab.admin;
 
-  // بيانات مؤقتة — تُستبدل ببيانات الباك عند جاهزيته
-  static const List<ChatItem> _adminChats = [
-    ChatItem(id: 1, name: 'المدير', isGroup: true),
-    ChatItem(id: 2, name: 'الموجه'),
-  ];
+  bool _loadingAdmin = true;
+  List<ChatItem> _adminChats = [];
 
   List<ChatItem> get _currentList => switch (_tab) {
     ChatTab.admin => _adminChats,
     ChatTab.channels => const [],
     ChatTab.groups => const [],
   };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAdminChats();
+  }
+
+  Future<void> _loadAdminChats() async {
+    setState(() => _loadingAdmin = true);
+
+    final result = await getIt<TeacherRepo>().getAdminChats();
+
+    result.when(
+      success: (data) {
+        print('🟣 ADMIN CHATS RAW: $data');
+        final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
+        final list = (map['data'] is List) ? map['data'] as List : const [];
+
+        final items = <ChatItem>[];
+        for (final e in list) {
+          if (e is! Map) continue;
+          final m = Map<String, dynamic>.from(e);
+          final admin = (m['admin'] is Map)
+              ? Map<String, dynamic>.from(m['admin'])
+              : {};
+          final role = (admin['role'] ?? m['name'] ?? 'الإدارة').toString();
+
+          items.add(
+            ChatItem(
+              id: int.tryParse('${m['id']}') ?? 0,
+              name: _roleLabel(role),
+              isGroup: true,
+            ),
+          );
+        }
+
+        setState(() {
+          _adminChats = items;
+          _loadingAdmin = false;
+        });
+      },
+      failure: (error) {
+        print('🔴 ADMIN CHATS FAILED: $error');
+        setState(() => _loadingAdmin = false);
+      },
+    );
+  }
+
+  /// ترجمة دور الأدمن إلى العربية
+  String _roleLabel(String role) {
+    switch (role.toLowerCase()) {
+      case 'super admin':
+        return 'المدير';
+      case 'academic manager':
+        return ' الموجه';
+      default:
+        return role;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +163,16 @@ class _TeacherChatsScreenState extends State<TeacherChatsScreen> {
         final isSelected = _tab == t;
         return GestureDetector(
           onTap: () {
+            if (t == ChatTab.channels) {
+              Navigator.pushNamed(context, AppRoutes.kTeacherChannels);
+              return;
+            }
+            if (t == ChatTab.groups) {
+              Navigator.pushNamed(context, AppRoutes.kTeacherGroups);
+              return;
+            }
             if (_tab == t) return;
-            setState(() => _tab = t);
+            setState(() => _tab = t); // الإدارة inline
           },
           child: Container(
             width: 105,
@@ -128,7 +196,8 @@ class _TeacherChatsScreenState extends State<TeacherChatsScreen> {
       }).toList(),
     );
   }
-Widget _buildList() {
+
+  Widget _buildList() {
     final items = _currentList;
 
     if (items.isEmpty) {

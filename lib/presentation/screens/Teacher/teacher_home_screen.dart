@@ -103,6 +103,10 @@ void _onNavTap(int index) {
       Navigator.pushNamed(context, AppRoutes.kTeacherChats);
       return;
     }
+    if (index == 3) {                                   
+      Navigator.pushNamed(context, AppRoutes.kTeacherAnnouncements);
+      return;
+    }
     setState(() => _currentNavIndex = index);
   }
   Future<void> _openAddLesson() async {

@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _handleNavigation() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // حالة دخول كل نوع مستخدم (مفاتيح منفصلة)
+    
     final bool teacherLoggedIn = prefs.getBool('teacherLoggedIn') ?? false;
     final bool studentLoggedIn = prefs.getBool('login') ?? false;
 
@@ -28,13 +28,13 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     if (teacherLoggedIn) {
-      // مدرّس مسجّل دخول → الصفحة الرئيسية للمدرّس مباشرة
+      
       Navigator.pushReplacementNamed(context, AppRoutes.kSubjectScreen);
     } else if (studentLoggedIn) {
-      // طالب مسجّل دخول → صفحة الطالب
+      
       Navigator.pushReplacementNamed(context, AppRoutes.kStudentMainScreen);
     } else {
-      // لا أحد مسجّل → شاشة اختيار الدور
+      
       Navigator.pushReplacementNamed(context, AppRoutes.kSUserTypeScreen);
     }
   }

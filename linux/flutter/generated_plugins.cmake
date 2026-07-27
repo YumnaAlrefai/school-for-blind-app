@@ -8,6 +8,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_webrtc
   gtk
   livekit_client
+  record_linux
   smart_auth
   url_launcher_linux
 )

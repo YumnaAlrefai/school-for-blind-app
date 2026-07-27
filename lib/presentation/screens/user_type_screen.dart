@@ -20,6 +20,7 @@ class UserTypeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Spacer(),
             Text('هل أنت؟', style: AppTextStyles.kBigPrimary),
             SizedBox(height: 10.h),
             BlocConsumer<RoleCubit, UserRole>(
@@ -59,7 +60,40 @@ class UserTypeScreen extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 30.sp),
+            const Spacer(),
+            Center(
+              child: GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoutes.kDonationInfoScreen),
+                child: Container(
+                  width: 264.w,
+                  height: 55.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.kPrimaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.volunteer_activism,
+                        color: Colors.black,
+                        size: 26,
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'تبرع لنا',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

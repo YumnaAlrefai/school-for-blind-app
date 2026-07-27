@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:school_for_blind_app/apiTeacher/teacherModel.dart';
 import 'package:school_for_blind_app/apiTeacher/web_services.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
@@ -62,10 +62,10 @@ class TeacherRepo {
       var response = await webServices.loginTeacher(phone, password);
       return ApiResult.success(response);
     } catch (e) {
-      // ==========================================
-      // هذا السطر سيجعل الأيرور يظهر غصب عنه في التيرمنال!
+      
+      
       print("🚨 THE REAL ERROR IS: $e");
-      // ==========================================
+      
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }
@@ -79,7 +79,7 @@ class TeacherRepo {
     }
   }
 
-  // ✅ صارت تستقبل subjectId (اختياري) لتفلتر الدروس حسب المادة.
+  
   Future<ApiResult<dynamic>> getLessons({int? subjectId}) async {
     try {
       var response = await webServices.getLessons(subjectId);
@@ -126,7 +126,7 @@ Future<ApiResult<dynamic>> uploadLesson({
     }
   }
 
-  /// يستخرج رسالة الخطأ العربية من رد الباك إند (error / details / message).
+  
   String _readCallError(Object e) {
     if (e is DioException) {
       if (e.type == DioExceptionType.receiveTimeout ||
@@ -330,6 +330,144 @@ Future<ApiResult<dynamic>> gradeTextAnswers(
   try {
     return ApiResult.success(
         await webServices.gradeTextAnswers(quizId, studentId, body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getExamsPendingGrading() async {
+  try {
+    return ApiResult.success(await webServices.getExamsPendingGrading());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getExamSubmissions(int id) async {
+  try {
+    return ApiResult.success(await webServices.getExamSubmissions(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getExamPendingTextAnswers(int examId, int studentId) async {
+  try {
+    return ApiResult.success(
+        await webServices.getExamPendingTextAnswers(examId, studentId));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> gradeExamTextAnswers(
+    int examId, int studentId, Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(
+        await webServices.gradeExamTextAnswers(examId, studentId, body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> sendSupportTicket({
+  required String message,
+  File? image,
+  File? audio,
+}) async {
+  try {
+    return ApiResult.success(await webServices.sendSupportTicket(
+      message: message,
+      image: image,
+      audio: audio,
+    ));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getSchoolTimetable() async {
+  try {
+    return ApiResult.success(await webServices.getSchoolTimetable());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> donationCheckout(Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(await webServices.donationCheckout(body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> donationConfirm(Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(await webServices.donationConfirm(body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getStatistics() async {
+  try {
+    return ApiResult.success(await webServices.getStatistics());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getAdminChats() async {
+  try {
+    return ApiResult.success(await webServices.getAdminChats());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> getChatMessages(int chatId) async {
+  try {
+    return ApiResult.success(await webServices.getChatMessages(chatId));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> sendMessage(int chatId, Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(await webServices.sendMessage(chatId, body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> sendVoiceMessage(
+    int chatId, File attachment) async {
+  try {
+    return ApiResult.success(
+        await webServices.sendVoiceMessage(chatId, attachment, 'audio'));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getChannels() async {
+  try {
+    return ApiResult.success(await webServices.getChannels());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> deleteMessage(int id) async {
+  try {
+    return ApiResult.success(await webServices.deleteMessage(id));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+
+Future<ApiResult<dynamic>> reportMessage(int id, Map<String, dynamic> body) async {
+  try {
+    return ApiResult.success(await webServices.reportMessage(id, body));
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getAnnouncements() async {
+  try {
+    return ApiResult.success(await webServices.getAnnouncements());
   } catch (e) {
     return ApiResult.failure(NetworkExceptions.getDioException(e));
   }

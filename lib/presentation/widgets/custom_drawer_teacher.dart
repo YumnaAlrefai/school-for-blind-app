@@ -75,13 +75,17 @@ class CustomDrawer extends StatelessWidget {
                         'برنامج الدوام',
                         () {
                           Navigator.pop(context);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.kSchoolTimetable,
+                          );
                         },
                       ),
                       _buildDrawerItem(Icons.bar_chart, 'الإحصائيات', () {
-                        Navigator.pop(context);
+                        Navigator.pop(context); 
+                        Navigator.pushNamed(context, AppRoutes.kStatistics);
                       }),
 
-                      // ================= زر الثيمات (قائمة منسدلة) =================
                       BlocBuilder<ThemeCubit, ThemeMode>(
                         bloc: getIt<ThemeCubit>(),
                         builder: (context, mode) {
@@ -134,31 +138,28 @@ class CustomDrawer extends StatelessWidget {
                         },
                       ),
 
-                      _buildDrawerItem(Icons.volunteer_activism, 'تبرع لنا', () {
-                        Navigator.pop(
-                          context,
-                        ); // إغلاق القائمة الجانبية (Drawer) أولاً
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes
-                              .kDonationInfoScreen, // الانتقال إلى واجهة التبرع باستخدام الـ Route المعرف لديكِ
-                        );
-                      }),
+                      _buildDrawerItem(
+                        Icons.volunteer_activism,
+                        'تبرع لنا',
+                        () {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.kDonationInfoScreen,
+                          );
+                        },
+                      ),
                       _buildDrawerItem(Icons.contact_support, 'تواصل معنا', () {
-                        Navigator.pop(
-                          context,
-                        ); // إغلاق القائمة الجانبية (Drawer) أولاً
+                        Navigator.pop(context);
                         Navigator.pushNamed(
                           context,
-                          AppRoutes
-                              .kTechnicalSupportScreen, // الانتقال لواجهة الدعم الفني
+                          AppRoutes.kTechnicalSupportScreen,
                         );
                       }),
                     ],
                   ),
                 ),
 
-                // ================= زر تسجيل الخروج =================
                 Container(
                   width: double.infinity,
                   height: 50,
@@ -197,22 +198,19 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  /// تسجيل الخروج: يمسح حالة الدخول محلياً فوراً، ينادي السيرفر بالخلفية،
-  /// ثم ينتقل لشاشة الدخول (بدون انتظار حتى لا يعلق).
   Future<void> _logout(BuildContext context) async {
-    Navigator.pop(context); // اقفل الدراور
+    Navigator.pop(context);
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('teacherLoggedIn', false);
     await prefs.remove('cachedteacher');
 
-    // نداء السيرفر بالخلفية (لا ننتظره)
     getIt<TeacherCubit>().emitLogoutTeacher();
 
     if (context.mounted) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        AppRoutes.kTeacherLogin, // ← تأكدي أنه اسم راوت دخول المدرّس الصحيح
+        AppRoutes.kTeacherLogin,
         (route) => false,
       );
     }

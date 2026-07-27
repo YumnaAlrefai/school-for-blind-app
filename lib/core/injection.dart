@@ -17,7 +17,7 @@ import 'package:school_for_blind_app/data/web_services/auth_web_services.dart';
 final getIt = GetIt.instance;
 
 void initGetIt() {
-  // ===== 1) الخدمات (WebServices) — تُسجّل أولاً =====
+  
   getIt.registerLazySingleton<WebServices>(
     () => WebServices(createAndSetupDio()),
   );
@@ -27,13 +27,13 @@ void initGetIt() {
   getIt.registerLazySingleton<VoiceServices>(() => VoiceServices());
   getIt.registerSingleton<DeepLinkService>(DeepLinkService());
 
-  // ===== 2) الـ Repositories (تعتمد على WebServices) =====
+  
   getIt.registerFactory<AuthRepo>(() => AuthRepo(getIt()));
   getIt.registerFactory<TeacherRepo>(
     () => TeacherRepo(getIt<teacher_api.WebServices>()),
   );
 
-  // ===== 3) الـ Cubits (تعتمد على الـ Repos) — تُسجّل أخيراً =====
+  
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(getIt()));
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
   getIt.registerLazySingleton<TeacherCubit>(() => TeacherCubit(getIt()));
@@ -55,7 +55,11 @@ Dio createAndSetupDio() {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) async {
+              print('🔑 AUTH HEADER: ${options.headers['Authorization']}');
+
         String? token = await SecureStorage.getToken();
+              print('🔑 AUTH HEADER: ${options.headers['Authorization']}');
+
         if (token != null && token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
         }

@@ -10,7 +10,7 @@ import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/teacher_home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http_parser/http_parser.dart'; // سطر مهم لتعريف الـ MediaType الخاص بالـ PDF
+import 'package:http_parser/http_parser.dart'; 
 
 class TeacherCubit extends Cubit<ResultState<dynamic>> {
   TeacherModel? currentTeacher;
@@ -82,20 +82,20 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
     emit(const ResultState.loading());
 
     try {
-      // 1. صياغة ملف الـ PDF وتحديد الـ ContentType لكي يقبله السيرفر فوراً
+      
       MultipartFile multipartFile = await MultipartFile.fromFile(
         cvFile.path,
         filename: cvFile.path.split('/').last,
         contentType: MediaType('application', 'pdf'),
       );
 
-      // طباعة البيانات في الـ Console قبل الإرسال للتأكد منها أثناء التجربة والـ Debugging
+      
       print(" جاري إرسال بيانات التسجيل لـ API المعلم...");
       print(
         "الاسم: $fullName | المادة: $subjects | المرحلة: $level | الهاتف المستخدم: $teacherPhone",
       );
 
-      // 2. إرسال البيانات الحقيقية مباشرة دون أي قيم افتراضية
+      
       final result = await teacherRepo.registerTeacher(
         phone: teacherPhone.trim(),
         fullName: fullName.trim(),
@@ -119,7 +119,7 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
           emit(ResultState.success(message));
         },
         failure: (networkException) {
-          // طباعة الخطأ الفعلي القادم من السيرفر بدقة لتسهيل معرفة الحقل المرفوض
+          
           print(
             " فشل الطلب من السيرفر. السبب الفعلي: ${networkException.toString()}",
           );
@@ -154,7 +154,7 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
           String teacherJson = jsonEncode(teacherData.toJson());
 
           await prefs.setString('cachedteacher', teacherJson);
-          await prefs.setBool('teacherLoggedIn', true); // ← مفتاح واضح للمدرّس
+          await prefs.setBool('teacherLoggedIn', true); 
 
           emit(ResultState.success(teacherData));
         } catch (parseError) {
@@ -194,21 +194,21 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
         emit(ResultState.success(data));
       },
       failure: (networkException) async {
-        // حتى لو فشل الاتصال بالسيرفر، نفضل مسح البيانات محلياً لكي لا يعلق المستخدم داخل التطبيق
+        
         await _clearLocalTeacherData();
         emit(ResultState.failure(networkException));
       },
     );
   }
 
-  // دالة مساعدة لتنظيف كاش الجهاز بالكامل
+  
   Future<void> _clearLocalTeacherData() async {
     currentTeacher = null;
-    await SecureStorage.deleteToken(); // تأكدي أن كلاس SecureStorage يحتوي على دالة الحذف delete أو المسح
+    await SecureStorage.deleteToken(); 
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('cachedteacher');
     await prefs.remove('login');
-    await prefs.setBool('teacherLoggedIn', false); // ← نفس المفتاح
+    await prefs.setBool('teacherLoggedIn', false); 
     await prefs.remove('cachedteacher');
   }
 }
