@@ -12,9 +12,14 @@ import 'package:school_for_blind_app/presentation/widgets/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/glass_effect.dart';
 
 class SubjectDetailsCard extends StatefulWidget {
+  final int subjectId;
   final String subjectName;
 
-  const SubjectDetailsCard({super.key, required this.subjectName});
+  const SubjectDetailsCard({
+    super.key,
+    required this.subjectName,
+    required this.subjectId,
+  });
 
   @override
   State<SubjectDetailsCard> createState() => _SubjectDetailsCardState();
@@ -100,6 +105,7 @@ class _SubjectDetailsCardState extends State<SubjectDetailsCard> {
                     onPressed: () => Navigator.pushNamed(
                       context,
                       AppRoutes.kStudentLibraryScreen,
+                      arguments: widget.subjectId,
                     ),
                   ),
                 ],

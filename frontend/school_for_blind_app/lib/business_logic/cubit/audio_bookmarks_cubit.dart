@@ -3,19 +3,24 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/helpers/user_key_helper.dart';
 import 'package:school_for_blind_app/core/services/offline_manager.dart';
 import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
+import 'package:school_for_blind_app/data/repository/student_repo.dart';
+import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 
 class AudioBookmarksCubit extends Cubit<ResultState<List<AudioBookmark>>> {
   final OfflineManager offlineManager;
+  final StudentRepo studentRepo;
 
   String? _userKey;
   int? _lessonId;
   int? _recordId;
   bool _isOffline = false;
 
-  AudioBookmarksCubit({OfflineManager? offlineManager})
-    : offlineManager = offlineManager ?? OfflineManager(),
-      super(const ResultState.idle());
+  AudioBookmarksCubit({
+    OfflineManager? offlineManager,
+    required this.studentRepo,
+  }) : offlineManager = offlineManager ?? OfflineManager(),
+       super(const ResultState.idle());
 
   Future<void> init({
     required int lessonId,
@@ -37,8 +42,11 @@ class AudioBookmarksCubit extends Cubit<ResultState<List<AudioBookmark>>> {
         );
         emit(ResultState.success(bookmarks));
       } else {
-        // TODO لجلب العلامات الاونلاين
-        emit(const ResultState.success([]));
+        final result = await studentRepo.getBookmarks(recordId);
+        result.when(
+          success: (bookmarks) => emit(ResultState.success(bookmarks)),
+          failure: (error) => emit(ResultState.failure(error)),
+        );
       }
     } catch (e) {
       emit(ResultState.failure(NetworkExceptions.defaultError(e.toString())));
@@ -50,10 +58,28 @@ class AudioBookmarksCubit extends Cubit<ResultState<List<AudioBookmark>>> {
       success: (list) => List<AudioBookmark>.from(list),
       orElse: () => <AudioBookmark>[],
     );
-    current.add(AudioBookmark(position: position));
-    current.sort((a, b) => a.position.compareTo(b.position));
-    emit(ResultState.success(current));
-    await _persist(current);
+
+    if (_isOffline) {
+      current.add(AudioBookmark(position: position));
+      current.sort((a, b) => a.position.compareTo(b.position));
+      emit(ResultState.success(current));
+      await _persist(current);
+    } else {
+      if (_lessonId == null || _recordId == null) return;
+      final result = await studentRepo.addBookmark(
+        recordingId: _recordId!,
+        lessonId: _lessonId!,
+        timestampInSeconds: position.inSeconds,
+      );
+      result.when(
+        success: (newBookmark) {
+          current.add(newBookmark);
+          current.sort((a, b) => a.position.compareTo(b.position));
+          emit(ResultState.success(current));
+        },
+        failure: (error) {},
+      );
+    }
   }
 
   Future<void> updateBookmarkTitle(int index, String? title) async {
@@ -62,12 +88,29 @@ class AudioBookmarksCubit extends Cubit<ResultState<List<AudioBookmark>>> {
       orElse: () => <AudioBookmark>[],
     );
     if (index < 0 || index >= current.length) return;
-    current[index] = current[index].copyWith(
-      title: title,
-      clearTitle: title == null,
-    );
-    emit(ResultState.success(current));
-    await _persist(current);
+
+    if (_isOffline) {
+      current[index] = current[index].copyWith(
+        title: title,
+        clearTitle: title == null,
+      );
+      emit(ResultState.success(current));
+      await _persist(current);
+    } else {
+      final serverId = current[index].serverId;
+      if (serverId == null) return;
+      final result = await studentRepo.updateBookmark(
+        bookmarkId: serverId,
+        name: title,
+      );
+      result.when(
+        success: (updatedBookmark) {
+          current[index] = updatedBookmark;
+          emit(ResultState.success(current));
+        },
+        failure: (error) {},
+      );
+    }
   }
 
   Future<void> setEditing(int index, bool isEditing) async {
@@ -86,9 +129,23 @@ class AudioBookmarksCubit extends Cubit<ResultState<List<AudioBookmark>>> {
       orElse: () => <AudioBookmark>[],
     );
     if (index < 0 || index >= current.length) return;
-    current.removeAt(index);
-    emit(ResultState.success(current));
-    await _persist(current);
+
+    if (_isOffline) {
+      current.removeAt(index);
+      emit(ResultState.success(current));
+      await _persist(current);
+    } else {
+      final serverId = current[index].serverId;
+      if (serverId == null) return;
+      final result = await studentRepo.deleteBookmark(serverId);
+      result.when(
+        success: (_) {
+          current.removeAt(index);
+          emit(ResultState.success(current));
+        },
+        failure: (error) {},
+      );
+    }
   }
 
   Future<void> _persist(List<AudioBookmark> bookmarks) async {
@@ -100,8 +157,6 @@ class AudioBookmarksCubit extends Cubit<ResultState<List<AudioBookmark>>> {
         recordId: _recordId!,
         bookmarks: bookmarks,
       );
-    } else {
-      // TODO لتحديث وحفظ العلامات الاونلاين
     }
   }
 }

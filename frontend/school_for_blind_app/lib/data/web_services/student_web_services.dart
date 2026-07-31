@@ -1,14 +1,21 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:school_for_blind_app/data/models/channel_model.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
+import 'package:school_for_blind_app/data/models/message_model.dart';
 import 'package:school_for_blind_app/data/models/quiz_info.dart';
 import 'package:school_for_blind_app/data/models/quiz_questions.dart';
 import 'package:school_for_blind_app/data/models/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
 import 'package:school_for_blind_app/data/models/saved_lesson.dart';
+import 'package:school_for_blind_app/data/models/saved_past_exam.dart';
 import 'package:school_for_blind_app/data/models/subject_progress.dart';
+import 'package:school_for_blind_app/data/models/past_exam.dart';
+import 'package:school_for_blind_app/data/models/past_exam_solutions.dart';
 
 part 'student_web_services.g.dart';
 
@@ -83,11 +90,70 @@ abstract class StudentWebServices {
 
   @POST("favorites/toggle")
   Future<dynamic> addToSaved(@Body() Map<String, dynamic> body);
-  
+
   @POST("favorites/remove")
   Future<dynamic> removeFromSaved(@Body() Map<String, dynamic> body);
 
   @GET("favorites/lessons")
   Future<List<SavedLesson>> getSavedLessons();
 
+  @GET("favorites/past-exams")
+  Future<List<SavedPastExam>> getSavedPastExams();
+
+  @GET("recordings/{id}/bookmarks")
+  Future<dynamic> getBookmarks(@Path('id') int recordingId);
+
+  @POST("bookmarks")
+  Future<dynamic> addBookmark(@Body() FormData formData);
+
+  @PUT("bookmarks/{id}")
+  Future<dynamic> updateBookmark(
+    @Path('id') int bookmarkId,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @DELETE("bookmarks/{id}")
+  Future<dynamic> deleteBookmark(@Path('id') int bookmarkId);
+
+  @POST("support-tickets")
+  @MultiPart()
+  Future<dynamic> storeSupportTicket({
+    @Part(name: "message") String? message,
+    @Part(name: "audio") File? audio,
+    @Part(name: "image") File? image,
+  });
+
+  @GET("past-exams")
+  Future<PastExamsResponse> getPastExams(@Query('subject_id') int subjectId);
+
+  @GET("past-exams/{id}/solutions")
+  Future<PastExamSolutionsResponse> getPastExamSolutions(
+    @Path('id') int examId,
+  );
+
+  @GET("student/channels")
+  Future<ChannelsResponse> getAllChannels();
+
+  @GET('student/channels/{channel_id}/messages')
+  Future<MessagesResponse> getChannelMessages(
+    @Path('channel_id') int channelId,
+  );
+
+  @POST('student/channels/{channel_id}/messages')
+  @MultiPart()
+  Future<SendMessageResponse> sendMessage(
+    @Path('channel_id') int channelId,
+    @Part(name: 'body') String body,
+    @Part(name: 'attachment') File? attachment,
+  );
+
+  @POST("messages/{id}/report")
+  @FormUrlEncoded()
+  Future<dynamic> reportMessage(
+    @Path('id') int messageId,
+    @Field('reason') String reason,
+  );
+
+  @DELETE("messages/{id}")
+  Future<dynamic> deleteMessage(@Path('id') int messageId);
 }

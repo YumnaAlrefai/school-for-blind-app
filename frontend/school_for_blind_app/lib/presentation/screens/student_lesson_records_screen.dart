@@ -5,7 +5,6 @@ import 'package:school_for_blind_app/business_logic/cubit/lesson_records_cubit.d
 import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
-import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/helpers/url_helper.dart';
 import 'package:school_for_blind_app/core/helpers/user_key_helper.dart';
 import 'package:school_for_blind_app/core/injection.dart';

@@ -5,20 +5,23 @@ import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_cubit.
 import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/offline_saved_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saved_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/saved_past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/helpers/user_key_helper.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
+import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/data/models/offline_lesson_model.dart';
 import 'package:school_for_blind_app/data/models/saved_lesson.dart';
-import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
+import 'package:school_for_blind_app/data/models/saved_past_exam.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_tabs.dart';
 import 'package:school_for_blind_app/presentation/widgets/library_card.dart';
 import 'package:school_for_blind_app/presentation/widgets/library_card_skeleton.dart';
 import 'package:school_for_blind_app/presentation/widgets/secondary_tabs.dart';
+import 'package:school_for_blind_app/presentation/widgets/small_button.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class StudentBookmarksScreen extends StatefulWidget {
@@ -36,6 +39,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
   late final SavesCubit _savesCubit;
   late final OfflineSavedLessonsCubit _offlineSavedLessonsCubit;
   late final OfflineLessonsCubit _offlineLessonsCubit;
+  late final SavedPastExamsCubit _savedPastExamsCubit;
 
   @override
   void initState() {
@@ -44,6 +48,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
     _savesCubit = getIt<SavesCubit>();
     _offlineSavedLessonsCubit = getIt<OfflineSavedLessonsCubit>();
     _offlineLessonsCubit = getIt<OfflineLessonsCubit>();
+    _savedPastExamsCubit = getIt<SavedPastExamsCubit>()..getSavedPastExams();
     _initOfflineUser();
   }
 
@@ -82,7 +87,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
         // TODO للاختبارات
         break;
       case 3:
-        // TODO للدورات
+        ctx.read<SavedPastExamsCubit>().getSavedPastExams();
         break;
     }
   }
@@ -95,6 +100,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
         BlocProvider.value(value: _savesCubit),
         BlocProvider.value(value: _offlineSavedLessonsCubit),
         BlocProvider.value(value: _offlineLessonsCubit),
+        BlocProvider.value(value: _savedPastExamsCubit),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -114,6 +120,15 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               _offlineSavedLessonsCubit.getSavedLessons();
             },
           ),
+          BlocListener<SavesCubit, SavesState>(
+            listenWhen: (previous, current) => current.maybeWhen(
+              success: (id, type, isSaved) => !isSaved && type == "PastExam",
+              orElse: () => false,
+            ),
+            listener: (context, state) {
+              _savedPastExamsCubit.getSavedPastExams();
+            },
+          ),
         ],
         child: Builder(
           builder: (childContext) {
@@ -125,9 +140,26 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
                 }
               },
               child: Scaffold(
-                appBar: const CustomAppBar(
-                  helpMessage: '',
-                  showBackButton: false,
+                appBar: AppBar(
+                  leadingWidth: 100.w,
+                  toolbarHeight: 100,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  title: Text(
+                    ' المحفوظات',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 48,
+                    ),
+                  ),
+                  actions: [
+                    SmallButton(
+                      icon: const Icon(Icons.question_mark_outlined),
+                      onPressed: () {
+                        getIt<VoiceServices>().speak('');
+                      },
+                    ),
+                    SizedBox(width: 20.w),
+                  ],
                 ),
                 backgroundColor: Theme.of(context).colorScheme.background,
                 body: Row(
@@ -336,5 +368,48 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
 
   Widget _buildQuizzesList() => Container();
   Widget _buildTestsList() => Container();
-  Widget _buildPastPapersList() => Container();
+  Widget _buildPastPapersList() {
+    return BlocBuilder<SavedPastExamsCubit, ResultState<List<SavedPastExam>>>(
+      bloc: _savedPastExamsCubit,
+      builder: (context, state) {
+        return state.when(
+          idle: () => const Center(child: LibraryCardSkeleton()),
+          loading: () => const Center(child: LibraryCardSkeleton()),
+          success: (savedList) {
+            if (savedList.isEmpty) {
+              return Center(
+                child: Text(
+                  "لا يوجد دورات محفوظة",
+                  style: AppTextStyles.kMediumPrimary(context),
+                ),
+              );
+            }
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: savedList.length,
+              itemBuilder: (context, index) {
+                final examItem = savedList[index];
+                return LibraryCard(
+                  key: ValueKey(examItem.id),
+                  number: index + 1,
+                  id: examItem.id,
+                  title: examItem.title,
+                  itemType: 'PastExam',
+                  route: AppRoutes.kStudentPastExamSolutionsScreen,
+                  args: {'examId': examItem.id, 'title': examItem.title},
+                );
+              },
+            );
+          },
+          failure: (networkException) => Center(
+            child: Text(
+              "فشل تحميل المحفوظات",
+              style: AppTextStyles.kMediumPrimary(context),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

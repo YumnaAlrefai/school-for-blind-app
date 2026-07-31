@@ -1,18 +1,24 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
 import 'package:school_for_blind_app/data/models/call.dart';
+import 'package:school_for_blind_app/data/models/channel_model.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
+import 'package:school_for_blind_app/data/models/message_model.dart';
 import 'package:school_for_blind_app/data/models/quiz_info.dart';
 import 'package:school_for_blind_app/data/models/quiz_questions.dart';
 import 'package:school_for_blind_app/data/models/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
 import 'package:school_for_blind_app/data/models/saved_lesson.dart';
+import 'package:school_for_blind_app/data/models/saved_past_exam.dart';
 import 'package:school_for_blind_app/data/models/subject_progress.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
+import 'package:school_for_blind_app/data/models/past_exam.dart';
+import 'package:school_for_blind_app/data/models/past_exam_solutions.dart';
 
 class StudentRepo {
   final StudentWebServices webServices;
@@ -235,9 +241,175 @@ class StudentRepo {
     }
   }
 
-Future<ApiResult<List<SavedLesson>>> getSavedLessons() async {
+  Future<ApiResult<List<SavedLesson>>> getSavedLessons() async {
     try {
       var response = await webServices.getSavedLessons();
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<List<SavedPastExam>>> getSavedPastExams() async {
+    try {
+      var response = await webServices.getSavedPastExams();
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<List<AudioBookmark>>> getBookmarks(int recordingId) async {
+    try {
+      final response = await webServices.getBookmarks(recordingId);
+      final List<dynamic> rawList = response['bookmarks'];
+      final bookmarks = rawList
+          .map(
+            (json) => AudioBookmark.fromApiJson(json as Map<String, dynamic>),
+          )
+          .toList();
+      return ApiResult.success(bookmarks);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<AudioBookmark>> addBookmark({
+    required int recordingId,
+    required int lessonId,
+    required int timestampInSeconds,
+    String? name,
+  }) async {
+    try {
+      final formMap = {
+        'recording_id': recordingId.toString(),
+        'lesson_id': lessonId.toString(),
+        'timestamp_in_seconds': timestampInSeconds.toString(),
+        if (name != null && name.trim().isNotEmpty) 'name': name.trim(),
+      };
+      final formData = FormData.fromMap(formMap);
+      final response = await webServices.addBookmark(formData);
+      final bookmarkJson = response['bookmark'] as Map<String, dynamic>;
+      return ApiResult.success(AudioBookmark.fromApiJson(bookmarkJson));
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<AudioBookmark>> updateBookmark({
+    required int bookmarkId,
+    String? name,
+  }) async {
+    try {
+      final response = await webServices.updateBookmark(bookmarkId, {
+        'name': name,
+      });
+      final bookmarkJson = response['bookmark'] as Map<String, dynamic>;
+      return ApiResult.success(AudioBookmark.fromApiJson(bookmarkJson));
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<dynamic>> deleteBookmark(int bookmarkId) async {
+    try {
+      var response = await webServices.deleteBookmark(bookmarkId);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<String>> storeSupportTicket({
+    String? message,
+    File? audio,
+    File? image,
+  }) async {
+    try {
+      final response = await webServices.storeSupportTicket(
+        message: message,
+        audio: audio,
+        image: image,
+      );
+      final data = response as Map<String, dynamic>;
+      final successMessage =
+          data['message'] as String? ?? 'تم إرسال تذكرة الدعم بنجاح.';
+      return ApiResult.success(successMessage);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<List<PastExam>>> getPastExams(int subjectId) async {
+    try {
+      final response = await webServices.getPastExams(subjectId);
+      return ApiResult.success(response.data);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<List<PastExamQuestion>>> getPastExamSolutions(
+    int examId,
+  ) async {
+    try {
+      final response = await webServices.getPastExamSolutions(examId);
+      return ApiResult.success(response.data);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<ChannelsResponse>> getAllChannels() async {
+    try {
+      var response = await webServices.getAllChannels();
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<MessagesResponse>> getChannelMessages(int channelId) async {
+    try {
+      final response = await webServices.getChannelMessages(channelId);
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(NetworkExceptions.getDioException(error));
+    }
+  }
+
+  Future<ApiResult<SendMessageResponse>> sendMessage(
+    int channelId,
+    String body,
+    File? attachment,
+  ) async {
+    try {
+      final response = await webServices.sendMessage(
+        channelId,
+        body,
+        attachment,
+      );
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(NetworkExceptions.getDioException(error));
+    }
+  }
+
+  Future<ApiResult<dynamic>> reportMessage({
+    required int messageId,
+    required String reason,
+  }) async {
+    try {
+      final response = await webServices.reportMessage(messageId, reason);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<dynamic>> deleteMessage(int messageId) async {
+    try {
+      final response = await webServices.deleteMessage(messageId);
       return ApiResult.success(response);
     } catch (e) {
       return ApiResult.failure(NetworkExceptions.getDioException(e));

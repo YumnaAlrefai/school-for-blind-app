@@ -66,20 +66,38 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
     try {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       context.read<DonationCubit>().emit(const ResultState.loading());
-      await Stripe.instance.dangerouslyUpdateCardDetails(
-        CardDetails(
-          number: _cardNumberController.text.trim(),
-          expirationMonth: month,
-          expirationYear: year,
-          cvc: _cvcController.text.trim(),
-        ),
+
+      final cardDetails = CardDetails(
+        number: _cardNumberController.text.trim().replaceAll(' ', ''),
+        expirationMonth: month,
+        expirationYear: year,
+        cvc: _cvcController.text.trim(),
       );
+
+      await Stripe.instance.dangerouslyUpdateCardDetails(cardDetails);
+
+      final String postalCode = _postalController.text.trim().isEmpty
+          ? '10001'
+          : _postalController.text.trim();
+
       final paymentIntent = await Stripe.instance.confirmPayment(
         paymentIntentClientSecret: widget.clientSecret,
-        data: const PaymentMethodParams.card(
-          paymentMethodData: PaymentMethodData(),
+        data: PaymentMethodParams.card(
+          paymentMethodData: PaymentMethodData(
+            billingDetails: BillingDetails(
+              address: Address(
+                postalCode: postalCode,
+                country: 'US',
+                city: 'Test',
+                line1: 'Test',
+                line2: '',
+                state: '',
+              ),
+            ),
+          ),
         ),
       );
+
       if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
         if (mounted) {
           context.read<DonationCubit>().emitConfirmPayment(
@@ -100,7 +118,7 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
         getIt<VoiceServices>().speak(
           'فشلت عملية الدفع، يرجى التحقق من كَرت الدفع الخاص بك',
         );
-        debugPrint("Stripe Exception: $e");
+        debugPrint("Stripe Exception الحقيقي هو: $e");
       }
     }
   }

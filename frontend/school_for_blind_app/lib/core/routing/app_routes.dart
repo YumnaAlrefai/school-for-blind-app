@@ -1,5 +1,5 @@
 class AppRoutes {
-  //static const String kSplashScreen = '/';
+  static const String kSplashScreen = '/';
   static const String kSUserTypeScreen = '/user_type_screen';
   static const String kTeacherAccountsScreen = '/teacher_accounts_screen';
   static const String kStudentAccountsScreen = '/student_accounts_screen';
@@ -14,8 +14,8 @@ class AppRoutes {
   static const String kStudentWhatsappScreen = '/student_whatsapp_screen';
   static const String kStudentWaitingScreen = '/student_waiting_screen';
 
-  static const String kStudentMainScreen = '/';
-  //static const String kStudentMainScreen = '/student_main_screen';
+  //static const String kStudentMainScreen = '/';
+  static const String kStudentMainScreen = '/student_main_screen';
   static const String kStudentProfileScreen = '/student_profile_screen';
   static const String kStudentContactSupportScreen =
       '/student_contact_support_screen';
@@ -24,6 +24,7 @@ class AppRoutes {
   static const String kStudentPaymentScreen = '/student_payment_screen';
 
   static const String kStudentLiveCallScreen = '/student_live_call_screen';
+  static const String kStudentMessagesScreen = '/student_messages_screen';
 
   static const String kStudentSubjectDetailsScreen =
       '/student_subject_details_screen';
@@ -37,4 +38,6 @@ class AppRoutes {
 
   static const String kStudentQuizScreen = '/student_quiz_screen';
   static const String kStudentLibraryScreen = '/student_library_screen';
+  static const String kStudentPastExamSolutionsScreen =
+      '/student_past_exam_solutions_screen';
 }

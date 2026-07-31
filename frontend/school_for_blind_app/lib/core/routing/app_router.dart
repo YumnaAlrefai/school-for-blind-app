@@ -4,6 +4,7 @@ import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/level_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/messages_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
@@ -18,6 +19,7 @@ import 'package:school_for_blind_app/presentation/screens/student_announcements_
 import 'package:school_for_blind_app/presentation/screens/student_audio_player_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_contact_support_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_library_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student_messages_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_payment_intent_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_payment_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_lesson_records_screen.dart';
@@ -35,6 +37,7 @@ import 'package:school_for_blind_app/presentation/screens/student_register_numbe
 import 'package:school_for_blind_app/presentation/screens/student_register_photo_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/user_type_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student_past_exam_solutions_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -44,11 +47,11 @@ class AppRouter {
     final subjectProgressCubit = getIt<SubjectProgressCubit>();
 
     switch (settings.name) {
-      // case AppRoutes.kSplashScreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) =>
-      //         BlocProvider.value(value: authCubit, child: const SplashScreen()),
-      //   );
+      case AppRoutes.kSplashScreen:
+        return MaterialPageRoute(
+          builder: (_) =>
+              BlocProvider.value(value: authCubit, child: const SplashScreen()),
+        );
       case AppRoutes.kSUserTypeScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -164,6 +167,30 @@ class AppRouter {
           ),
         );
 
+      case AppRoutes.kStudentMessagesScreen:
+        final args = settings.arguments as Map<String, dynamic>?;
+
+        if (args == null) {
+          return MaterialPageRoute(
+            builder: (_) => const Scaffold(
+              body: Center(child: Text('خطأ في تمرير البيانات')),
+            ),
+          );
+        }
+
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<MessagesCubit>(),
+            child: StudentMessagesScreen(
+              channelId: args['channelId'],
+              channelName: args['channelName'],
+              currentUserId: args['currentUserId'],
+              icon: args['icon'],
+              isChannel: args['isChannel'],
+            ),
+          ),
+        );
+
       case AppRoutes.kStudentSubjectDetailsScreen:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
@@ -244,8 +271,18 @@ class AppRouter {
           ),
         );
       case AppRoutes.kStudentLibraryScreen:
-        return MaterialPageRoute(builder: (_) => StudentLibraryScreen());
-
+        final args = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => StudentLibraryScreen(subjectId: args),
+        );
+      case AppRoutes.kStudentPastExamSolutionsScreen:
+        final args = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (_) => PastExamSolutionsScreen(
+            examId: args['examId'],
+            title: args['title'],
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

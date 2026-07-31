@@ -3,21 +3,28 @@ import 'package:get_it/get_it.dart';
 import 'package:school_for_blind_app/business_logic/cubit/audio_bookmarks_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/channels_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/lesson_records_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/messages_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/offline_saved_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/past_exam_solutions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/quiz_info_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/quiz_questions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/quiz_submission_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saved_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/saved_past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/support_ticket_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/theme_cubit.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
+import 'package:school_for_blind_app/core/services/realtime_service.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/data/repository/student_repo.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
@@ -53,10 +60,21 @@ void initGetIt() {
   getIt.registerFactory<SavedLessonsCubit>(
     () => SavedLessonsCubit(getIt<StudentRepo>()),
   );
+  getIt.registerFactory(() => SavedPastExamsCubit(getIt<StudentRepo>()));
   getIt.registerFactory<OfflineSavedLessonsCubit>(
     () => OfflineSavedLessonsCubit(),
   );
-  getIt.registerFactory<AudioBookmarksCubit>(() => AudioBookmarksCubit());
+  getIt.registerFactory<AudioBookmarksCubit>(
+    () => AudioBookmarksCubit(studentRepo: getIt<StudentRepo>()),
+  );
+  getIt.registerFactory<SupportTicketCubit>(
+    () => SupportTicketCubit(getIt<StudentRepo>()),
+  );
+  getIt.registerFactory(() => PastExamsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory(() => PastExamSolutionsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory(() => ChannelsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory(() => MessagesCubit(getIt<StudentRepo>()));
+  getIt.registerLazySingleton<RealtimeService>(() => RealtimeService());
 }
 
 Dio createAndSetupDio() {
@@ -71,12 +89,12 @@ Dio createAndSetupDio() {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // String? token = await SecureStorage.getToken();
-        // if (token != null && token.isNotEmpty) {
-        //   options.headers['Authorization'] = 'Bearer $token';
-        //}
-        options.headers['Authorization'] =
-            'Bearer 23|b8TPrk3IFD0uJLXxnBnsr1cTkrXfxvX69t7oazL9819966da';
+        String? token = await SecureStorage.getToken();
+        if (token != null && token.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        // options.headers['Authorization'] =
+        //     'Bearer 65|UO8MaQmk13RMHgODn3SOQrontCtXeVofnbzNC6ZKf43ebd45';
         options.headers["ngrok-skip-browser-warning"] = "true";
         return handler.next(options);
       },

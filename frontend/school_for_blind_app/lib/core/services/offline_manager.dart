@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/helpers/url_helper.dart';
 import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
@@ -11,10 +12,23 @@ import 'package:school_for_blind_app/data/models/offline_lesson_model.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
 
 class OfflineManager {
-  final Dio _dio = Dio()
-    ..options.headers['ngrok-skip-browser-warning'] = 'true'
-    ..options.headers['Authorization'] =
-        'Bearer 23|b8TPrk3IFD0uJLXxnBnsr1cTkrXfxvX69t7oazL9819966da';
+  late final Dio _dio;
+
+  OfflineManager() {
+    _dio = Dio(BaseOptions(headers: {'ngrok-skip-browser-warning': 'true'}));
+
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          String? token = await SecureStorage.getToken();
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+  }
 
   String _getBoxName(String userKey) => 'offline_user_${userKey}';
 

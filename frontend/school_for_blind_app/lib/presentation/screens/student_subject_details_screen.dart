@@ -8,7 +8,6 @@ import 'package:school_for_blind_app/business_logic/cubit/quiz_info_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
-import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/helpers/user_key_helper.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
@@ -141,7 +140,10 @@ class _StudentSubjectDetailsScreenState
                 width: 378.w,
                 child: Column(
                   children: [
-                    SubjectDetailsCard(subjectName: widget.subjectName),
+                    SubjectDetailsCard(
+                      subjectName: widget.subjectName,
+                      subjectId: widget.subjectId,
+                    ),
                     _buildSearchLessonsBar(),
                     SizedBox(height: 15.h),
                     Row(

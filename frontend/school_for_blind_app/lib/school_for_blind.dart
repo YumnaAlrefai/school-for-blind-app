@@ -42,8 +42,8 @@ class SchoolForBlind extends StatelessWidget {
 
               navigatorKey: navigatorKey,
               onGenerateRoute: appRouter.generateRoute,
-              //initialRoute: AppRoutes.kSplashScreen,
-              initialRoute: AppRoutes.kStudentMainScreen,
+              initialRoute: AppRoutes.kSplashScreen,
+              //initialRoute: AppRoutes.kStudentMainScreen,
             );
           },
         );

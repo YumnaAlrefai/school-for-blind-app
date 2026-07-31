@@ -19,6 +19,7 @@ class LibraryCard extends StatefulWidget {
   final String route;
   final dynamic args;
   final bool isOffline;
+  final bool initialIsSaved;
 
   const LibraryCard({
     super.key,
@@ -29,6 +30,7 @@ class LibraryCard extends StatefulWidget {
     required this.route,
     this.args,
     this.isOffline = false,
+    this.initialIsSaved = true,
   });
 
   @override
@@ -41,7 +43,17 @@ class _LibraryCardState extends State<LibraryCard> {
   @override
   void initState() {
     super.initState();
-    _isSaved = true;
+    _isSaved = widget.initialIsSaved;
+  }
+
+  @override
+  void didUpdateWidget(covariant LibraryCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialIsSaved != widget.initialIsSaved) {
+      setState(() {
+        _isSaved = widget.initialIsSaved;
+      });
+    }
   }
 
   @override
@@ -63,7 +75,9 @@ class _LibraryCardState extends State<LibraryCard> {
                 setState(() {
                   _isSaved = isSaved;
                 });
-                if (!isSaved) {
+                if (isSaved) {
+                  getIt<VoiceServices>().speak('تمت الإضافة إلى المحفوظات');
+                } else {
                   getIt<VoiceServices>().speak('تمت الإزالة من المحفوظات');
                 }
               },
@@ -88,7 +102,9 @@ class _LibraryCardState extends State<LibraryCard> {
               setState(() {
                 _isSaved = state.isSaved;
               });
-              if (!state.isSaved) {
+              if (state.isSaved) {
+                getIt<VoiceServices>().speak('تمت الإضافة إلى المحفوظات');
+              } else {
                 getIt<VoiceServices>().speak('تمت الإزالة من المحفوظات');
               }
             }

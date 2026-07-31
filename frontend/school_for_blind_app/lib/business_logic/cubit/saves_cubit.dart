@@ -13,7 +13,10 @@ class SavesCubit extends Cubit<SavesState> {
     final response = await studentRepo.addToSaved(id, type);
     response.when(
       success: (data) {
-        emit(SavesState.success(id, type, true));
+        final isFavorite = (data is Map && data['is_favorite'] is bool)
+            ? data['is_favorite'] as bool
+            : true;
+        emit(SavesState.success(id, type, isFavorite));
       },
       failure: (networkExceptions) {
         emit(SavesState.failure(networkExceptions));
@@ -26,7 +29,10 @@ class SavesCubit extends Cubit<SavesState> {
     final response = await studentRepo.removeFromSaved(id, type);
     response.when(
       success: (data) {
-        emit(SavesState.success(id, type, false));
+        final isFavorite = (data is Map && data['is_favorite'] is bool)
+            ? data['is_favorite'] as bool
+            : false;
+        emit(SavesState.success(id, type, isFavorite));
       },
       failure: (networkExceptions) {
         emit(SavesState.failure(networkExceptions));

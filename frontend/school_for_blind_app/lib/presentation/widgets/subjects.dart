@@ -19,7 +19,7 @@ class _SubjectsState extends State<Subjects> {
     'الجغرافيا': Icons.public,
     'اللغة العربية': Icons.auto_stories,
     'اللغة الإنكليزية': Icons.translate,
-    'اللغة الفرنس': Icons.language,
+    'اللغة الفرنسية': Icons.language,
     'التربية الدينية': Icons.mosque,
   };
 
