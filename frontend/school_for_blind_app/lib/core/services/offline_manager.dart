@@ -6,10 +6,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/helpers/url_helper.dart';
-import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
-import 'package:school_for_blind_app/data/models/lesson.dart';
-import 'package:school_for_blind_app/data/models/offline_lesson_model.dart';
-import 'package:school_for_blind_app/data/models/record_model.dart';
+import 'package:school_for_blind_app/data/models/student/audio_bookmark.dart';
+import 'package:school_for_blind_app/data/models/student/lesson.dart';
+import 'package:school_for_blind_app/data/models/student/offline_lesson_model.dart';
+import 'package:school_for_blind_app/data/models/student/record_model.dart';
 
 class OfflineManager {
   late final Dio _dio;

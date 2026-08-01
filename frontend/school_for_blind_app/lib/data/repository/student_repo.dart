@@ -1,29 +1,29 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
-import 'package:school_for_blind_app/data/models/call.dart';
-import 'package:school_for_blind_app/data/models/channel_model.dart';
-import 'package:school_for_blind_app/data/models/exam.dart';
-import 'package:school_for_blind_app/data/models/exam_submission.dart';
-import 'package:school_for_blind_app/data/models/join_call_response.dart';
-import 'package:school_for_blind_app/data/models/lesson.dart';
-import 'package:school_for_blind_app/data/models/message_model.dart';
-import 'package:school_for_blind_app/data/models/quiz_info.dart';
-import 'package:school_for_blind_app/data/models/quiz_questions.dart';
-import 'package:school_for_blind_app/data/models/quiz_submission.dart';
-import 'package:school_for_blind_app/data/models/record_model.dart';
-import 'package:school_for_blind_app/data/models/saved_lesson.dart';
-import 'package:school_for_blind_app/data/models/saved_past_exam.dart';
-import 'package:school_for_blind_app/data/models/schedule_model.dart';
-import 'package:school_for_blind_app/data/models/subject_progress.dart';
+import 'package:school_for_blind_app/data/models/student/audio_bookmark.dart';
+import 'package:school_for_blind_app/data/models/student/call.dart';
+import 'package:school_for_blind_app/data/models/student/channel_model.dart';
+import 'package:school_for_blind_app/data/models/student/exam.dart';
+import 'package:school_for_blind_app/data/models/student/exam_submission.dart';
+import 'package:school_for_blind_app/data/models/student/join_call_response.dart';
+import 'package:school_for_blind_app/data/models/student/lesson.dart';
+import 'package:school_for_blind_app/data/models/student/message_model.dart';
+import 'package:school_for_blind_app/data/models/student/quiz_info.dart';
+import 'package:school_for_blind_app/data/models/student/quiz_questions.dart';
+import 'package:school_for_blind_app/data/models/student/quiz_submission.dart';
+import 'package:school_for_blind_app/data/models/student/record_model.dart';
+import 'package:school_for_blind_app/data/models/student/saved_lesson.dart';
+import 'package:school_for_blind_app/data/models/student/saved_past_exam.dart';
+import 'package:school_for_blind_app/data/models/student/schedule_model.dart';
+import 'package:school_for_blind_app/data/models/student/subject_progress.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
-import 'package:school_for_blind_app/data/models/past_exam.dart';
-import 'package:school_for_blind_app/data/models/past_exam_solutions.dart';
+import 'package:school_for_blind_app/data/models/student/past_exam.dart';
+import 'package:school_for_blind_app/data/models/student/past_exam_solutions.dart';
 
-import '../models/exam_question.dart';
+import '../models/student/exam_question.dart';
 
 class StudentRepo {
   final StudentWebServices webServices;

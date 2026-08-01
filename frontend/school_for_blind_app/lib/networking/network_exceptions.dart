@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:school_for_blind_app/data/models/error_model.dart';
+import 'package:school_for_blind_app/data/models/student/error_model.dart';
 
 part 'network_exceptions.freezed.dart';
 
