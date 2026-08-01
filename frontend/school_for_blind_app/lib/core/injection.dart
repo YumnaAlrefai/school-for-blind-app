@@ -5,6 +5,9 @@ import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/channels_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/exam_questions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/exam_submission_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/lesson_records_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/messages_cubit.dart';
@@ -18,6 +21,7 @@ import 'package:school_for_blind_app/business_logic/cubit/quiz_submission_cubit.
 import 'package:school_for_blind_app/business_logic/cubit/saved_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saved_past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/schedule_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/support_ticket_cubit.dart';
@@ -25,6 +29,7 @@ import 'package:school_for_blind_app/business_logic/cubit/theme_cubit.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/realtime_service.dart';
+import 'package:school_for_blind_app/core/services/server_time_interceptor.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/data/repository/student_repo.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
@@ -75,6 +80,14 @@ void initGetIt() {
   getIt.registerFactory(() => ChannelsCubit(getIt<StudentRepo>()));
   getIt.registerFactory(() => MessagesCubit(getIt<StudentRepo>()));
   getIt.registerLazySingleton<RealtimeService>(() => RealtimeService());
+  getIt.registerFactory<ExamsCubit>(() => ExamsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory<ExamQuestionsCubit>(() => ExamQuestionsCubit(getIt()));
+  getIt.registerFactory<ExamSubmissionCubit>(
+    () => ExamSubmissionCubit(getIt()),
+  );
+  getIt.registerFactory<ScheduleCubit>(
+    () => ScheduleCubit(getIt<StudentRepo>()),
+  );
 }
 
 Dio createAndSetupDio() {
@@ -94,7 +107,7 @@ Dio createAndSetupDio() {
           options.headers['Authorization'] = 'Bearer $token';
         }
         // options.headers['Authorization'] =
-        //     'Bearer 65|UO8MaQmk13RMHgODn3SOQrontCtXeVofnbzNC6ZKf43ebd45';
+        //     'Bearer 45|91Qn2MYeXaDIARxLUJvWMct15nEYZxzdjvwDBpwz76b53103';
         options.headers["ngrok-skip-browser-warning"] = "true";
         return handler.next(options);
       },
@@ -110,6 +123,6 @@ Dio createAndSetupDio() {
       requestBody: true,
     ),
   );
-
+  dio.interceptors.add(ServerTimeInterceptor());
   return dio;
 }

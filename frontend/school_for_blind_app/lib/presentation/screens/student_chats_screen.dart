@@ -9,6 +9,7 @@ import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/data/models/channel_model.dart';
+import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/chat_card.dart';
 import 'package:school_for_blind_app/presentation/widgets/secondary_tabs.dart';
 import 'package:school_for_blind_app/presentation/widgets/small_button.dart';
@@ -84,7 +85,9 @@ class _StudentChatsContentState extends State<_StudentChatsContent> {
                       ),
                     ),
                     failure: (networkException) {
-                      getIt<VoiceServices>().speak('حدث خطأ');
+                      getIt<VoiceServices>().speak(
+                        NetworkExceptions.getErrorMessage(networkException),
+                      );
                       return ListView(
                         physics: const AlwaysScrollableScrollPhysics(),
                         children: [SizedBox(height: 150.h)],

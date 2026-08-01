@@ -4,6 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import 'package:school_for_blind_app/data/models/channel_model.dart';
+import 'package:school_for_blind_app/data/models/exam.dart';
+import 'package:school_for_blind_app/data/models/exam_question.dart';
+import 'package:school_for_blind_app/data/models/exam_submission.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
 import 'package:school_for_blind_app/data/models/message_model.dart';
@@ -13,6 +16,7 @@ import 'package:school_for_blind_app/data/models/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
 import 'package:school_for_blind_app/data/models/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/saved_past_exam.dart';
+import 'package:school_for_blind_app/data/models/schedule_model.dart';
 import 'package:school_for_blind_app/data/models/subject_progress.dart';
 import 'package:school_for_blind_app/data/models/past_exam.dart';
 import 'package:school_for_blind_app/data/models/past_exam_solutions.dart';
@@ -156,4 +160,16 @@ abstract class StudentWebServices {
 
   @DELETE("messages/{id}")
   Future<dynamic> deleteMessage(@Path('id') int messageId);
+
+  @GET("exams")
+  Future<ExamsResponse> getExams(@Query('subject_id') int subjectId);
+
+  @GET("exams/{id}/questions")
+  Future<ExamQuestionsResponse> getExamQuestions(@Path('id') int examId);
+
+  @POST("exams/submit")
+  Future<ExamSubmissionResponse> submitExam(@Body() FormData formData);
+
+  @GET("student/schedule")
+  Future<ScheduleResponse> getStudentSchedule();
 }

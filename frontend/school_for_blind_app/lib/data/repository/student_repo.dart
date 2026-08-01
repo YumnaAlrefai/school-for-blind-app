@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:school_for_blind_app/data/models/audio_bookmark.dart';
 import 'package:school_for_blind_app/data/models/call.dart';
 import 'package:school_for_blind_app/data/models/channel_model.dart';
+import 'package:school_for_blind_app/data/models/exam.dart';
+import 'package:school_for_blind_app/data/models/exam_submission.dart';
 import 'package:school_for_blind_app/data/models/join_call_response.dart';
 import 'package:school_for_blind_app/data/models/lesson.dart';
 import 'package:school_for_blind_app/data/models/message_model.dart';
@@ -13,12 +15,15 @@ import 'package:school_for_blind_app/data/models/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/record_model.dart';
 import 'package:school_for_blind_app/data/models/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/saved_past_exam.dart';
+import 'package:school_for_blind_app/data/models/schedule_model.dart';
 import 'package:school_for_blind_app/data/models/subject_progress.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/data/models/past_exam.dart';
 import 'package:school_for_blind_app/data/models/past_exam_solutions.dart';
+
+import '../models/exam_question.dart';
 
 class StudentRepo {
   final StudentWebServices webServices;
@@ -410,6 +415,44 @@ class StudentRepo {
   Future<ApiResult<dynamic>> deleteMessage(int messageId) async {
     try {
       final response = await webServices.deleteMessage(messageId);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<ExamsResponse>> getExams(int subjectId) async {
+    try {
+      var response = await webServices.getExams(subjectId);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<ExamQuestionsResponse>> getExamQuestions(int examId) async {
+    try {
+      var response = await webServices.getExamQuestions(examId);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<ExamSubmissionResponse>> submitExam({
+    required FormData formData,
+  }) async {
+    try {
+      var response = await webServices.submitExam(formData);
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<ScheduleResponse>> getStudentSchedule() async {
+    try {
+      var response = await webServices.getStudentSchedule();
       return ApiResult.success(response);
     } catch (e) {
       return ApiResult.failure(NetworkExceptions.getDioException(e));

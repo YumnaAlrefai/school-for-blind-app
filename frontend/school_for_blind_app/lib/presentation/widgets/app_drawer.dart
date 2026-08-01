@@ -68,7 +68,10 @@ class AppDrawer extends StatelessWidget {
               icon: Icons.grid_on_sharp,
               title: 'برنامج الدوام',
               trailing: Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, AppRoutes.kStudentScheduleScreen);
+              },
             ),
             Tile(
               icon: Icons.dark_mode,

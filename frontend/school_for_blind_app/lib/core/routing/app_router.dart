@@ -7,6 +7,7 @@ import 'package:school_for_blind_app/business_logic/cubit/level_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/messages_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/schedule_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
@@ -18,6 +19,8 @@ import 'package:school_for_blind_app/presentation/screens/student_accounts_scree
 import 'package:school_for_blind_app/presentation/screens/student_announcements_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_audio_player_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_contact_support_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student_exam_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student_exams_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_library_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_messages_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_payment_intent_screen.dart';
@@ -25,6 +28,7 @@ import 'package:school_for_blind_app/presentation/screens/student_payment_screen
 import 'package:school_for_blind_app/presentation/screens/student_lesson_records_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_live_call_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_quiz_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student_schedule_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_subject_details_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_waiting_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student_whatsapp_screen.dart';
@@ -270,6 +274,22 @@ class AppRouter {
             durationMinutes: args[4],
           ),
         );
+      case AppRoutes.kStudentExamsScreen:
+        final args = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => StudentExamsScreen(subjectId: args),
+        );
+      case AppRoutes.kStudentExamScreen:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => StudentExamScreen(
+            examId: args['examId'],
+            totalQuestions: args['totalQuestions'],
+            durationMinutes: args['durationMinutes'],
+            examDate: args['examDate'],
+            subjectId: args['subjectId'],
+          ),
+        );
       case AppRoutes.kStudentLibraryScreen:
         final args = settings.arguments as int;
         return MaterialPageRoute(
@@ -281,6 +301,14 @@ class AppRouter {
           builder: (_) => PastExamSolutionsScreen(
             examId: args['examId'],
             title: args['title'],
+          ),
+        );
+        case AppRoutes.kStudentScheduleScreen:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ScheduleCubit>()..emitGetSchedule(),
+            child: const StudentScheduleScreen(),
           ),
         );
       default:
