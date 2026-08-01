@@ -9,48 +9,34 @@ use Illuminate\Support\Facades\URL;
 
 trait UploadFileTrait
 {
-public function uploadFile(UploadedFile $file, $folder)
+
+    public function uploadFile(UploadedFile $file, $folder = 'doc')
     {
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $file->storeAs($folder, $fileName);
-        return $fileName;
+
+        $file->storeAs($folder, $fileName, 'public');
+
+        return "storage/{$folder}/{$fileName}";
+    }
+    public function getSignedDocumentUrl($filename)
+    {
+        if (!$filename)
+            return null;
+
+        if (str_starts_with($filename, 'storage/')) {
+            return $filename;
+        }
+
+        return 'storage/doc/' . basename($filename);
     }
 
-public function getSignedDocumentUrl($filename)
-{
-    if (!$filename) return null;
-
-    $cleanFilename = basename($filename);
-
-   return '/api/students/documents/' . $cleanFilename;
-
-}
     public function generateMagicSignedRoute($routeName, $minutes, $parameters = [])
     {
         URL::forceRootUrl(request()->getSchemeAndHttpHost());
-
         return URL::temporarySignedRoute(
             $routeName,
             now()->addMinutes($minutes),
             $parameters
         );
     }
-public function showView(Request $request, $id)
-{
-    $student = Student::findOrFail($id);
-
-    $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
-
-    $postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' => $student->id]);
-
-    return view('magic-login-page', [
-        'student' => $student,
-        'postUrl' => $postUrl,
-        'documentUrl' => $documentUrl,
-            ]);
 }
-
-
-
-
-    }

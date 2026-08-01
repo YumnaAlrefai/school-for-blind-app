@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,18 +12,13 @@ return new class extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-$table->string('title');
-$table->string('audio_path');
-$table->text('content_text');
-$table->integer('order');
-$table->boolean('is_active')->default(true);
-
-
-
-
-          //  $table->foreignId('teacher_id')->constrained('teachers');
-//$table->foreignId('subject_id')->constrained('subjects');
+            $table->string('title');
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->foreignId('teacher_id')->nullable()->constrained('teachers')->onDelete('set null');
+            $table->foreignId('class_id')->nullable()->constrained('classes')->onDelete('set null');
+            // $table->integer('order')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

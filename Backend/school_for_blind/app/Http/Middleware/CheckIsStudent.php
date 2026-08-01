@@ -14,7 +14,7 @@ class CheckIsStudent
      *
      * @param  Closure(Request): (Response)  $next
      */
-public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next): Response
     {
         if ($request->user() && $request->user() instanceof Student) {
 
@@ -25,4 +25,5 @@ public function handle(Request $request, Closure $next): Response
             'success' => false,
             'message' => 'عذراً، هذا المسار مخصص للطلاب فقط. لا تملك الصلاحية للدخول.'
         ], Response::HTTP_FORBIDDEN, [], JSON_UNESCAPED_UNICODE);
-    }    }
+    }
+}

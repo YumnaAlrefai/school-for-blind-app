@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:school_for_blind_app/data/models/message_model.dart';
+import 'package:school_for_blind_app/data/models/student/message_model.dart';
 
 class RealtimeService {
   static const String _host = 'hist-beast-lucy-advisory.trycloudflare.com';

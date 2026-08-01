@@ -12,11 +12,12 @@ use Illuminate\Support\Str;
 use App\Traits\UploadFileTrait;
 
 class MagicLoginController extends Controller
-{use UploadFileTrait;
+{
+    use UploadFileTrait;
     public function showView(Request $request, $id)
     {
         $student = Student::findOrFail($id);
-$postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' => $student->id]);
+        $postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' => $student->id]);
         $postUrl = URL::temporarySignedRoute(
             'student.magic.generate',
             now()->addMinutes(15),
@@ -63,11 +64,21 @@ $postUrl = $this->generateMagicSignedRoute('student.magic.generate', 15, ['id' =
         if (!$student) {
             return response()->json(['message' => 'الطالب غير موجود.'], 404);
         }
-$student->documentary_evidence_url = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
+      $documentUrl = $this->getSignedDocumentUrl($student->DocumentaryEvidence);
         $realToken = $student->createToken('mobile-app')->plainTextToken;
         return response()->json([
             'access_token' => $realToken,
-            'student' => $student
-        ]);
+            'student' => [
+            'id'                   => $student->id,
+            'fullname'             => $student->fullname,
+            'fathersname'          => $student->fathersname,
+            'phone'                => $student->phone,
+            'parent_phone'         => $student->parent_phone,
+            'level'                => $student->level,
+            'status'               => $student->status,
+            'DocumentaryEvidence'  => $documentUrl,
+        ]
+    ], 200, [], JSON_UNESCAPED_UNICODE);
+
     }
 }

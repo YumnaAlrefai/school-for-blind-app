@@ -30,6 +30,7 @@ body {
     font-family: system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
     transition: background-color 0.3s ease, color 0.3s ease; 
+    font-family: 'Amiri', serif !important;
 }
 
 .sidebar-wrapper {
@@ -43,7 +44,7 @@ body {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 20px;
+    padding: 40px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -153,3 +154,51 @@ body {
 
 .btn-accept { background-color: #10b981; color: white; border: none; font-weight: bold; }
 .btn-reject { background-color: #ef4444; color: white; border: none; font-weight: bold; }
+.bg-soft-danger { background-color: rgba(220, 53, 69, 0.1) !important; color: #dc3545 !important;  }
+
+.modal-content {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+    color: var(--text-main);
+}
+
+.btn-close {
+    filter: invert(var(--close-btn-invert, 0));
+}
+
+[data-theme="dark"] {
+    --close-btn-invert: 1; 
+}
+
+.modal-body pre {
+    background-color: var(--bg-main) !important;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.modal-body code {
+    color: var(--text-main);
+}
+
+.modal-backdrop.show {
+    opacity: 0.8 !important; 
+}
+
+.glass-modal {
+    background-color: rgba(205, 205, 205, 0.2) !important; 
+    
+    backdrop-filter: blur(12px) !important; 
+    -webkit-backdrop-filter: blur(12px) !important;
+    
+    border-radius: 1rem !important;
+}

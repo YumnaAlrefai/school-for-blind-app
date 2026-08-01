@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\TeacherLoginRequest;
 use App\Http\Requests\TeacherRegisterRequest;
 use App\Models\Teacher;
-use App\Models\User;
+use App\Traits\UploadFileTrait;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+
+    use UploadFileTrait;
+    public function uploadfile($file, $folder)
+    {
+        if ($file && $file->isValid()) {
+            return $file->store($folder, 'public');
+        }
+        return null;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,18 +36,18 @@ class TeacherController extends Controller
     public function register(TeacherRegisterRequest $request)
     {
 
-        $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
+        // $deviceFingerprint = md5($request->ip() . $request->header('User-Agent'));
 
-        $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
+        // $cacheKey = 'otp_verified_' . $request->phone . '_' . $deviceFingerprint;
 
-        \Log::info('' . $request->phone . '  ' . $cacheKey);
-        $isVerified = Cache::pull($cacheKey);
+        // \Log::info('' . $request->phone . '  ' . $cacheKey);
+        // $isVerified = Cache::pull($cacheKey);
 
-        if (!$isVerified) {
-            return response()->json([
-                'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.'
-            ], 403);
-        }
+        // if (!$isVerified) {
+        //     return response()->json([
+        //         'message' => 'طلب غير مصرح به، أو انتهت مهلة التحقق.'
+        //     ], 403);
+        // }
 
         $teacherdata = [
             'full_name' => $request->full_name,
@@ -53,11 +58,10 @@ class TeacherController extends Controller
             // 'fcm_token' => $request->fcm_token,
         ];
 
-        $cv = $request->file('cv');
-        $path = $cv->store('CVS');
+        $path = $this->uploadfile($request->file('cv'), 'teahcers/CVS');
+        \Log::info('path : ' . $path);
         $teacherdata['cv_path'] = $path;
         $teacher = Teacher::create($teacherdata);
-
 
         return response()->json([
             'message' => 'تم ارسال طلب لانشاء الحساب بنجاح',
@@ -67,14 +71,18 @@ class TeacherController extends Controller
 
     public function login(TeacherLoginRequest $request)
     {
-        if (!Auth::guard('teacher')->attempt($request->only('phone', 'password'))) {
-            return response()->json(['message' => 'معلومات تسجيل دخول خاطئة'], 401);
-        }
-
-        $teacher = Auth::guard('teacher')->user();
+        $teacher = Teacher::where('phone', $request->phone)->first();
 
         if (!$teacher) {
-            return response()->json(['message' => 'لا يوجد حساب على هذا الرقم'], 423);
+            return response()->json([
+                'message' => 'لا يوجد حساب بهذا الرقم'
+            ], 404);
+        }
+
+        if (!Hash::check($request->password, $teacher->password)) {
+            return response()->json([
+                'message' => 'كلمة المرور خاطئة'
+            ], 401);
         }
 
         if ($teacher->status == 'pending') {
@@ -101,4 +109,40 @@ class TeacherController extends Controller
         auth()->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'تم تسجيل الخروج بنجاح']);
     }
+
+
+    public function info()
+    {
+        $teacher = auth()->user();
+
+        $teacher->cv_link = asset('storage/' . $teacher->cv_path);
+
+        $teacher->load([
+            'classes' => function ($query) {
+                $query->select('classes.id', 'classes.name');
+            },
+            'subjects' => function ($query) {
+                $query->select('subjects.id', 'subjects.name');
+            }
+        ]);
+
+        // $teacher->classes->makeHidden(['pivot', 'created_at', 'updated_at', 'level', 'number']);
+        // $teacher->subjects->makeHidden(['pivot', 'created_at', 'updated_at', 'grade_level', 'number_of_lessons', 'total_lessons', 'deleted_at']);
+
+        return response()->json([
+            'message' => 'بيانات المدرس',
+            'data' => $teacher
+        ], 200);
+    }
+
+    // public function showCv()
+    // {
+    //     $teacher = auth()->user();
+
+    //     if (!$teacher->cv_path || !Storage::exists($teacher->cv_path)) {
+    //         return response()->json(['message' => 'ملف السيرة الذاتية غير موجود'], 404);
+    //     }
+
+    //     return Storage::response($teacher->cv_path);
+    // }
 }

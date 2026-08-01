@@ -10,5 +10,6 @@ class Wallet extends Model
 
 'balance'
 
+
     ];
 }

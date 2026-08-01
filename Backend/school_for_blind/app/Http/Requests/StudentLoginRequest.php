@@ -26,4 +26,12 @@ class StudentLoginRequest extends FormRequest
             'phone' => ['required', 'string', 'exists:students,phone'],
         ];
     }
-}
+public function messages()
+{
+    return [
+        'phone.required' => 'رقم الهاتف مطلوب لتسجيل الدخول',
+        'phone.exists' => ' رقم الهاتف غير مسجل لدينا يجب عليك القيام بتسجيل الدخول',
+    ];
+
+
+    }}

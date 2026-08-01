@@ -16,12 +16,24 @@ return new class extends Migration {
             $table->string('fathersname');
             $table->string('phone')->unique();
             $table->string('parent_phone');
+
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('caregivers')
+                ->onDelete('set null');
+
+            $table->foreignId('class_id')
+                ->nullable()
+                ->constrained('classes')
+                ->onDelete('set null');
+
             $table->integer('points')->default(0);
             $table->string('fcm_token')->nullable();
             $table->enum('level', ['ninth', 'twelfth']);
             $table->timestamp('phone_verified_at')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('verification_token')->nullable();
+            $table->integer('total_earned_points')->default(0);
             $table->timestamp('token_expires_at')->nullable();
             $table->string('DocumentaryEvidence');
             /* $table->foreignId('class_id')
@@ -32,12 +44,14 @@ return new class extends Migration {
                    ->nullable()
                    ->constrained('parents')
                    ->onDelete('set null');*/
-
+$table->string('stripe_account_id')->nullable();
             $table->timestamps();
         });
     }
 
     /**
+     *
+     *
      * Reverse the migrations.
      */
     public function down(): void

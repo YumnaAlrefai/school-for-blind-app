@@ -2,20 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Quiz;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
 {
-    /** @use HasFactory<\Database\Factories\SubjectFactory> */
-    use HasFactory;
-    public function subject()
+    use SoftDeletes;
+    protected $guarded = [];
+    public function quizzes()
     {
-        return $this->belongsToMany(Teacher::class, 'teacher_subjects')
-            ->withPivot('price')
-            ->withTimestamps();
-        ;
+        return $this->hasMany(Quiz::class);
+    }
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_subjects', 'subject_id', 'teacher_id');
     }
 
-    protected $guarded = [];
-}
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+    }

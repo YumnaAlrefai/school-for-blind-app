@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:school_for_blind_app/business_logic/cubit/theme_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/theme_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'core/routing/app_router.dart';

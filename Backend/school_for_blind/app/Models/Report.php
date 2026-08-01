@@ -6,11 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected$fillable = [
-//'student_id',
-'from_who',
-'to_who',
-'reason',
-'punishment_id',
-    ];
+    protected $guarded = [];
+
+    public function reporter()
+    {
+        return $this->morphTo();
+    }
+
+    public function reported()
+    {
+        return $this->morphTo();
+    }
+
+    public function reportable()
+    {
+        return $this->morphTo();
+    }
 }

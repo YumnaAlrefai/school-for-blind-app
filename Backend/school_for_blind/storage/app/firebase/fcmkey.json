@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "schoolforblindapp",
+  "private_key_id": "edcdc601ecf525556f123f854fb6c145a685d9fc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDlYg5Ocez7sbGZ\neeD2LEnl7FOxnd94mR4Pdbhnj5socnueT0OjrOiejcC0MjBwB/XPQuwX6/aqJgGO\nO+paTUGQOOlZ0pE+bV+l5FQ0wuUzDE9Sp6yTpmTYjCImtRIajfiUCDR2LVJmYIgU\n6zhhBtuZ8hXf7+reSjrK9mvOPTUGxt2j02EwsRH5OS8xvgiem5zy8fP0J9F0E2HR\naG629gPI5DyyfAPvDDovisPchr+3XwiW7KITGMd7DKRe0eS+faupDgc20CdCjvgL\nyzXJ+UBtUMGPY4sFHHVdl8UwbYayhTEilefUvWHox6EvBo5BECUjgd0QvFwkOiny\nVkEhhbUXAgMBAAECggEAVY/0AjLg0SoBM1yRG4J9tjQnK/PVreh/nAivVoHswHOj\nxPOQKXeP9cSugwjNpJxzhnJSGsI76k/u+J1E15ZFxIRWFtlCsGSf7wNynZOtZxNK\na2x8JT9GEriC7KlSLXGTrbQ5zXMub13GpPbwutCSDaSNoFCf7XcG4zp0ECQoqXPD\n1WzmRnmJsC7PAMJPxAkwDHt9ID7kh0EZsk1DTcMcJHPruM7NytmbmmCf7lvffsFj\nPyO99/hTFDSgGwNvR2Zyjcoc8uJnRpo0AvNT2QE524sSjac0InDfe364zD5aWMcR\nVgWoYqf0B/NMIEKTuANXf5zGOzpIozqzskEMqXgfIQKBgQD4my1bj8u4IKYjr6gi\nsPhLb9YsKgfEKiEGayFYClnPGjuJmg5anSceoldEse6bwAEg+QYe12ENgIuHA/7r\nVxcyx/QtcxdKgw3WLn7ppX9iWJmqr7XHZWGv1e5KvyczkE8I4q0MuCbkfdzM8YYL\n5/+cl4RR3kUEsoqNuFyT0NtpXwKBgQDsNITOyEszVSpwBgUNt+1gPUPEUMuzqtvq\neZ65EHJML6c18liwp2qEVc0z0fCcKHNZ/LRBjjaoZp76TFCNWC1A2e5c5/uxfOhW\npwnqym0PxfSfRnRA+m2ShvKiDwOHGuh+x4Mq/UB8dImlxRY9Kc20r+LCAgRcGUmq\nX+sRwfb3SQKBgFHadeKxw7eKOGmDim5xqi7cUb4U0J3L6Te9yiq8rbk8v+GccaFw\nINM7TFR36UIqw7RhiZxZ+cCCVG5N6H8AG8lCgKj+Perwn3unr22qafith1rlo4pV\nXQaR/3Vo3rVhjEQ2rheEAno03qAz3ZjJ+CVM1epGrp7PUkM7MnAQ0k0tAoGBAJiz\nWyhTVEpbRJQnUB0OSudss+K2WPpN+t4awgHiIAIgzHiTs8KAeNwUnBRkJKjPfcMv\nG1lGFw/HR/+IVosJ9jd2rCJj1tNnbMyYMFEZjGgmEX7mjUF0pGGV3EXobt9pBeTw\nFlw0XPwYWuRQBZCE9fdZvb6ujyL7NiRu3gkc3AwBAoGBAPbjkUt3Ku1mOZYmmEGC\noRUGcyQ2GYGhSXYAUn2Q51wMR0vCDPlgFs/Rlc7aL3kXTfkI7kFjCeUJwjF+sAJV\n/fVi34PJnYsiBtz9QFaUMG9AEGnA1cOAcW2GRvKERAS0DtiErTgLqTYVj4s5ITwe\nK8SI62IAcb08i7dXg7l6ayBb\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@schoolforblindapp.iam.gserviceaccount.com",
+  "client_id": "100110058876605275484",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40schoolforblindapp.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

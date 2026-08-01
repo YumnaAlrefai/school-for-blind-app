@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-//$table->foreignId('user_id');
+$table->morphs('notifiable');
     $table->string('title');
     $table->text('body');
-    $table->boolean('is_read')->default(false);
-            $table->timestamps();
+    $table->json('data')->nullable();
+    $table->timestamp('read_at')->nullable();
+    $table->timestamps();
         });
     }
 

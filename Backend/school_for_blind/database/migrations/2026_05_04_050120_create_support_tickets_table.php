@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('support_tickets', function (Blueprint $table) {
             $table->id();
 //$table->foreignId('user_id');
-    $table->string('subject');
-    $table->text('message');
-    $table->enum('status',['open','close'])->default('open');
+             $table->morphs('sender');
+             $table->text('text_content')->nullable(); 
+            $table->string('audio_path')->nullable(); 
+            $table->string('image_path')->nullable();
+            $table->enum('status', ['pending', 'in_progress', 'resolved'])->default('pending');
             $table->timestamps();
         });
     }

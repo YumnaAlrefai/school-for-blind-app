@@ -1,47 +1,76 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/level_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/messages_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/schedule_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/level_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/messages_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/role_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saves_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/schedule_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/student_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/subject_progress_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
-import 'package:school_for_blind_app/data/models/lesson.dart';
-import 'package:school_for_blind_app/data/models/record_model.dart';
-import 'package:school_for_blind_app/presentation/screens/splash_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_accounts_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_announcements_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_audio_player_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_contact_support_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_exam_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_exams_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_library_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_messages_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_payment_intent_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_payment_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_lesson_records_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_live_call_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_quiz_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_schedule_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_subject_details_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_waiting_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_whatsapp_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_login_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_main_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_otp_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_profile_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_register_data_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_register_number_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_register_photo_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/teacher_accounts_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/user_type_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student_past_exam_solutions_screen.dart';
+import 'package:school_for_blind_app/data/models/student/lesson.dart';
+import 'package:school_for_blind_app/data/models/student/record_model.dart';
+import 'package:school_for_blind_app/presentation/screens/student/splash_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_accounts_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_announcements_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_audio_player_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_contact_support_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_exam_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_exams_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_library_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_messages_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_payment_intent_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_payment_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_lesson_records_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_live_call_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_quiz_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_schedule_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_subject_details_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_waiting_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_whatsapp_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_login_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_main_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_otp_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_profile_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_register_data_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_register_number_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_register_photo_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/teacher_accounts_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/user_type_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_past_exam_solutions_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/add_bank_questions_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/add_lessons_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/donation_info_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/donation_payment_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/edit_quiz_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/grade_student_answers_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/question_bank_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/quiz_submissions_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/school_timetable_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/statistics_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_announcements_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_channel_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_channels_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_chats_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_groups_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_login_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_notifications_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_otp_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_profile_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_quize_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_register_number_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_register_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_safenumber_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_test_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/technical_support_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/view_exam_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -303,7 +332,7 @@ class AppRouter {
             title: args['title'],
           ),
         );
-        case AppRoutes.kStudentScheduleScreen:
+      case AppRoutes.kStudentScheduleScreen:
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => BlocProvider(
@@ -311,6 +340,181 @@ class AppRouter {
             child: const StudentScheduleScreen(),
           ),
         );
+
+
+
+
+
+
+
+
+      case AppRoutes.kTeacherPhone:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const Phoneteacher(),
+          ),
+        );
+
+      case AppRoutes.kTeacherotb:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const OtpScreen(),
+          ),
+        );
+
+      case AppRoutes.kTeacherRegister:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const RegisterTeacher(),
+          ),
+        );
+
+      case AppRoutes.kTeacherLogin:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const LoginTeacher(),
+          ),
+        );
+
+      case AppRoutes.kTeachersecurity:
+        final cvFile = settings.arguments as io.File;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: SecurityScreen(cvFile: cvFile),
+          ),
+        );
+
+      case AppRoutes.knotificationTeacher:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const NotificationsScreen(),
+          ),
+        );
+
+      case AppRoutes.kTeacherprfile:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const TeacherProfil(),
+          ),
+        );
+
+      case AppRoutes.kAddLesson:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const AddLessonScreen(),
+          ),
+        );
+
+      case AppRoutes.kDonationInfoScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const DonationInfoScreen(),
+          ),
+        );
+      case AppRoutes.kDonationPaymentScreen:
+        final args = (settings.arguments as Map<String, dynamic>?) ?? {};
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: DonationPaymentScreen(
+              donorName: (args['name'] ?? '') as String,
+              amount: (args['amount'] ?? 0) as num,
+            ),
+          ),
+        );
+      case AppRoutes.kTechnicalSupportScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<TeacherCubit>(),
+            child: const TechnicalSupportScreen(),
+          ),
+        );
+      case AppRoutes.kTest:
+        return MaterialPageRoute(builder: (context) => const AddTestScreen());
+      case AppRoutes.kQuizzes:
+        final lessonId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => AddQuizScreen(lessonId: lessonId),
+        );
+
+      case AppRoutes.kQuestionBank:
+        return MaterialPageRoute(builder: (_) => const QuestionBankScreen());
+
+      case AppRoutes.kAddBankQuestions:
+        return MaterialPageRoute(
+          builder: (_) => const AddBankQuestionsScreen(),
+        );
+
+      case AppRoutes.kEditQuiz:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => EditQuizScreen(
+            quizId: args['quizId'] as int,
+            lessonTitle: (args['lessonTitle'] ?? '') as String,
+          ),
+        );
+
+      case AppRoutes.kViewExam:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => ViewExamScreen(
+            examId: args['examId'] as int,
+            examTitle: (args['examTitle'] ?? '') as String,
+          ),
+        );
+      case AppRoutes.kQuizSubmissions:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => QuizSubmissionsScreen(
+            quizId: args['quizId'] as int,
+            quizTitle: (args['quizTitle'] ?? '') as String,
+          ),
+        );
+
+      case AppRoutes.kGradeStudentAnswers:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => GradeStudentAnswersScreen(
+            quizId: args['quizId'] as int,
+            studentId: args['studentId'] as int,
+            studentName: (args['studentName'] ?? '') as String,
+          ),
+        );
+
+      case AppRoutes.kSchoolTimetable:
+        return MaterialPageRoute(builder: (_) => const TeacherScheduleScreen());
+
+      case AppRoutes.kStatistics:
+        return MaterialPageRoute(builder: (_) => const StatisticsScreen());
+      case AppRoutes.kTeacherChats:
+        return MaterialPageRoute(builder: (_) => const TeacherChatsScreen());
+      case AppRoutes.kTeacherChannels:
+        return MaterialPageRoute(builder: (_) => const TeacherChannelsScreen());
+
+      case AppRoutes.kTeacherChannel:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => TeacherChannelScreen(
+            channelId: args['channelId'] as int,
+            channelName: (args['channelName'] ?? '') as String,
+          ),
+        );
+      case AppRoutes.kTeacherGroups:
+        return MaterialPageRoute(builder: (_) => const TeacherGroupsScreen());
+      case AppRoutes.kTeacherAnnouncements:
+        return MaterialPageRoute(
+          builder: (_) => const TeacherAnnouncementsScreen(),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

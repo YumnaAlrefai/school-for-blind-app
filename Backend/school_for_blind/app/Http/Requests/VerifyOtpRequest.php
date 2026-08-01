@@ -27,4 +27,17 @@ class VerifyOtpRequest extends FormRequest
 'phone' => ['required', 'regex:/^(\+?963|0)9[0-9]{8}$/'],
  ];
     }
-}
+public function messages(): array
+    {
+        return [
+            'otp.required' => 'الرجاء إدخال رمز التحقق (OTP).',
+            'otp.digits' => 'رمز التحقق (OTP) يجب أن يتكون من 6 أرقام.',
+            'phone.required' => 'الرجاء إدخال رقم الهاتف.',
+            'phone.regex' => 'رقم الهاتف غير صالح. يجب أن يبدأ بـ +963 أو 0 ويتبعه 9 أرقام.',
+            'phone.unique' => 'رقم الهاتف هذا مسجل بالفعل.',
+
+        ];
+
+
+
+    }}

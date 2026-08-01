@@ -1,38 +1,42 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:school_for_blind_app/business_logic/cubit/audio_bookmarks_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/auth_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/call_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/channels_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/donation_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/exam_questions_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/exam_submission_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/exams_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/lesson_records_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/lessons_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/messages_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/offline_lessons_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/offline_saved_lessons_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/past_exam_solutions_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/past_exams_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/quiz_info_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/quiz_questions_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/quiz_submission_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/saved_lessons_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/saved_past_exams_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/saves_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/schedule_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/student_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/subject_progress_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/support_ticket_cubit.dart';
-import 'package:school_for_blind_app/business_logic/cubit/theme_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/audio_bookmarks_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/channels_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exam_questions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exam_submission_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exams_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/lesson_records_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/messages_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/offline_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/offline_saved_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/past_exam_solutions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/past_exams_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/quiz_info_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/quiz_questions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/quiz_submission_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saved_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saved_past_exams_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saves_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/schedule_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/student_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/subject_progress_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/support_ticket_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/theme_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_lessons_cubit.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/realtime_service.dart';
 import 'package:school_for_blind_app/core/services/server_time_interceptor.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/data/repository/student_repo.dart';
+import 'package:school_for_blind_app/data/repository/teacher_repo.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
+import 'package:school_for_blind_app/data/web_services/teacher_web_services.dart';
 
 final getIt = GetIt.instance;
 
@@ -87,6 +91,23 @@ void initGetIt() {
   );
   getIt.registerFactory<ScheduleCubit>(
     () => ScheduleCubit(getIt<StudentRepo>()),
+  );
+
+  getIt.registerLazySingleton<TeacherWebServices>(
+    () => TeacherWebServices(createAndSetupDio()),
+  );
+  getIt.registerLazySingleton<VoiceServices>(() => VoiceServices());
+  getIt.registerSingleton<DeepLinkService>(DeepLinkService());
+
+  getIt.registerFactory<TeacherRepo>(
+    () => TeacherRepo(getIt<TeacherWebServices>()),
+  );
+
+  getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(getIt()));
+  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+  getIt.registerLazySingleton<TeacherCubit>(() => TeacherCubit(getIt()));
+  getIt.registerLazySingleton<TeacherLessonsCubit>(
+    () => TeacherLessonsCubit(getIt<TeacherRepo>()),
   );
 }
 

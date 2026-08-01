@@ -1,0 +1,755 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/result_state.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_lessons_cubit.dart';
+import 'package:school_for_blind_app/core/injection.dart';
+import 'package:school_for_blind_app/core/routing/app_routes.dart';
+import 'package:school_for_blind_app/core/services/lesson_audio_service.dart';
+import 'package:school_for_blind_app/core/theme/app_colors.dart';
+import 'package:school_for_blind_app/data/repository/teacher_repo.dart';
+import 'package:school_for_blind_app/networking/api_result.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/call/start_call_picker.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/quiz_submissions_screen.dart';
+import 'package:school_for_blind_app/presentation/widgets/teacher/custom_bottomNav_teacher.dart';
+import 'package:school_for_blind_app/presentation/widgets/teacher/custom_drawer_teacher.dart';
+import 'package:school_for_blind_app/presentation/widgets/teacher/lesson_audio_card.dart';
+
+class TeacherLesson {
+  final int id;
+  final String title;
+  final String duration;
+  final String audioUrl;
+  final bool hasQuiz;
+
+  const TeacherLesson({
+    required this.id,
+    required this.title,
+    required this.duration,
+    required this.audioUrl,
+    required this.hasQuiz,
+  });
+
+  factory TeacherLesson.fromJson(Map<String, dynamic> json) {
+    String audio = '';
+    final records = json['records'];
+    if (records is List && records.isNotEmpty && records.first is Map) {
+      final first = records.first as Map;
+      audio =
+          (first['url'] ?? first['record_url'] ?? first['record_path'] ?? '')
+              .toString();
+    }
+
+    if (audio.isEmpty) {
+      audio = (json['audio_url'] ?? '').toString();
+    }
+
+    return TeacherLesson(
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      duration: json['duration'] ?? '00:00',
+      audioUrl: audio,
+      hasQuiz: json['has_quiz'] == true,
+    );
+  }
+}
+
+class LessonsScreen extends StatefulWidget {
+  const LessonsScreen({super.key});
+
+  @override
+  State<LessonsScreen> createState() => _LessonsScreenState();
+}
+
+class _LessonsScreenState extends State<LessonsScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final LessonAudioService _audioService = LessonAudioService();
+
+  int _currentNavIndex = 4;
+  int _selectedCategoryIndex = 1;
+  int? _expandedIndex;
+  double _speed = 1.0;
+  int? _deleteModeIndex;
+
+  bool _loadingSolutions = false;
+  String? _solutionsError;
+  List<Map<String, dynamic>> _pendingQuizzes = [];
+
+  static const int _addButtonIndex = 2;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getIt<TeacherLessonsCubit>().emitInitLessons();
+  }
+
+  @override
+  void dispose() {
+    _audioService.dispose();
+    super.dispose();
+  }
+void _onNavTap(int index) {
+    if (index == _addButtonIndex) {
+      _openAddLesson();
+      return;
+    }
+    if (index == 1) {
+      Navigator.pushNamed(context, AppRoutes.kQuestionBank);
+      return;
+    }
+    if (index == 0) {                           
+      Navigator.pushNamed(context, AppRoutes.kTeacherChats);
+      return;
+    }
+    if (index == 3) {                                   
+      Navigator.pushNamed(context, AppRoutes.kTeacherAnnouncements);
+      return;
+    }
+    setState(() => _currentNavIndex = index);
+  }
+  Future<void> _openAddLesson() async {
+    await _audioService.stop();
+    setState(() => _expandedIndex = null);
+
+    if (mounted) {
+      Navigator.pushNamed(context, AppRoutes.kAddLesson);
+    }
+  }
+
+  Future<void> _onLessonTap(int index, TeacherLesson lesson) async {
+    setState(() => _expandedIndex = index);
+
+    try {
+      await _audioService.playUrl(lesson.audioUrl, speed: _speed);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('تعذر تشغيل الدرس، تأكد من الاتصال')),
+        );
+      }
+    }
+  }
+
+  Future<void> _onSpeedTap() async {
+    setState(() {
+      _speed = switch (_speed) {
+        1.0 => 1.5,
+        1.5 => 2.0,
+        2.0 => 0.75,
+        _ => 1.0,
+      };
+    });
+    await _audioService.setSpeed(_speed);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: AppColors.kBackgroundColor,
+        drawer: BlocBuilder<TeacherLessonsCubit, ResultState<dynamic>>(
+          bloc: getIt<TeacherLessonsCubit>(),
+          builder: (context, state) {
+            final cubit = getIt<TeacherLessonsCubit>();
+            return CustomDrawer(
+              userName: cubit.teacherName.isNotEmpty
+                  ? cubit.teacherName
+                  : 'مدرس',
+              userPhone: cubit.teacherPhone.isNotEmpty
+                  ? cubit.teacherPhone
+                  : '09********',
+            );
+          },
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                _buildTopBar(),
+                const SizedBox(height: 20),
+                _buildSearchField(),
+                const SizedBox(height: 20),
+                _buildSubjectHeader(),
+                const SizedBox(height: 15),
+                _buildCategories(),
+                const SizedBox(height: 25),
+                _selectedCategoryIndex == 0
+                    ? _buildSolutionsList()
+                    : _buildLessonsList(),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: CustomBottomNav(
+          currentIndex: _currentNavIndex,
+          onTap: _onNavTap,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.menu, size: 30, color: Colors.white),
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+        ),
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.call, size: 28, color: Colors.white),
+              onPressed: () async {
+                await _audioService.stop();
+                if (mounted) {
+                  setState(() => _expandedIndex = null);
+                }
+
+                if (mounted) {
+                  openCallClassPicker(context, getIt<TeacherRepo>());
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.notifications,
+                size: 30,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.knotificationTeacher,
+                (route) => false,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Container(
+      width: 360,
+      height: 56,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.10),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: const TextField(
+        textAlign: TextAlign.right,
+        decoration: InputDecoration(
+          hintText: 'بحث...',
+          hintStyle: TextStyle(color: Colors.white38, fontSize: 30),
+          prefixIcon: Icon(Icons.search, color: Colors.white38),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubjectHeader() {
+    final cubit = getIt<TeacherLessonsCubit>();
+    return BlocBuilder<TeacherLessonsCubit, ResultState<dynamic>>(
+      bloc: cubit,
+      builder: (context, state) {
+        final subject = cubit.selectedSubject;
+        final hasMultiple = cubit.taughtSubjects.length > 1;
+
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: hasMultiple ? () => _showSubjectsSheet(cubit) : null,
+          child: Row(
+            children: [
+                  if (hasMultiple) ...[
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.white,
+                  size: 26,
+                ),
+              ],
+              Text(
+                subject != null ? '${subject.name} : ' : 'الدروس',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+          
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showSubjectsSheet(TeacherLessonsCubit cubit) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.kBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetCtx) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            children: cubit.taughtSubjects.map((s) {
+              final selected = s.id == cubit.selectedSubject?.id;
+              return ListTile(
+                title: Text(
+                  s.name,
+                  style: TextStyle(
+                    color: selected ? AppColors.kPrimaryColor : Colors.white,
+                    fontSize: 25,
+                  ),
+                ),
+                trailing: selected
+                    ? Icon(Icons.check, color: AppColors.kPrimaryColor)
+                    : null,
+                onTap: () async {
+                  Navigator.pop(sheetCtx);
+                  await _audioService.stop();
+                  if (!mounted) return;
+                  setState(() {
+                    _expandedIndex = null;
+                    _deleteModeIndex = null;
+                  });
+                  cubit.selectSubject(s);
+                },
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategories() {
+    return Row(
+      children: [
+        _buildCategoryButton('الدروس', 1),
+        const SizedBox(width: 50),
+        _buildCategoryButton('حلول الطلاب', 0),
+      ],
+    );
+  }
+
+  Widget _buildCategoryButton(String text, int index) {
+    final isSelected = _selectedCategoryIndex == index;
+    return GestureDetector(
+      onTap: () {
+        if (_selectedCategoryIndex == index) return;
+        setState(() => _selectedCategoryIndex = index);
+        if (index == 0) _loadSolutions();
+      },
+      child: Container(
+        width: 140,
+        height: 37,
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors.kPrimaryColor
+              : Colors.white.withOpacity(0.10),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: isSelected ? Colors.black : Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 25,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLessonsList() {
+    return Expanded(
+      child: BlocBuilder<TeacherLessonsCubit, ResultState<dynamic>>(
+        bloc: getIt<TeacherLessonsCubit>(),
+        builder: (context, state) {
+          return state.when(
+            idle: () => const SizedBox.shrink(),
+            loading: () => const Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            ),
+            failure: (error) => _buildErrorState(),
+            success: (_) {
+              final lessons = getIt<TeacherLessonsCubit>().lessons;
+              if (lessons.isEmpty) return _buildEmptyState();
+
+              return RefreshIndicator(
+                color: AppColors.kPrimaryColor,
+                backgroundColor: AppColors.kBackgroundColor,
+                onRefresh: () async {
+                  getIt<TeacherLessonsCubit>().emitGetLessons();
+                },
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: lessons.length,
+                  itemBuilder: (context, index) => LessonAudioCard(
+                    lesson: lessons[index],
+                    isExpanded: _expandedIndex == index,
+                    audioService: _audioService,
+                    speed: _speed,
+                    onTap: () => _onLessonTap(index, lessons[index]),
+                    onDelete: () => _confirmDelete(lessons[index]),
+                    onCreateQuiz: () => _openCreateQuiz(lessons[index]),
+                    onSpeedTap: _onSpeedTap,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void _openCreateQuiz(TeacherLesson lesson) {
+    Navigator.pushNamed(context, AppRoutes.kQuizzes, arguments: lesson.id);
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.headphones_outlined,
+            size: 60,
+            color: Colors.white24,
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            'لا توجد دروس بعد',
+            style: TextStyle(color: Colors.white70, fontSize: 25),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'اضغط زر + في الأسفل لرفع أول درس',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.4),
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: _openAddLesson,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.kPrimaryColor,
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            icon: const Icon(Icons.add, color: Colors.black),
+            label: const Text(
+              'رفع درس',
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.wifi_off_outlined, size: 50, color: Colors.white24),
+          const SizedBox(height: 12),
+          const Text(
+            'تعذر تحميل الدروس',
+            style: TextStyle(color: Colors.white70, fontSize: 25),
+          ),
+          const SizedBox(height: 15),
+          TextButton.icon(
+            onPressed: () => getIt<TeacherLessonsCubit>().emitInitLessons(),
+            icon: const Icon(Icons.refresh, color: Colors.white),
+            label: const Text(
+              'إعادة المحاولة',
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _confirmDelete(TeacherLesson lesson) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: AppColors.kBackgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: const Text(
+            'حذف الدرس',
+            style: TextStyle(color: Colors.white, fontSize: 26),
+          ),
+          content: Text(
+            'هل أنت متأكد من حذف "${lesson.title}"؟\.',
+            style: const TextStyle(color: Colors.white70, fontSize: 24),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text(
+                'إلغاء',
+                style: TextStyle(color: Colors.white54, fontSize: 24),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text(
+                'حذف',
+                style: TextStyle(color: Colors.redAccent, fontSize: 24),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (confirmed == true) {
+      getIt<TeacherLessonsCubit>().emitDeleteLesson(lesson.id);
+    }
+    setState(() => _deleteModeIndex = null);
+  }
+
+  Future<void> _loadSolutions() async {
+    setState(() {
+      _loadingSolutions = true;
+      _solutionsError = null;
+    });
+
+    final repo = getIt<TeacherRepo>();
+    final sid = getIt<TeacherLessonsCubit>().selectedSubject?.id;
+    final items = <Map<String, dynamic>>[];
+    bool anyFailed = false;
+
+    final quizRes = await repo.getQuizzesPendingGrading();
+    quizRes.when(
+      success: (data) {
+        final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
+
+        final raw = (map['quizzes'] is List)
+            ? map['quizzes'] as List
+            : const [];
+        for (final e in raw) {
+          if (e is! Map) continue;
+          final q = Map<String, dynamic>.from(e);
+          if (sid != null && int.tryParse('${q['subject_id']}') != sid)
+            continue;
+
+          final lesson = (q['lesson'] is Map) ? q['lesson'] as Map : const {};
+          items.add({
+            'id': int.tryParse('${q['id']}') ?? 0,
+            'title': (lesson['title'] ?? 'كويز').toString(),
+            'count': q['submissions_count'] ?? 0,
+            'isExam': false,
+          });
+        }
+      },
+      failure: (_) => anyFailed = true,
+    );
+
+    final examRes = await repo.getExamsPendingGrading();
+    examRes.when(
+      success: (data) {
+        final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
+        final raw = (map['exams'] is List) ? map['exams'] as List : const [];
+        for (final e in raw) {
+          if (e is! Map) continue;
+          final x = Map<String, dynamic>.from(e);
+          if (sid != null && int.tryParse('${x['subject_id']}') != sid)
+            continue;
+
+          items.add({
+            'id': int.tryParse('${x['id']}') ?? 0,
+            'title': (x['title'] ?? 'اختبار').toString(),
+            'count': x['submissions_count'] ?? 0,
+            'isExam': true,
+          });
+        }
+      },
+      failure: (_) => anyFailed = true,
+    );
+
+    setState(() {
+      _pendingQuizzes = items;
+      _loadingSolutions = false;
+      _solutionsError = (items.isEmpty && anyFailed)
+          ? 'تعذّر تحميل الحلول، حاول مجدداً'
+          : null;
+    });
+  }
+
+  Widget _buildSolutionsList() {
+    if (_loadingSolutions) {
+      return const Expanded(
+        child: Center(child: CircularProgressIndicator(color: Colors.white)),
+      );
+    }
+
+    if (_solutionsError != null) {
+      return Expanded(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _solutionsError!,
+                style: const TextStyle(color: Colors.white70, fontSize: 20),
+              ),
+              TextButton(
+                onPressed: _loadSolutions,
+                child: const Text(
+                  'إعادة المحاولة',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_pendingQuizzes.isEmpty) {
+      return Expanded(
+        child: Center(
+          child: Text(
+            'لا توجد حلول بانتظار التصحيح',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.5),
+              fontSize: 25,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Expanded(
+      child: RefreshIndicator(
+        color: AppColors.kPrimaryColor,
+        backgroundColor: AppColors.kBackgroundColor,
+        onRefresh: _loadSolutions,
+        child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: _pendingQuizzes.length,
+          itemBuilder: (context, i) {
+            final item = _pendingQuizzes[i];
+            final title = item['title'] as String;
+            final count = item['count'];
+            final id = item['id'] as int;
+            final isExam = item['isExam'] as bool;
+
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => QuizSubmissionsScreen(
+                      quizId: id,
+                      quizTitle: title,
+                      isExam: isExam,
+                    ),
+                  ),
+                );
+                if (mounted) _loadSolutions();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.white.withOpacity(0.30)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color:
+                            (isExam
+                                    ? AppColors.kPrimaryColor
+                                    : Colors.lightBlueAccent)
+                                .withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        isExam ? 'اختبار' : 'كويز',
+                        style: TextStyle(
+                          color: isExam
+                              ? AppColors.kPrimaryColor
+                              : Colors.lightBlueAccent,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.orangeAccent.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '$count',
+                        style: const TextStyle(
+                          color: Colors.orangeAccent,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

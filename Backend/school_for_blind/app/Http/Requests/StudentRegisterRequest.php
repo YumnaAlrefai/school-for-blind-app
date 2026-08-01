@@ -28,7 +28,7 @@ class StudentRegisterRequest extends FormRequest
 'phone' => 'required|regex:/^\+?\d{8,15}$/|unique:students,phone',
 'parent_phone' => ['required', 'digits:10'],
 'level' => 'required|string|in:ninth,twelfth',
-'DocumentaryEvidence' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
+'DocumentaryEvidence' => ['required', 'mimes:,jpg,jpeg,png', 'max: 2048'],
         ];
     }
 public function messages()

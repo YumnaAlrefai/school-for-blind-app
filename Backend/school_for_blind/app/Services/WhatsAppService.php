@@ -9,7 +9,7 @@ class WhatsAppService
 {
     public function sendOtp(string $phone, string $otp)
     {
-        $message = ":رمز التحقق الخاص بك\n" . $otp;
+        $message = ":أهلاً رمز التحقق الخاص بك \n" . $otp;
         return $this->execute($phone, $message);
     }
     public function sendMagicLink(string $phone, string $fullname, string $link)
@@ -18,6 +18,26 @@ class WhatsAppService
         $message .= "يمكنك تسجيل الدخول إلى حسابك في مدرسة المكفوفين عبر الضغط على الرابط التالي:\n\n";
         $message .= $link;
 
+        return $this->execute($phone, $message);
+    }
+
+    public function sendStudentinfo(string $phone, string $fullname, string $parent_phone, string $password)
+    {
+        $message = "مرحباً {$fullname} 👋\n
+تم قبول طلب انضمامك في مدرستنا راجين لك كل التوفيق و النجاح و أن نكون عند حسن ظنكم\n
+يمكن لولي أمر الطالب {$fullname} متابعة اخبار تفوقه الدراسي عبر تطبيقنا الخاص بالاهل حيث يمكنكم تسجيل الدخول بهذه البيانات\n
+رقم الهاتف: {$parent_phone}\n
+كلمة المرور: {$password}"
+        ;
+
+        return $this->execute($phone, $message);
+    }
+    public function sendTeacherinfo(string $phone, string $fullname)
+    {
+        $message = "مرحباً {$fullname} 👋\n
+تم قبول طلب انضمامك في مدرستنا راجين لك كل التوفيق و النجاح و أن نكون عند حسن ظنكم\n
+و أن تكون عونا للطالب في نيله العلم"
+        ;
         return $this->execute($phone, $message);
     }
 

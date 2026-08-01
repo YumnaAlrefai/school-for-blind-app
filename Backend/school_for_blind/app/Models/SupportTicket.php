@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class SupportTicket extends Model
 {
     protected$fillable = [
-'user_id',
-'subject',
-'message',
+'sender_type',
+'sender_id',
+'text_content',
+'audio_path',
+'image_path',
 'status',
 ];
 }
