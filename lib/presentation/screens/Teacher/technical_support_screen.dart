@@ -23,11 +23,12 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
   @override
   void initState() {
     super.initState();
-    _problemController.addListener(_onTextChanged);
+    _problemController.addListener(_updateButtonState);  
   }
 
-  void _onTextChanged() {
-    final enabled = _problemController.text.trim().isNotEmpty;
+ void _updateButtonState() {
+    final enabled = _problemController.text.trim().isNotEmpty &&
+        _selectedImage != null;
     if (enabled != _isButtonEnabled) {
       setState(() => _isButtonEnabled = enabled);
     }
@@ -35,8 +36,7 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
 
   @override
   void dispose() {
-    _problemController.removeListener(_onTextChanged);
-    _problemController.dispose();
+    _problemController.removeListener(_updateButtonState); 
     super.dispose();
   }
 
@@ -45,6 +45,7 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
     final picked = await picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
       setState(() => _selectedImage = File(picked.path));
+      _updateButtonState();
     }
   }
 
@@ -64,11 +65,17 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
       return;
     }
 
+    // الصورة إجبارية
+    if (_selectedImage == null) {
+      _showMessage('يرجى إرفاق صورة للمشكلة');
+      return;
+    }
+
     setState(() => _sending = true);
 
     final result = await getIt<TeacherRepo>().sendSupportTicket(
       message: problem,
-      image: _selectedImage,
+      image: _selectedImage!,      
     );
 
     if (!mounted) return;
@@ -181,7 +188,7 @@ class _TechnicalSupportScreenState extends State<TechnicalSupportScreen> {
                 const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    'لقطة شاشة للمشكلة(اختياري):',
+                'لقطة شاشة للمشكلة:',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 35,

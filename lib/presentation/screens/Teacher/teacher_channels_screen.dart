@@ -69,21 +69,23 @@ class _TeacherChannelsScreenState extends State<TeacherChannelsScreen> {
     if (dash != -1) name = name.substring(0, dash);
     return name.trim().isEmpty ? raw : name.trim();
   }
+static const Map<String, IconData> _subjectIcons = {
+    'الفلسفة': Icons.psychology,
+    'الرياضيات': Icons.functions,
+    'الفيزياء والكيمياء': Icons.science,
+    'علم الأحياء': Icons.biotech,
+    'التاريخ': Icons.history_edu,
+    'الجغرافيا': Icons.public,
+    'اللغة العربية': Icons.auto_stories,
+    'اللغة الفرنسية': Icons.language,
+    'اللغة الإنكليزية': Icons.translate,
+    'التربية الدينية': Icons.mosque,
+  };
 
-  /// أيقونة خاصة لكل مادة
   IconData _subjectIcon(String name) {
-    if (name.contains('فلسف')) return Icons.psychology;
-    if (name.contains('تاريخ')) return Icons.history_edu;
-    if (name.contains('جغراف')) return Icons.public;
-    if (name.contains('عرب')) return Icons.menu_book;
-    if (name.contains('إنكل') || name.contains('انكل') || name.contains('انجل')) {
-      return Icons.translate;
+    for (final entry in _subjectIcons.entries) {
+      if (name.contains(entry.key)) return entry.value;
     }
-    if (name.contains('رياض')) return Icons.calculate;
-    if (name.contains('فيزياء')) return Icons.science;
-    if (name.contains('كيمياء')) return Icons.biotech;
-    if (name.contains('أحياء') || name.contains('احياء')) return Icons.eco;
-    if (name.contains('دين') || name.contains('إسلام')) return Icons.mosque;
     return Icons.menu_book;
   }
 
@@ -121,8 +123,8 @@ class _TeacherChannelsScreenState extends State<TeacherChannelsScreen> {
           style: TextStyle(
             color: Colors.white,
             fontSize: 30,
-            fontFamily: "Arabic Typesetting",
-            fontWeight: FontWeight.w300,
+            fontFamily: "ArabicTypesetting",
+            fontWeight: FontWeight.w400,
           ),
         ),
         IconButton(

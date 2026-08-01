@@ -825,7 +825,7 @@ class _WebServices implements WebServices {
   @override
   Future<dynamic> sendSupportTicket({
     required String message,
-    File? image,
+    required File image,
     File? audio,
   }) async {
     final _extra = <String, dynamic>{};
@@ -834,17 +834,15 @@ class _WebServices implements WebServices {
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.fields.add(MapEntry('message', message));
-    if (image != null) {
-      _data.files.add(
-        MapEntry(
-          'image',
-          MultipartFile.fromFileSync(
-            image.path,
-            filename: image.path.split(Platform.pathSeparator).last,
-          ),
+    _data.files.add(
+      MapEntry(
+        'image',
+        MultipartFile.fromFileSync(
+          image.path,
+          filename: image.path.split(Platform.pathSeparator).last,
         ),
-      );
-    }
+      ),
+    );
     if (audio != null) {
       _data.files.add(
         MapEntry(
@@ -877,7 +875,7 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<dynamic> getSchoolTimetable() async {
+  Future<dynamic> getTeacherSchedule() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -886,7 +884,7 @@ class _WebServices implements WebServices {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'announcements/school-timetable/first',
+            'teacher/schedule',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1141,6 +1139,27 @@ class _WebServices implements WebServices {
           .compose(
             _dio.options,
             'announcements',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
+  Future<dynamic> getExamSchedule(int id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'announcements/exam/${id}',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -1,22 +1,31 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
+import 'package:school_for_blind_app/presentation/screens/Teacher/exam_schedule_screen.dart';
 
 /// إعلان من الإدارة
 class Announcement {
   final int id;
+  final String type;
   final String title;
   final String content;
+  final String date;
   final String time;
 
   const Announcement({
     required this.id,
+    required this.type,
     required this.title,
     required this.content,
+    required this.date,
     required this.time,
   });
+
+  /// هل هذا الإعلان جدول امتحان؟
+  bool get isExamSchedule => type == 'exam_schedule';
 }
 
 class TeacherAnnouncementsScreen extends StatefulWidget {
@@ -33,6 +42,9 @@ class _TeacherAnnouncementsScreenState
   String? _error;
   List<Announcement> _items = [];
 
+  /// مؤقّت التحديث التلقائي
+  Timer? _refreshTimer;
+
   /// الإعلانات الموسّعة (id)
   final Set<int> _expanded = {};
 
@@ -40,13 +52,27 @@ class _TeacherAnnouncementsScreenState
   void initState() {
     super.initState();
     _load();
+    // تحديث تلقائي كل 30 ثانية (صامت) طالما الشاشة مفتوحة
+    _refreshTimer = Timer.periodic(
+      const Duration(seconds: 30),
+      (_) => _load(silent: true),
+    );
   }
 
-  Future<void> _load() async {
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _load({bool silent = false}) async {
+    // التحديث الصامت لا يُظهر مؤشّر التحميل (تجنّباً للوميض)
+    if (!silent) {
+      setState(() {
+        _loading = true;
+        _error = null;
+      });
+    }
 
     final result = await getIt<TeacherRepo>().getAnnouncements();
 
@@ -60,17 +86,21 @@ class _TeacherAnnouncementsScreenState
           final m = Map<String, dynamic>.from(e);
 
           // نقرأ الحقول بمرونة (title/content قد تختلف تسميتها)
-          final title =
-              (m['title'] ?? m['type'] ?? 'إعلان').toString();
-          final content =
-              (m['content'] ?? m['body'] ?? m['message'] ?? '').toString();
+          final title = (m['title'] ?? m['type'] ?? 'إعلان').toString();
+          final content = (m['content'] ?? m['body'] ?? m['message'] ?? '')
+              .toString();
 
-          items.add(Announcement(
-            id: int.tryParse('${m['id']}') ?? items.length,
-            title: title,
-            content: content,
-            time: _formatTime((m['created_at'] ?? '').toString()),
-          ));
+          final createdAt = (m['created_at'] ?? '').toString();
+          items.add(
+            Announcement(
+              id: int.tryParse('${m['id']}') ?? items.length,
+              type: (m['type'] ?? 'normal').toString(),
+              title: title,
+              content: content,
+              date: _formatDate(createdAt),
+              time: _formatTimeOnly(createdAt),
+            ),
+          );
         }
 
         setState(() {
@@ -99,14 +129,20 @@ class _TeacherAnnouncementsScreenState
     return const [];
   }
 
-  String _formatTime(String iso) {
+  String _formatDate(String iso) {
+    final dt = DateTime.tryParse(iso);
+    if (dt == null) return '';
+    final l = dt.toLocal();
+    return '${l.year}/${l.month}/${l.day}';
+  }
+
+  String _formatTimeOnly(String iso) {
     final dt = DateTime.tryParse(iso);
     if (dt == null) return '';
     final l = dt.toLocal();
     final h = l.hour > 12 ? l.hour - 12 : (l.hour == 0 ? 12 : l.hour);
     final period = l.hour >= 12 ? 'م' : 'ص';
-    final date = '${l.year}/${l.month}/${l.day}';
-    return '$date  $h:${l.minute.toString().padLeft(2, '0')}$period';
+    return '$h:${l.minute.toString().padLeft(2, '0')}$period';
   }
 
   @override
@@ -121,11 +157,9 @@ class _TeacherAnnouncementsScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Divider(
-                    color: Colors.white24, thickness: 1, height: 20),
+                const Divider(color: Colors.white24, thickness: 1, height: 20),
                 _buildTopBar(),
-                const Divider(
-                    color: Colors.white24, thickness: 1, height: 20),
+                const Divider(color: Colors.white24, thickness: 1, height: 20),
                 const SizedBox(height: 16),
                 Expanded(child: _buildList()),
               ],
@@ -144,14 +178,17 @@ class _TeacherAnnouncementsScreenState
           'الإعلانات',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 30,
-            fontFamily: "Arabic Typesetting",
-            fontWeight: FontWeight.w300,
+            fontSize: 40,
+            fontFamily: "ArabicTypesetting",
+            fontWeight: FontWeight.w400,
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.subdirectory_arrow_left,
-              size: 30, color: Colors.white),
+          icon: const Icon(
+            Icons.subdirectory_arrow_left,
+            size: 30,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ],
@@ -161,7 +198,8 @@ class _TeacherAnnouncementsScreenState
   Widget _buildList() {
     if (_loading) {
       return const Center(
-          child: CircularProgressIndicator(color: Colors.white));
+        child: CircularProgressIndicator(color: Colors.white),
+      );
     }
 
     if (_items.isEmpty) {
@@ -182,82 +220,127 @@ class _TeacherAnnouncementsScreenState
 
   Widget _buildAnnouncementCard(Announcement item) {
     final isExpanded = _expanded.contains(item.id);
+    final onSurface = Theme.of(context).colorScheme.onSurface;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.12)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // الزمن فوق الرسالة
-          if (item.time.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // التاريخ فوق الكارد (خارجه)
+        if (item.date.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Center(
               child: Text(
-                item.time,
+                item.date,
                 style: TextStyle(
-                    color: Colors.white.withOpacity(0.5), fontSize: 12),
+                  color: onSurface.withOpacity(0.6),
+                  fontSize: 20,
+                ),
               ),
             ),
-
-          // العنوان + سهم التوسيع
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  item.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  maxLines: isExpanded ? null : 1,
-                  overflow:
-                      isExpanded ? null : TextOverflow.ellipsis,
-                ),
-              ),
-              if (item.content.isNotEmpty)
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (isExpanded) {
-                        _expanded.remove(item.id);
-                      } else {
-                        _expanded.add(item.id);
-                      }
-                    });
-                  },
-                  child: Icon(
-                    isExpanded
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: AppColors.kPrimaryColor,
-                    size: 28,
-                  ),
-                ),
-            ],
           ),
 
-          // المحتوى — يظهر كاملاً عند التوسيع، ومختصراً خلاف ذلك
-          if (item.content.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text(
-              item.content,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.85),
-                fontSize: 16,
-                height: 1.5,
+        // الكارد
+        Container(
+          margin: const EdgeInsets.only(bottom: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFFFFF).withOpacity(0.10),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // العنوان + الأيقونة/السهم (من اليمين)
+              Row(
+                children: [
+                  // أيقونة الجدول أو السهم — من اليمين (أول عنصر في RTL)
+                  if (item.isExamSchedule)
+                    GestureDetector(
+                      onTap: () => _openExamSchedule(item),
+                      child: const Icon(
+                        Icons.calendar_month,
+                        color: AppColors.kPrimaryColor,
+                        size: 26,
+                      ),
+                    )
+                  else if (item.content.isNotEmpty)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isExpanded) {
+                            _expanded.remove(item.id);
+                          } else {
+                            _expanded.add(item.id);
+                          }
+                        });
+                      },
+                      child: Icon(
+                        isExpanded
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        color: AppColors.kPrimaryColor,
+                        size: 28,
+                      ),
+                    ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item.title,
+                      style: TextStyle(
+                        color: onSurface,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: isExpanded ? null : 1,
+                      overflow: isExpanded ? null : TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-              maxLines: isExpanded ? null : 2,
-              overflow: isExpanded ? null : TextOverflow.ellipsis,
-            ),
-          ],
-        ],
+
+              // محتوى الرسالة العادية
+              if (!item.isExamSchedule && item.content.isNotEmpty) ...[
+                const SizedBox(height: 6),
+                Text(
+                  item.content,
+                  style: TextStyle(
+                    color: onSurface.withOpacity(0.85),
+                    fontSize: 20,
+                    height: 1.5,
+                  ),
+                  maxLines: isExpanded ? null : 2,
+                  overflow: isExpanded ? null : TextOverflow.ellipsis,
+                ),
+              ],
+
+              // التوقيت أسفل يسار الكارد
+              if (item.time.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    item.time,
+                    style: TextStyle(
+                      color: onSurface.withOpacity(0.5),
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _openExamSchedule(Announcement item) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            ExamScheduleScreen(announcementId: item.id, title: item.title),
       ),
     );
   }

@@ -52,6 +52,7 @@ dependencies:
   just_audio: ^0.9.40
   livekit_client: ^2.8.1
   pinput: ^4.0.0
+  pusher_client_socket: ^0.0.5
   record: ^6.2.1
   retrofit: ^4.9.2
   retrofit_generator: ^10.2.5

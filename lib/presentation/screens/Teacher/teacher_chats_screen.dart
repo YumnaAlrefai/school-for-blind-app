@@ -211,7 +211,7 @@ class _TeacherChatsScreenState extends State<TeacherChatsScreen> {
 
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 20),
-      itemCount: items.length + 1, // +1 للخط العلوي
+      itemCount: items.length + 1, 
       itemBuilder: (context, i) {
         // خط فوق أول عنصر
         if (i == 0) return _buildLine();
@@ -220,7 +220,6 @@ class _TeacherChatsScreenState extends State<TeacherChatsScreen> {
     );
   }
 
-  /// خط فاصل بمواصفات التصميم
   Widget _buildLine() {
     return Container(
       height: 0.1,

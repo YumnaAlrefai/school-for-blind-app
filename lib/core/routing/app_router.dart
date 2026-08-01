@@ -6,6 +6,7 @@ import 'package:school_for_blind_app/business_logic/cubit/role_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/teacher_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
+import 'package:school_for_blind_app/core/theme/teacher_theme_scop.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/add_lessons_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/donation_info_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/donation_payment_screen.dart';
@@ -218,16 +219,14 @@ class AppRouter {
         );
 
       case AppRoutes.kSchoolTimetable:
-        return MaterialPageRoute(builder: (_) => const SchoolTimetableScreen());
+        return MaterialPageRoute(builder: (_) => const TeacherScheduleScreen());
 
       case AppRoutes.kStatistics:
         return MaterialPageRoute(builder: (_) => const StatisticsScreen());
       case AppRoutes.kTeacherChats:
         return MaterialPageRoute(builder: (_) => const TeacherChatsScreen());
-        case AppRoutes.kTeacherChannels:
-        return MaterialPageRoute(
-          builder: (_) => const TeacherChannelsScreen(),
-        );
+      case AppRoutes.kTeacherChannels:
+        return MaterialPageRoute(builder: (_) => const TeacherChannelsScreen());
 
       case AppRoutes.kTeacherChannel:
         final args = settings.arguments as Map<String, dynamic>;
@@ -237,12 +236,12 @@ class AppRouter {
             channelName: (args['channelName'] ?? '') as String,
           ),
         );
-        case AppRoutes.kTeacherGroups:
+      case AppRoutes.kTeacherGroups:
+        return MaterialPageRoute(builder: (_) => const TeacherGroupsScreen());
+      case AppRoutes.kTeacherAnnouncements:
         return MaterialPageRoute(
-          builder: (_) => const TeacherGroupsScreen(),
+          builder: (_) => const TeacherAnnouncementsScreen(),
         );
-        case AppRoutes.kTeacherAnnouncements:
-  return MaterialPageRoute(builder: (_) => const TeacherAnnouncementsScreen());
       //
       case AppRoutes.kStudentRegisterNumberScreen:
         return MaterialPageRoute(
@@ -310,5 +309,9 @@ class AppRouter {
           ),
         );
     }
+  }
+
+  MaterialPageRoute _themed(Widget screen) {
+    return MaterialPageRoute(builder: (_) => TeacherThemeScope(child: screen));
   }
 }

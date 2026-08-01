@@ -3,28 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:school_for_blind_app/apiTeacher/teacherRepo.dart';
+import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/injection.dart';
+import 'package:school_for_blind_app/core/services/reverb_service.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/presentation/widgets/voice_message_player.dart';
 import 'package:school_for_blind_app/presentation/screens/Teacher/report_message_screen.dart';
 
-/// رسالة داخل المحادثة
 class ChatMessage {
   final String text;
   final String time;
 
-  /// true = رسالة المدرّس (يمين، خضراء) ، false = رسالة الطرف الآخر
   final bool isMine;
 
-  /// رابط المرفق الصوتي (إن وُجد)
   final String? audioUrl;
 
-  /// معرّف الرسالة (للحذف والإبلاغ)
   final int? messageId;
 
-  /// اسم المرسل (لعرضه في الإبلاغ)
   final String senderName;
+
+  final String createdAt;
 
   const ChatMessage({
     required this.text,
@@ -33,12 +32,12 @@ class ChatMessage {
     this.audioUrl,
     this.messageId,
     this.senderName = '',
+    this.createdAt = '',
   });
 
   bool get isVoice => audioUrl != null && audioUrl!.isNotEmpty;
 }
 
-/// شاشة محادثة — الواجهة فقط، تُربط بـ Reverb عند جاهزية الباك
 class TeacherChatConversationScreen extends StatefulWidget {
   final int chatId;
   final String title;
@@ -65,7 +64,6 @@ class _TeacherChatConversationScreenState
 
   bool _hasText = false;
 
-  // التسجيل الصوتي
   final AudioRecorder _recorder = AudioRecorder();
   bool _isRecording = false;
   String? _recordPath;
@@ -78,6 +76,7 @@ class _TeacherChatConversationScreenState
     super.initState();
     _messageController.addListener(_onTextChanged);
     _loadMessages();
+    _initRealtime();
   }
 
   Future<void> _loadMessages() async {
@@ -100,7 +99,8 @@ class _TeacherChatConversationScreenState
           // مرفق صوتي إن وُجد
           final attachPath = (m['attachment_path'] ?? '').toString();
           final attachType = (m['attachment_type'] ?? '').toString();
-          final isAudio = attachType.contains('audio') ||
+          final isAudio =
+              attachType.contains('audio') ||
               attachPath.endsWith('.aac') ||
               attachPath.endsWith('.m4a') ||
               attachPath.endsWith('.mp3');
@@ -113,14 +113,17 @@ class _TeacherChatConversationScreenState
               : {};
           final senderName = (sender['full_name'] ?? '').toString();
 
-          items.add(ChatMessage(
-            text: (m['body'] ?? '').toString(),
-            time: _formatTime((m['created_at'] ?? '').toString()),
-            isMine: isMine,
-            audioUrl: audioUrl,
-            messageId: int.tryParse('${m['id']}'),
-            senderName: senderName,
-          ));
+          items.add(
+            ChatMessage(
+              text: (m['body'] ?? '').toString(),
+              time: _formatTime((m['created_at'] ?? '').toString()),
+              isMine: isMine,
+              audioUrl: audioUrl,
+              messageId: int.tryParse('${m['id']}'),
+              senderName: senderName,
+              createdAt: (m['created_at'] ?? '').toString(),
+            ),
+          );
         }
 
         setState(() {
@@ -135,6 +138,64 @@ class _TeacherChatConversationScreenState
     );
   }
 
+  /// الاشتراك اللحظي بالمحادثة عبر Reverb
+  Future<void> _initRealtime() async {
+    // جلب توكن المعلّم من التخزين الآمن
+    final token = await SecureStorage.getToken() ?? '';
+    if (token.isEmpty) return;
+
+    try {
+      await ReverbService.instance.init(token);
+      ReverbService.instance.subscribeToConversation(
+        widget.chatId,
+        _onRealtimeMessage,
+      );
+    } catch (e) {
+      // في حال فشل الاتصال اللحظي، تبقى الرسائل تُحمّل عند فتح الشاشة
+      // ignore: avoid_print
+      print('🔴 Reverb init failed: ' + e.toString());
+    }
+  }
+
+  /// استقبال رسالة جديدة لحظياً
+  void _onRealtimeMessage(Map<String, dynamic> m) {
+    if (!mounted) return;
+
+    final senderType = (m['sender_type'] ?? '').toString();
+    final isMine = senderType.contains('Teacher');
+    if (isMine) return;
+
+    final attachPath = (m['attachment_path'] ?? '').toString();
+    final attachType = (m['attachment_type'] ?? '').toString();
+    final isAudio =
+        attachType.contains('audio') ||
+        attachPath.endsWith('.aac') ||
+        attachPath.endsWith('.m4a') ||
+        attachPath.endsWith('.mp3');
+    final audioUrl = (attachPath.isNotEmpty && isAudio)
+        ? _fullUrl(attachPath)
+        : null;
+
+    final sender = (m['sender'] is Map)
+        ? Map<String, dynamic>.from(m['sender'])
+        : {};
+
+    setState(() {
+      _messages.add(
+        ChatMessage(
+          text: (m['body'] ?? '').toString(),
+          time: _formatTime((m['created_at'] ?? '').toString()),
+          isMine: isMine,
+          audioUrl: audioUrl,
+          messageId: int.tryParse('${m['id']}'),
+          senderName: (sender['full_name'] ?? '').toString(),
+          createdAt: (m['created_at'] ?? '').toString(),
+        ),
+      );
+    });
+    _scrollToBottom();
+  }
+
   /// يبني رابطاً كاملاً للمرفق
   String _fullUrl(String path) {
     if (path.startsWith('http')) return path;
@@ -146,12 +207,13 @@ class _TeacherChatConversationScreenState
     return '$base/storage$clean';
   }
 
-  /// "2026-07-27T07:52:58" → "7:52ص"
   String _formatTime(String iso) {
     final dt = DateTime.tryParse(iso);
     if (dt == null) return '';
     final local = dt.toLocal();
-    final h = local.hour > 12 ? local.hour - 12 : (local.hour == 0 ? 12 : local.hour);
+    final h = local.hour > 12
+        ? local.hour - 12
+        : (local.hour == 0 ? 12 : local.hour);
     final period = local.hour >= 12 ? 'م' : 'ص';
     return '$h:${local.minute.toString().padLeft(2, '0')}$period';
   }
@@ -162,6 +224,7 @@ class _TeacherChatConversationScreenState
     _messageController.dispose();
     _scrollController.dispose();
     _recorder.dispose();
+    ReverbService.instance.unsubscribe(widget.chatId);
     super.dispose();
   }
 
@@ -176,19 +239,21 @@ class _TeacherChatConversationScreenState
 
     _messageController.clear();
 
-    // عرض فوري محلي
     setState(() {
-      _messages.add(ChatMessage(
-        text: text,
-        time: _formatTime(DateTime.now().toIso8601String()),
-        isMine: true,
-      ));
+      _messages.add(
+        ChatMessage(
+          text: text,
+          time: _formatTime(DateTime.now().toIso8601String()),
+          isMine: true,
+          createdAt: DateTime.now().toIso8601String(),
+        ),
+      );
     });
     _scrollToBottom();
 
-    // إرسال للباك (الحقل اسمه body)
-    final result =
-        await getIt<TeacherRepo>().sendMessage(widget.chatId, {'body': text});
+    final result = await getIt<TeacherRepo>().sendMessage(widget.chatId, {
+      'body': text,
+    });
 
     result.when(
       success: (_) {},
@@ -196,8 +261,10 @@ class _TeacherChatConversationScreenState
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('تعذّر إرسال الرسالة',
-                  style: TextStyle(fontSize: 18)),
+              content: Text(
+                'تعذّر إرسال الرسالة',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           );
         }
@@ -249,18 +316,23 @@ class _TeacherChatConversationScreenState
 
       // عرض فوري محلي
       setState(() {
-        _messages.add(ChatMessage(
-          text: '🎤 رسالة صوتية',
-          time: _formatTime(DateTime.now().toIso8601String()),
-          isMine: true,
-          audioUrl: finalPath, // مؤقتاً محلي للعرض الفوري
-        ));
+        _messages.add(
+          ChatMessage(
+            text: '🎤 رسالة صوتية',
+            time: _formatTime(DateTime.now().toIso8601String()),
+            isMine: true,
+            audioUrl: finalPath, 
+            createdAt: DateTime.now().toIso8601String(),
+          ),
+        );
       });
       _scrollToBottom();
 
       // إرسال للباك
-      final result =
-          await getIt<TeacherRepo>().sendVoiceMessage(widget.chatId, file);
+      final result = await getIt<TeacherRepo>().sendVoiceMessage(
+        widget.chatId,
+        file,
+      );
       result.when(
         success: (_) {},
         failure: (_) => _showSnack('تعذّر إرسال الرسالة الصوتية'),
@@ -284,7 +356,7 @@ class _TeacherChatConversationScreenState
   void _showSnack(String msg) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg, style: const TextStyle(fontSize: 18))),
+      SnackBar(content: Text(msg, style: const TextStyle(fontSize: 24))),
     );
   }
 
@@ -317,40 +389,32 @@ class _TeacherChatConversationScreenState
       ),
       child: Row(
         children: [
-          // صورة/أيقونة الطرف الآخر
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: AppColors.kPrimaryColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              widget.icon ?? (widget.isGroup ? Icons.groups : Icons.person),
-              color: Colors.black,
-              size: 24,
-            ),
-          ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               widget.title,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 24,
-                fontFamily: "Arabic Typesetting",
+                fontSize: 30,
+                fontFamily: "ArabicTypesetting",
               ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.notifications_none,
-                color: Colors.white, size: 26),
+            icon: const Icon(
+              Icons.notifications_none,
+              color: Colors.white,
+              size: 26,
+            ),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.subdirectory_arrow_left,
-                color: Colors.white, size: 26),
+            icon: const Icon(
+              Icons.subdirectory_arrow_left,
+              color: Colors.white,
+              size: 26,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
         ],
@@ -361,23 +425,58 @@ class _TeacherChatConversationScreenState
   Widget _buildMessages() {
     if (_loadingMessages) {
       return const Center(
-          child: CircularProgressIndicator(color: AppColors.kPrimaryColor));
+        child: CircularProgressIndicator(color: AppColors.kPrimaryColor),
+      );
     }
     if (_messages.isEmpty) {
       return Center(
-        child: Text('ابدأ المحادثة',
-            style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 20)),
+        child: Text(
+          'ابدأ المحادثة',
+          style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 26),
+        ),
       );
     }
     return ListView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      itemCount: _messages.length + 1,
+      itemCount: _messages.length,
       itemBuilder: (context, index) {
-        if (index == 0) return _buildDateChip('اليوم');
-        return _buildBubble(_messages[index - 1]);
+        final msg = _messages[index];
+        // فاصل التاريخ يظهر قبل أول رسالة، أو عند تغيّر اليوم
+        final showDate =
+            index == 0 ||
+            !_sameDay(_messages[index - 1].createdAt, msg.createdAt);
+
+        return Column(
+          children: [
+            if (showDate) _buildDateChip(_dateLabel(msg.createdAt)),
+            _buildBubble(msg),
+          ],
+        );
       },
     );
+  }
+
+  /// هل الرسالتان في نفس اليوم؟
+  bool _sameDay(String isoA, String isoB) {
+    final a = DateTime.tryParse(isoA)?.toLocal();
+    final b = DateTime.tryParse(isoB)?.toLocal();
+    if (a == null || b == null) return false;
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  /// تسمية الفاصل: اليوم / أمس / التاريخ
+  String _dateLabel(String iso) {
+    final dt = DateTime.tryParse(iso)?.toLocal();
+    if (dt == null) return '';
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final that = DateTime(dt.year, dt.month, dt.day);
+    final diff = today.difference(that).inDays;
+
+    if (diff == 0) return 'اليوم';
+    if (diff == 1) return 'أمس';
+    return '${dt.year}/${dt.month}/${dt.day}';
   }
 
   Widget _buildDateChip(String label) {
@@ -391,7 +490,7 @@ class _TeacherChatConversationScreenState
         ),
         child: Text(
           label,
-          style: const TextStyle(color: Colors.white70, fontSize: 14),
+          style: const TextStyle(color: Colors.white70, fontSize: 20),
         ),
       ),
     );
@@ -423,16 +522,13 @@ class _TeacherChatConversationScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (msg.isVoice)
-              VoiceMessagePlayer(
-                audioUrl: msg.audioUrl!,
-                color: Colors.white,
-              )
+              VoiceMessagePlayer(audioUrl: msg.audioUrl!, color: Colors.white)
             else
               Text(
                 msg.text,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 30,
                   height: 1.4,
                 ),
               ),
@@ -481,10 +577,14 @@ class _TeacherChatConversationScreenState
               const SizedBox(height: 8),
               // حذف — متاح لرسالتي ورسالة الطالب
               ListTile(
-                leading: const Icon(Icons.delete_outline,
-                    color: AppColors.kPrimaryColor),
-                title: const Text('حذف الرسالة',
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: AppColors.kPrimaryColor,
+                ),
+                title: const Text(
+                  'حذف الرسالة',
+                  style: TextStyle(color: Colors.white, fontSize: 22),
+                ),
                 onTap: () {
                   Navigator.pop(sheetCtx);
                   _deleteMessage(msg);
@@ -493,10 +593,14 @@ class _TeacherChatConversationScreenState
               // إبلاغ — فقط لرسائل الطلاب (ليست رسالتي)
               if (!msg.isMine)
                 ListTile(
-                  leading: const Icon(Icons.flag_outlined,
-                      color: AppColors.kPrimaryColor),
-                  title: const Text('إبلاغ عن الرسالة',
-                      style: TextStyle(color: Colors.white, fontSize: 22)),
+                  leading: const Icon(
+                    Icons.flag_outlined,
+                    color: AppColors.kPrimaryColor,
+                  ),
+                  title: const Text(
+                    'إبلاغ عن الرسالة',
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
                   onTap: () {
                     Navigator.pop(sheetCtx);
                     _openReport(msg);
@@ -530,9 +634,7 @@ class _TeacherChatConversationScreenState
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ReportMessageScreen(
-          messageId: msg.messageId!,
-        ),
+        builder: (_) => ReportMessageScreen(messageId: msg.messageId!),
       ),
     );
   }
@@ -559,7 +661,9 @@ class _TeacherChatConversationScreenState
                 decoration: InputDecoration(
                   hintText: 'اكتب رسالة...',
                   hintStyle: TextStyle(
-                      color: Colors.white.withOpacity(0.35), fontSize: 18),
+                    color: Colors.white.withOpacity(0.35),
+                    fontSize: 25,
+                  ),
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(vertical: 14),
@@ -572,8 +676,7 @@ class _TeacherChatConversationScreenState
           // زر الإرسال / التسجيل الصوتي
           GestureDetector(
             onTap: _hasText ? _sendMessage : null,
-            onLongPressStart:
-                _hasText ? null : (_) => _startRecording(),
+            onLongPressStart: _hasText ? null : (_) => _startRecording(),
             onLongPressEnd: _hasText ? null : (_) => _stopAndSendRecording(),
             onLongPressCancel: _hasText ? null : _cancelRecording,
             child: Container(

@@ -372,7 +372,7 @@ void _onNavTap(int index) {
           style: TextStyle(
             color: isSelected ? Colors.black : Colors.white,
             fontWeight: FontWeight.w400,
-            fontSize: 20,
+            fontSize: 25,
           ),
         ),
       ),
@@ -439,7 +439,7 @@ void _onNavTap(int index) {
           const SizedBox(height: 15),
           const Text(
             'لا توجد دروس بعد',
-            style: TextStyle(color: Colors.white70, fontSize: 18),
+            style: TextStyle(color: Colors.white70, fontSize: 25),
           ),
           const SizedBox(height: 8),
           Text(
@@ -479,7 +479,7 @@ void _onNavTap(int index) {
           const SizedBox(height: 12),
           const Text(
             'تعذر تحميل الدروس',
-            style: TextStyle(color: Colors.white70, fontSize: 17),
+            style: TextStyle(color: Colors.white70, fontSize: 25),
           ),
           const SizedBox(height: 15),
           TextButton.icon(
@@ -487,7 +487,7 @@ void _onNavTap(int index) {
             icon: const Icon(Icons.refresh, color: Colors.white),
             label: const Text(
               'إعادة المحاولة',
-              style: TextStyle(color: Colors.white, fontSize: 15),
+              style: TextStyle(color: Colors.white, fontSize: 25),
             ),
           ),
         ],
@@ -518,7 +518,7 @@ void _onNavTap(int index) {
             style: TextStyle(color: Colors.white, fontSize: 26),
           ),
           content: Text(
-            'هل أنت متأكد من حذف "${lesson.title}"؟\nسيُحذف نهائياً من السيرفر.',
+            'هل أنت متأكد من حذف "${lesson.title}"؟\.',
             style: const TextStyle(color: Colors.white70, fontSize: 24),
           ),
           actions: [
@@ -652,7 +652,7 @@ void _onNavTap(int index) {
             'لا توجد حلول بانتظار التصحيح',
             style: TextStyle(
               color: Colors.white.withOpacity(0.5),
-              fontSize: 22,
+              fontSize: 25,
             ),
           ),
         ),
@@ -721,7 +721,7 @@ void _onNavTap(int index) {
                           color: isExam
                               ? AppColors.kPrimaryColor
                               : Colors.lightBlueAccent,
-                          fontSize: 13,
+                          fontSize: 25,
                         ),
                       ),
                     ),

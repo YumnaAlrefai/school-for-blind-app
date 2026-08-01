@@ -370,7 +370,7 @@ Future<ApiResult<dynamic>> gradeExamTextAnswers(
 }
 Future<ApiResult<dynamic>> sendSupportTicket({
   required String message,
-  File? image,
+  required File image,
   File? audio,
 }) async {
   try {
@@ -383,9 +383,9 @@ Future<ApiResult<dynamic>> sendSupportTicket({
     return ApiResult.failure(NetworkExceptions.getDioException(e));
   }
 }
-Future<ApiResult<dynamic>> getSchoolTimetable() async {
+Future<ApiResult<dynamic>> getTeacherSchedule() async {
   try {
-    return ApiResult.success(await webServices.getSchoolTimetable());
+    return ApiResult.success(await webServices.getTeacherSchedule());
   } catch (e) {
     return ApiResult.failure(NetworkExceptions.getDioException(e));
   }
@@ -468,6 +468,13 @@ Future<ApiResult<dynamic>> reportMessage(int id, Map<String, dynamic> body) asyn
 Future<ApiResult<dynamic>> getAnnouncements() async {
   try {
     return ApiResult.success(await webServices.getAnnouncements());
+  } catch (e) {
+    return ApiResult.failure(NetworkExceptions.getDioException(e));
+  }
+}
+Future<ApiResult<dynamic>> getExamSchedule(int id) async {
+  try {
+    return ApiResult.success(await webServices.getExamSchedule(id));
   } catch (e) {
     return ApiResult.failure(NetworkExceptions.getDioException(e));
   }

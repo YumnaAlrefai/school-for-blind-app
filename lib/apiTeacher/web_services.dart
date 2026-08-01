@@ -164,15 +164,15 @@ abstract class WebServices {
     @Path("sid") int studentId,
     @Body() Map<String, dynamic> body,
   );
-  @POST("support-tickets")
+ @POST("support-tickets")
   @MultiPart()
   Future<dynamic> sendSupportTicket({
     @Part(name: "message") required String message,
-    @Part(name: "image") File? image,
+    @Part(name: "image") required File image,
     @Part(name: "audio") File? audio,
   });
-  @GET("announcements/school-timetable/first")
-  Future<dynamic> getSchoolTimetable();
+@GET("teacher/schedule")
+Future<dynamic> getTeacherSchedule();
   @POST("donation/checkout")
   Future<dynamic> donationCheckout(@Body() Map<String, dynamic> body);
 
@@ -210,4 +210,6 @@ abstract class WebServices {
   );
   @GET("announcements")
   Future<dynamic> getAnnouncements();
+  @GET("announcements/exam/{id}")
+Future<dynamic> getExamSchedule(@Path("id") int id);
 }

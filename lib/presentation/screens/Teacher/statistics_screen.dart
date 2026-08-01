@@ -39,6 +39,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
     result.when(
       success: (data) {
+        print('🟢 STATS RAW: $data'); 
         final map = (data is Map) ? Map<String, dynamic>.from(data) : {};
         final list = (map['data'] is List) ? map['data'] as List : const [];
         setState(() {
