@@ -8,12 +8,12 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/data/models/app_validator.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_text_form_field.dart';
 import 'package:school_for_blind_app/presentation/widgets/options_card.dart';
+import 'package:school_for_blind_app/presentation/widgets/small_button.dart';
 
 class StudentRegisterDataScreen extends StatefulWidget {
   const StudentRegisterDataScreen({super.key});
@@ -44,8 +44,49 @@ class _StudentRegisterDataScreenState extends State<StudentRegisterDataScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(backgroundColor: AppColors.kBackgroundColor),
-        backgroundColor: AppColors.kBackgroundColor,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leadingWidth: 100.w,
+          toolbarHeight: 100,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          leading: Center(
+            child: Row(
+              children: [
+                SizedBox(width: 20.w),
+                SmallButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.kSUserTypeScreen,
+                      (route) => false,
+                    );
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.kStudentAccountsScreen,
+                    );
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.kStudentRegisterNumberScreen,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            SmallButton(
+              icon: const Icon(Icons.question_mark_outlined),
+              onPressed: () {
+                getIt<VoiceServices>().speak(
+                  'هذه صفحةُ إدخال معلوماتِ حسابِكَ الشخصية، املأْ جميع الحقول للمتابعةْ',
+                );
+              },
+            ),
+            SizedBox(width: 20.w),
+          ],
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Form(
           key: _formKey,
           child: SafeArea(
@@ -54,6 +95,7 @@ class _StudentRegisterDataScreenState extends State<StudentRegisterDataScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 10.h),
                     CustomTextfield(
                       controller: _fullNameController,
                       hintText: 'الاسم الكامل',
@@ -86,7 +128,7 @@ class _StudentRegisterDataScreenState extends State<StudentRegisterDataScreen> {
                         children: [
                           Text(
                             'المرحلة الدراسية:',
-                            style: AppTextStyles.kMediumPrimary,
+                            style: AppTextStyles.kMediumPrimary(context),
                           ),
                         ],
                       ),
@@ -100,6 +142,7 @@ class _StudentRegisterDataScreenState extends State<StudentRegisterDataScreen> {
                             OptionsCard(
                               title: 'تاسع',
                               width: 157,
+                              height: 97,
                               isSelected: selectedLevel == StudentLevel.ninth,
                               onTap: () => context
                                   .read<LevelCubit>()
@@ -109,6 +152,7 @@ class _StudentRegisterDataScreenState extends State<StudentRegisterDataScreen> {
                             OptionsCard(
                               title: 'بكالوريا',
                               width: 157,
+                              height: 97,
                               isSelected: selectedLevel == StudentLevel.twelfth,
                               onTap: () => context
                                   .read<LevelCubit>()
@@ -122,14 +166,17 @@ class _StudentRegisterDataScreenState extends State<StudentRegisterDataScreen> {
                     BlocBuilder<AuthCubit, ResultState<dynamic>>(
                       builder: (context, state) {
                         if (state is Loading) {
-                          return const Center(
+                          return Center(
                             child: CircularProgressIndicator(
-                              color: AppColors.kPrimaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           );
                         }
                         return PrimaryButton(
                           title: 'التالي',
+                          width: 332,
+                          height: 97,
+                          fontSize: 48,
                           onPressed: () {
                             if (_fullNameController.text.isEmpty ||
                                 _parentPhoneController.text.isEmpty ||

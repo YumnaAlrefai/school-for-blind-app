@@ -21,9 +21,8 @@ class DeepLinkService {
     if (uri.scheme == 'myapp') {
       if (uri.host == 'login' || uri.path.contains('login')) {
         getIt<AuthCubit>().emitMagicLink(uri);
-
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          AppRoutes.kStudentMainScreen,
+          AppRoutes.kStudentWaitingScreen,
           (route) => false,
         );
       }

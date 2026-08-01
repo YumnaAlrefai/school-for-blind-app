@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 
 class OptionsCard extends StatelessWidget {
-  final String title;
+  final String? title;
   final IconData? icon;
   final double width;
+  final double height;
+  final double? iconSize;
   final bool isSelected;
   final VoidCallback onTap;
 
   const OptionsCard({
     super.key,
-    required this.title,
+    this.title,
     this.icon,
     required this.width,
     required this.isSelected,
     required this.onTap,
+    required this.height,
+    this.iconSize,
   });
 
   @override
@@ -25,16 +28,20 @@ class OptionsCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: width.w,
-        height: 97.h,
+        height: height.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.kPrimaryColor : AppColors.kSurfaceColor,
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: isSelected
               ? []
               : [
                   BoxShadow(
-                    color: AppColors.kPrimaryColor.withOpacity(0.5),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
                   ),
@@ -44,15 +51,21 @@ class OptionsCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             icon != null
-                ? Icon(icon, color: AppColors.kPrimaryColor, size: 35)
+                ? Icon(
+                    icon,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: iconSize,
+                  )
                 : Container(),
             SizedBox(width: 15.w),
-            Text(
-              title,
-              style: isSelected
-                  ? AppTextStyles.kMediumSecondary
-                  : AppTextStyles.kMediumPrimary,
-            ),
+            title != null
+                ? Text(
+                    title!,
+                    style: isSelected
+                        ? AppTextStyles.kMediumSecondary(context)
+                        : AppTextStyles.kMediumPrimary(context),
+                  )
+                : Container(),
           ],
         ),
       ),

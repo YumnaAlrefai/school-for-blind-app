@@ -7,9 +7,9 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/data/models/app_validator.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
+import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_text_form_field.dart';
 
@@ -43,8 +43,11 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(),
-        backgroundColor: AppColors.kBackgroundColor,
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنت الآنَ في صفحة تسجيل الدخولْ، إن كانَ لديك حساب فيُمْكِنُكَ تسجيل الدخول عن طريق كتابة رقم هاتفك المحمول في الحقل الموجود في منتصف الشاشة باستخدام لوحة المفاتيح العاديةْ، ثم الضغط على زر التأكيد أسفله،عندها سيتم إرسال رابط تسجيل الدخول إلى رقمك على الواتساب، وبمجرد الضغط عليه سيتم دخولك إلى التطبيق تلقائياً دون الحاجة لكتابة أي كلمة مرور.',
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Form(
           key: _formKey,
           child: SafeArea(
@@ -72,9 +75,11 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
                             getIt<VoiceServices>().speak(
                               'تم إرسال رابط تسجيل الدخول إلى رقمك على واتساب، يمكنك الضغط على الصورة لفتح التطبيق بسرعة',
                             );
+                            context.read<AuthCubit>().resetState();
+
                             Navigator.pushNamed(
                               context,
-                              AppRoutes.kStudentHomeScreen,
+                              AppRoutes.kStudentWhatsappScreen,
                             );
                           },
                           failure: (networkException) {
@@ -88,14 +93,17 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
                       },
                       builder: (context, state) {
                         if (state is Loading) {
-                          return const Center(
+                          return Center(
                             child: CircularProgressIndicator(
-                              color: AppColors.kPrimaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           );
                         }
                         return PrimaryButton(
                           title: 'تأكيد',
+                          width: 332,
+                          height: 97,
+                          fontSize: 48,
                           onPressed: () {
                             if (AppValidator.phoneValidation(
                                   _phoneController.text,

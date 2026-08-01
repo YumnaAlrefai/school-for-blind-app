@@ -1,30 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String title;
+  final double width;
+  final double height;
+  final double fontSize;
   final VoidCallback onPressed;
 
   const PrimaryButton({
     required this.title,
+    required this.width,
+    required this.height,
     required this.onPressed,
     super.key,
+    required this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.r),
+    return SizedBox(
+      width: width.w,
+      height: height.h,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.r),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          padding: EdgeInsets.zero,
         ),
-        backgroundColor: AppColors.kPrimaryColor,
-        minimumSize: Size(332.w, 97.h),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: fontSize.sp,
+            fontWeight: FontWeight.w400,
+            color: Theme.of(context).colorScheme.background,
+          ),
+        ),
       ),
-      child: Text(title, style: AppTextStyles.kMediumSecondary),
     );
   }
 }
@@ -44,13 +60,16 @@ class SecondaryButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        side: BorderSide(color: AppColors.kPrimaryColor, width: 2),
+        side: BorderSide(
+          color: Theme.of(context).colorScheme.primary,
+          width: 2,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.r),
         ),
         minimumSize: Size(332.w, 97.h),
       ),
-      child: Text(title, style: AppTextStyles.kMediumPrimary),
+      child: Text(title, style: AppTextStyles.kMediumPrimary(context)),
     );
   }
 }

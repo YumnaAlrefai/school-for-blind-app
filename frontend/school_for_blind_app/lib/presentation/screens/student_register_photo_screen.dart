@@ -9,9 +9,9 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
+import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/options_card.dart';
 
@@ -28,7 +28,13 @@ class _StudentRegisterPhotoScreenState
   XFile? _documentImage;
   Future<void> _pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: source);
+
+    final XFile? image = await picker.pickImage(
+      source: source,
+      imageQuality: 50,
+      maxWidth: 1024,
+      maxHeight: 1024,
+    );
 
     if (image != null) {
       setState(() {
@@ -40,7 +46,7 @@ class _StudentRegisterPhotoScreenState
 
   Future<void> _showImageSourceSheet(BuildContext context) async {
     showModalBottomSheet(
-      backgroundColor: AppColors.kSurfaceColor,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -57,18 +63,27 @@ class _StudentRegisterPhotoScreenState
                 ListTile(
                   leading: Icon(
                     Icons.camera_alt,
-                    color: AppColors.kPrimaryColor,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  title: Text('الكاميرا', style: AppTextStyles.kMediumPrimary),
+                  title: Text(
+                    'الكاميرا',
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                   onTap: () {
                     Navigator.pop(context);
                     _pickImage(ImageSource.camera);
                   },
                 ),
-                Divider(color: AppColors.kTextPrimary),
+                Divider(color: Theme.of(context).colorScheme.onBackground),
                 ListTile(
-                  leading: Icon(Icons.image, color: AppColors.kPrimaryColor),
-                  title: Text('المعرض', style: AppTextStyles.kMediumPrimary),
+                  leading: Icon(
+                    Icons.image,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: Text(
+                    'المعرض',
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                   onTap: () {
                     Navigator.pop(context);
                     _pickImage(ImageSource.gallery);
@@ -85,18 +100,21 @@ class _StudentRegisterPhotoScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.kBackgroundColor,
-      appBar: AppBar(backgroundColor: AppColors.kBackgroundColor),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: CustomAppBar(
+        helpMessage:
+            'حتى تتمكن من التسجيل في مدرستنا يجب عليك إرفاقُ صورةِ تقريرٍ طبِّيٍّ أو هَويَّةٍ تُثبتُ أنك كفيفٌ تام أو جزئي، بعدها اضغط على زر التأكيد ليتم إرسال حسابك إلى الإدارة لمراجعته، وانتظرْ حتى يتمَّ قبولُك',
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35),
             child: Text(
-              'الرجاء إرفاق صورة الأوراق الثبوتية (كفيف/ضعيف بصر):',
+              'الرجاء إرفاق صورة الأوراق الثبوتية (كفيف تام/جزئي):',
               overflow: TextOverflow.clip,
               maxLines: 2,
-              style: AppTextStyles.kMediumPrimary,
+              style: AppTextStyles.kMediumPrimary(context),
             ),
           ),
           SizedBox(height: 20.h),
@@ -109,7 +127,9 @@ class _StudentRegisterPhotoScreenState
                     ? OptionsCard(
                         title: 'إضافة صورة',
                         icon: Icons.file_upload_outlined,
+                        iconSize: 35,
                         width: 239,
+                        height: 97,
                         isSelected: false,
                         onTap: () async {
                           await _showImageSourceSheet(context);
@@ -134,7 +154,7 @@ class _StudentRegisterPhotoScreenState
                               child: IconButton(
                                 iconSize: 20,
                                 style: IconButton.styleFrom(
-                                  backgroundColor: Colors.red,
+                                  backgroundColor: Color(0xffff3333),
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -170,14 +190,17 @@ class _StudentRegisterPhotoScreenState
             },
             builder: (context, state) {
               if (state is Loading) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
-                    color: AppColors.kPrimaryColor,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 );
               }
               return PrimaryButton(
                 title: 'التالي',
+                width: 332,
+                height: 97,
+                fontSize: 48,
                 onPressed: () {
                   if (_documentImage == null) {
                     getIt<VoiceServices>().speak('أرفق صورة ثبوتية');

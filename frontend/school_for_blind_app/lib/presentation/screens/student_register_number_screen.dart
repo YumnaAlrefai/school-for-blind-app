@@ -7,9 +7,9 @@ import 'package:school_for_blind_app/business_logic/cubit/result_state.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
-import 'package:school_for_blind_app/core/theme/app_colors.dart';
 import 'package:school_for_blind_app/data/models/app_validator.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
+import 'package:school_for_blind_app/presentation/widgets/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/custom_text_form_field.dart';
 
@@ -45,8 +45,11 @@ class _StudentRegisterNumberScreenState
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(),
-        backgroundColor: AppColors.kBackgroundColor,
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنت الآنَ في صفحة إنشاءِ حسابْ، أَدخِلْ رقم هاتِفكَ المحمولِ في الحقل الموجود في منتصف الشاشة باستخدام لوحة المفاتيح العاديةْ، ثم اضغطْ على زر الإرسالِ أسفله، عندها سيتم إرسالُ رمزِ تَحقُّقٍ إلى رقمك على الواتساب والانتقال للصفحة التالية لتأكيد الرمز.',
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Form(
           key: _formKey,
           child: SafeArea(
@@ -88,9 +91,9 @@ class _StudentRegisterNumberScreenState
                       },
                       builder: (context, state) {
                         if (state is Loading) {
-                          return const Center(
+                          return Center(
                             child: CircularProgressIndicator(
-                              color: AppColors.kPrimaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           );
                         }
@@ -98,6 +101,9 @@ class _StudentRegisterNumberScreenState
                           title: state is Failure
                               ? 'إعادة إرسال الرمز'
                               : 'إرسال رمز التحقق',
+                          width: 332,
+                          height: 97,
+                          fontSize: 48,
                           onPressed: () {
                             if (AppValidator.phoneValidation(
                                   _phoneController.text,
