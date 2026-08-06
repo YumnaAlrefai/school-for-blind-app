@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class ThemeCubit extends Cubit<ThemeMode> {
-  ThemeCubit() : super(ThemeMode.dark) {
+class TeacherThemeCubit extends Cubit<ThemeMode> {
+  TeacherThemeCubit() : super(ThemeMode.dark) {
     _load();
   }
 

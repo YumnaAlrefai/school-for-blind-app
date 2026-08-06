@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/theme/theme_app.dart';
-import 'package:school_for_blind_app/core/theme/theme_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_theme_cubit.dart';
 
 class TeacherThemeScope extends StatelessWidget {
   const TeacherThemeScope({super.key, required this.child});
@@ -11,8 +11,8 @@ class TeacherThemeScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeMode>(
-      bloc: getIt<ThemeCubit>(),
+    return BlocBuilder<TeacherThemeCubit, ThemeMode>(
+      bloc: getIt<TeacherThemeCubit>(),
       builder: (context, mode) {
         final theme = mode == ThemeMode.light
             ? AppThemes.light

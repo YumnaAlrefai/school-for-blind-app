@@ -4,7 +4,7 @@ import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_cubit.
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/theme/app_colors.dart';
-import 'package:school_for_blind_app/core/theme/theme_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_theme_cubit.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,10 +86,10 @@ class CustomDrawer extends StatelessWidget {
                         Navigator.pushNamed(context, AppRoutes.kStatistics);
                       }),
 
-                      BlocBuilder<ThemeCubit, ThemeMode>(
-                        bloc: getIt<ThemeCubit>(),
+                      BlocBuilder<TeacherThemeCubit, ThemeMode>(
+                        bloc: getIt<TeacherThemeCubit>(),
                         builder: (context, mode) {
-                          final themeCubit = getIt<ThemeCubit>();
+                          final themeCubit = getIt<TeacherThemeCubit>();
                           final isDark = mode == ThemeMode.dark;
 
                           return PopupMenuButton<ThemeMode>(
