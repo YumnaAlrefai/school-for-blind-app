@@ -33,8 +33,8 @@ class _DonationPaymentScreenState extends State<DonationPaymentScreen> {
   bool _stripeReady = false;
   String? _initError;
 
-  static const String _publishableKey ='pk_test_51TuITGGaofOb9itwQMf2VMYOxOMPSIVPgI3dsJD8iYIOTVknzw9bCi8jBaqFh3d98GBk0QHtq2YqHvOCP4l8YLhL00mI4V5B3f';
-
+static const String _publishableKey =
+      'pk_test_51TkNlpHb6vvSAewAX80goBxYkrKudKIvMMUJWCWUtfBtz34M6b7nSkK856iN4VelOTa5A691otg1gYWZ7NU0GhCn00M54djgTI';
 
   @override
   void initState() {
