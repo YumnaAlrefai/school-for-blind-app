@@ -55,11 +55,13 @@ import 'package:school_for_blind_app/presentation/screens/teacher/question_bank_
 import 'package:school_for_blind_app/presentation/screens/teacher/quiz_submissions_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/school_timetable_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/statistics_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_account_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_announcements_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_channel_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_channels_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_chats_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_groups_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/teacher/teacher_home_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_login_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_notifications_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/teacher_otp_screen.dart';
@@ -341,13 +343,6 @@ class AppRouter {
           ),
         );
 
-
-
-
-
-
-
-
       case AppRoutes.kTeacherPhone:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -404,7 +399,10 @@ class AppRouter {
             child: const TeacherProfil(),
           ),
         );
-
+      case AppRoutes.kSubjectScreen:
+        return MaterialPageRoute(builder: (_) => const LessonsScreen());
+      case AppRoutes.kTeacherAccountsScreen:
+        return MaterialPageRoute(builder: (_) => const AccountTeacher());
       case AppRoutes.kAddLesson:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

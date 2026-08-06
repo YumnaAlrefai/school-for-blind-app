@@ -5,7 +5,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:school_for_blind_app/data/models/student/message_model.dart';
 
 class RealtimeService {
-  static const String _host = 'hist-beast-lucy-advisory.trycloudflare.com';
+  static const String _host = 'order-quantitative-park-emphasis.trycloudflare.com';
   static const int _port = 443;
   static const String _appKey = 'g43ja0cpjdcxspnfbnvd';
   static const String _authEndpoint =

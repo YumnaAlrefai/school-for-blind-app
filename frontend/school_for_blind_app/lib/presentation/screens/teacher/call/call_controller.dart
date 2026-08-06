@@ -13,7 +13,7 @@ import 'package:school_for_blind_app/presentation/screens/teacher/call/call_mode
 
 class LiveKitConfig {
  
-  static const String url = 'wss://school-for-blind-i8afqt3h.livekit.cloud';
+static const String url = 'https://school-for-blind-vd3kp8u7.livekit.cloud';
 }
 
 enum CallConnectionState {

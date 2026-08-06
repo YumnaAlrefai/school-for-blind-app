@@ -10,14 +10,15 @@ class ReverbService {
   bool _initialized = false;
 
   // ===== إعدادات Reverb =====
-  static const String _appKey = 'my-secret-key'; // REVERB_APP_KEY
-  static const String _host = '192.168.1.103'; // IP الكمبيوتر (نفس الشبكة)
-  static const int _wsPort = 8080; // REVERB_PORT
-  static const bool _encrypted = false; // http (ليس wss)
+  static const String _appKey = 'g43ja0cpjdcxspnfbnvd'; // REVERB_APP_KEY
+  static const String _host =
+      'order-quantitative-park-emphasis.trycloudflare.com'; // IP الكمبيوتر (نفس الشبكة)
+  static const int _wsPort = 443; // REVERB_PORT
+  static const bool _encrypted = true; // http (ليس wss)
 
   // مصادقة القنوات الخاصة (على الـ API عبر ngrok)
   static const String _authEndpoint =
-      'https://average-mutilator-untrained.ngrok-free.dev/broadcasting/auth';
+      'https://stays-ability-accustom.ngrok-free.dev/broadcasting/auth';
 
   /// تهيئة الاتصال مرة واحدة مع توكن المعلّم.
   Future<void> init(String token) async {
@@ -29,7 +30,7 @@ class ReverbService {
         host: _host,
         wsPort: _wsPort,
         encrypted: _encrypted,
-      authOptions: PusherAuthOptions(
+        authOptions: PusherAuthOptions(
           _authEndpoint,
           headers: () async {
             return {
@@ -71,11 +72,11 @@ class ReverbService {
     final channel = _client!.private(channelName);
 
     // الحدث يصل كـ MessageSent (اسم الكلاس، لا يوجد broadcastAs)
-    channel.bind('MessageSent', (data) {
+    // 👈 3. الاستماع للـ Event بالطريقة اللي بيبعتها Reverb فعلياً
+    channel.bind(r'App\Events\MessageSent', (data) {
       onMessage(_parseData(data));
     });
-    // احتياطاً: الاسم الكامل مع namespace
-    channel.bind('App\\Events\\MessageSent', (data) {
+    channel.bind('MessageSent', (data) {
       onMessage(_parseData(data));
     });
   }

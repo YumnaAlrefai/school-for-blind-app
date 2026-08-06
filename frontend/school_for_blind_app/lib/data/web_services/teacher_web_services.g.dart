@@ -12,7 +12,7 @@ part of 'teacher_web_services.dart';
 
 class _TeacherWebServices implements TeacherWebServices {
   _TeacherWebServices(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://average-mutilator-untrained.ngrok-free.dev/api/';
+    baseUrl ??= 'https://stays-ability-accustom.ngrok-free.dev/api/';
   }
 
   final Dio _dio;

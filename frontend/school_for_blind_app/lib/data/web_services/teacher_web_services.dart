@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'teacher_web_services.g.dart';
 
-@RestApi(baseUrl: 'https://average-mutilator-untrained.ngrok-free.dev/api/')
+@RestApi(baseUrl: 'https://stays-ability-accustom.ngrok-free.dev/api/')
 abstract class TeacherWebServices {
   factory TeacherWebServices(Dio dio, {String? baseUrl}) = _TeacherWebServices;
 
