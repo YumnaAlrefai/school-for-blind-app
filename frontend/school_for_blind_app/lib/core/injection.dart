@@ -28,6 +28,7 @@ import 'package:school_for_blind_app/business_logic/cubit/student/support_ticket
 import 'package:school_for_blind_app/business_logic/cubit/student/theme_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_lessons_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/teacher/teacher_theme_cubit.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/realtime_service.dart';
@@ -69,7 +70,9 @@ void initGetIt() {
   getIt.registerFactory<SavedLessonsCubit>(
     () => SavedLessonsCubit(getIt<StudentRepo>()),
   );
-  getIt.registerFactory(() => SavedPastExamsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory<SavedPastExamsCubit>(
+    () => SavedPastExamsCubit(getIt<StudentRepo>()),
+  );
   getIt.registerFactory<OfflineSavedLessonsCubit>(
     () => OfflineSavedLessonsCubit(),
   );
@@ -79,10 +82,18 @@ void initGetIt() {
   getIt.registerFactory<SupportTicketCubit>(
     () => SupportTicketCubit(getIt<StudentRepo>()),
   );
-  getIt.registerFactory(() => PastExamsCubit(getIt<StudentRepo>()));
-  getIt.registerFactory(() => PastExamSolutionsCubit(getIt<StudentRepo>()));
-  getIt.registerFactory(() => ChannelsCubit(getIt<StudentRepo>()));
-  getIt.registerFactory(() => MessagesCubit(getIt<StudentRepo>()));
+  getIt.registerFactory<PastExamsCubit>(
+    () => PastExamsCubit(getIt<StudentRepo>()),
+  );
+  getIt.registerFactory<PastExamSolutionsCubit>(
+    () => PastExamSolutionsCubit(getIt<StudentRepo>()),
+  );
+  getIt.registerFactory<ChannelsCubit>(
+    () => ChannelsCubit(getIt<StudentRepo>()),
+  );
+  getIt.registerFactory<MessagesCubit>(
+    () => MessagesCubit(getIt<StudentRepo>()),
+  );
   getIt.registerLazySingleton<RealtimeService>(() => RealtimeService());
   getIt.registerFactory<ExamsCubit>(() => ExamsCubit(getIt<StudentRepo>()));
   getIt.registerFactory<ExamQuestionsCubit>(() => ExamQuestionsCubit(getIt()));
@@ -96,15 +107,11 @@ void initGetIt() {
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),
   );
-  getIt.registerLazySingleton<VoiceServices>(() => VoiceServices());
-  getIt.registerSingleton<DeepLinkService>(DeepLinkService());
 
   getIt.registerFactory<TeacherRepo>(
     () => TeacherRepo(getIt<TeacherWebServices>()),
   );
-
-  getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(getIt()));
-  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+  getIt.registerLazySingleton<TeacherThemeCubit>(() => TeacherThemeCubit());
   getIt.registerLazySingleton<TeacherCubit>(() => TeacherCubit(getIt()));
   getIt.registerLazySingleton<TeacherLessonsCubit>(
     () => TeacherLessonsCubit(getIt<TeacherRepo>()),
