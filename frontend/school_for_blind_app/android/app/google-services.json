@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "534148782417",
+    "project_id": "school-for-the-blind-app",
+    "storage_bucket": "school-for-the-blind-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534148782417:android:253508148c151322785b70",
+        "android_client_info": {
+          "package_name": "com.example.school_for_blind_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgucq9YF1rzOVJ3zXrdEXSyAtwZlTVJuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

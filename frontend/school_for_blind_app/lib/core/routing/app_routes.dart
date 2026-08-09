@@ -39,8 +39,13 @@ class AppRoutes {
   static const String kStudentQuizScreen = '/student_quiz_screen';
   static const String kStudentExamsScreen = '/student_exams_screen';
   static const String kStudentExamScreen = '/student_exam_screen';
+  static const String kStudentExamSolutionsScreen =
+      '/student_exam_solutions_screen';
+  static const String kStudentQuizReviewScreen = '/student-quiz-review';
   static const String kStudentLibraryScreen = '/student_library_screen';
   static const String kStudentScheduleScreen = '/student_schedule_screen';
+  static const String kStudentExamScheduleScreen =
+      '/student_exam_schedule_screen';
   static const String kStudentPastExamSolutionsScreen =
       '/student_past_exam_solutions_screen';
 

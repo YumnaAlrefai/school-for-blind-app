@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:school_for_blind_app/data/models/student/announcement_model.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:school_for_blind_app/data/models/student/message_model.dart';
 
 class RealtimeService {
-  static const String _host = 'order-quantitative-park-emphasis.trycloudflare.com';
+  static const String _host =
+      'inflation-angle-texture-workshop.trycloudflare.com';
   static const int _port = 443;
   static const String _appKey = 'g43ja0cpjdcxspnfbnvd';
   static const String _authEndpoint =
@@ -18,8 +20,11 @@ class RealtimeService {
   final Set<String> _pendingOrSubscribed = {};
   final Map<String, void Function(MessageModel message)> _messageHandlers = {};
   final Map<String, void Function(int deletedMessageId)> _deleteHandlers = {};
+  final Map<String, void Function(Announcement announcement)>
+  _announcementHandlers = {};
 
   Future<void> init(String authToken) async {
+
     _authToken = authToken;
     if (_channel != null) return;
 
@@ -88,16 +93,33 @@ class RealtimeService {
         _deleteHandlers[channelName]!(parsedId);
       }
     }
+    if (event == 'new-announcement' &&
+        _announcementHandlers.containsKey(channelName)) {
+      final data = msg['data'];
+      final decoded = data is String ? jsonDecode(data) : data;
+      _announcementHandlers[channelName]!(
+        Announcement.fromJson(decoded as Map<String, dynamic>),
+      );
+    }
   }
 
   Future<void> _sendSubscribe(String channelName) async {
     if (_socketId == null || _channel == null) return;
-    final auth = await _authorize(channelName);
-    if (auth == null) return;
+
+    final bool isPrivateChannel =
+        channelName.startsWith('private-') ||
+        channelName.startsWith('presence-');
+
+    String? auth;
+    if (isPrivateChannel) {
+      auth = await _authorize(channelName);
+      if (auth == null) return;
+    }
+
     _channel!.sink.add(
       jsonEncode({
         'event': 'pusher:subscribe',
-        'data': {'channel': channelName, 'auth': auth},
+        'data': {'channel': channelName, if (auth != null) 'auth': auth},
       }),
     );
   }
@@ -149,5 +171,50 @@ class RealtimeService {
     _pendingOrSubscribed.remove(channelName);
     _messageHandlers.remove(channelName);
     _deleteHandlers.remove(channelName);
+  }
+
+  Future<void> subscribeToAnnouncementChannel(
+    String channelName, {
+    required void Function(Announcement announcement) onAnnouncementReceived,
+  }) async {
+    _announcementHandlers[channelName] = onAnnouncementReceived;
+    _pendingOrSubscribed.add(channelName);
+    if (_socketId != null) {
+      await _sendSubscribe(channelName);
+    }
+  }
+
+  Future<void> subscribeToAnnouncements({
+    required String targetAudience,
+    required String level,
+    required void Function(Announcement announcement) onAnnouncementReceived,
+  }) async {
+    await subscribeToAnnouncementChannel(
+      'announcements.$targetAudience.$level',
+      onAnnouncementReceived: onAnnouncementReceived,
+    );
+    if (level != 'all') {
+      await subscribeToAnnouncementChannel(
+        'announcements.$targetAudience.all',
+        onAnnouncementReceived: onAnnouncementReceived,
+      );
+    }
+  }
+
+  Future<void> unsubscribeFromAnnouncements({
+    required String targetAudience,
+    required String level,
+  }) async {
+    for (final l in {level, 'all'}) {
+      final channelName = 'announcements.$targetAudience.$l';
+      _channel?.sink.add(
+        jsonEncode({
+          'event': 'pusher:unsubscribe',
+          'data': {'channel': channelName},
+        }),
+      );
+      _pendingOrSubscribed.remove(channelName);
+      _announcementHandlers.remove(channelName);
+    }
   }
 }

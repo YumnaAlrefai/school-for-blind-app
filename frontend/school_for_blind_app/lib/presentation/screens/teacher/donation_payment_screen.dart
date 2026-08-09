@@ -8,7 +8,6 @@ import 'package:school_for_blind_app/data/repository/teacher_repo.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/donation_info_screen.dart';
 
-
 class DonationPaymentScreen extends StatefulWidget {
   final String donorName;
   final num amount;
@@ -33,7 +32,7 @@ class _DonationPaymentScreenState extends State<DonationPaymentScreen> {
   bool _stripeReady = false;
   String? _initError;
 
-static const String _publishableKey =
+  static const String _publishableKey =
       'pk_test_51TkNlpHb6vvSAewAX80goBxYkrKudKIvMMUJWCWUtfBtz34M6b7nSkK856iN4VelOTa5A691otg1gYWZ7NU0GhCn00M54djgTI';
 
   @override
@@ -80,7 +79,7 @@ static const String _publishableKey =
     var y = int.tryParse(parts[1]);
     if (m == null || y == null) return null;
     if (m < 1 || m > 12) return null;
-    if (y < 100) y += 2000; 
+    if (y < 100) y += 2000;
     return (month: m, year: y);
   }
 
@@ -192,19 +191,24 @@ static const String _publishableKey =
         textDirection: TextDirection.rtl,
         child: AlertDialog(
           backgroundColor: const Color(0xFF12283A),
-          title: const Text('شكراً لك',
-              style: TextStyle(color: Colors.white, fontSize: 26)),
-          content: const Text('تم استلام تبرعك بنجاح.',
-              style: TextStyle(color: Colors.white70, fontSize: 20)),
+          title: const Text(
+            'شكراً لك',
+            style: TextStyle(color: Colors.white, fontSize: 26),
+          ),
+          content: const Text(
+            'تم استلام تبرعك بنجاح.',
+            style: TextStyle(color: Colors.white70, fontSize: 20),
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.popUntil(context, (route) => route.isFirst);
               },
-              child: const Text('حسناً',
-                  style:
-                      TextStyle(color: AppColors.kPrimaryColor, fontSize: 20)),
+              child: const Text(
+                'حسناً',
+                style: TextStyle(color: AppColors.kPrimaryColor, fontSize: 20),
+              ),
             ),
           ],
         ),
@@ -220,18 +224,24 @@ static const String _publishableKey =
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(_initError!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70, fontSize: 22.sp)),
+              Text(
+                _initError!,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white70, fontSize: 22.sp),
+              ),
               SizedBox(height: 16.h),
               TextButton(
                 onPressed: () {
                   setState(() => _initError = null);
                   _initStripe();
                 },
-                child: Text('إعادة المحاولة',
-                    style: TextStyle(
-                        color: AppColors.kPrimaryColor, fontSize: 20.sp)),
+                child: Text(
+                  'إعادة المحاولة',
+                  style: TextStyle(
+                    color: AppColors.kPrimaryColor,
+                    fontSize: 20.sp,
+                  ),
+                ),
               ),
             ],
           ),
@@ -353,8 +363,7 @@ static const String _publishableKey =
               style: TextStyle(color: Colors.white, fontSize: 25.sp),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle:
-                    TextStyle(color: Colors.white38, fontSize: 25.sp),
+                hintStyle: TextStyle(color: Colors.white38, fontSize: 25.sp),
                 border: InputBorder.none,
                 isDense: true,
               ),

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exam_status.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/offline_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/past_exams_state.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saves_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/solved_quizzes_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
 import 'package:school_for_blind_app/core/routing/app_routes.dart';
+import 'package:school_for_blind_app/core/services/server_time_service.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
+import 'package:school_for_blind_app/data/models/student/exam.dart';
+import 'package:school_for_blind_app/data/models/student/solved_quiz.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_tabs.dart';
@@ -28,6 +35,10 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
   late final PastExamsCubit _pastExamsCubit;
   late final SavesCubit _savesCubit;
   late final OfflineLessonsCubit _offlineLessonsCubit;
+  late final ExamsCubit _examsCubit;
+  late final SolvedQuizzesCubit _solvedQuizzesCubit;
+  bool _quizzesFetched = false;
+  bool _examsFetched = false;
   bool _pastExamsFetched = false;
 
   @override
@@ -36,6 +47,10 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
     _pastExamsCubit = getIt<PastExamsCubit>();
     _savesCubit = getIt<SavesCubit>();
     _offlineLessonsCubit = getIt<OfflineLessonsCubit>();
+    _examsCubit = getIt<ExamsCubit>();
+    _solvedQuizzesCubit = getIt<SolvedQuizzesCubit>();
+    _quizzesFetched = true;
+    _solvedQuizzesCubit.getSolvedQuizzes();
   }
 
   @override
@@ -43,6 +58,8 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
     _pastExamsCubit.close();
     _savesCubit.close();
     _offlineLessonsCubit.close();
+    _examsCubit.close();
+    _solvedQuizzesCubit.close();
     super.dispose();
   }
 
@@ -50,9 +67,15 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
     setState(() {
       _selectedTab = tabIndex;
       if (tabIndex == 0) {
-        //TODO
+        if (!_quizzesFetched) {
+          _quizzesFetched = true;
+          _solvedQuizzesCubit.getSolvedQuizzes();
+        }
       } else if (tabIndex == 1) {
-        //TODO
+        if (!_examsFetched) {
+          _examsFetched = true;
+          _examsCubit.emitGetExams(widget.subjectId);
+        }
       } else {
         if (!_pastExamsFetched) {
           _pastExamsFetched = true;
@@ -126,12 +149,118 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
     );
   }
 
-  _buildQuizzesList() {
-    return Container();
+  Widget _buildQuizzesList() {
+    return BlocProvider.value(
+      value: _solvedQuizzesCubit,
+      child: BlocBuilder<SolvedQuizzesCubit, ResultState<List<SolvedQuiz>>>(
+        builder: (context, state) {
+          return state.when(
+            idle: () => const SizedBox.shrink(),
+            loading: () => Padding(
+              padding: EdgeInsets.only(top: 40.h),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+            success: (quizzes) {
+              if (quizzes.isEmpty) {
+                return Padding(
+                  padding: EdgeInsets.only(top: 40.h),
+                  child: Text(
+                    'لا يوجد كويزات محلولة',
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
+                );
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: quizzes.length,
+                itemBuilder: (context, index) {
+                  final quiz = quizzes[index];
+                  return LibraryCard(
+                    key: ValueKey(quiz.submissionId),
+                    number: index + 1,
+                    id: quiz.quizId,
+                    title: quiz.quizTitle,
+                    itemType: 'Quiz',
+                    initialIsSaved: false,
+                    route: AppRoutes.kStudentQuizReviewScreen,
+                    args: {'quizId': quiz.quizId, 'title': quiz.quizTitle},
+                  );
+                },
+              );
+            },
+            failure: (e) {
+              getIt<VoiceServices>().speak(
+                NetworkExceptions.getErrorMessage(e),
+              );
+              return Container();
+            },
+          );
+        },
+      ),
+    );
   }
 
-  _buildTestsList() {
-    return Container();
+  Widget _buildTestsList() {
+    return BlocProvider.value(
+      value: _examsCubit,
+      child: BlocBuilder<ExamsCubit, ResultState<ExamsResponse>>(
+        builder: (context, state) {
+          return state.when(
+            idle: () => const SizedBox.shrink(),
+            loading: () => Padding(
+              padding: EdgeInsets.only(top: 40.h),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+            success: (ExamsResponse response) {
+              final now = ServerTimeService.instance.now();
+              final endedExams = response.data.where((exam) {
+                return exam.statusAt(
+                      now,
+                      alreadyJoined: true,
+                      alreadySubmitted: false,
+                    ) ==
+                    ExamStatus.ended;
+              }).toList();
+
+              if (endedExams.isEmpty) {
+                return Padding(
+                  padding: EdgeInsets.only(top: 40.h),
+                  child: Text(
+                    'لا يوجد اختبارات منتهية بعد',
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
+                );
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: endedExams.length,
+                itemBuilder: (context, index) {
+                  final exam = endedExams[index];
+                  return LibraryCard(
+                    key: ValueKey(exam.id),
+                    number: index + 1,
+                    id: exam.id,
+                    title: exam.title,
+                    itemType: 'Exam',
+                    initialIsSaved: exam.isFavorited,
+                    route: AppRoutes.kStudentExamSolutionsScreen,
+                    args: {'examId': exam.id, 'title': exam.title},
+                  );
+                },
+              );
+            },
+            failure: (e) {
+              getIt<VoiceServices>().speak(
+                NetworkExceptions.getErrorMessage(e),
+              );
+              return Container();
+            },
+          );
+        },
+      ),
+    );
   }
 
   _buildPastPapersList() {

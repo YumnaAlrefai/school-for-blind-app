@@ -8,6 +8,7 @@ class PrimaryButton extends StatelessWidget {
   final double height;
   final double fontSize;
   final VoidCallback onPressed;
+  final bool isLoading;
 
   const PrimaryButton({
     required this.title,
@@ -16,20 +17,30 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     super.key,
     required this.fontSize,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SizedBox(
       width: width.w,
       height: height.h,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.r),
+            side: BorderSide(
+              color: isLoading ? colorScheme.onSurface : colorScheme.primary,
+              width: 0.2.w,
+            ),
           ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: isLoading
+              ? colorScheme.surface
+              : colorScheme.primary,
+          disabledBackgroundColor: colorScheme.surface,
           padding: EdgeInsets.zero,
         ),
         child: Text(
@@ -37,7 +48,7 @@ class PrimaryButton extends StatelessWidget {
           style: TextStyle(
             fontSize: fontSize.sp,
             fontWeight: FontWeight.w400,
-            color: Theme.of(context).colorScheme.background,
+            color: isLoading ? colorScheme.onSurface : colorScheme.background,
           ),
         ),
       ),

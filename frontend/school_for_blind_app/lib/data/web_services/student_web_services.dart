@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:school_for_blind_app/data/models/student/announcement_model.dart';
+import 'package:school_for_blind_app/data/models/student/exam_solution.dart';
 import 'package:school_for_blind_app/data/models/student/channel_model.dart';
 import 'package:school_for_blind_app/data/models/student/exam.dart';
 import 'package:school_for_blind_app/data/models/student/exam_question.dart';
@@ -12,11 +14,13 @@ import 'package:school_for_blind_app/data/models/student/lesson.dart';
 import 'package:school_for_blind_app/data/models/student/message_model.dart';
 import 'package:school_for_blind_app/data/models/student/quiz_info.dart';
 import 'package:school_for_blind_app/data/models/student/quiz_questions.dart';
+import 'package:school_for_blind_app/data/models/student/quiz_review.dart';
 import 'package:school_for_blind_app/data/models/student/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/student/record_model.dart';
 import 'package:school_for_blind_app/data/models/student/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/student/saved_past_exam.dart';
 import 'package:school_for_blind_app/data/models/student/schedule_model.dart';
+import 'package:school_for_blind_app/data/models/student/solved_quiz.dart';
 import 'package:school_for_blind_app/data/models/student/subject_progress.dart';
 import 'package:school_for_blind_app/data/models/student/past_exam.dart';
 import 'package:school_for_blind_app/data/models/student/past_exam_solutions.dart';
@@ -167,9 +171,24 @@ abstract class StudentWebServices {
   @GET("exams/{id}/questions")
   Future<ExamQuestionsResponse> getExamQuestions(@Path('id') int examId);
 
+  @GET("exams/{id}/solutions")
+  Future<ExamSolutionsResponse> getExamSolutions(@Path('id') int examId);
+
   @POST("exams/submit")
   Future<ExamSubmissionResponse> submitExam(@Body() FormData formData);
 
+  @GET("student/quizzes/{id}/review")
+  Future<QuizReviewResponse> getQuizReview(@Path('id') int quizId);
+
+  @GET("student/solved-quizzes")
+  Future<SolvedQuizzesResponse> getSolvedQuizzes();
+
   @GET("student/schedule")
   Future<ScheduleResponse> getStudentSchedule();
+
+  @GET("announcements")
+  Future<List<Announcement>> getAnnouncements();
+
+  @GET("announcements/exam/{id}")
+  Future<ExamDetailResponse> getExamDetail(@Path("id") int id);
 }
