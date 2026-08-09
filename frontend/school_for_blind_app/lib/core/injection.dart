@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/announcements_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/audio_bookmarks_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/channels_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exam_detail_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_questions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exam_solutions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_submission_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/lesson_records_cubit.dart';
@@ -17,11 +20,13 @@ import 'package:school_for_blind_app/business_logic/cubit/student/past_exam_solu
 import 'package:school_for_blind_app/business_logic/cubit/student/past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_info_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_questions_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/quiz_review_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_submission_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saved_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saved_past_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/schedule_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/solved_quizzes_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/student_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/subject_progress_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/support_ticket_cubit.dart';
@@ -97,11 +102,22 @@ void initGetIt() {
   getIt.registerLazySingleton<RealtimeService>(() => RealtimeService());
   getIt.registerFactory<ExamsCubit>(() => ExamsCubit(getIt<StudentRepo>()));
   getIt.registerFactory<ExamQuestionsCubit>(() => ExamQuestionsCubit(getIt()));
+  getIt.registerFactory<ExamSolutionsCubit>(() => ExamSolutionsCubit(getIt()));
+  getIt.registerFactory<QuizReviewCubit>(() => QuizReviewCubit(getIt()));
+  getIt.registerFactory<SolvedQuizzesCubit>(
+    () => SolvedQuizzesCubit(getIt<StudentRepo>()),
+  );
   getIt.registerFactory<ExamSubmissionCubit>(
     () => ExamSubmissionCubit(getIt()),
   );
   getIt.registerFactory<ScheduleCubit>(
     () => ScheduleCubit(getIt<StudentRepo>()),
+  );
+  getIt.registerFactory<AnnouncementsCubit>(
+    () => AnnouncementsCubit(getIt<StudentRepo>(), getIt<RealtimeService>()),
+  );
+  getIt.registerFactory<ExamDetailCubit>(
+    () => ExamDetailCubit(getIt<StudentRepo>()),
   );
 
   getIt.registerLazySingleton<TeacherWebServices>(

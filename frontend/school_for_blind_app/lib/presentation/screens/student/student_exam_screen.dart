@@ -7,6 +7,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:school_for_blind_app/core/services/server_time_service.dart';
 import 'package:school_for_blind_app/core/services/exam_join_store.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
+import 'package:school_for_blind_app/core/services/exam_submit_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_questions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_submission_cubit.dart';
@@ -63,11 +64,12 @@ class _StudentExamScreenState extends State<StudentExamScreen> {
     super.dispose();
   }
 
-  String get _submittedPrefsKey => 'exam_submitted_${widget.examId}';
-
   Future<void> _checkAccessAndInit() async {
-    final prefs = await SharedPreferences.getInstance();
-    final alreadySubmitted = prefs.getBool(_submittedPrefsKey) ?? false;
+    final alreadySubmitted = await ExamSubmitStore.isSubmitted(widget.examId);
+    if (alreadySubmitted) {
+      _denyAccess('لقد قمت بتسليم هذا الاختبار مسبقاً.');
+      return;
+    }
     if (alreadySubmitted) {
       _denyAccess('لقد قمت بتسليم هذا الاختبار مسبقاً.');
       return;
@@ -258,8 +260,7 @@ class _StudentExamScreenState extends State<StudentExamScreen> {
               submitState.whenOrNull(
                 success: (data) async {
                   if (data != null && data.status == 'success') {
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.setBool(_submittedPrefsKey, true);
+                    await ExamSubmitStore.markSubmitted(widget.examId);
                     getIt<VoiceServices>().speak('تم تسليم الاختبار بنجاح!');
                     if (context.mounted) Navigator.pop(context);
                   }

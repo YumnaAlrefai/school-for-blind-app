@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/exam_detail_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/level_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/messages_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/role_cubit.dart';
@@ -22,7 +23,9 @@ import 'package:school_for_blind_app/presentation/screens/student/student_accoun
 import 'package:school_for_blind_app/presentation/screens/student/student_announcements_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_audio_player_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_contact_support_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_exam_schedule_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_exam_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_exam_solutions_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_exams_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_library_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_messages_screen.dart';
@@ -30,6 +33,7 @@ import 'package:school_for_blind_app/presentation/screens/student/student_paymen
 import 'package:school_for_blind_app/presentation/screens/student/student_payment_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_lesson_records_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_live_call_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_quiz_review_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_quiz_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_schedule_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_subject_details_screen.dart';
@@ -305,6 +309,22 @@ class AppRouter {
             durationMinutes: args[4],
           ),
         );
+      case AppRoutes.kStudentExamSolutionsScreen:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => StudentExamSolutionsScreen(
+            examId: args['examId'] as int,
+            title: args['title'] as String,
+          ),
+        );
+      case AppRoutes.kStudentQuizReviewScreen:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => StudentQuizReviewScreen(
+            quizId: args['quizId'] as int,
+            title: args['title'] as String,
+          ),
+        );
       case AppRoutes.kStudentExamsScreen:
         final args = settings.arguments as int;
         return MaterialPageRoute(
@@ -340,6 +360,14 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<ScheduleCubit>()..emitGetSchedule(),
             child: const StudentScheduleScreen(),
+          ),
+        );
+      case AppRoutes.kStudentExamScheduleScreen:
+        final examId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ExamDetailCubit>(),
+            child: StudentExamScheduleScreen(examId: examId),
           ),
         );
 
@@ -401,8 +429,6 @@ class AppRouter {
         );
       case AppRoutes.kSubjectScreen:
         return MaterialPageRoute(builder: (_) => const LessonsScreen());
-      case AppRoutes.kTeacherAccountsScreen:
-        return MaterialPageRoute(builder: (_) => const AccountTeacher());
       case AppRoutes.kAddLesson:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
