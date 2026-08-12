@@ -11,13 +11,18 @@ class PushNotificationsService {
 
   static Future init() async {
     await firebaseMessaging.requestPermission();
-    String? token = await firebaseMessaging.getToken().then((value) {
-      sendFcmTokenToServer(value!);
-    });
-    log(token ?? 'null');
+
+    String? token = await firebaseMessaging.getToken();
+
+    if (token != null) {
+      log('FCM TOKEN: $token');
+      sendFcmTokenToServer(token);
+    }
+
     firebaseMessaging.onTokenRefresh.listen((value) {
       sendFcmTokenToServer(value);
     });
+
     FirebaseMessaging.onBackgroundMessage(handleOnBackgroundMessage);
     handleOnForegroundMessage();
   }

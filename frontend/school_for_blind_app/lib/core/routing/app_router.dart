@@ -46,7 +46,6 @@ import 'package:school_for_blind_app/presentation/screens/student/student_profil
 import 'package:school_for_blind_app/presentation/screens/student/student_register_data_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_register_number_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_register_photo_screen.dart';
-import 'package:school_for_blind_app/presentation/screens/student/teacher_accounts_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/user_type_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_past_exam_solutions_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/teacher/add_bank_questions_screen.dart';
@@ -99,7 +98,7 @@ class AppRouter {
           ),
         );
       case AppRoutes.kTeacherAccountsScreen:
-        return MaterialPageRoute(builder: (_) => const TeacherAccountsScreen());
+        return MaterialPageRoute(builder: (_) => const AccountTeacher());
       case AppRoutes.kStudentAccountsScreen:
         return MaterialPageRoute(builder: (_) => const StudentAccountsScreen());
       case AppRoutes.kStudentRegisterNumberScreen:

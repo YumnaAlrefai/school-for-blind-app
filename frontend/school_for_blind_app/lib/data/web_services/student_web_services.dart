@@ -19,6 +19,7 @@ import 'package:school_for_blind_app/data/models/student/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/student/record_model.dart';
 import 'package:school_for_blind_app/data/models/student/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/student/saved_past_exam.dart';
+import 'package:school_for_blind_app/data/models/student/saved_quiz.dart';
 import 'package:school_for_blind_app/data/models/student/schedule_model.dart';
 import 'package:school_for_blind_app/data/models/student/solved_quiz.dart';
 import 'package:school_for_blind_app/data/models/student/subject_progress.dart';
@@ -191,4 +192,10 @@ abstract class StudentWebServices {
 
   @GET("announcements/exam/{id}")
   Future<ExamDetailResponse> getExamDetail(@Path("id") int id);
+
+  @GET("favorites/exams")
+  Future<List<Exam>> getSavedExams();
+
+  @GET("favorites/quizzes")
+  Future<List<SavedQuiz>> getSavedQuizzes();
 }

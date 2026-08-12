@@ -22,8 +22,10 @@ import 'package:school_for_blind_app/business_logic/cubit/student/quiz_info_cubi
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_questions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_review_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_submission_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saved_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saved_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saved_past_exams_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saved_quizzes_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/schedule_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/solved_quizzes_cubit.dart';
@@ -119,6 +121,8 @@ void initGetIt() {
   getIt.registerFactory<ExamDetailCubit>(
     () => ExamDetailCubit(getIt<StudentRepo>()),
   );
+  getIt.registerFactory(() => SavedExamsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory(() => SavedQuizzesCubit(getIt<StudentRepo>()));
 
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),

@@ -30,7 +30,7 @@ Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
   numOfQuestions: (json['numofquestions'] as num).toInt(),
   totalmark: (json['totalmark'] as num).toInt(),
   isPublished: (json['is_published'] as num).toInt(),
-  isFavorited: json['is_favorited'] as bool,
+  isFavorited: json['is_favorited'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$ExamToJson(Exam instance) => <String, dynamic>{

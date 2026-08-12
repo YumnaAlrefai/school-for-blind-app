@@ -181,8 +181,8 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
                     number: index + 1,
                     id: quiz.quizId,
                     title: quiz.quizTitle,
-                    itemType: 'Quiz',
-                    initialIsSaved: false,
+                    itemType: 'quiz',
+                    initialIsSaved: quiz.isFavorited,
                     route: AppRoutes.kStudentQuizReviewScreen,
                     args: {'quizId': quiz.quizId, 'title': quiz.quizTitle},
                   );

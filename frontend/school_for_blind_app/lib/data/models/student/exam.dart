@@ -32,7 +32,7 @@ class Exam {
   final int totalmark;
   @JsonKey(name: 'is_published')
   final int isPublished;
-  @JsonKey(name: 'is_favorited')
+  @JsonKey(name: 'is_favorited', defaultValue: false)
   final bool isFavorited;
 
   Exam({

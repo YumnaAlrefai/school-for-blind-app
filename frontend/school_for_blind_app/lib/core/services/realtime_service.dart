@@ -7,7 +7,7 @@ import 'package:school_for_blind_app/data/models/student/message_model.dart';
 
 class RealtimeService {
   static const String _host =
-      'inflation-angle-texture-workshop.trycloudflare.com';
+      'filtering-pork-stock-execute.trycloudflare.com';
   static const int _port = 443;
   static const String _appKey = 'g43ja0cpjdcxspnfbnvd';
   static const String _authEndpoint =
@@ -45,6 +45,7 @@ class RealtimeService {
   }
 
   void _handleMessage(dynamic raw) async {
+    print('📩 RAW MESSAGE: $raw');
     final Map<String, dynamic> msg = jsonDecode(raw as String);
     final event = msg['event'] as String?;
 
