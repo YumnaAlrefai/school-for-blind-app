@@ -526,4 +526,5 @@ class StudentRepo {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }
+
 }

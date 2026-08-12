@@ -198,4 +198,13 @@ abstract class StudentWebServices {
 
   @GET("favorites/quizzes")
   Future<List<SavedQuiz>> getSavedQuizzes();
+
+  @POST("fcm-token")
+  Future<dynamic> sendFcmToken(@Body() Map<String, dynamic> body);
+
+  @DELETE("fcm-token")
+  Future<dynamic> deleteFcmToken(@Body() Map<String, dynamic> body);
+
+  @GET("notifications")
+  Future<dynamic> getNotifications();
 }

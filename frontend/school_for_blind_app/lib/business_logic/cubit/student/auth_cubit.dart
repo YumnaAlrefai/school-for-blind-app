@@ -6,6 +6,7 @@ import 'package:school_for_blind_app/business_logic/cubit/student/offline_lesson
 import 'package:school_for_blind_app/business_logic/cubit/student/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/student_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
+import 'package:school_for_blind_app/core/services/push_notifications_service.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/data/models/student/student.dart';
 import 'package:school_for_blind_app/data/repository/student_repo.dart';
@@ -138,6 +139,8 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
           await prefs.setString('cachedStudent', studentJson);
           await prefs.setBool('login', true);
 
+          await PushNotificationsService.registerTokenAfterLogin();
+
           emit(ResultState.success(studentData));
         } catch (parseError) {
           emit(
@@ -157,6 +160,8 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
 
     await result.when(
       success: (data) async {
+        await PushNotificationsService.deleteFcmTokenFromServer();
+
         await SecureStorage.deleteToken();
 
         final prefs = await SharedPreferences.getInstance();

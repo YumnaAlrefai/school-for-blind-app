@@ -18,6 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  initGetIt();
 
   await Future.wait([
     PushNotificationsService.init(),
@@ -30,7 +31,6 @@ void main() async {
       "pk_test_51TkNlpHb6vvSAewAX80goBxYkrKudKIvMMUJWCWUtfBtz34M6b7nSkK856iN4VelOTa5A691otg1gYWZ7NU0GhCn00M54djgTI";
   await Stripe.instance.applySettings();
 
-  initGetIt();
   getIt<DeepLinkService>().initDeepLinks();
 
   runApp(

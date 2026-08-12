@@ -41,6 +41,7 @@ import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/realtime_service.dart';
 import 'package:school_for_blind_app/core/services/server_time_interceptor.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
+import 'package:school_for_blind_app/data/repository/notification_repo.dart';
 import 'package:school_for_blind_app/data/repository/student_repo.dart';
 import 'package:school_for_blind_app/data/repository/teacher_repo.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
@@ -123,6 +124,12 @@ void initGetIt() {
   );
   getIt.registerFactory(() => SavedExamsCubit(getIt<StudentRepo>()));
   getIt.registerFactory(() => SavedQuizzesCubit(getIt<StudentRepo>()));
+
+getIt.registerLazySingleton<NotificationRepo>(
+    () => NotificationRepo(getIt<StudentWebServices>()),
+  );
+
+
 
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),
