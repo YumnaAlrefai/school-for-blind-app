@@ -2,6 +2,7 @@ import 'dart:io' as io;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_for_blind_app/business_logic/cubit/notifications_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
@@ -29,6 +30,7 @@ import 'package:school_for_blind_app/presentation/screens/student/student_exam_s
 import 'package:school_for_blind_app/presentation/screens/student/student_exams_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_library_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_messages_screen.dart';
+import 'package:school_for_blind_app/presentation/screens/student/student_notifications_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_payment_intent_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_payment_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_lesson_records_screen.dart';
@@ -369,6 +371,14 @@ class AppRouter {
             child: StudentExamScheduleScreen(examId: examId),
           ),
         );
+        case AppRoutes.kStudentNotificationsScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<NotificationsCubit>()..emitGetNotifications(),
+            child: const StudentNotificationsScreen(),
+          ),
+        );
 
       case AppRoutes.kTeacherPhone:
         return MaterialPageRoute(
@@ -413,8 +423,9 @@ class AppRouter {
 
       case AppRoutes.knotificationTeacher:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: getIt<TeacherCubit>(),
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<NotificationsCubit>()..emitGetNotifications(),
             child: const NotificationsScreen(),
           ),
         );

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:school_for_blind_app/business_logic/cubit/notifications_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/announcements_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/audio_bookmarks_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
@@ -128,6 +129,11 @@ void initGetIt() {
   getIt.registerLazySingleton<NotificationRepo>(
     () => NotificationRepo(getIt<StudentWebServices>()),
   );
+  getIt.registerFactory<NotificationsCubit>(() => NotificationsCubit(getIt()));
+
+
+
+  
 
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),

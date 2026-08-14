@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:school_for_blind_app/data/models/notifications_response_model.dart';
 import 'package:school_for_blind_app/data/models/student/announcement_model.dart';
 import 'package:school_for_blind_app/data/models/student/exam_solution.dart';
 import 'package:school_for_blind_app/data/models/student/channel_model.dart';
@@ -205,6 +206,6 @@ abstract class StudentWebServices {
   @DELETE("fcm-token")
   Future<dynamic> deleteFcmToken(@Body() Map<String, dynamic> body);
 
-  @GET("notifications")
-  Future<dynamic> getNotifications();
+  @GET('notifications')
+  Future<NotificationsResponse> getNotifications();
 }

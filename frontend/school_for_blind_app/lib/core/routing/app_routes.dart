@@ -14,6 +14,8 @@ class AppRoutes {
   static const String kStudentWhatsappScreen = '/student_whatsapp_screen';
   static const String kStudentWaitingScreen = '/student_waiting_screen';
 
+  static const String kStudentNotificationsScreen = '/student_notifications_screen';
+
   //static const String kStudentMainScreen = '/';
   static const String kStudentMainScreen = '/student_main_screen';
   static const String kStudentProfileScreen = '/student_profile_screen';
