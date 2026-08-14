@@ -35,5 +35,4 @@ class StudentCubit extends Cubit<ResultState<dynamic>> {
       getIt<VoiceServices>().speak(e.toString());
     }
   }
-
 }

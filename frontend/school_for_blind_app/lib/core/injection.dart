@@ -125,11 +125,9 @@ void initGetIt() {
   getIt.registerFactory(() => SavedExamsCubit(getIt<StudentRepo>()));
   getIt.registerFactory(() => SavedQuizzesCubit(getIt<StudentRepo>()));
 
-getIt.registerLazySingleton<NotificationRepo>(
+  getIt.registerLazySingleton<NotificationRepo>(
     () => NotificationRepo(getIt<StudentWebServices>()),
   );
-
-
 
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),

@@ -130,7 +130,10 @@ class _StudentSubjectDetailsScreenState
         BlocProvider.value(value: _savesCubit),
       ],
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: const CustomAppBar(
+          helpMessage:
+              'شاشة تفاصيل المادة، فيها الدروس المُسَجَّلة صوتياً، زر الانتقال لمكتبة الحلول، زر الانتقال لاختبارات المادة، الوصولُ السريعُ لقناة مدرس المادة او مجموعة مناقشة المادة، يمكنك تنزيل الدروس للاستماع لها  عند عدم الاتصال بالانترنت، يمكنك أَيضاً حفظ الدرس إلى المحفوظات، أو عرض الكويز الخاص به',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,

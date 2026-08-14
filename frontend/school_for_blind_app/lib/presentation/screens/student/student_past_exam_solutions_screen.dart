@@ -45,7 +45,10 @@ class _PastExamSolutionsScreenState extends State<PastExamSolutionsScreen> {
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
-        appBar: CustomAppBar(helpMessage: widget.title ?? ''),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في صَفْحَةِ عَرْضِ الحَلِّ. تُعْرَضُ أَمامَكَ الأَسْئِلَةُ مع إجاباتِها الصَّحيحَةِ لِلنَّشاطِ الّذي اخْتَرْتَهُ. يُمكنُكَ الضَّغْطُ على زِرِّ الرُّجوعِ في الأعْلى للعودَةِ لِلْمَكْتَبَةِ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: BlocBuilder<PastExamSolutionsCubit, PastExamSolutionsState>(
           builder: (context, state) {

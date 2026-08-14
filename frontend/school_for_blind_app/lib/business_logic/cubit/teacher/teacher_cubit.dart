@@ -183,7 +183,7 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
 
   void emitLogoutTeacher() async {
     emit(const ResultState.loading());
-
+    await PushNotificationsService.deleteFcmTokenFromServer();
     final result = await teacherRepo.logoutTeacher();
 
     result.when(
@@ -199,8 +199,6 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
   }
 
   Future<void> _clearLocalTeacherData() async {
-    await PushNotificationsService.deleteFcmTokenFromServer();
-
     currentTeacher = null;
     await SecureStorage.deleteToken();
     final prefs = await SharedPreferences.getInstance();

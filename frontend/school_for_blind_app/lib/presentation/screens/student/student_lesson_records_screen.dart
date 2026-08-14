@@ -118,7 +118,10 @@ class _StudentLessonRecordsScreenState
         BlocProvider.value(value: _offlineCubit),
       ],
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: const CustomAppBar(
+          helpMessage:
+              'هنا يَظهَر الدرس مُقَسَّمَنْ إلى أقسامٍ حتى لا يكون طويلنْ، اختَر القسم الذي تريد الاستماع إليه',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body:
             BlocBuilder<LessonRecordsCubit, ResultState<LessonRecordsResponse>>(

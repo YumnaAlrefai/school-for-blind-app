@@ -24,7 +24,10 @@ class StudentQuizReviewScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<QuizReviewCubit>()..emitGetQuizReview(quizId),
       child: Scaffold(
-        appBar: CustomAppBar(helpMessage: title),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في صَفْحَةِ عَرْضِ الحَلِّ. تُعْرَضُ أَمامَكَ الأَسْئِلَةُ مع إجاباتِها الصَّحيحَةِ لِلنَّشاطِ الّذي اخْتَرْتَهُ. يُمكنُكَ اسْتِعْراضُ الإجاباتِ تِباعاً، أو الضَّغْطُ على زِرِّ الرُّجوعِ في الأعْلى للعودَةِ لِلْمَكْتَبَةِ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: BlocBuilder<QuizReviewCubit, ResultState<QuizReviewResponse>>(
           builder: (context, state) {

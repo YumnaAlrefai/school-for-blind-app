@@ -99,7 +99,10 @@ class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
 
     return Scaffold(
       backgroundColor: colorScheme.background,
-      appBar: CustomAppBar(helpMessage: ''),
+      appBar: CustomAppBar(
+        helpMessage:
+            'أنتَ الآنَ في صَفْحَةِ المُحادَثَةِ. تُعْرَضُ الرَّسائِلُ الخَصِيصَةُ بالنَّشاطِ تِباعنْ. يُمكنُكَ كِتابَةُ رِسالَةٍ نَصِّيَّةٍ، أو تَسْجيلُ مَقْطَعٍ صَوْتِيٍّ، أو إِرْفاقُ صُوَرٍ ومَلَفّاتٍ عبرَ الأَزْرارِ في الأسْفَلِ. كما يُمكنُكَ الضَّغْطُ المُطَوَّلُ على رِسالَتك لِحَذْفِها أو الضغط المطول على رسالة الشخص للإِبْلاغِ عَنْها.',
+      ),
       body: Column(
         children: [
           ListTile(

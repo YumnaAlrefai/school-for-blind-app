@@ -49,8 +49,6 @@ class AppRoutes {
   static const String kStudentPastExamSolutionsScreen =
       '/student_past_exam_solutions_screen';
 
-
-
   static const String kaccountTeacherScreen = '/accountTeacher_screen';
   static const String kTeacherLogin = '/teacher_login';
   static const String kTeacherRegister = '/teacher_register';

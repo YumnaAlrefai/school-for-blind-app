@@ -240,9 +240,7 @@ class _SubjectDetailsCardState extends State<SubjectDetailsCard> {
         }
       },
       failure: (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تعذر تحميل بيانات المحادثة')),
-        );
+        getIt<VoiceServices>().speak('تعذر تحميل بيانات المحادثة');
       },
     );
 

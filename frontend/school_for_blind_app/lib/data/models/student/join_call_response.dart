@@ -18,5 +18,4 @@ class JoinCallResponse {
   factory JoinCallResponse.fromJson(Map<String, dynamic> json) =>
       _$JoinCallResponseFromJson(json);
   Map<String, dynamic> toJson() => _$JoinCallResponseToJson(this);
-
 }

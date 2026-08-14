@@ -52,7 +52,10 @@ class _StudentExamsScreenState extends State<StudentExamsScreen> {
     return BlocProvider.value(
       value: _examsCubit,
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: const CustomAppBar(
+          helpMessage:
+              "شاشة الاختبارات، تَعرض هذه الشاشة كل المذاكرات والامتحانات التي جرت لهذه المادة او التي تجري حالياً أو ستَجري مستقبلَنْ",
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: RefreshIndicator(
           onRefresh: () async {

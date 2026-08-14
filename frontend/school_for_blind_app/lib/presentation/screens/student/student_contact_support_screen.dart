@@ -89,7 +89,10 @@ class _StudentContactSupportScreenState
 
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: const CustomAppBar(helpMessage: ''),
+            appBar: const CustomAppBar(
+              helpMessage:
+                  'التواصل مع الدعم الفَنِّيِّ، في حال واجهتك أي مشكلة يمكنك التواصل مع الإدارة عن طريق إرسال رسالة بمشكلتك، مع إمكانية إرفاق صورة  للمشكلة إن تطلَّبَ ذلك',
+            ),
             backgroundColor: Theme.of(context).colorScheme.background,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

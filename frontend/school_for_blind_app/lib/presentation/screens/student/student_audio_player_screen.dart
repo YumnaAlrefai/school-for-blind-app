@@ -122,7 +122,10 @@ class _StudentAudioPlayerScreenState extends State<StudentAudioPlayerScreen> {
       value: _bookmarksCubit,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: const CustomAppBar(
+          helpMessage:
+              'هذه شاشة مشغل الصوت، يمكنك هنا الاستماع لتسجيلات الحصص الدرسية، تغيير سرعة التسجيل، التقديم والتأخير عشر ثوانٍ، إضافة علامات مرجعية على التسجيل الصوتي وملاحظات ليسهل عليك العودة لموقع محدد في التسجيل',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Column(
           children: [

@@ -93,7 +93,10 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
         BlocProvider.value(value: _offlineLessonsCubit),
       ],
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في مَكْتَبَةِ الحُلُولْ، تَحْتَوي هذه الشّاشَةُ على ثلاثةِ أَقْسامٍ للأنْشِطَةِ المَحْلولَةِ سابِقَنْ: الكويزاتُ، الاِخْتِباراتُ، والدَّوْراتُ، يُمكنُكَ التَّنَقُّلُ بَيْنَ الأَقْسامِ وَاخْتِيارُ أيِّ نَشاطٍ لِعَرْضِ حَلِّهِ بالتَّفْصيلْ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,

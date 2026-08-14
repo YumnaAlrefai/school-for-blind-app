@@ -184,7 +184,9 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
                     SmallButton(
                       icon: const Icon(Icons.question_mark_outlined),
                       onPressed: () {
-                        getIt<VoiceServices>().speak('');
+                        getIt<VoiceServices>().speak(
+                          'شاشة المحفوظات، هنا يَظهَر كلُّ ما قمتَ بحفظه من دروس وكويزات واختبارات ودورات ليسهل عليك العودة إليها',
+                        );
                       },
                     ),
                     SizedBox(width: 20.w),
@@ -312,17 +314,13 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               itemCount: savedList.length,
               itemBuilder: (context, index) {
                 final lessonItem = savedList[index];
-
-                // تحويل SavedLesson (ناقصة teacherName) إلى Lesson كامل
-                // قبل التنقل، عشان الشاشة الهدف تستقبل نفس النوع الموحّد دايماً
                 final fullLesson = Lesson(
                   id: lessonItem.id,
                   title: lessonItem.title,
-                  teacherName: 'غير محدد', // الباك ما بيرجعها بهالـ endpoint
+                  teacherName: 'غير محدد',
                   teacherId: lessonItem.teacherId,
-                  isSaved: true, // أكيد محفوظ، هو أصلاً ظاهر بقائمة المحفوظات
-                  isQuizSolved:
-                      false, // مش معروفة هون، وغير مستخدمة بشاشة الـ records أصلاً
+                  isSaved: true,
+                  isQuizSolved: false,
                 );
 
                 return LibraryCard(
@@ -333,7 +331,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
                   itemType: "lesson",
                   route: AppRoutes.kStudentLessonRecordsScreen,
                   args: {
-                    'lesson': fullLesson, 
+                    'lesson': fullLesson,
                     'isOffline': false,
                     'subjectName': '',
                     'savesCubit': childCtx.read<SavesCubit>(),
@@ -496,6 +494,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
       },
     );
   }
+
   Widget _buildPastPapersList() {
     return BlocBuilder<SavedPastExamsCubit, ResultState<List<SavedPastExam>>>(
       bloc: _savedPastExamsCubit,

@@ -156,12 +156,12 @@ class AuthCubit extends Cubit<ResultState<dynamic>> {
 
   Future<void> emitLogout() async {
     emit(const ResultState.loading());
+    await PushNotificationsService.deleteFcmTokenFromServer();
+
     final result = await studentRepo.logout();
 
     await result.when(
       success: (data) async {
-        await PushNotificationsService.deleteFcmTokenFromServer();
-
         await SecureStorage.deleteToken();
 
         final prefs = await SharedPreferences.getInstance();

@@ -21,7 +21,7 @@ class PushNotificationsService {
 
     if (token != null) {
       log('FCM TOKEN: $token');
-      await sendFcmTokenToServer(token); 
+      await sendFcmTokenToServer(token);
     }
 
     firebaseMessaging.onTokenRefresh.listen((newToken) async {
@@ -51,6 +51,7 @@ class PushNotificationsService {
       failure: (error) => log('FCM Token delete failed: $error'),
     );
   }
+
   static Future<void> registerTokenAfterLogin() async {
     final token = _cachedToken ?? await firebaseMessaging.getToken();
     if (token != null) {
@@ -126,5 +127,4 @@ class PushNotificationsService {
       );
     }, duration: const Duration(seconds: 10));
   }
-
 }

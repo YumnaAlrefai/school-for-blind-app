@@ -10,6 +10,7 @@ import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_text_form_field.dart';
+import 'package:school_for_blind_app/presentation/widgets/student/custom_dropdown_field.dart';
 
 class StudentPaymentScreen extends StatefulWidget {
   final String clientSecret;
@@ -31,6 +32,9 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
   final TextEditingController _cvcController = TextEditingController();
   final TextEditingController _postalController = TextEditingController();
 
+  int? selectedMonth;
+  int? selectedYear;
+
   @override
   void dispose() {
     _cardNumberController.dispose();
@@ -49,22 +53,24 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
       );
       return;
     }
+
     final expiryParts = _expiryController.text.trim().split('/');
     if (expiryParts.length != 2) {
       getIt<VoiceServices>().speak(
-        'صيغة التاريخ غير صحيحة، يرجى إدخال الشهر ثم السنة',
+        'صيغة التاريخ غير صحيحة، يرجى اختيار الشهر والسنة',
       );
       return;
     }
+
     final int? month = int.tryParse(expiryParts[0]);
     final int? year = int.tryParse(expiryParts[1]);
 
     if (month == null || year == null) {
-      getIt<VoiceServices>().speak('التاريخ المدخل غير صالحة');
+      getIt<VoiceServices>().speak('التاريخ المدخل غير صالح');
       return;
     }
+
     try {
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       context.read<DonationCubit>().emit(const ResultState.loading());
 
       final cardDetails = CardDetails(
@@ -105,7 +111,6 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
           );
         }
       } else {
-        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
         context.read<DonationCubit>().emit(const ResultState.idle());
         getIt<VoiceServices>().speak(
           'عملية الدفع غير مكتملة، يرجى المحاولة مجدداً',
@@ -113,7 +118,6 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
       }
     } catch (e) {
       if (mounted) {
-        // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
         context.read<DonationCubit>().emit(const ResultState.idle());
         getIt<VoiceServices>().speak(
           'فشلت عملية الدفع، يرجى التحقق من كَرت الدفع الخاص بك',
@@ -128,7 +132,10 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في صفحةِ إدْخالِ مَعْلوماتِ البطاقَةِ المَصْرِفِيَّةِ لإتمامِ التَّبَرُّعِ، اِمْلَأْ رَقْمَ البطاقَةِ، وتاريخَ انْتِهاءِ صلاحيتها والرمزَ السِّرِّيَّ والبريدي، ثمّ اضْغَطْ على زِرِّ الإرسال لإتمامِ العَمَلِيَّةِ بأَمانٍ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: Center(
@@ -144,11 +151,39 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 20.h),
-                  CustomTextfield(
-                    controller: _expiryController,
-                    hintText: 'الانتهاء MM/YY',
-                    icon: Icons.calendar_today,
-                    keyboardType: TextInputType.datetime,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomDropdownField(
+                        hintText: 'الشهر',
+                        icon: Icons.calendar_today,
+                        value: selectedMonth,
+                        items: List.generate(12, (i) => i + 1),
+                        onChanged: (val) {
+                          setState(() => selectedMonth = val);
+                          final yy =
+                              selectedYear ?? (DateTime.now().year % 100);
+                          _expiryController.text =
+                              '${selectedMonth.toString().padLeft(2, '0')}/${yy.toString().padLeft(2, '0')}';
+                        },
+                      ),
+                      SizedBox(width: 16.w),
+                      CustomDropdownField(
+                        hintText: 'السنة',
+                        icon: Icons.calendar_month,
+                        value: selectedYear,
+                        items: List.generate(
+                          15,
+                          (i) => (DateTime.now().year + i) % 100,
+                        ),
+                        onChanged: (val) {
+                          setState(() => selectedYear = val);
+                          final mm = selectedMonth ?? 1;
+                          _expiryController.text =
+                              '${mm.toString().padLeft(2, '0')}/${selectedYear.toString().padLeft(2, '0')}';
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20.h),
                   CustomTextfield(
@@ -165,6 +200,7 @@ class _StudentPaymentScreenState extends State<StudentPaymentScreen> {
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 40.h),
+
                   BlocConsumer<DonationCubit, ResultState<dynamic>>(
                     listener: (context, state) {
                       state.whenOrNull(
