@@ -303,10 +303,18 @@ class _StudentExamScreenState extends State<StudentExamScreen> {
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Center(
                             child: IconButton(
+                              style: IconButton.styleFrom(
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.surface,
+                              ),
                               onPressed: () => context
                                   .read<ExamQuestionsCubit>()
                                   .emitGetExamQuestions(widget.examId),
-                              icon: const Icon(Icons.refresh),
+                              icon: Icon(
+                                Icons.refresh,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                               color: Theme.of(
                                 context,
                               ).colorScheme.primaryContainer,

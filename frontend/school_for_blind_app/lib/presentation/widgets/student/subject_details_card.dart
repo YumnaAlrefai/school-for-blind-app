@@ -95,7 +95,7 @@ class _SubjectDetailsCardState extends State<SubjectDetailsCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   PrimaryButton(
-                    title: 'اختبارات',
+                    title: 'الاختبارات',
                     width: 170,
                     height: 62,
                     fontSize: 40,
@@ -106,7 +106,7 @@ class _SubjectDetailsCardState extends State<SubjectDetailsCard> {
                     ),
                   ),
                   PrimaryButton(
-                    title: 'المكتبة',
+                    title: "مكتبة الحلول",
                     width: 170,
                     height: 62,
                     fontSize: 40,

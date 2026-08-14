@@ -92,8 +92,8 @@ class StudentExamScheduleScreen extends StatelessWidget {
     }
 
     return RefreshIndicator(
-      color: Theme.of(context).colorScheme.background,
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       onRefresh: () async {},
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),

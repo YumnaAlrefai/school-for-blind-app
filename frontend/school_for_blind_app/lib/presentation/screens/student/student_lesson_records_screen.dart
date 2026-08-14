@@ -109,6 +109,14 @@ class _StudentLessonRecordsScreenState
     return sectionNames[originalName.trim()] ?? originalName;
   }
 
+  Future<void> _onRefresh() async {
+    if (widget.isOffline) {
+      await _loadOfflineRecords();
+    } else {
+      _recordsCubit.emitGetLessonRecords(widget.lesson.id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -123,99 +131,121 @@ class _StudentLessonRecordsScreenState
               'هنا يَظهَر الدرس مُقَسَّمَنْ إلى أقسامٍ حتى لا يكون طويلنْ، اختَر القسم الذي تريد الاستماع إليه',
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
-        body:
-            BlocBuilder<LessonRecordsCubit, ResultState<LessonRecordsResponse>>(
-              builder: (context, state) {
-                return state.when(
-                  idle: () => const SizedBox(),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  failure: (error) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Center(
-                      child: Text(
-                        "فشل في تحميل الأقسام،\n يرجى المحاولة لاحقاً..",
-                        style: AppTextStyles.kMediumPrimary(context),
-                      ),
+        body: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child:
+              BlocBuilder<
+                LessonRecordsCubit,
+                ResultState<LessonRecordsResponse>
+              >(
+                builder: (context, state) {
+                  return state.when(
+                    idle: () => ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const [SizedBox(height: 200)],
                     ),
-                  ),
-                  success: (recordsData) {
-                    if (recordsData.record.isEmpty) {
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(
-                            "لا يوجد أقسام مضافة لهذا الدرس",
-                            style: AppTextStyles.kMediumPrimary(context),
-                          ),
-                        ),
-                      );
-                    }
-                    return ListView(
+                    loading: () => ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const [
+                        SizedBox(height: 200),
+                        Center(child: CircularProgressIndicator()),
+                      ],
+                    ),
+                    failure: (error) => ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       children: [
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 200.h),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(20.w, 0, 30.w, 0),
-                          child: Text(
-                            '${widget.lesson.title}:',
-                            style: AppTextStyles.kMediumPrimary(context),
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: recordsData.record.length,
-                            itemBuilder: (context, index) {
-                              final recordItem = recordsData.record[index];
-                              final formattedName = _formatRecordName(
-                                recordItem.name,
-                              );
-
-                              final updatedRecord = RecordModel(
-                                id: recordItem.id,
-                                name: recordItem.name,
-                                url: widget.isOffline
-                                    ? recordItem.url
-                                    : UrlHelper.fixLocalhost(recordItem.url),
-                              );
-
-                              String currentTeacherName =
-                                  widget.lesson.teacherName ?? 'غير محدد';
-
-                              final recordLessonObject = Lesson(
-                                id: widget.lesson.id,
-                                title: formattedName,
-                                teacherName: currentTeacherName,
-                                teacherId: 1,
-                                isSaved: false,
-                                isQuizSolved: false,
-                              );
-
-                              return LessonCard(
-                                lesson: recordLessonObject,
-                                lessonNumber: (index + 1),
-                                viewMenu: false,
-                                route: AppRoutes.kStudentAudioPlayerScreen,
-                                args: {
-                                  'lessonName': formattedName,
-                                  'record': updatedRecord,
-                                  'lessonId': widget.lesson.id,
-                                  'isOffline': widget.isOffline,
-                                },
-                                subjectName: widget.subjectName,
-                              );
-                            },
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: Center(child: Container()),
                         ),
                       ],
-                    );
-                  },
-                );
-              },
-            ),
+                    ),
+                    success: (recordsData) {
+                      if (recordsData.record.isEmpty) {
+                        return ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: [
+                            SizedBox(height: 200.h),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                  "لا يوجد أقسام مضافة لهذا الدرس",
+                                  style: AppTextStyles.kMediumPrimary(context),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: [
+                          SizedBox(height: 20.h),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20.w, 0, 30.w, 0),
+                            child: Text(
+                              '${widget.lesson.title}:',
+                              style: AppTextStyles.kMediumPrimary(context),
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: recordsData.record.length,
+                              itemBuilder: (context, index) {
+                                final recordItem = recordsData.record[index];
+                                final formattedName = _formatRecordName(
+                                  recordItem.name,
+                                );
+
+                                final updatedRecord = RecordModel(
+                                  id: recordItem.id,
+                                  name: recordItem.name,
+                                  url: widget.isOffline
+                                      ? recordItem.url
+                                      : UrlHelper.fixLocalhost(recordItem.url),
+                                );
+
+                                String currentTeacherName =
+                                    widget.lesson.teacherName ?? 'غير محدد';
+
+                                final recordLessonObject = Lesson(
+                                  id: widget.lesson.id,
+                                  title: formattedName,
+                                  teacherName: currentTeacherName,
+                                  teacherId: 1,
+                                  isSaved: false,
+                                  isQuizSolved: false,
+                                );
+
+                                return LessonCard(
+                                  lesson: recordLessonObject,
+                                  lessonNumber: (index + 1),
+                                  viewMenu: false,
+                                  route: AppRoutes.kStudentAudioPlayerScreen,
+                                  args: {
+                                    'lessonName': formattedName,
+                                    'record': updatedRecord,
+                                    'lessonId': widget.lesson.id,
+                                    'isOffline': widget.isOffline,
+                                  },
+                                  subjectName: widget.subjectName,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+        ),
       ),
     );
   }

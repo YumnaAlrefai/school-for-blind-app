@@ -40,10 +40,16 @@ class StudentQuizReviewScreen extends StatelessWidget {
                 );
                 return Center(
                   child: IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                    ),
                     onPressed: () => context
                         .read<QuizReviewCubit>()
                         .emitGetQuizReview(quizId),
-                    icon: const Icon(Icons.refresh),
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     iconSize: 35,
                   ),
                 );

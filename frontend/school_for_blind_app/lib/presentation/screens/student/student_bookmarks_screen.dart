@@ -22,9 +22,9 @@ import 'package:school_for_blind_app/data/models/student/offline_lesson_model.da
 import 'package:school_for_blind_app/data/models/student/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/student/saved_past_exam.dart';
 import 'package:school_for_blind_app/data/models/student/saved_quiz.dart';
+import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_tabs.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/library_card.dart';
-import 'package:school_for_blind_app/presentation/widgets/student/library_card_skeleton.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/secondary_tabs.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/small_button.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -99,6 +99,10 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
         ctx.read<SavedPastExamsCubit>().getSavedPastExams();
         break;
     }
+  }
+
+  Future<void> _onRefresh(BuildContext ctx) async {
+    _refreshActiveTab(ctx);
   }
 
   @override
@@ -185,7 +189,7 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
                       icon: const Icon(Icons.question_mark_outlined),
                       onPressed: () {
                         getIt<VoiceServices>().speak(
-                          'شاشة المحفوظات، هنا يَظهَر كلُّ ما قمتَ بحفظه من دروس وكويزات واختبارات ودورات ليسهل عليك العودة إليها',
+                          'شاشة المحفوظات، هنا يَظهَر كلُّ ما قمتَ بحفظه من دروس وكويزات واختبارات ودورات ليسهل عليك العودة إليها',
                         );
                       },
                     ),
@@ -193,78 +197,94 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
                   ],
                 ),
                 backgroundColor: Theme.of(context).colorScheme.background,
-                body: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                body: Column(
                   children: [
                     SingleChildScrollView(
-                      child: SizedBox(
-                        width: 378.w,
-                        child: Column(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.all(10.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: EdgeInsets.all(10.w),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    CustomTabs(
-                                      label: 'الدروس',
-                                      isSelected: _selectedTab == 0,
-                                      onPressed: () =>
-                                          _onTabChanged(childContext, 0),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    CustomTabs(
-                                      label: 'الكويزات',
-                                      isSelected: _selectedTab == 1,
-                                      onPressed: () =>
-                                          _onTabChanged(childContext, 1),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    CustomTabs(
-                                      label: 'الاختبارات',
-                                      isSelected: _selectedTab == 2,
-                                      onPressed: () =>
-                                          _onTabChanged(childContext, 2),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    CustomTabs(
-                                      label: 'الدورات',
-                                      isSelected: _selectedTab == 3,
-                                      onPressed: () =>
-                                          _onTabChanged(childContext, 3),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            CustomTabs(
+                              label: 'الدروس',
+                              isSelected: _selectedTab == 0,
+                              onPressed: () => _onTabChanged(childContext, 0),
                             ),
-                            SizedBox(height: 10.h),
-                            _selectedTab == 0
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SecondaryTabs(
-                                        label: 'اونلاين',
-                                        isSelected: _selectedSubTab == 0,
-                                        onPressed: () =>
-                                            _onSubTabChanged(childContext, 0),
-                                      ),
-                                      SizedBox(width: 15.w),
-                                      SecondaryTabs(
-                                        label: 'اوفلاين',
-                                        isSelected: _selectedSubTab == 1,
-                                        onPressed: () =>
-                                            _onSubTabChanged(childContext, 1),
-                                      ),
-                                    ],
-                                  )
-                                : const SizedBox(),
-                            SizedBox(height: 30.h),
-                            _buildTabContent(childContext),
+                            SizedBox(width: 10.w),
+                            CustomTabs(
+                              label: 'الكويزات',
+                              isSelected: _selectedTab == 1,
+                              onPressed: () => _onTabChanged(childContext, 1),
+                            ),
+                            SizedBox(width: 10.w),
+                            CustomTabs(
+                              label: 'الاختبارات',
+                              isSelected: _selectedTab == 2,
+                              onPressed: () => _onTabChanged(childContext, 2),
+                            ),
+                            SizedBox(width: 10.w),
+                            CustomTabs(
+                              label: 'الدورات',
+                              isSelected: _selectedTab == 3,
+                              onPressed: () => _onTabChanged(childContext, 3),
+                            ),
                           ],
                         ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    _selectedTab == 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SecondaryTabs(
+                                label: 'اونلاين',
+                                isSelected: _selectedSubTab == 0,
+                                onPressed: () =>
+                                    _onSubTabChanged(childContext, 0),
+                              ),
+                              SizedBox(width: 15.w),
+                              SecondaryTabs(
+                                label: 'اوفلاين',
+                                isSelected: _selectedSubTab == 1,
+                                onPressed: () =>
+                                    _onSubTabChanged(childContext, 1),
+                              ),
+                            ],
+                          )
+                        : const SizedBox(),
+                    SizedBox(height: 30.h),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: () => _onRefresh(childContext),
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  return SingleChildScrollView(
+                                    physics:
+                                        const AlwaysScrollableScrollPhysics(),
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        minHeight: constraints.maxHeight,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: SizedBox(
+                                          width: 378.w,
+                                          child: _buildTabContent(childContext),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -297,14 +317,20 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
       bloc: childCtx.read<SavedLessonsCubit>(),
       builder: (context, state) {
         return state.when(
-          idle: () => const Center(child: LibraryCardSkeleton()),
-          loading: () => const Center(child: LibraryCardSkeleton()),
+          idle: () => const SizedBox.shrink(),
+          loading: () => Padding(
+            padding: EdgeInsets.only(top: 40.h),
+            child: const Center(child: CircularProgressIndicator()),
+          ),
           success: (savedList) {
             if (savedList.isEmpty) {
-              return Center(
-                child: Text(
-                  "لا يوجد دروس محفوظة",
-                  style: AppTextStyles.kMediumPrimary(context),
+              return Padding(
+                padding: EdgeInsets.only(top: 40.h),
+                child: Center(
+                  child: Text(
+                    "لا يوجد دروس محفوظة",
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                 ),
               );
             }
@@ -340,12 +366,12 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               },
             );
           },
-          failure: (networkException) => Center(
-            child: Text(
-              "فشل تحميل المحفوظات",
-              style: AppTextStyles.kMediumPrimary(context),
-            ),
-          ),
+          failure: (networkException) {
+            getIt<VoiceServices>().speak(
+              NetworkExceptions.getErrorMessage(networkException),
+            );
+            return Container();
+          },
         );
       },
     );
@@ -359,14 +385,20 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
       bloc: childCtx.read<OfflineSavedLessonsCubit>(),
       builder: (context, state) {
         return state.when(
-          idle: () => const Center(child: LibraryCardSkeleton()),
-          loading: () => const Center(child: LibraryCardSkeleton()),
+          idle: () => const SizedBox.shrink(),
+          loading: () => Padding(
+            padding: EdgeInsets.only(top: 40.h),
+            child: const Center(child: CircularProgressIndicator()),
+          ),
           success: (savedList) {
             if (savedList.isEmpty) {
-              return Center(
-                child: Text(
-                  "لا يوجد دروس محفوظة",
-                  style: AppTextStyles.kMediumPrimary(context),
+              return Padding(
+                padding: EdgeInsets.only(top: 40.h),
+                child: Center(
+                  child: Text(
+                    "لا يوجد دروس محفوظة",
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                 ),
               );
             }
@@ -394,12 +426,12 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               },
             );
           },
-          failure: (networkException) => Center(
-            child: Text(
-              "فشل تحميل المحفوظات",
-              style: AppTextStyles.kMediumPrimary(context),
-            ),
-          ),
+          failure: (networkException) {
+            getIt<VoiceServices>().speak(
+              NetworkExceptions.getErrorMessage(networkException),
+            );
+            return Container();
+          },
         );
       },
     );
@@ -410,14 +442,20 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
       bloc: _savedQuizzesCubit,
       builder: (context, state) {
         return state.when(
-          idle: () => const Center(child: LibraryCardSkeleton()),
-          loading: () => const Center(child: LibraryCardSkeleton()),
+          idle: () => const SizedBox.shrink(),
+          loading: () => Padding(
+            padding: EdgeInsets.only(top: 40.h),
+            child: const Center(child: CircularProgressIndicator()),
+          ),
           success: (savedList) {
             if (savedList.isEmpty) {
-              return Center(
-                child: Text(
-                  "لا يوجد كويزات محفوظة",
-                  style: AppTextStyles.kMediumPrimary(context),
+              return Padding(
+                padding: EdgeInsets.only(top: 40.h),
+                child: Center(
+                  child: Text(
+                    "لا يوجد كويزات محفوظة",
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                 ),
               );
             }
@@ -439,12 +477,12 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               },
             );
           },
-          failure: (networkException) => Center(
-            child: Text(
-              "فشل تحميل المحفوظات",
-              style: AppTextStyles.kMediumPrimary(context),
-            ),
-          ),
+          failure: (networkException) {
+            getIt<VoiceServices>().speak(
+              NetworkExceptions.getErrorMessage(networkException),
+            );
+            return Container();
+          },
         );
       },
     );
@@ -455,14 +493,20 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
       bloc: _savedExamsCubit,
       builder: (context, state) {
         return state.when(
-          idle: () => const Center(child: LibraryCardSkeleton()),
-          loading: () => const Center(child: LibraryCardSkeleton()),
+          idle: () => const SizedBox.shrink(),
+          loading: () => Padding(
+            padding: EdgeInsets.only(top: 40.h),
+            child: const Center(child: CircularProgressIndicator()),
+          ),
           success: (savedList) {
             if (savedList.isEmpty) {
-              return Center(
-                child: Text(
-                  "لا يوجد اختبارات محفوظة",
-                  style: AppTextStyles.kMediumPrimary(context),
+              return Padding(
+                padding: EdgeInsets.only(top: 40.h),
+                child: Center(
+                  child: Text(
+                    "لا يوجد اختبارات محفوظة",
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                 ),
               );
             }
@@ -484,12 +528,12 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               },
             );
           },
-          failure: (networkException) => Center(
-            child: Text(
-              "فشل تحميل المحفوظات",
-              style: AppTextStyles.kMediumPrimary(context),
-            ),
-          ),
+          failure: (networkException) {
+            getIt<VoiceServices>().speak(
+              NetworkExceptions.getErrorMessage(networkException),
+            );
+            return Container();
+          },
         );
       },
     );
@@ -500,14 +544,20 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
       bloc: _savedPastExamsCubit,
       builder: (context, state) {
         return state.when(
-          idle: () => const Center(child: LibraryCardSkeleton()),
-          loading: () => const Center(child: LibraryCardSkeleton()),
+          idle: () => const SizedBox.shrink(),
+          loading: () => Padding(
+            padding: EdgeInsets.only(top: 40.h),
+            child: const Center(child: CircularProgressIndicator()),
+          ),
           success: (savedList) {
             if (savedList.isEmpty) {
-              return Center(
-                child: Text(
-                  "لا يوجد دورات محفوظة",
-                  style: AppTextStyles.kMediumPrimary(context),
+              return Padding(
+                padding: EdgeInsets.only(top: 40.h),
+                child: Center(
+                  child: Text(
+                    "لا يوجد دورات محفوظة",
+                    style: AppTextStyles.kMediumPrimary(context),
+                  ),
                 ),
               );
             }
@@ -529,12 +579,12 @@ class _StudentBookmarksScreenState extends State<StudentBookmarksScreen> {
               },
             );
           },
-          failure: (networkException) => Center(
-            child: Text(
-              "فشل تحميل المحفوظات",
-              style: AppTextStyles.kMediumPrimary(context),
-            ),
-          ),
+          failure: (networkException) {
+            getIt<VoiceServices>().speak(
+              NetworkExceptions.getErrorMessage(networkException),
+            );
+            return Container();
+          },
         );
       },
     );

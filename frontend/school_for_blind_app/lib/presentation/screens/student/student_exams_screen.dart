@@ -179,15 +179,7 @@ class _StudentExamsScreenState extends State<StudentExamsScreen> {
     });
     return Padding(
       padding: EdgeInsets.only(top: 200.h),
-      child: Column(
-        children: [
-          Text(
-            errorMessage,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.kMediumPrimary(context),
-          ),
-        ],
-      ),
+      child: Container(),
     );
   }
 }
