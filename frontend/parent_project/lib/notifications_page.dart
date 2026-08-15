@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parent_project/Widget/app_colors.dart';
 import 'package:parent_project/screens/reports_parent.dart';
-
+import 'package:parent_project/notification_cubit.dart';
+import 'package:parent_project/notification_state.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -18,20 +20,15 @@ class _NotificationModel {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  
-  bool _notificationsMuted = false;
+  bool _isLoading = true;
 
-  // بيانات الإشعارات مجمّعة حسب التاريخ
-  final Map<String, List<_NotificationModel>> _notificationsByDate = {
-    '17/3/2026': [
-      _NotificationModel(message: 'وصلك إعلان جديد', time: '7:00 ص'),
-      _NotificationModel(message: 'بدأت حصة التاريخ عند الطالبة رغد', time: '7:10 ص'),
-    ],
-    '18/3/2026': [
-      _NotificationModel(message: 'تم تنزيل برنامج الدوام', time: '9:00 ص'),
-       
-    ],
-  };
+  Map<String, List<_NotificationModel>> _notificationsByDate = {};
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationCubit>().fetchNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +41,32 @@ class _NotificationsPageState extends State<NotificationsPage> {
             children: [
               _buildTopBar(),
               Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _buildNotificationsList(),
-                  ),
+                child: BlocListener<NotificationCubit, NotificationState>(
+                  listener: (context, state) {
+                    if (state is NotificationListLoaded) {
+                      setState(() {
+                        _notificationsByDate = _mapToLocalModel(
+                          state.notifications,
+                        );
+                        _isLoading = false;
+                      });
+                    } else if (state is NotificationListFailure) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    }
+                  },
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        )
+                      : SingleChildScrollView(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: _buildNotificationsList(),
+                          ),
+                        ),
                 ),
               ),
             ],
@@ -59,56 +76,56 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  // ------------------------------------------------------------
-  // الشريط العلوي: سهم رجوع + أيقونة الجرس (تفعيل/كتم) + العنوان
-  // ------------------------------------------------------------
-  
+  Map<String, List<_NotificationModel>> _mapToLocalModel(
+    List<dynamic> apiNotifications,
+  ) {
+    final Map<String, List<_NotificationModel>> grouped = {};
+
+    for (final n in apiNotifications) {
+      final dateKey =
+          '${n.timestamp.day}/${n.timestamp.month}/${n.timestamp.year}';
+      final timeStr =
+          '${n.timestamp.hour}:${n.timestamp.minute.toString().padLeft(2, '0')}';
+
+      grouped
+          .putIfAbsent(dateKey, () => [])
+          .add(_NotificationModel(message: n.body, time: timeStr));
+    }
+
+    return grouped;
+  }
+
   Widget _buildTopBar() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-       decoration: const BoxDecoration(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      decoration: const BoxDecoration(
         color: AppColors.bgDark,
-        border: Border(bottom: BorderSide(color: Colors.white12, width: 1),top: BorderSide(color: Colors.white12, width: 1)),
+        border: Border(
+          bottom: BorderSide(color: Colors.white12, width: 1),
+          top: BorderSide(color: Colors.white12, width: 1),
+        ),
       ),
       child: Row(
         children: [
-          // ------- العنوان على اليمين -------
           Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
                 'الإشعارات',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 40),
               ),
             ),
           ),
-           const Spacer(),
-           IconButton(
-            onPressed: () {
-              setState(() => _notificationsMuted = !_notificationsMuted);
-            },
-            icon: Icon(
-              _notificationsMuted
-                  ? Icons.notifications_off_outlined
-                  : Icons.notifications_none_rounded,
-              color: Colors.white,
-              size: 33,
-            ),
-          ),
-          const SizedBox(width: 12),
-          // ------- سهم الرجوع على اليسار -------
+          const Spacer(),
           GestureDetector(
-           onTap: () {
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => const ReportsParent()),
-    (route) => false,
-  );
-},
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const ReportsParent()),
+                (route) => false,
+              );
+            },
             child: const Icon(
               Icons.subdirectory_arrow_left_outlined,
               color: Colors.white,
@@ -120,10 +137,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-
-  // ------------------------------------------------------------
-  // بناء القائمة كاملة مجمّعة حسب التاريخ
-  // ------------------------------------------------------------
   List<Widget> _buildNotificationsList() {
     final List<Widget> widgets = [];
 
@@ -142,9 +155,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return widgets;
   }
 
-  // ------------------------------------------------------------
-  // شارة التاريخ أعلى كل مجموعة
-  // ------------------------------------------------------------
   Widget _buildDateLabel(String date) {
     return Center(
       child: Container(
@@ -161,9 +171,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  // ------------------------------------------------------------
-  // فقاعة إشعار واحدة (نص + وقت أسفله) - تاخد عرض المحتوى فقط
-  // ------------------------------------------------------------
   Widget _buildNotificationBubble(_NotificationModel notification) {
     return Container(
       width: double.infinity,
@@ -193,4 +200,3 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 }
- 
