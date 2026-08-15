@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parent_project/firebase_options.dart';
 
 import 'features/auth/data/datasource/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository.dart';
@@ -11,9 +12,14 @@ import 'screens/notifications_page.dart';
 import 'screens/donation_parent.dart';
 
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  await Future.wait([
+    PushNotificationsService.init(),
+    LocalNotificationsService.init(),
+  ]);
   runApp(const MyApp());
 }
 
