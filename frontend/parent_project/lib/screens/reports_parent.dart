@@ -10,7 +10,7 @@ import 'package:parent_project/features/reports/presentation/pages/monthly_tab_p
 import 'package:parent_project/features/reports/presentation/pages/yearly_tab_page.dart';
 import 'package:parent_project/features/schedule/presentation/pages/schedule_page.dart';
 import 'package:parent_project/screens/donation_parent.dart';
-import 'package:parent_project/screens/notifications_page.dart';
+import 'package:parent_project/notifications_page.dart';
 
 import 'package:parent_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:parent_project/features/auth/logic/cubit/auth_state.dart';
