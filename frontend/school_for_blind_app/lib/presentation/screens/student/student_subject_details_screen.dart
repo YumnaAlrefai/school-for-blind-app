@@ -112,6 +112,15 @@ class _StudentSubjectDetailsScreenState
     _performSearch(query);
   }
 
+  Future<void> _onRefresh() async {
+    if (_selectedTab == 0) {
+      _lessonsCubit.emitGetSubjectLessonsResponse(widget.subjectId);
+    } else if (_userKey != null) {
+      _offlineCubit.loadOfflineLessons(subjectId: widget.subjectId);
+    }
+    _progressCubit.emitGetSubjectProgress(widget.subjectId);
+  }
+
   @override
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
@@ -130,42 +139,49 @@ class _StudentSubjectDetailsScreenState
         BlocProvider.value(value: _savesCubit),
       ],
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: const CustomAppBar(
+          helpMessage:
+              'شاشة تفاصيل المادة، فيها الدروس المُسَجَّلة صوتياً، زر الانتقال لمكتبة الحلول، زر الانتقال لاختبارات المادة، الوصولُ السريعُ لقناة مدرس المادة او مجموعة مناقشة المادة، يمكنك تنزيل الدروس للاستماع لها  عند عدم الاتصال بالانترنت، يمكنك أَيضاً حفظ الدرس إلى المحفوظات، أو عرض الكويز الخاص به',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SingleChildScrollView(
-              child: SizedBox(
-                width: 378.w,
-                child: Column(
-                  children: [
-                    SubjectDetailsCard(
-                      subjectName: widget.subjectName,
-                      subjectId: widget.subjectId,
-                    ),
-                    _buildSearchLessonsBar(),
-                    SizedBox(height: 15.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomTabs(
-                          label: 'أونلاين',
-                          isSelected: _selectedTab == 0,
-                          onPressed: () => _onTabChanged(0),
-                        ),
-                        CustomTabs(
-                          label: 'المحملة',
-                          isSelected: _selectedTab == 1,
-                          onPressed: () => _onTabChanged(1),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30.h),
-                    _selectedTab == 0
-                        ? _buildOnlineLessonsList()
-                        : _buildOfflineLessonsList(),
-                  ],
+            RefreshIndicator(
+              onRefresh: _onRefresh,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  width: 378.w,
+                  child: Column(
+                    children: [
+                      SubjectDetailsCard(
+                        subjectName: widget.subjectName,
+                        subjectId: widget.subjectId,
+                      ),
+                      _buildSearchLessonsBar(),
+                      SizedBox(height: 15.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CustomTabs(
+                            label: 'أونلاين',
+                            isSelected: _selectedTab == 0,
+                            onPressed: () => _onTabChanged(0),
+                          ),
+                          CustomTabs(
+                            label: 'المحملة',
+                            isSelected: _selectedTab == 1,
+                            onPressed: () => _onTabChanged(1),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30.h),
+                      _selectedTab == 0
+                          ? _buildOnlineLessonsList()
+                          : _buildOfflineLessonsList(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -251,10 +267,7 @@ class _StudentSubjectDetailsScreenState
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  "فشل تحميل الدروس",
-                  style: AppTextStyles.kMediumPrimary(context),
-                ),
+                child: Container(),
               ),
             );
           },

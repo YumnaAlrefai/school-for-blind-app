@@ -22,7 +22,10 @@ class StudentExamScheduleScreen extends StatelessWidget {
       create: (context) => getIt<ExamDetailCubit>()..getExamDetail(examId),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: const CustomAppBar(
+          helpMessage:
+              'هذه شاشة عرض برنامج الامتحانات أو المذاكرات، سيَظهَر لك الجدول بشكلِ أعمدةٍ تمثل اليوم والتاريخ، المادة، والتوقيت، والأسطر هي الأيام',
+        ),
         body: SafeArea(
           child: BlocBuilder<ExamDetailCubit, ResultState<ExamDetailResponse>>(
             builder: (context, state) {
@@ -89,8 +92,8 @@ class StudentExamScheduleScreen extends StatelessWidget {
     }
 
     return RefreshIndicator(
-      color: Theme.of(context).colorScheme.background,
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       onRefresh: () async {},
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),

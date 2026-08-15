@@ -25,7 +25,10 @@ class StudentExamSolutionsScreen extends StatelessWidget {
       create: (context) =>
           getIt<ExamSolutionsCubit>()..emitGetExamSolutions(examId),
       child: Scaffold(
-        appBar: CustomAppBar(helpMessage: title),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في صَفْحَةِ عَرْضِ الحَلِّ. تُعْرَضُ أَمامَكَ الأَسْئِلَةُ مع إجاباتِها الصَّحيحَةِ لِلنَّشاطِ الّذي اخْتَرْتَهُ. يُمكنُكَ اسْتِعْراضُ الإجاباتِ تِباعاً، أو الضَّغْطُ على زِرِّ الرُّجوعِ في الأعْلى للعودَةِ لِلْمَكْتَبَةِ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body:
             BlocBuilder<ExamSolutionsCubit, ResultState<ExamSolutionsResponse>>(
@@ -40,10 +43,18 @@ class StudentExamSolutionsScreen extends StatelessWidget {
                     );
                     return Center(
                       child: IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surface,
+                        ),
                         onPressed: () => context
                             .read<ExamSolutionsCubit>()
                             .emitGetExamSolutions(examId),
-                        icon: const Icon(Icons.refresh),
+                        icon: Icon(
+                          Icons.refresh,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                         iconSize: 35,
                       ),
                     );

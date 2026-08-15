@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/result_state.dart';
+import 'package:school_for_blind_app/core/services/push_notifications_service.dart';
 import 'package:school_for_blind_app/data/models/student/channel_model.dart';
 import 'package:school_for_blind_app/data/repository/teacher_repo.dart';
 import 'package:school_for_blind_app/networking/api_result.dart';
 import 'package:school_for_blind_app/core/helpers/secure_storage.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http_parser/http_parser.dart'; 
+import 'package:http_parser/http_parser.dart';
 
 class TeacherCubit extends Cubit<ResultState<dynamic>> {
   TeacherModel? currentTeacher;
@@ -81,20 +82,17 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
     emit(const ResultState.loading());
 
     try {
-      
       MultipartFile multipartFile = await MultipartFile.fromFile(
         cvFile.path,
         filename: cvFile.path.split('/').last,
         contentType: MediaType('application', 'pdf'),
       );
 
-      
       print(" جاري إرسال بيانات التسجيل لـ API المعلم...");
       print(
         "الاسم: $fullName | المادة: $subjects | المرحلة: $level | الهاتف المستخدم: $teacherPhone",
       );
 
-      
       final result = await teacherRepo.registerTeacher(
         phone: teacherPhone.trim(),
         fullName: fullName.trim(),
@@ -118,7 +116,6 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
           emit(ResultState.success(message));
         },
         failure: (networkException) {
-          
           print(
             " فشل الطلب من السيرفر. السبب الفعلي: ${networkException.toString()}",
           );
@@ -153,7 +150,9 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
           String teacherJson = jsonEncode(teacherData.toJson());
 
           await prefs.setString('cachedteacher', teacherJson);
-          await prefs.setBool('teacherLoggedIn', true); 
+          await prefs.setBool('teacherLoggedIn', true);
+
+          await PushNotificationsService.registerTokenAfterLogin();
 
           emit(ResultState.success(teacherData));
         } catch (parseError) {
@@ -184,7 +183,7 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
 
   void emitLogoutTeacher() async {
     emit(const ResultState.loading());
-
+    await PushNotificationsService.deleteFcmTokenFromServer();
     final result = await teacherRepo.logoutTeacher();
 
     result.when(
@@ -193,21 +192,19 @@ class TeacherCubit extends Cubit<ResultState<dynamic>> {
         emit(ResultState.success(data));
       },
       failure: (networkException) async {
-        
         await _clearLocalTeacherData();
         emit(ResultState.failure(networkException));
       },
     );
   }
 
-  
   Future<void> _clearLocalTeacherData() async {
     currentTeacher = null;
-    await SecureStorage.deleteToken(); 
+    await SecureStorage.deleteToken();
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('cachedteacher');
     await prefs.remove('login');
-    await prefs.setBool('teacherLoggedIn', false); 
+    await prefs.setBool('teacherLoggedIn', false);
     await prefs.remove('cachedteacher');
   }
 }

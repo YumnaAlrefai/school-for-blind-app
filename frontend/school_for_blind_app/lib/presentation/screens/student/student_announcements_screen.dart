@@ -38,7 +38,9 @@ class StudentAnnouncementsScreen extends StatelessWidget {
             SmallButton(
               icon: const Icon(Icons.question_mark_outlined),
               onPressed: () {
-                getIt<VoiceServices>().speak('صفحة الإعلانات');
+                getIt<VoiceServices>().speak(
+                  'صفحة الإعلانات، فيها يتم عرض الإعلانات التي تنشرها المدرسة بما فيها من عطل رسمية وتغيير البرامج',
+                );
               },
             ),
             SizedBox(width: 20.w),

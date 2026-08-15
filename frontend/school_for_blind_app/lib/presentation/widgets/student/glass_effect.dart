@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 class GlassEffect extends StatelessWidget {
   final BorderRadiusGeometry borderRadius;
-  const GlassEffect({
-    super.key,
-    required this.borderRadius,
-  });
+  const GlassEffect({super.key, required this.borderRadius});
 
   @override
   Widget build(BuildContext context) {

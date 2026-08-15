@@ -38,6 +38,8 @@ class SolvedQuiz {
   final String status;
   @JsonKey(name: 'submitted_at')
   final String submittedAt;
+  @JsonKey(name: 'is_favorited')
+  final bool isFavorited;
 
   SolvedQuiz({
     required this.submissionId,
@@ -49,6 +51,7 @@ class SolvedQuiz {
     required this.quizMaxMark,
     required this.status,
     required this.submittedAt,
+    required this.isFavorited,
   });
 
   factory SolvedQuiz.fromJson(Map<String, dynamic> json) =>

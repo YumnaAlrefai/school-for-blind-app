@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:school_for_blind_app/data/models/notifications_response_model.dart';
 import 'package:school_for_blind_app/data/models/student/announcement_model.dart';
 import 'package:school_for_blind_app/data/models/student/exam_solution.dart';
 import 'package:school_for_blind_app/data/models/student/channel_model.dart';
@@ -19,6 +20,7 @@ import 'package:school_for_blind_app/data/models/student/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/student/record_model.dart';
 import 'package:school_for_blind_app/data/models/student/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/student/saved_past_exam.dart';
+import 'package:school_for_blind_app/data/models/student/saved_quiz.dart';
 import 'package:school_for_blind_app/data/models/student/schedule_model.dart';
 import 'package:school_for_blind_app/data/models/student/solved_quiz.dart';
 import 'package:school_for_blind_app/data/models/student/subject_progress.dart';
@@ -191,4 +193,19 @@ abstract class StudentWebServices {
 
   @GET("announcements/exam/{id}")
   Future<ExamDetailResponse> getExamDetail(@Path("id") int id);
+
+  @GET("favorites/exams")
+  Future<List<Exam>> getSavedExams();
+
+  @GET("favorites/quizzes")
+  Future<List<SavedQuiz>> getSavedQuizzes();
+
+  @POST("fcm-token")
+  Future<dynamic> sendFcmToken(@Body() Map<String, dynamic> body);
+
+  @DELETE("fcm-token")
+  Future<dynamic> deleteFcmToken(@Body() Map<String, dynamic> body);
+
+  @GET('notifications')
+  Future<NotificationsResponse> getNotifications();
 }

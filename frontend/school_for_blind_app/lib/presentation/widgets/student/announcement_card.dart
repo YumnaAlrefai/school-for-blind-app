@@ -13,7 +13,7 @@ class AnnouncementCard extends StatelessWidget {
   String _formatDate(String rawDate) {
     try {
       final parsedDate = DateTime.parse(rawDate).toLocal();
-      return DateFormat('yyyy-MM-dd HH:mm').format(parsedDate);
+      return DateFormat('yyyy-MM-dd HH:mm a').format(parsedDate);
     } catch (_) {
       return rawDate;
     }

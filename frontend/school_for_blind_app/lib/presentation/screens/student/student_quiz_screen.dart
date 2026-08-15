@@ -163,7 +163,8 @@ class _StudentQuizScreenState extends State<StudentQuizScreen> {
             child: Scaffold(
               backgroundColor: Theme.of(context).colorScheme.background,
               appBar: const CustomAppBar(
-                helpMessage: '',
+                helpMessage:
+                    ' شاشة الكويز، تظهر لك الأسئلة مع مؤقِّت انتهاء الوقت، المؤقِّت يبدأ عند انضمامكَ للكويز، السؤال النصي يمكنك الإجابة عنه كتابةً أو عن طريق تسجيل مقطع صوتي، والسؤال الاختياري وسؤال الصح والخطأ يجب أن تختار الخيار المناسب، عند الانتهاء من الحل اضغط زر تسليم الأجوبة، وانتبِهْ من أنك حللتَ كل الأسئلة',
                 showBackButton: false,
               ),
               body: BlocListener<QuizSubmissionCubit, ResultState<dynamic>>(
@@ -213,10 +214,20 @@ class _StudentQuizScreenState extends State<StudentQuizScreen> {
                               padding: EdgeInsets.symmetric(vertical: 10.h),
                               child: Center(
                                 child: IconButton(
+                                  style: IconButton.styleFrom(
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.surface,
+                                  ),
                                   onPressed: () => context
                                       .read<QuizQuestionsCubit>()
                                       .emitGetQuizQuestions(widget.quizId),
-                                  icon: const Icon(Icons.refresh),
+                                  icon: Icon(
+                                    Icons.refresh,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
                                   color: Theme.of(
                                     context,
                                   ).colorScheme.primaryContainer,

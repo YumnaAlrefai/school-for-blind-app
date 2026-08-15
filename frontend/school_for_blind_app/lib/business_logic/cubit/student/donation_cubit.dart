@@ -17,7 +17,7 @@ class DonationCubit extends Cubit<ResultState<dynamic>> {
       failure: (error) => emit(ResultState.failure(error)),
     );
   }
-  
+
   void emitConfirmPayment(String paymentIntentId) async {
     emit(const ResultState.loading());
     final result = await studentRepo.confirmPayment(paymentIntentId);

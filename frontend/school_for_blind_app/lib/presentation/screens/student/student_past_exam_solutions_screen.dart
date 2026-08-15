@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/past_exam_solutions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/past_exam_solutions_state.dart';
 import 'package:school_for_blind_app/core/injection.dart';
+import 'package:school_for_blind_app/core/services/voice_services.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_app_bar.dart';
@@ -45,7 +46,10 @@ class _PastExamSolutionsScreenState extends State<PastExamSolutionsScreen> {
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
-        appBar: CustomAppBar(helpMessage: widget.title ?? ''),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في صَفْحَةِ عَرْضِ الحَلِّ. تُعْرَضُ أَمامَكَ الأَسْئِلَةُ مع إجاباتِها الصَّحيحَةِ لِلنَّشاطِ الّذي اخْتَرْتَهُ. يُمكنُكَ الضَّغْطُ على زِرِّ الرُّجوعِ في الأعْلى للعودَةِ لِلْمَكْتَبَةِ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: BlocBuilder<PastExamSolutionsCubit, PastExamSolutionsState>(
           builder: (context, state) {
@@ -93,8 +97,24 @@ class _PastExamSolutionsScreenState extends State<PastExamSolutionsScreen> {
                   );
                 },
               ),
-              failure: (e) =>
-                  Center(child: Text(NetworkExceptions.getErrorMessage(e))),
+              failure: (e) {
+                getIt<VoiceServices>().speak(
+                  NetworkExceptions.getErrorMessage(e),
+                );
+                return Center(
+                  child: IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    onPressed: () => _cubit.getPastExamSolutions(widget.examId),
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    iconSize: 35,
+                  ),
+                );
+              },
             );
           },
         ),

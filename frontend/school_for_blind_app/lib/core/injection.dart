@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:school_for_blind_app/business_logic/cubit/notifications_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/announcements_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/audio_bookmarks_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
@@ -22,8 +23,10 @@ import 'package:school_for_blind_app/business_logic/cubit/student/quiz_info_cubi
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_questions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_review_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/quiz_submission_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saved_exams_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saved_lessons_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saved_past_exams_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/saved_quizzes_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/saves_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/schedule_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/solved_quizzes_cubit.dart';
@@ -39,6 +42,7 @@ import 'package:school_for_blind_app/core/services/deep_link_service.dart';
 import 'package:school_for_blind_app/core/services/realtime_service.dart';
 import 'package:school_for_blind_app/core/services/server_time_interceptor.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
+import 'package:school_for_blind_app/data/repository/notification_repo.dart';
 import 'package:school_for_blind_app/data/repository/student_repo.dart';
 import 'package:school_for_blind_app/data/repository/teacher_repo.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
@@ -119,6 +123,17 @@ void initGetIt() {
   getIt.registerFactory<ExamDetailCubit>(
     () => ExamDetailCubit(getIt<StudentRepo>()),
   );
+  getIt.registerFactory(() => SavedExamsCubit(getIt<StudentRepo>()));
+  getIt.registerFactory(() => SavedQuizzesCubit(getIt<StudentRepo>()));
+
+  getIt.registerLazySingleton<NotificationRepo>(
+    () => NotificationRepo(getIt<StudentWebServices>()),
+  );
+  getIt.registerFactory<NotificationsCubit>(() => NotificationsCubit(getIt()));
+
+
+
+  
 
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),

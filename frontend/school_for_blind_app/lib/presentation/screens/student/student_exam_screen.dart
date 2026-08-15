@@ -8,7 +8,6 @@ import 'package:school_for_blind_app/core/services/server_time_service.dart';
 import 'package:school_for_blind_app/core/services/exam_join_store.dart';
 import 'package:school_for_blind_app/core/theme/app_text_styles.dart';
 import 'package:school_for_blind_app/core/services/exam_submit_store.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_questions_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_submission_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/result_state.dart';
@@ -19,7 +18,6 @@ import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_app_bar.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/custom_buttons.dart';
 import 'package:school_for_blind_app/presentation/widgets/student/quiz_timer.dart';
-
 import '../../widgets/student/exam_questions_list.dart';
 
 class StudentExamScreen extends StatefulWidget {
@@ -215,14 +213,22 @@ class _StudentExamScreenState extends State<StudentExamScreen> {
   Widget build(BuildContext context) {
     if (_isCheckingAccess) {
       return Scaffold(
-        appBar: const CustomAppBar(helpMessage: '', showBackButton: false),
+        appBar: const CustomAppBar(
+          helpMessage:
+              ' شاشة الاختبار، تظهر لك الأسئلة مع مؤقِّت انتهاء الوقت، المؤقِّت يبدأ عند نزول الاختبار وليس عند انضمامكَ إليه، السؤال النصي يمكنك الإجابة عنه كتابةً أو عن طريق تسجيل مقطع صوتي، والسؤال الاختياري وسؤال الصح والخطأ يجب أن تختار الخيار المناسب، عند الانتهاء من الحل اضغط زر تسليم الأجوبة، وانتبِهْ من أنك حللتَ كل الأسئلة',
+          showBackButton: false,
+        ),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     if (_accessDenied) {
       return Scaffold(
-        appBar: const CustomAppBar(helpMessage: '', showBackButton: true),
+        appBar: const CustomAppBar(
+          helpMessage:
+              ' شاشة الاختبار، تظهر لك الأسئلة مع مؤقِّت انتهاء الوقت، المؤقِّت يبدأ عند نزول الاختبار وليس عند انضمامكَ إليه، السؤال النصي يمكنك الإجابة عنه كتابةً أو عن طريق تسجيل مقطع صوتي، والسؤال الاختياري وسؤال الصح والخطأ يجب أن تختار الخيار المناسب، عند الانتهاء من الحل اضغط زر تسليم الأجوبة، وانتبِهْ من أنك حللتَ كل الأسئلة',
+          showBackButton: true,
+        ),
         body: Center(
           child: Padding(
             padding: EdgeInsets.all(24.w),
@@ -254,7 +260,11 @@ class _StudentExamScreenState extends State<StudentExamScreen> {
         },
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
-          appBar: const CustomAppBar(helpMessage: '', showBackButton: false),
+          appBar: const CustomAppBar(
+            helpMessage:
+                ' شاشة الاختبار، تظهر لك الأسئلة مع مؤقِّت انتهاء الوقت، المؤقِّت يبدأ عند نزول الاختبار وليس عند انضمامكَ إليه، السؤال النصي يمكنك الإجابة عنه كتابةً أو عن طريق تسجيل مقطع صوتي، والسؤال الاختياري وسؤال الصح والخطأ يجب أن تختار الخيار المناسب، عند الانتهاء من الحل اضغط زر تسليم الأجوبة، وانتبِهْ من أنك حللتَ كل الأسئلة',
+            showBackButton: false,
+          ),
           body: BlocListener<ExamSubmissionCubit, ResultState<dynamic>>(
             listener: (context, submitState) {
               submitState.whenOrNull(
@@ -293,10 +303,18 @@ class _StudentExamScreenState extends State<StudentExamScreen> {
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Center(
                             child: IconButton(
+                              style: IconButton.styleFrom(
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.surface,
+                              ),
                               onPressed: () => context
                                   .read<ExamQuestionsCubit>()
                                   .emitGetExamQuestions(widget.examId),
-                              icon: const Icon(Icons.refresh),
+                              icon: Icon(
+                                Icons.refresh,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                               color: Theme.of(
                                 context,
                               ).colorScheme.primaryContainer,

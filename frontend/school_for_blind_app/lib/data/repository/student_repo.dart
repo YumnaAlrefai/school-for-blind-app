@@ -18,6 +18,7 @@ import 'package:school_for_blind_app/data/models/student/quiz_submission.dart';
 import 'package:school_for_blind_app/data/models/student/record_model.dart';
 import 'package:school_for_blind_app/data/models/student/saved_lesson.dart';
 import 'package:school_for_blind_app/data/models/student/saved_past_exam.dart';
+import 'package:school_for_blind_app/data/models/student/saved_quiz.dart';
 import 'package:school_for_blind_app/data/models/student/schedule_model.dart';
 import 'package:school_for_blind_app/data/models/student/subject_progress.dart';
 import 'package:school_for_blind_app/data/web_services/student_web_services.dart';
@@ -503,6 +504,24 @@ class StudentRepo {
     try {
       var response = await webServices.getExamDetail(id);
       return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<List<Exam>>> getSavedExams() async {
+    try {
+      final exams = await webServices.getSavedExams();
+      return ApiResult.success(exams);
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<List<SavedQuiz>>> getSavedQuizzes() async {
+    try {
+      final quizzes = await webServices.getSavedQuizzes();
+      return ApiResult.success(quizzes);
     } catch (e) {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }

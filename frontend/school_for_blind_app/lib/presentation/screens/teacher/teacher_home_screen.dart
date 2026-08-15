@@ -88,7 +88,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
     _audioService.dispose();
     super.dispose();
   }
-void _onNavTap(int index) {
+
+  void _onNavTap(int index) {
     if (index == _addButtonIndex) {
       _openAddLesson();
       return;
@@ -97,16 +98,17 @@ void _onNavTap(int index) {
       Navigator.pushNamed(context, AppRoutes.kQuestionBank);
       return;
     }
-    if (index == 0) {                           
+    if (index == 0) {
       Navigator.pushNamed(context, AppRoutes.kTeacherChats);
       return;
     }
-    if (index == 3) {                                   
+    if (index == 3) {
       Navigator.pushNamed(context, AppRoutes.kTeacherAnnouncements);
       return;
     }
     setState(() => _currentNavIndex = index);
   }
+
   Future<void> _openAddLesson() async {
     await _audioService.stop();
     setState(() => _expandedIndex = null);
@@ -222,11 +224,8 @@ void _onNavTap(int index) {
                 size: 30,
                 color: Colors.white,
               ),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.knotificationTeacher,
-                (route) => false,
-              ),
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutes.knotificationTeacher),
             ),
           ],
         ),
@@ -268,7 +267,7 @@ void _onNavTap(int index) {
           onTap: hasMultiple ? () => _showSubjectsSheet(cubit) : null,
           child: Row(
             children: [
-                  if (hasMultiple) ...[
+              if (hasMultiple) ...[
                 const SizedBox(width: 4),
                 const Icon(
                   Icons.keyboard_arrow_down,
@@ -284,7 +283,6 @@ void _onNavTap(int index) {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-          
             ],
           ),
         );
@@ -406,9 +404,12 @@ void _onNavTap(int index) {
                     isExpanded: _expandedIndex == index,
                     audioService: _audioService,
                     speed: _speed,
-                    onTap: () => _onLessonTap(index, lessons[index] as TeacherLesson),
-                    onDelete: () => _confirmDelete(lessons[index] as TeacherLesson),
-                    onCreateQuiz: () => _openCreateQuiz(lessons[index] as TeacherLesson),
+                    onTap: () =>
+                        _onLessonTap(index, lessons[index] as TeacherLesson),
+                    onDelete: () =>
+                        _confirmDelete(lessons[index] as TeacherLesson),
+                    onCreateQuiz: () =>
+                        _openCreateQuiz(lessons[index] as TeacherLesson),
                     onSpeedTap: _onSpeedTap,
                   ),
                 ),

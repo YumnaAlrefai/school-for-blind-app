@@ -210,7 +210,7 @@ class CustomDrawer extends StatelessWidget {
     if (context.mounted) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        AppRoutes.kTeacherLogin,
+        AppRoutes.kSUserTypeScreen,
         (route) => false,
       );
     }

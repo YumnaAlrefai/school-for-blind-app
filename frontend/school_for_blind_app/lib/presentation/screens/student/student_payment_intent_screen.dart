@@ -36,7 +36,10 @@ class _StudentPaymentIntentScreenState
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: CustomAppBar(helpMessage: ''),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في صفحة تحديدِ مَبْلَغِ التَّبَرُّعِ، اكتب المَبْلَغَ المرادَ التبرع به في حَقْلِ المَبْلَغِ، ثمّ اضغط على زِرِّ المُتابَعَةِ للتَّأكيدِ والانْتِقالِ لِصَفْحَةِ الدَّفْعِ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: Center(

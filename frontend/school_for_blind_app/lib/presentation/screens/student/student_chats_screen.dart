@@ -60,7 +60,9 @@ class _StudentChatsContentState extends State<_StudentChatsContent> {
           SmallButton(
             icon: const Icon(Icons.question_mark_outlined),
             onPressed: () {
-              getIt<VoiceServices>().speak('');
+              getIt<VoiceServices>().speak(
+                'شاشة الدردشات، هنا تجد تبويب القنوات الخاصة بمدرسيك وتبويب مجموعات المناقشة مع زملائك الطلَّاب',
+              );
             },
           ),
           SizedBox(width: 20.w),

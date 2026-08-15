@@ -27,7 +27,10 @@ class StudentScheduleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: CustomAppBar(helpMessage: ''),
+      appBar: const CustomAppBar(
+        helpMessage:
+            'هذه شاشة عرض برنامج الدوام، سيَظهَر لك الجدول بشكلِ أعمدةٍ تمثل الأيام، والأسطر هي الحصص وفق التوقيت',
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

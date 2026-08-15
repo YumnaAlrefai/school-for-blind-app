@@ -80,7 +80,12 @@ class MainScreenContent extends StatelessWidget {
             ),
             SmallButton(
               icon: Icon(Icons.notifications_sharp),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.kStudentNotificationsScreen,
+                );
+              },
             ),
             SmallButton(
               icon: Icon(Icons.question_mark_outlined),

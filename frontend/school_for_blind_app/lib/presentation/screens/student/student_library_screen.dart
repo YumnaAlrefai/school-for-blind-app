@@ -85,6 +85,16 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
     });
   }
 
+  Future<void> _onRefresh() async {
+    if (_selectedTab == 0) {
+      _solvedQuizzesCubit.getSolvedQuizzes();
+    } else if (_selectedTab == 1) {
+      _examsCubit.emitGetExams(widget.subjectId);
+    } else {
+      _pastExamsCubit.getPastExams(widget.subjectId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -93,54 +103,75 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
         BlocProvider.value(value: _offlineLessonsCubit),
       ],
       child: Scaffold(
-        appBar: const CustomAppBar(helpMessage: ''),
+        appBar: CustomAppBar(
+          helpMessage:
+              'أنتَ الآنَ في مَكْتَبَةِ الحُلُولْ، تَحْتَوي هذه الشّاشَةُ على ثلاثةِ أَقْسامٍ للأنْشِطَةِ المَحْلولَةِ سابِقَنْ: الكويزاتُ، الاِخْتِباراتُ، والدَّوْراتُ، يُمكنُكَ التَّنَقُّلُ بَيْنَ الأَقْسامِ وَاخْتِيارُ أيِّ نَشاطٍ لِعَرْضِ حَلِّهِ بالتَّفْصيلْ.',
+        ),
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body: Column(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width: 378.w,
-                  child: Column(
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Padding(
-                          padding: EdgeInsets.all(10.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomTabs(
-                                label: 'الكويزات',
-                                isSelected: _selectedTab == 0,
-                                onPressed: () => _onTabChanged(0),
-                              ),
-                              SizedBox(width: 10.w),
-                              CustomTabs(
-                                label: 'الاختبارات',
-                                isSelected: _selectedTab == 1,
-                                onPressed: () => _onTabChanged(1),
-                              ),
-                              SizedBox(width: 10.w),
-                              CustomTabs(
-                                label: 'الدورات',
-                                isSelected: _selectedTab == 2,
-                                onPressed: () => _onTabChanged(2),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30.h),
-                      _selectedTab == 0
-                          ? _buildQuizzesList()
-                          : (_selectedTab == 1
-                                ? _buildTestsList()
-                                : _buildPastPapersList()),
-                    ],
-                  ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.all(10.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomTabs(
+                      label: 'الكويزات',
+                      isSelected: _selectedTab == 0,
+                      onPressed: () => _onTabChanged(0),
+                    ),
+                    SizedBox(width: 10.w),
+                    CustomTabs(
+                      label: 'الاختبارات',
+                      isSelected: _selectedTab == 1,
+                      onPressed: () => _onTabChanged(1),
+                    ),
+                    SizedBox(width: 10.w),
+                    CustomTabs(
+                      label: 'الدورات',
+                      isSelected: _selectedTab == 2,
+                      onPressed: () => _onTabChanged(2),
+                    ),
+                  ],
                 ),
+              ),
+            ),
+            SizedBox(height: 30.h),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: _onRefresh,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          return SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: constraints.maxHeight,
+                              ),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: SizedBox(
+                                  width: 378.w,
+                                  child: _selectedTab == 0
+                                      ? _buildQuizzesList()
+                                      : (_selectedTab == 1
+                                            ? _buildTestsList()
+                                            : _buildPastPapersList()),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -181,8 +212,8 @@ class _StudentLibraryScreenState extends State<StudentLibraryScreen> {
                     number: index + 1,
                     id: quiz.quizId,
                     title: quiz.quizTitle,
-                    itemType: 'Quiz',
-                    initialIsSaved: false,
+                    itemType: 'quiz',
+                    initialIsSaved: quiz.isFavorited,
                     route: AppRoutes.kStudentQuizReviewScreen,
                     args: {'quizId': quiz.quizId, 'title': quiz.quizTitle},
                   );

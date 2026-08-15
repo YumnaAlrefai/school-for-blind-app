@@ -34,6 +34,7 @@ SolvedQuiz _$SolvedQuizFromJson(Map<String, dynamic> json) => SolvedQuiz(
   quizMaxMark: json['quiz_max_mark'] as num,
   status: json['status'] as String,
   submittedAt: json['submitted_at'] as String,
+  isFavorited: json['is_favorited'] as bool,
 );
 
 Map<String, dynamic> _$SolvedQuizToJson(SolvedQuiz instance) =>
@@ -47,4 +48,5 @@ Map<String, dynamic> _$SolvedQuizToJson(SolvedQuiz instance) =>
       'quiz_max_mark': instance.quizMaxMark,
       'status': instance.status,
       'submitted_at': instance.submittedAt,
+      'is_favorited': instance.isFavorited,
     };

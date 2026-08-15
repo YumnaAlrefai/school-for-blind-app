@@ -7,7 +7,7 @@ import 'package:school_for_blind_app/data/models/student/message_model.dart';
 
 class RealtimeService {
   static const String _host =
-      'inflation-angle-texture-workshop.trycloudflare.com';
+      'rental-then-discrete-similarly.trycloudflare.com';
   static const int _port = 443;
   static const String _appKey = 'g43ja0cpjdcxspnfbnvd';
   static const String _authEndpoint =
@@ -16,6 +16,7 @@ class RealtimeService {
   WebSocketChannel? _channel;
   String? _socketId;
   String? _authToken;
+  Timer? _reconnectTimer;
 
   final Set<String> _pendingOrSubscribed = {};
   final Map<String, void Function(MessageModel message)> _messageHandlers = {};
@@ -24,7 +25,6 @@ class RealtimeService {
   _announcementHandlers = {};
 
   Future<void> init(String authToken) async {
-
     _authToken = authToken;
     if (_channel != null) return;
 
@@ -39,12 +39,30 @@ class RealtimeService {
         print('Reverb: الاتصال انقطع');
         _channel = null;
         _socketId = null;
+        _scheduleReconnect();
       },
-      onError: (e) => print('Reverb error: $e'),
+      onError: (e) {
+        print('Reverb error: $e');
+        _channel = null;
+        _socketId = null;
+        _scheduleReconnect(); // 🆕
+      },
     );
   }
 
+  void _scheduleReconnect() {
+    if (_authToken == null) return;
+    _reconnectTimer?.cancel();
+    _reconnectTimer = Timer(const Duration(seconds: 3), () {
+      if (_channel == null && _authToken != null) {
+        print('Reverb: محاولة إعادة الاتصال...');
+        init(_authToken!);
+      }
+    });
+  }
+
   void _handleMessage(dynamic raw) async {
+    print('📩 RAW MESSAGE: $raw');
     final Map<String, dynamic> msg = jsonDecode(raw as String);
     final event = msg['event'] as String?;
 
