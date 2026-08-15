@@ -32,8 +32,6 @@ class StudentNotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<NotificationsCubit>();
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -55,17 +53,6 @@ class StudentNotificationsScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          BlocBuilder<NotificationsCubit, ResultState<NotificationsResponse>>(
-            builder: (context, state) {
-              return SmallButton(
-                icon: cubit.isMuted
-                    ? const Icon(Icons.notifications_off)
-                    : const Icon(Icons.notifications),
-                onPressed: () => cubit.toggleMute(),
-              );
-            },
-          ),
-          SizedBox(width: 20.w),
           SmallButton(
             icon: const Icon(Icons.question_mark_outlined),
             onPressed: () {
