@@ -2,20 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-/// الاستخدام:
-///   ConfirmButton(
-///     label: 'تأكيد',
-///     onPressed: () { ... },
-///   )
-///
-///   ConfirmButton(
-///     label: 'إرسال',
-///     onPressed: () { ... },
-///   )
-/// ============================================================
 class BuildButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
  
   const BuildButton({
     super.key,
@@ -25,6 +14,7 @@ class BuildButton extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
+    
     return SizedBox(
       width: 193,
       height: 54,
@@ -39,7 +29,7 @@ class BuildButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.bgDark,
             fontSize: 40,
           ),

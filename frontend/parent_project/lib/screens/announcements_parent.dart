@@ -27,9 +27,6 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
 
   int _selectedNavIndex = 1;
 
-  // بيانات الإعلانات مجمّعة حسب التاريخ
-  // ملاحظة: حقل icon تم حذفه من الموديل لأن الأيقونة تتحدد تلقائيًا
-  // من _iconResolver حسب عنوان الإعلان، مش يدويًا لكل إعلان
   final Map<String, List<_AnnouncementModel>> _announcementsByDate = {
     '17/3/2026': [
       _AnnouncementModel(
@@ -65,13 +62,9 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     ],
   };
 
-  // تتبع حالة الفتح/الطي لكل إعلان عبر مفتاح فريد (التاريخ + الفهرس)
+  
   final Map<String, bool> _expandedMap = {};
 
-  // ------------------------------------------------------------
-  // تحديد الأيقونة المناسبة تلقائيًا حسب كلمات مفتاحية بعنوان الإعلان
-  // رتّب الكلمات الأكثر تحديدًا أولًا عشان ما يصير تعارض بينها
-  // ------------------------------------------------------------
   IconData _iconResolver(String title) {
     final normalizedTitle = title.trim();
 
@@ -96,7 +89,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
       }
     }
 
-    // أيقونة افتراضية لأي إعلان ما ينطبق عليه أي كلمة مفتاحية معروفة
+    
     return Icons.campaign_rounded;
   }
 
@@ -125,7 +118,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
                   ],
                 ),
 
-                // ------- شريط التنقل السفلي العائم -------
+            
                 Positioned(
                   bottom: 15,
                   left: 0,
@@ -140,14 +133,14 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     );
   }
 
-  // الشريط العلوي: عنوان "الإعلانات" في المنتصف
+  
   Widget _buildTopBar() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 3),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bgDark,
-        border: Border(bottom: BorderSide(color: Colors.white12, width: 1), top: BorderSide(color: Colors.white12, width: 1)),
+        border: const Border(bottom: BorderSide(color: Colors.white12, width: 1), top: BorderSide(color: Colors.white12, width: 1)),
       ),
       child: const Text(
         'الإعلانات',
@@ -157,7 +150,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     );
   }
 
-  // بناء قائمة الإعلانات كاملة مجمّعة حسب التاريخ
+ 
   List<Widget> _buildAnnouncementsList() {
     final List<Widget> widgets = [];
 
@@ -177,7 +170,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     return widgets;
   }
 
-  // شارة التاريخ الصغيرة أعلى كل مجموعة
+  
   Widget _buildDateLabel(String date) {
     return Center(
       child: Container(
@@ -194,7 +187,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     );
   }
 
-  // بطاقة إعلان واحدة قابلة للطي/الفتح
+ 
   Widget _buildAnnouncementCard(String key, _AnnouncementModel model) {
     final bool isExpanded = _expandedMap[key] ?? false;
 
@@ -207,7 +200,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ------- رأس البطاقة: السهم + العنوان + الأيقونة -------
+         
           InkWell(
             borderRadius: BorderRadius.circular(15),
             onTap: () {
@@ -219,18 +212,18 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 children: [
-                  // الأيقونة (محددة تلقائيًا حسب عنوان الإعلان)
+                  
                   Icon(_iconResolver(model.title), color: AppColors.accentGreen, size: 25),
                   const SizedBox(width: 8),
 
-                  // العنوان
+                
                   Text(
                     model.title,
                     style: const TextStyle(color: Colors.white, fontSize: 30),
                   ),
                   const Spacer(),
 
-                  // السهم القابل للدوران
+                
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 250),
@@ -245,7 +238,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
             ),
           ),
 
-          // ------- المحتوى القابل للفتح -------
+        
           AnimatedCrossFade(
             duration: const Duration(milliseconds: 250),
             crossFadeState: isExpanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
@@ -257,7 +250,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     );
   }
 
-  // محتوى الإعلان الموسّع (النص + الوقت + رابط اختياري)
+  
   Widget _buildExpandedContent(_AnnouncementModel model) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
@@ -285,7 +278,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     );
   }
 
-  // سطر وصف واحد، مع تلوين كلمة الرابط (linkText) إن وُجدت بداخله
+  
   Widget _buildDescriptionLine(String line, String? linkText) {
     if (linkText == null || !line.contains(linkText)) {
       return Text(
@@ -304,7 +297,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
           TextSpan(text: parts[0]),
           TextSpan(
             text: linkText,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.accentGreen,
               decoration: TextDecoration.underline,
             ),
@@ -315,7 +308,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
     );
   }
 
-  // شريط التنقل السفلي (كبسولة عائمة)
+ 
   Widget _buildBottomNav() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 5),
@@ -348,7 +341,7 @@ class _AnnouncementsParentState extends State<AnnouncementsParent> {
           const SizedBox(width: 20),
           IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.campaign_rounded,
               color: AppColors.accentGreen,
               size: 40,

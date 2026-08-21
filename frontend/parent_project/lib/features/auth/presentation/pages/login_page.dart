@@ -46,8 +46,8 @@ class _LoginPageState extends State<LoginPage> {
                 context,
               ).showSnackBar(SnackBar(content: Text(state.response.message)));
 
-              /// هنا تحفظ التوكن
-              /// ثم تنتقل للصفحة الرئيسية
+            
+             
               Navigator.pushReplacement(
       context,
       MaterialPageRoute(

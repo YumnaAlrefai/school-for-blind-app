@@ -5,8 +5,8 @@ import '../../../../core/api/api_endpoints.dart';
 import '../../../../core/api/api_exception.dart';
 import '../../../../core/api/dio_client.dart';
 
-import '../models/login_request_model.dart';
-import '../models/login_response_model.dart';
+import '../../../auth/data/models/login_request_model.dart';
+import '../../../auth/data/models/login_response_model.dart';
 
 
 class AuthRemoteDataSource {

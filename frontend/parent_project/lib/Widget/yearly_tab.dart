@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
-import 'subject_icon.dart'; // عدّل المسار حسب مكانها الفعلي عندك
+import 'subject_icon.dart'; 
 
-/// ============================================================
-/// YearlyTab — كل محتوى ومنطق تبويب "السنوية" في ملف واحد.
-/// يستقبل iconResolver وonSubjectTap من ReportsParent لأنهما
-/// يحتاجان BuildContext (للتنقل) وخريطة أيقونات معرّفة هناك.
-/// ============================================================
 class YearlyTab extends StatelessWidget {
   final SubjectIcon Function(String subjectName) iconResolver;
   final void Function(String subjectName) onSubjectTap;
@@ -49,9 +44,6 @@ class YearlyTab extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// قسم طالب كامل: عنوان + قائمة مواد أفقية + بطاقة المعدل
-// ------------------------------------------------------------
 class _StudentYearlySection extends StatelessWidget {
   final String studentName;
   final String finalScore;
@@ -97,9 +89,6 @@ class _StudentYearlySection extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة مادة زجاجية واحدة
-// ------------------------------------------------------------
 class _SubjectGlassCard extends StatelessWidget {
   final SubjectIcon subjectIcon;
   final String label;
@@ -138,9 +127,6 @@ class _SubjectGlassCard extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة المعدل النهائي
-// ------------------------------------------------------------
 class _AverageCard extends StatelessWidget {
   final String finalScore;
 
@@ -154,10 +140,10 @@ class _AverageCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.accentGreen, Color(0xFF628500)],
+          colors: [AppColors.accentGreen, const Color(0xFF628500)],
         ),
       ),
       child: Column(

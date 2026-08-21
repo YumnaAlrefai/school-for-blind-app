@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parent_project/features/auth/logic/support_state.dart';
+import 'package:parent_project/features/technical_support/logic/cubit/support_state.dart';
 
 import '../../data/repositories/support_repository.dart';
 

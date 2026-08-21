@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-/// عنصر تبويب واحد: نص ظاهر + قيمة مرتبطة به (أي نوع T)
 class TabItem<T> {
   final String label;
   final T value;
@@ -9,28 +8,12 @@ class TabItem<T> {
   const TabItem({required this.label, required this.value});
 }
 
-/// ============================================================
-/// GenericTabs<T> — صف تبويبات عام يصلح لأي عدد ولأي نوع بيانات:
-/// - 3 تبويبات في واجهة التقارير (ReportPeriod)
-/// - 2 تبويبين في واجهة العلامات (مثلًا GradesPeriod أو حتى String)
-///
-/// الاستخدام:
-///   GenericTabs<ReportPeriod>(
-///     items: [
-///       TabItem(label: 'اليومية', value: ReportPeriod.daily),
-///       TabItem(label: 'الشهرية', value: ReportPeriod.monthly),
-///       TabItem(label: 'السنوية', value: ReportPeriod.yearly),
-///     ],
-///     selectedValue: _selectedPeriod,
-///     onChanged: (value) => setState(() => _selectedPeriod = value),
-///   )
-/// ============================================================
 class GenericTabs<T> extends StatelessWidget {
   final List<TabItem<T>> items;
   final T selectedValue;
   final ValueChanged<T> onChanged;
   final double spacing;
-  final bool expandTabs; // true = كل تبويب يتمدد ليملأ العرض بالتساوي
+  final bool expandTabs; 
 
   const GenericTabs({
     super.key,
@@ -38,7 +21,7 @@ class GenericTabs<T> extends StatelessWidget {
     required this.selectedValue,
     required this.onChanged,
     this.spacing = 5,
-    this.expandTabs = false, // القيمة الافتراضية: بلا تمدد (كما كانت)
+    this.expandTabs = false,
   });
 
   @override
@@ -66,14 +49,14 @@ class GenericTabs<T> extends StatelessWidget {
           color: isSelected ? AppColors.accentGreen : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? AppColors.accentGreen : Colors.white24,
+            color: isSelected ? AppColors.accentGreen : AppColors.overlay24,
             width: 1,
           ),
         ),
         child: Text(
           item.label,
           style: TextStyle(
-            color: isSelected ? AppColors.bgDark : Colors.white70,
+            color: isSelected ? AppColors.bgDark : AppColors.overlay70,
             fontSize: 26,
           ),
         ),

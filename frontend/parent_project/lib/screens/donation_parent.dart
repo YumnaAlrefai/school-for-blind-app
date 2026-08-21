@@ -16,13 +16,9 @@ class DonationParent extends StatefulWidget {
 class _DonationParentState extends State<DonationParent> {
   final _formKey = GlobalKey<FormState>();
 
-  // ------- كونترولرز الصفحة الأولى -------
+  
   final TextEditingController nameController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-
-  // ------- كونترولرز الصفحة الثانية -------
-  // موجودة هون (بالصفحة الأولى) عشان تبقى حية بالذاكرة
-  // حتى لو المستخدم رجع من الصفحة الثانية وفتحها من جديد
   final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController expiryDateController = TextEditingController();
   final TextEditingController cvvController = TextEditingController();
@@ -144,7 +140,7 @@ class _DonationParentState extends State<DonationParent> {
                     },
                   ),
 
-                  // ------- سهم الرجوع أعلى اليسار -------
+                
                   Positioned(
                     top: 8,
                     left: 12,
@@ -197,12 +193,12 @@ class _DonationParentState2 extends State<DonationParent2> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            Positioned.fill(
+            /*Positioned.fill(
               child: Image.asset(
                 'assets/images/background_waves.png',
                 fit: BoxFit.cover,
               ),
-            ),
+            ),*/
 
             SafeArea(
               child: Stack(
@@ -300,7 +296,7 @@ class _DonationParentState2 extends State<DonationParent2> {
                     },
                   ),
 
-                  // ------- سهم الرجوع أعلى اليسار -------
+                 
                   Positioned(
                     top: 8,
                     left: 12,

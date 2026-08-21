@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parent_project/Widget/app_colors.dart';
-import 'package:parent_project/Widget/generic_tabs.dart'; // عدّل المسار حسب مكانها الفعلي عندك
+import 'package:parent_project/Widget/generic_tabs.dart';
+import 'package:parent_project/Widget/theme_listener.dart';
 
 import 'package:parent_project/features/reports/data/datasource/reports_remote_datasource.dart';
 import 'package:parent_project/features/reports/data/repositories/reports_repository.dart';
@@ -57,9 +58,10 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
+    return ThemeListener(
+  builder: (context) => Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
+      child:  Scaffold(
         backgroundColor: AppColors.bgDark,
         body: SafeArea(
           child: Column(
@@ -67,7 +69,7 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
               _buildTopBar(),
               const SizedBox(height: 15),
 
-              // ------- التبويبات -------
+              
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                 child: GenericTabs<SubjectTab>(
@@ -100,8 +102,8 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
                             Text(
                               state.message,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white70,
+                              style: TextStyle(
+                                color: AppColors.overlay70,
                                 fontSize: 26,
                               ),
                             ),
@@ -131,20 +133,20 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
             ],
           ),
         ),
-      ),
+      ),),
     );
   }
 
-  // ------- الشريط العلوي: عنوان المادة يمين + سهم رجوع يسار -------
+  
   Widget _buildTopBar() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bgDark,
         border: Border(
-          bottom: BorderSide(color: Colors.white12, width: 1),
-          top: BorderSide(color: Colors.white12, width: 1),
+          bottom: BorderSide(color: AppColors.overlay12, width: 1),
+          top: BorderSide(color: AppColors.overlay12, width: 1),
         ),
       ),
       child: Row(
@@ -154,21 +156,21 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
               alignment: Alignment.centerRight,
               child: Text(
                 widget.subjectName,
-                style: const TextStyle(color: Colors.white, fontSize: 40),
+                style: TextStyle(color: AppColors.textPrimary, fontSize: 40),
               ),
             ),
           ),
           const SizedBox(width: 12),
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.subdirectory_arrow_left_outlined, color: Colors.white, size: 34),
+            child: Icon(Icons.subdirectory_arrow_left_outlined, color: AppColors.textPrimary, size: 34),
           ),
         ],
       ),
     );
   }
 
-  // ------- تبويب الكويزات -------
+  
   Widget _buildQuizzesTab(List quizzes) {
     if (quizzes.isEmpty) {
       return _buildEmptyState('لا يوجد كويزات بعد');
@@ -188,7 +190,7 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
     );
   }
 
-  // ------- تبويب الاختبارات -------
+  
   Widget _buildExamsTab(List exams) {
     if (exams.isEmpty) {
       return _buildEmptyState('لا يوجد اختبارات بعد');
@@ -210,11 +212,11 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
 
   Widget _buildEmptyState(String message) {
     return Center(
-      child: Text(message, style: const TextStyle(color: Colors.white54, fontSize: 26)),
+      child: Text(message, style: TextStyle(color: AppColors.overlay54, fontSize: 26)),
     );
   }
 
-  // ------- بطاقة نتيجة واحدة (كويز أو اختبار) -------
+  
   Widget _buildResultCard({
     required String title,
     required String scoreText,
@@ -230,14 +232,14 @@ class _SubjectDetailsViewState extends State<_SubjectDetailsPageView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 32)),
+          Text(title, style: TextStyle(color: AppColors.textPrimary, fontSize: 32)),
           const SizedBox(height: 10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.star_rounded, color: AppColors.accentGreen, size: 25),
+              Icon(Icons.star_rounded, color: AppColors.accentGreen, size: 25),
               const SizedBox(width: 6),
-              Text('العلامة: $scoreText', style: const TextStyle(color: Colors.white, fontSize: 26)),
+              Text('العلامة: $scoreText', style: TextStyle(color: AppColors.textPrimary, fontSize: 26)),
             ],
           ),
         ],

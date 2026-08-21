@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-/// ============================================================
-/// DailyTab — كل محتوى ومنطق تبويب "اليومية" في ملف واحد.
-/// البطاقات هنا private (_AttendedCard, _AbsentCard...) لأنها
-/// لا تُستخدم إلا داخل هذا الملف فقط.
-/// ============================================================
 class DailyTab extends StatelessWidget {
   const DailyTab({super.key});
 
@@ -39,9 +34,6 @@ class DailyTab extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة حصة تم حضورها
-// ------------------------------------------------------------
 class _AttendedCard extends StatelessWidget {
   final String roomName;
   final String totalRoomMinutes;
@@ -69,9 +61,9 @@ class _AttendedCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text('تم الحضور', style: TextStyle(color: AppColors.accentGreen, fontSize: 32)),
+              Text('تم الحضور', style: TextStyle(color: AppColors.accentGreen, fontSize: 32)),
               const SizedBox(width: 5),
-              const Icon(Icons.check_circle, color: AppColors.accentGreen, size: 22),
+              Icon(Icons.check_circle, color: AppColors.accentGreen, size: 22),
             ],
           ),
           const SizedBox(height: 5),
@@ -84,10 +76,6 @@ class _AttendedCard extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة حصة لم يتم حضورها + زري "يوجد / لا يوجد مبرر"
-// (Stateful لأنها تحتفظ بحالة الاختيار محليًا)
-// ------------------------------------------------------------
 class _AbsentCard extends StatefulWidget {
   const _AbsentCard();
 
@@ -111,7 +99,7 @@ class _AbsentCardState extends State<_AbsentCard> {
           const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children:  [
               Text('لم يتم الحضور', style: TextStyle(color: AppColors.redX, fontSize: 32)),
               SizedBox(width: 5),
               Icon(Icons.cancel, color: AppColors.redX, size: 22),
@@ -137,7 +125,7 @@ class _AbsentCardState extends State<_AbsentCard> {
         backgroundColor: isSelected ? AppColors.accentGreen : Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: const BorderSide(color: AppColors.accentGreen, width: 1),
+          side: BorderSide(color: AppColors.accentGreen, width: 1),
         ),
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -147,9 +135,6 @@ class _AbsentCardState extends State<_AbsentCard> {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة الإنجاز (نجمة + نص التهنئة)
-// ------------------------------------------------------------
 class _AchievementCard extends StatelessWidget {
   final String studentName;
   final String score;
@@ -172,7 +157,7 @@ class _AchievementCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.star_rounded, color: AppColors.accentGreen, size: 37),
+          Icon(Icons.star_rounded, color: AppColors.accentGreen, size: 37),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
@@ -187,9 +172,6 @@ class _AchievementCard extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة الإنذار
-// ------------------------------------------------------------
 class _WarningCard extends StatelessWidget {
   final String title;
   final String description;
@@ -211,7 +193,7 @@ class _WarningCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.warning_amber_rounded, color: AppColors.redX, size: 30),
+              Icon(Icons.warning_amber_rounded, color: AppColors.redX, size: 30),
               const SizedBox(width: 8),
               Text(title, style: const TextStyle(color: Colors.white, fontSize: 36)),
             ],

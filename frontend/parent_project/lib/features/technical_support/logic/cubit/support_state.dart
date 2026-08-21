@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:parent_project/features/auth/data/models/support_ticket_response_model.dart';
+import 'package:parent_project/features/technical_support/data/models/support_ticket_response_model.dart';
 
 
 abstract class SupportState extends Equatable {

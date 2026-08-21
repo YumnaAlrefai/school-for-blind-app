@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../datasource/support_remote_datasource.dart';
+import '../../../auth/data/datasource/support_remote_datasource.dart';
 import '../models/support_ticket_response_model.dart';
 
 class SupportRepository {

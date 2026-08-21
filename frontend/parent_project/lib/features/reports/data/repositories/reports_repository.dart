@@ -1,3 +1,4 @@
+import 'package:parent_project/features/reports/data/models/objection_response_model.dart';
 import 'package:parent_project/features/reports/data/models/subject_details_response_model.dart';
 import 'package:parent_project/features/reports/data/models/yearly_reports_response_model.dart';
 
@@ -37,6 +38,17 @@ Future<SubjectDetailsResponseModel> getSubjectDetails({
   return await remoteDataSource.getSubjectDetails(
     studentId: studentId,
     subjectId: subjectId,
+  );
+}
+Future<ObjectionResponseModel> submitPunishmentObjection({
+  required int studentId,
+  required int punishableRecordId,
+  required String reason,
+}) {
+  return remoteDataSource.submitPunishmentObjection(
+    studentId: studentId,
+    punishableRecordId: punishableRecordId,
+    reason: reason,
   );
 }
 }

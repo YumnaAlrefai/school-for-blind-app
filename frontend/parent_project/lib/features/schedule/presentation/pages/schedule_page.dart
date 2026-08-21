@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parent_project/Widget/app_colors.dart';
+import 'package:parent_project/Widget/theme_listener.dart';
 
 import 'package:parent_project/features/schedule/data/datasource/schedule_remote_datasource.dart';
 import 'package:parent_project/features/schedule/data/repositories/schedule_repository.dart';
@@ -8,10 +9,21 @@ import 'package:parent_project/features/schedule/data/models/schedule_period_mod
 import 'package:parent_project/features/schedule/logic/cubit/schedule_cubit.dart';
 import 'package:parent_project/features/schedule/logic/cubit/schedule_state.dart';
 
-// ------------------------------------------------------------
-// ترتيب الأيام كما تظهر بأعمدة الجدول
-// ------------------------------------------------------------
-const List<String> _weekDays = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
+class _WeekDay {
+  final String key;
+  final String label;
+  const _WeekDay(this.key, this.label);
+}
+
+const List<_WeekDay> _weekDays = [
+  _WeekDay('1', 'الأحد'),
+  _WeekDay('2', 'الاثنين'),
+  _WeekDay('3', 'الثلاثاء'),
+  _WeekDay('4', 'الأربعاء'),
+  _WeekDay('5', 'الخميس'),
+ // _WeekDay('6', 'الجمعة'),
+  //_WeekDay('7', 'السبت'),
+];
 
 class SchedulePage1 extends StatelessWidget {
   const SchedulePage1({super.key});
@@ -32,7 +44,10 @@ class _Schedule1View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
+    return
+    ThemeListener(
+  builder: (context) =>
+     Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: AppColors.bgDark,
@@ -57,7 +72,7 @@ class _Schedule1View extends StatelessWidget {
                             Text(
                               state.message,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(color: Colors.white70, fontSize: 26),
+                              style: TextStyle(color: AppColors.overlay70, fontSize: 26),
                             ),
                             const SizedBox(height: 15),
                             ElevatedButton(
@@ -73,10 +88,10 @@ class _Schedule1View extends StatelessWidget {
                     final response = (state as ScheduleSuccess).response;
 
                     if (response.data.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: Text(
                           'لا يوجد برنامج دوام متاح حاليًا',
-                          style: TextStyle(color: Colors.white70, fontSize: 28),
+                          style: TextStyle(color: AppColors.overlay70, fontSize: 28),
                         ),
                       );
                     }
@@ -102,7 +117,7 @@ class _Schedule1View extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ),),
     );
   }
 
@@ -113,15 +128,12 @@ class _Schedule1View extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.subdirectory_arrow_left_outlined, color: Colors.white, size: 34),
+          icon: Icon(Icons.subdirectory_arrow_left_outlined, color: AppColors.textPrimary, size: 34),
         ),
       ),
     );
   }
 
-  // ------------------------------------------------------------
-  // عنوان الطالب + جدوله الكامل
-  // ------------------------------------------------------------
   Widget _buildStudentSchedule({
     required String studentName,
     required Map<String, List<SchedulePeriodModel>> scheduleByDay,
@@ -130,9 +142,9 @@ class _Schedule1View extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'برنامج الدوام للطالب/ة $studentName:',
+          'برنامج الدوام للطالب $studentName:',
           textAlign: TextAlign.right,
-          style: const TextStyle(color: Colors.white, fontSize: 32),
+          style: TextStyle(color: AppColors.textPrimary, fontSize: 32),
         ),
         const SizedBox(height: 14),
         _buildScheduleTable(scheduleByDay),
@@ -140,12 +152,7 @@ class _Schedule1View extends StatelessWidget {
     );
   }
 
-  // ------------------------------------------------------------
-  // نبني صفوف الجدول ديناميكيًا حسب أرقام الحصص (period_number)
-  // الموجودة فعليًا بجدول هذا الطالب (بدل ساعات ثابتة بالكود)
-  // ------------------------------------------------------------
   Widget _buildScheduleTable(Map<String, List<SchedulePeriodModel>> scheduleByDay) {
-    // نجمع كل أرقام الحصص الموجودة عبر كل الأيام، ونرتبها
     final Set<int> periodNumbers = {};
     for (final periods in scheduleByDay.values) {
       for (final p in periods) {
@@ -155,11 +162,11 @@ class _Schedule1View extends StatelessWidget {
     final sortedPeriodNumbers = periodNumbers.toList()..sort();
 
     if (sortedPeriodNumbers.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Text(
           'لا يوجد حصص مسجلة',
-          style: TextStyle(color: Colors.white54, fontSize: 24),
+          style: TextStyle(color: AppColors.overlay54, fontSize: 24),
         ),
       );
     }
@@ -174,6 +181,8 @@ class _Schedule1View extends StatelessWidget {
           3: FlexColumnWidth(1.3),
           4: FlexColumnWidth(1.3),
           5: FlexColumnWidth(1.3),
+         // 6: FlexColumnWidth(1.3),
+         // 7: FlexColumnWidth(1.3),
         },
         children: [
           _buildHeaderRow(),
@@ -185,9 +194,9 @@ class _Schedule1View extends StatelessWidget {
   }
 
   TableRow _buildHeaderRow() {
-    final headers = ['الوقت', ..._weekDays];
+    final headers = ['الوقت', ..._weekDays.map((d) => d.label)];
     return TableRow(
-      decoration: const BoxDecoration(color: AppColors.accentGreen),
+      decoration: BoxDecoration(color: AppColors.accentGreen),
       children: headers
           .map((text) => _buildCell(text, textColor: AppColors.bgDark))
           .toList(),
@@ -198,7 +207,6 @@ class _Schedule1View extends StatelessWidget {
     int periodNumber,
     Map<String, List<SchedulePeriodModel>> scheduleByDay,
   ) {
-    // نلاقي أي حصة بهذا الرقم (من أي يوم) عشان ناخذ منها وقت الحصة للعرض بعمود "الوقت"
     String timeLabel = '';
     for (final periods in scheduleByDay.values) {
       final match = periods.where((p) => p.periodNumber == periodNumber);
@@ -210,13 +218,13 @@ class _Schedule1View extends StatelessWidget {
     }
 
     return TableRow(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: BoxDecoration(color: AppColors.cardDark),
       children: [
-        _buildCell(timeLabel, textColor: AppColors.bgDark),
+        _buildCell(timeLabel, textColor: AppColors.textPrimary),
         for (final day in _weekDays)
           _buildCell(
-            _subjectNameForDayAndPeriod(scheduleByDay, day, periodNumber),
-            textColor: AppColors.bgDark,
+            _subjectNameForDayAndPeriod(scheduleByDay, day.key, periodNumber),
+            textColor: AppColors.textPrimary,
           ),
       ],
     );
@@ -224,16 +232,15 @@ class _Schedule1View extends StatelessWidget {
 
   String _subjectNameForDayAndPeriod(
     Map<String, List<SchedulePeriodModel>> scheduleByDay,
-    String day,
+    String dayKey,
     int periodNumber,
   ) {
-    final periods = scheduleByDay[day] ?? [];
+    final periods = scheduleByDay[dayKey] ?? [];
     final match = periods.where((p) => p.periodNumber == periodNumber);
     if (match.isEmpty) return '';
     return match.first.subject.name;
   }
 
-  // ------- "08:00:00" → "8:00" -------
   String _formatTime(String rawTime) {
     if (rawTime.isEmpty) return '';
     final parts = rawTime.split(':');
@@ -249,11 +256,11 @@ class _Schedule1View extends StatelessWidget {
   }) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(color: textColor, fontSize: 24, fontWeight: fontWeight),
+        style: TextStyle(color: textColor, fontSize: 20, fontWeight: fontWeight),
       ),
     );
   }

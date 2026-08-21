@@ -5,7 +5,7 @@ import '../../../../core/api/api_endpoints.dart';
 import '../../../../core/api/api_exception.dart';
 import '../../../../core/api/dio_client.dart';
 
-import '../models/support_ticket_response_model.dart';
+import '../../../technical_support/data/models/support_ticket_response_model.dart';
 
 class SupportRemoteDataSource {
   final Dio _dio = DioClient.dio;

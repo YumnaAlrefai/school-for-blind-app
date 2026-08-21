@@ -1,13 +1,24 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
- class GlassCard extends StatelessWidget {
+class GlassCard extends StatelessWidget {
   final Widget child;
-  const GlassCard({required this.child});
+  final Color? tintColor;
+  final Color? borderColor;
+
+  const GlassCard({
+    super.key,
+    required this.child,
+    this.tintColor,
+    this.borderColor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final Color effectiveTint = tintColor ?? AppColors.glassTint;
+    final Color effectiveBorder = borderColor ?? AppColors.glassBorder;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
@@ -19,17 +30,16 @@ import 'package:flutter/material.dart';
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.white.withOpacity(0),
-                Colors.white.withOpacity(0),
+                effectiveTint,
+                effectiveTint.withOpacity(effectiveTint.opacity * 0.6),
               ],
             ),
             border: Border(
-               top: BorderSide(color: Colors.white.withOpacity(0.15), width: 1.5),
-              bottom: BorderSide(color: Colors.white.withOpacity(0.15), width: 1.5),
-              left:  BorderSide(color: Colors.white.withOpacity(0.15), width: 0.8),
-              right: BorderSide(color: Colors.white.withOpacity(0.15), width: 0.8),
+              top: BorderSide(color: effectiveBorder, width: 0.15),
+              bottom: BorderSide(color: effectiveBorder, width: 0.15),
+              left: BorderSide(color: effectiveBorder, width: 0.11),
+              right: BorderSide(color: effectiveBorder, width: 0.11),
             ),
-           
           ),
           child: child,
         ),

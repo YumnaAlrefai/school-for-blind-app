@@ -14,7 +14,6 @@ class GradeModel {
   factory GradeModel.fromJson(Map<String, dynamic> json) {
     return GradeModel(
       type: json["type"] ?? "",
-      // السيرفر يرجع score أحيانًا int وأحيانًا String، فنحولها نص دائمًا
       score: json["score"]?.toString() ?? "",
       title: json["title"] ?? "",
       subjectName: json["subject_name"] ?? "",

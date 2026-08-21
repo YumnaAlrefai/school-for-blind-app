@@ -1,4 +1,4 @@
-import '../../data/models/announcement_list_item_model.dart';
+import '../../data/models/announcement_model.dart';
 
 abstract class AnnouncementsState {}
 
@@ -7,8 +7,8 @@ class AnnouncementsInitial extends AnnouncementsState {}
 class AnnouncementsLoading extends AnnouncementsState {}
 
 class AnnouncementsSuccess extends AnnouncementsState {
-  final List<AnnouncementListItemModel> items;
-  AnnouncementsSuccess(this.items);
+  final List<AnnouncementModel> announcements;
+  AnnouncementsSuccess(this.announcements);
 }
 
 class AnnouncementsFailure extends AnnouncementsState {

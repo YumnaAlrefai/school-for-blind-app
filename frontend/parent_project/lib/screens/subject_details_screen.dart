@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parent_project/Widget/app_colors.dart';
-import 'package:parent_project/Widget/generic_tabs.dart'; // عدّل المسار حسب مكانها الفعلي عندك
+import 'package:parent_project/Widget/generic_tabs.dart'; 
 
 enum SubjectTab { quizzes, exams }
 
@@ -51,7 +51,6 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
               _buildTopBar(),
               const SizedBox(height: 15),
 
-              // ------- التبويبات: أصبحت GenericTabs المشتركة بدل الكود المخصص -------
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                 child: GenericTabs<SubjectTab>(
@@ -62,7 +61,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                   selectedValue: _selectedTab,
                   onChanged: (tab) => setState(() => _selectedTab = tab),
                   spacing: 15,
-                  expandTabs: true, // ليملأ التبويبان عرض الشاشة بالتساوي
+                  expandTabs: true, 
                 ),
               ),
               const SizedBox(height: 10),
@@ -79,14 +78,14 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     );
   }
 
-  // ------- الشريط العلوي: عنوان المادة يمين + سهم رجوع يسار -------
+ 
   Widget _buildTopBar() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bgDark,
-        border: Border(
+        border: const Border(
           bottom: BorderSide(color: Colors.white12, width: 1),
           top: BorderSide(color: Colors.white12, width: 1),
         ),
@@ -112,7 +111,6 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     );
   }
 
-  // ------- تبويب الكويزات -------
   Widget _buildQuizzesTab() {
     if (_dummyQuizzes.isEmpty) {
       return _buildEmptyState('لا يوجد كويزات بعد');
@@ -132,7 +130,6 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     );
   }
 
-  // ------- تبويب الاختبارات -------
   Widget _buildExamsTab() {
     if (_dummyExams.isEmpty) {
       return _buildEmptyState('لا يوجد اختبارات بعد');
@@ -158,7 +155,6 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     );
   }
 
-  // ------- بطاقة نتيجة واحدة (كويز أو اختبار) -------
   Widget _buildResultCard({
     required String title,
     required String scoreText,
@@ -179,7 +175,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.star_rounded, color: AppColors.accentGreen, size: 25),
+              Icon(Icons.star_rounded, color: AppColors.accentGreen, size: 25),
               const SizedBox(width: 6),
               Text('العلامة: $scoreText', style: const TextStyle(color: Colors.white, fontSize: 26)),
             ],

@@ -8,6 +8,7 @@ import '../../../../core/api/dio_client.dart';
 import '../models/excuse_response_model.dart';
 import '../models/daily_reports_response_model.dart';
 import '../models/monthly_reports_response_model.dart';
+import '../models/objection_response_model.dart';
 
 class ReportsRemoteDataSource {
   final Dio _dio = DioClient.dio;
@@ -60,7 +61,6 @@ class ReportsRemoteDataSource {
     print("DIO RESPONSE: ${e.response?.data}");
     print("DIO STATUS: ${e.response?.statusCode}");
 
-    // السيرفر يرجع status/message حتى بحالة الفشل، فنقرأهم مباشرة
     final data = e.response?.data;
     if (data != null && data["message"] != null) {
       throw ApiException(data["message"]);
@@ -134,6 +134,42 @@ Future<SubjectDetailsResponseModel> getSubjectDetails({
     throw ApiException(
       e.response?.data["message"] ?? e.message ?? "Dio Error",
     );
+  } catch (e) {
+    print("GENERAL ERROR: $e");
+    throw ApiException(e.toString());
+  }
+}
+Future<ObjectionResponseModel> submitPunishmentObjection({
+  required int studentId,
+  required int punishableRecordId,
+  required String reason,
+}) async {
+  try {
+    final formData = FormData.fromMap({
+      "student_id": studentId.toString(),
+      "punishable_record_id": punishableRecordId.toString(),
+      "reason": reason,
+    });
+
+    final response = await _dio.post(
+      ApiEndpoints.submitPunishmentObjection,
+      data: formData,
+    );
+
+    print("STATUS CODE: ${response.statusCode}");
+    print("RESPONSE DATA: ${response.data}");
+
+    return ObjectionResponseModel.fromJson(response.data);
+  } on DioException catch (e) {
+    print("DIO ERROR TYPE: ${e.type}");
+    print("DIO RESPONSE: ${e.response?.data}");
+    print("DIO STATUS: ${e.response?.statusCode}");
+
+    final data = e.response?.data;
+    if (data != null && data["message"] != null) {
+      throw ApiException(data["message"]);
+    }
+    throw ApiException(e.message ?? "Dio Error");
   } catch (e) {
     print("GENERAL ERROR: $e");
     throw ApiException(e.toString());

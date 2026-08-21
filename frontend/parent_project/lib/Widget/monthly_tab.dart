@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-/// ============================================================
-/// MonthlyTab — كل محتوى ومنطق تبويب "الشهرية" في ملف واحد
-/// ============================================================
 class MonthlyTab extends StatelessWidget {
   const MonthlyTab({super.key});
 
@@ -38,9 +35,6 @@ class MonthlyTab extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------
-// بطاقة التقرير الشهري (خاصة بهذا الملف فقط)
-// ------------------------------------------------------------
 class _MonthlyReportCard extends StatelessWidget {
   final String year;
   final String month;

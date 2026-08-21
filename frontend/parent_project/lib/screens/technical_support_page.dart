@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parent_project/Widget/app_colors.dart';
+import 'package:parent_project/Widget/theme_listener.dart';
 
 import 'package:parent_project/features/auth/data/datasource/support_remote_datasource.dart';
-import 'package:parent_project/features/auth/data/repositories/support_repository.dart';
-import 'package:parent_project/features/auth/logic/cubit/support_cubit.dart';
-import 'package:parent_project/features/auth/logic/support_state.dart';
+import 'package:parent_project/features/technical_support/data/repositories/support_repository.dart';
+import 'package:parent_project/features/technical_support/logic/cubit/support_cubit.dart';
+import 'package:parent_project/features/technical_support/logic/cubit/support_state.dart';
 
-
-
-class TechnicalSupportPage extends StatelessWidget {
-  const TechnicalSupportPage({super.key});
+class TechnicalSupport extends StatelessWidget {
+  const TechnicalSupport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +81,8 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
+      child: ThemeListener(
+  builder: (context) => Scaffold(
         backgroundColor: AppColors.bgDark,
         body: SafeArea(
           child: BlocConsumer<SupportCubit, SupportState>(
@@ -136,7 +136,7 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
             },
           ),
         ),
-      ),
+      ),),
     );
   }
 
@@ -144,35 +144,33 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bgDark,
         border: Border(
-          bottom: BorderSide(color: Colors.white12, width: 1),
-          top: BorderSide(color: Colors.white12, width: 1),
+          bottom: BorderSide(color: AppColors.overlay12, width: 1),
+          top: BorderSide(color: AppColors.overlay12, width: 1),
         ),
       ),
       child: Row(
         children: [
-          // ------- العنوان على اليمين -------
           Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
                 'الدعم الفني',
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 40,
                 ),
               ),
             ),
           ),
           const SizedBox(width: 12),
-          // ------- سهم الرجوع على اليسار -------
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(
+            child: Icon(
               Icons.subdirectory_arrow_left_outlined,
-              color: Colors.white,
+              color: AppColors.textPrimary,
               size: 34,
             ),
           ),
@@ -186,7 +184,7 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
       alignment: Alignment.centerRight,
       child: Text(
         text,
-        style: const TextStyle(color: Colors.white, fontSize: 32),
+        style: TextStyle(color: AppColors.textPrimary, fontSize: 32),
       ),
     );
   }
@@ -202,7 +200,7 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
             border: Border.all(
               color: isFocused
                   ? AppColors.accentGreen
-                  : const Color.fromARGB(65, 212, 255, 84),
+                  : AppColors.fieldBorder,
               width: 1,
             ),
           ),
@@ -211,10 +209,10 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
             focusNode: _focusNode,
             maxLines: 4,
             textAlign: TextAlign.right,
-            style: const TextStyle(color: Colors.white, fontSize: 25),
-            decoration: InputDecoration(
+            style: TextStyle(color: AppColors.textPrimary, fontSize: 25),
+            decoration: const InputDecoration(
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.all(15),
+              contentPadding: EdgeInsets.all(15),
             ),
           ),
         );
@@ -261,7 +259,7 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
                   ],
                 ),
               )
-            : const Icon(
+            : Icon(
                 Icons.add_photo_alternate_outlined,
                 color: AppColors.accentGreen,
                 size: 40,
@@ -286,7 +284,7 @@ class _TechnicalSupportViewState extends State<_TechnicalSupportView> {
         child: Text(
           'إرسال',
           style: TextStyle(
-            color: _hasText ? AppColors.bgDark : Colors.white38,
+            color: _hasText ? AppColors.bgDark : AppColors.overlay38,
             fontSize: 40,
           ),
         ),

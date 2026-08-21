@@ -27,7 +27,7 @@ class _LogParentState extends State<LogParent> {
         backgroundColor: AppColors.bgDark,
         body: Stack(
           children: [
-            // ------- الخلفية: صورة التموجات الأصلية -------
+           
             Positioned.fill(
              
               child: Image.asset(
@@ -37,7 +37,7 @@ class _LogParentState extends State<LogParent> {
             ),
 
 
-            // ------- المحتوى -------
+          
             SafeArea(
               child: Center(
                 child: Padding(

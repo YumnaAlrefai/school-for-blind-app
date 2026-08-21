@@ -3,7 +3,6 @@ import 'package:parent_project/Widget/app_colors.dart';
 
 
 
-/// نموذج خلية واحدة داخل الجدول (قد تكون فارغة)
 class ScheduleCell {
   final String? subject;
   
@@ -39,9 +38,6 @@ class SchedulePage extends StatelessWidget {
   const SchedulePage({super.key});
 
  
-  // ------------------------------------------------------------
-  // بيانات تجريبية — استبدلها ببيانات قادمة من الباك إند لاحقًا
-  // ------------------------------------------------------------
   static final List<ScheduleRow> _raghadSchedule = [
     const ScheduleRow(
       time: '8:00',
@@ -99,7 +95,7 @@ class SchedulePage extends StatelessWidget {
                       const SizedBox(height: 30),
                       _buildStudentSchedule(
                         studentName: 'محمد',
-                        schedule: _raghadSchedule, // استبدلها ببيانات محمد الفعلية
+                        schedule: _raghadSchedule, 
                       ),
                     ],
                   ),
@@ -125,9 +121,6 @@ class SchedulePage extends StatelessWidget {
     );
   }
 
-  // ------------------------------------------------------------
-  // عنوان الطالب + جدوله الكامل
-  // ------------------------------------------------------------
   Widget _buildStudentSchedule({
     required String studentName,
     required List<ScheduleRow> schedule,
@@ -146,21 +139,18 @@ class SchedulePage extends StatelessWidget {
     );
   }
 
-  // ------------------------------------------------------------
-  // الجدول الفعلي (صفوف وأعمدة حقيقية عبر Table)
-  // ------------------------------------------------------------
   Widget _buildScheduleTable(List<ScheduleRow> schedule) {
     return ClipRRect(
      
       child: Table(
         border: TableBorder.all(color: AppColors.bgDark, width: 1),
         columnWidths: const {
-          0: FlexColumnWidth(1),   // الوقت
-          1: FlexColumnWidth(1.3), // الأحد
-          2: FlexColumnWidth(1.3), // الإثنين
-          3: FlexColumnWidth(1.3), // الثلاثاء
-          4: FlexColumnWidth(1.3), // الأربعاء
-          5: FlexColumnWidth(1.3), // الأربعاء
+          0: FlexColumnWidth(1),   
+          1: FlexColumnWidth(1.3), 
+          2: FlexColumnWidth(1.3),
+          3: FlexColumnWidth(1.3),
+          4: FlexColumnWidth(1.3),
+          5: FlexColumnWidth(1.3), 
         },
         children: [
           _buildHeaderRow(),
@@ -169,14 +159,10 @@ class SchedulePage extends StatelessWidget {
       ),
     );
   }
-
-  // ------------------------------------------------------------
-  // صف رأس الجدول (بخلفية خضراء)
-  // ------------------------------------------------------------
   TableRow _buildHeaderRow() {
     const headers = ['الوقت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء','الخميس'];
     return TableRow(
-      decoration: const BoxDecoration(color: AppColors.accentGreen),
+      decoration: BoxDecoration(color: AppColors.accentGreen),
       children: headers
           .map((text) => _buildCell(
                 text,
@@ -187,9 +173,6 @@ class SchedulePage extends StatelessWidget {
     );
   }
 
-  // ------------------------------------------------------------
-  // صف بيانات واحد (وقت + 4 خلايا أيام)
-  // ------------------------------------------------------------
   TableRow _buildDataRow(ScheduleRow row) {
     return TableRow(
       decoration: const BoxDecoration(color: Colors.white),
@@ -204,9 +187,6 @@ class SchedulePage extends StatelessWidget {
     );
   }
 
-  // ------------------------------------------------------------
-  // خلية واحدة عامة (نص في المنتصف)
-  // ------------------------------------------------------------
   Widget _buildCell(
     String text, {
     required Color textColor,

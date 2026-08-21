@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:parent_project/Widget/app_colors.dart';
-
 
 class BuildTextField extends StatefulWidget {
   final String iconPath;
@@ -10,6 +10,7 @@ class BuildTextField extends StatefulWidget {
   final bool isPassword;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final List<TextInputFormatter>? inputFormatters;
 
   const BuildTextField({
     super.key,
@@ -19,6 +20,7 @@ class BuildTextField extends StatefulWidget {
     this.isPassword = false,
     this.keyboardType,
     this.controller,
+    this.inputFormatters,
   });
 
   @override
@@ -28,11 +30,9 @@ class BuildTextField extends StatefulWidget {
 class _BuildTextFieldState extends State<BuildTextField> {
   bool _obscureText = true;
 
- 
   @override
   void initState() {
     super.initState();
-    // إظهار النص افتراضيًا إن لم يكن الحقل كلمة مرور
     _obscureText = widget.isPassword;
   }
 
@@ -44,27 +44,28 @@ class _BuildTextFieldState extends State<BuildTextField> {
       decoration: BoxDecoration(
         color: AppColors.bgDark.withOpacity(0.25),
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: AppColors.fieldBorder, width: 1.5),
+        border: Border.all(color: AppColors.fieldBorder, width: 1),
       ),
       child: Center(
         child: TextField(
           controller: widget.controller,
           obscureText: _obscureText,
           keyboardType: widget.keyboardType,
+          inputFormatters: widget.inputFormatters,
           textAlign: TextAlign.right,
-          style: const TextStyle(color: Colors.white, fontSize: 32),
+          style: TextStyle(color: AppColors.textPrimary, fontSize: 32),
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: const EdgeInsets.only(right: 20, left: 10),
               child: SvgPicture.asset(
                 widget.iconPath,
-               width: widget.iconSize,
-               height: widget.iconSize,
-                colorFilter: const ColorFilter.mode(AppColors.accentGreen, BlendMode.srcIn),
+                width: widget.iconSize,
+                height: widget.iconSize,
+                colorFilter: ColorFilter.mode(AppColors.accentGreen, BlendMode.srcIn),
               ),
             ),
             hintText: widget.hint,
-            hintStyle: TextStyle(color: Colors.white.withOpacity(0.35), fontSize: 32),
+            hintStyle: TextStyle(color: AppColors.textPrimary.withOpacity(0.35), fontSize: 32),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.only(right: 20),
             suffixIcon: widget.isPassword
@@ -75,7 +76,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
                         _obscureText
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: Colors.white.withOpacity(0.35),
+                        color: AppColors.textPrimary.withOpacity(0.35),
                         size: 23,
                       ),
                       onPressed: () {

@@ -21,7 +21,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   
   bool _notificationsMuted = false;
 
-  // بيانات الإشعارات مجمّعة حسب التاريخ
+ 
   final Map<String, List<_NotificationModel>> _notificationsByDate = {
     '17/3/2026': [
       _NotificationModel(message: 'وصلك إعلان جديد', time: '7:00 ص'),
@@ -59,21 +59,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  // ------------------------------------------------------------
-  // الشريط العلوي: سهم رجوع + أيقونة الجرس (تفعيل/كتم) + العنوان
-  // ------------------------------------------------------------
+  
   
   Widget _buildTopBar() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-       decoration: const BoxDecoration(
+       decoration: BoxDecoration(
         color: AppColors.bgDark,
-        border: Border(bottom: BorderSide(color: Colors.white12, width: 1),top: BorderSide(color: Colors.white12, width: 1)),
+        border: const Border(bottom: BorderSide(color: Colors.white12, width: 1),top: BorderSide(color: Colors.white12, width: 1)),
       ),
       child: Row(
         children: [
-          // ------- العنوان على اليمين -------
+        
           Expanded(
             child: Align(
               alignment: Alignment.centerRight,
@@ -100,7 +98,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ),
           ),
           const SizedBox(width: 12),
-          // ------- سهم الرجوع على اليسار -------
+         
           GestureDetector(
            onTap: () {
   Navigator.pushAndRemoveUntil(
@@ -121,9 +119,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
 
-  // ------------------------------------------------------------
-  // بناء القائمة كاملة مجمّعة حسب التاريخ
-  // ------------------------------------------------------------
   List<Widget> _buildNotificationsList() {
     final List<Widget> widgets = [];
 
@@ -142,9 +137,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return widgets;
   }
 
-  // ------------------------------------------------------------
-  // شارة التاريخ أعلى كل مجموعة
-  // ------------------------------------------------------------
+ 
   Widget _buildDateLabel(String date) {
     return Center(
       child: Container(
@@ -161,9 +154,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  // ------------------------------------------------------------
-  // فقاعة إشعار واحدة (نص + وقت أسفله) - تاخد عرض المحتوى فقط
-  // ------------------------------------------------------------
+  
   Widget _buildNotificationBubble(_NotificationModel notification) {
     return Container(
       width: double.infinity,

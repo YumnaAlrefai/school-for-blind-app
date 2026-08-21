@@ -13,35 +13,49 @@ class ReportsCubit extends Cubit<ReportsState> {
 
     try {
       final result = await repository.getDailyReports();
-      emit(DailyReportsSuccess(result));
+      if (!isClosed) {
+        emit(DailyReportsSuccess(result));
+      }
     } catch (e) {
       print("FETCH DAILY REPORTS ERROR =================");
       print(e);
-      emit(ReportsFailure(e.toString()));
+      if (!isClosed) {
+        emit(ReportsFailure(e.toString()));
+      }
     }
   }
+
   Future<void> fetchMonthlyReports() async {
-  emit(ReportsLoading());
+    emit(ReportsLoading());
 
-  try {
-    final result = await repository.getMonthlyReports();
-    emit(MonthlyReportsSuccess(result));
-  } catch (e) {
-    print("FETCH MONTHLY REPORTS ERROR =================");
-    print(e);
-    emit(ReportsFailure(e.toString()));
+    try {
+      final result = await repository.getMonthlyReports();
+      if (!isClosed) {
+        emit(MonthlyReportsSuccess(result));
+      }
+    } catch (e) {
+      print("FETCH MONTHLY REPORTS ERROR =================");
+      print(e);
+      if (!isClosed) {
+        emit(ReportsFailure(e.toString()));
+      }
+    }
   }
-}
-Future<void> fetchYearlyReports() async {
-  emit(ReportsLoading());
 
-  try {
-    final result = await repository.getYearlyReports();
-    emit(YearlyReportsSuccess(result));
-  } catch (e) {
-    print("FETCH YEARLY REPORTS ERROR =================");
-    print(e);
-    emit(ReportsFailure(e.toString()));
+  Future<void> fetchYearlyReports() async {
+    emit(ReportsLoading());
+
+    try {
+      final result = await repository.getYearlyReports();
+      if (!isClosed) {
+        emit(YearlyReportsSuccess(result));
+      }
+    } catch (e) {
+      print("FETCH YEARLY REPORTS ERROR =================");
+      print(e);
+      if (!isClosed) {
+        emit(ReportsFailure(e.toString()));
+      }
+    }
   }
-}
 }
