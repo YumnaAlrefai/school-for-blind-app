@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:school_for_blind_app/data/models/student/announcement_model.dart';
 import 'package:school_for_blind_app/data/models/student/exam_solution.dart';
 import 'package:school_for_blind_app/data/models/student/audio_bookmark.dart';
@@ -32,8 +33,8 @@ import '../models/student/solved_quiz.dart';
 
 class StudentRepo {
   final StudentWebServices webServices;
-
-  StudentRepo(this.webServices);
+  final StudentWebServices localWebServices;
+  StudentRepo(this.webServices, this.localWebServices);
 
   Future<ApiResult<dynamic>> sendOTP(String phone) async {
     try {
@@ -524,6 +525,29 @@ class StudentRepo {
       return ApiResult.success(quizzes);
     } catch (e) {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<bool>> checkDismissal({int maxRetries = 12}) async {
+    Duration delay = const Duration(seconds: 1);
+    int attempt = 0;
+
+    while (true) {
+      attempt++;
+      try {
+        final response = await localWebServices.checkDismissal();
+        final isDismissed = response['is_dismissed'] as bool;
+        return ApiResult.success(isDismissed);
+      } catch (e) {
+        debugPrint('checkDismissal فشلت (محاولة $attempt): $e');
+
+        if (attempt >= maxRetries) {
+          return ApiResult.failure(NetworkExceptions.getDioException(e));
+        }
+
+        await Future.delayed(delay);
+        delay = Duration(seconds: (delay.inSeconds * 2).clamp(1, 15));
+      }
     }
   }
 }

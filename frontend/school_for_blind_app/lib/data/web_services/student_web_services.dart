@@ -208,4 +208,7 @@ abstract class StudentWebServices {
 
   @GET('notifications')
   Future<NotificationsResponse> getNotifications();
+
+  @GET('student/check-dismissal')
+  Future<dynamic> checkDismissal();
 }

@@ -6,6 +6,7 @@ import 'package:school_for_blind_app/business_logic/cubit/student/audio_bookmark
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/channels_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/dismissal_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_detail_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_questions_cubit.dart';
@@ -51,11 +52,29 @@ import 'package:school_for_blind_app/data/web_services/teacher_web_services.dart
 final getIt = GetIt.instance;
 
 void initGetIt() {
-  getIt.registerFactory<StudentRepo>(() => StudentRepo(getIt()));
+  getIt.registerFactory<StudentRepo>(
+    () => StudentRepo(
+      getIt<StudentWebServices>(),
+      getIt<StudentWebServices>(instanceName: 'localStudentWebServices'),
+    ),
+  );
+  getIt.registerFactory<DismissalCubit>(
+    () => DismissalCubit(getIt<StudentRepo>()),
+  );
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(getIt()));
+
   getIt.registerLazySingleton<StudentWebServices>(
     () => StudentWebServices(createAndSetupDio()),
   );
+
+  getIt.registerLazySingleton<StudentWebServices>(
+    () => StudentWebServices(
+      createLocalDio(),
+      baseUrl: 'http://192.168.137.1:8000/api/',
+    ),
+    instanceName: 'localStudentWebServices',
+  );
+
   getIt.registerLazySingleton<VoiceServices>(() => VoiceServices());
   getIt.registerSingleton<DeepLinkService>(DeepLinkService());
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
@@ -131,10 +150,6 @@ void initGetIt() {
   );
   getIt.registerFactory<NotificationsCubit>(() => NotificationsCubit(getIt()));
 
-
-
-  
-
   getIt.registerLazySingleton<TeacherWebServices>(
     () => TeacherWebServices(createAndSetupDio()),
   );
@@ -165,8 +180,6 @@ Dio createAndSetupDio() {
         if (token != null && token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
         }
-        // options.headers['Authorization'] =
-        //     'Bearer 45|91Qn2MYeXaDIARxLUJvWMct15nEYZxzdjvwDBpwz76b53103';
         options.headers["ngrok-skip-browser-warning"] = "true";
         return handler.next(options);
       },
@@ -183,5 +196,38 @@ Dio createAndSetupDio() {
     ),
   );
   dio.interceptors.add(ServerTimeInterceptor());
+  return dio;
+}
+
+Dio createLocalDio() {
+  Dio dio = Dio();
+  dio
+    ..options.connectTimeout = const Duration(seconds: 5)
+    ..options.receiveTimeout = const Duration(seconds: 5);
+
+  dio.options.headers['Accept'] = 'application/json';
+  dio.options.headers['Content-Type'] = 'application/json';
+
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        String? token = await SecureStorage.getToken();
+        if (token != null && token.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        return handler.next(options);
+      },
+    ),
+  );
+  dio.interceptors.add(
+    LogInterceptor(
+      responseBody: true,
+      error: true,
+      requestHeader: false,
+      responseHeader: false,
+      request: true,
+      requestBody: true,
+    ),
+  );
   return dio;
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_for_blind_app/business_logic/cubit/notifications_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/call_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/dismissal_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/donation_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/exam_detail_cubit.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/level_cubit.dart';
@@ -85,6 +86,7 @@ class AppRouter {
     final studentCubit = getIt<StudentCubit>();
     final callCubit = getIt<CallCubit>();
     final subjectProgressCubit = getIt<SubjectProgressCubit>();
+    final dismissalCubit = getIt<DismissalCubit>();
 
     switch (settings.name) {
       case AppRoutes.kSplashScreen:
@@ -164,6 +166,7 @@ class AppRouter {
               BlocProvider.value(value: studentCubit),
               BlocProvider.value(value: callCubit),
               BlocProvider.value(value: subjectProgressCubit),
+              BlocProvider.value(value: dismissalCubit),
             ],
             child: const StudentMainScreen(),
           ),
