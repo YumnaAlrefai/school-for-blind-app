@@ -12,7 +12,7 @@ class ReverbService {
   // ===== إعدادات Reverb =====
   static const String _appKey = 'g43ja0cpjdcxspnfbnvd'; // REVERB_APP_KEY
   static const String _host =
-      'rental-then-discrete-similarly.trycloudflare.com'; // IP الكمبيوتر (نفس الشبكة)
+      'del-utilities-lawyers-time.trycloudflare.com'; // IP الكمبيوتر (نفس الشبكة)
   static const int _wsPort = 443; // REVERB_PORT
   static const bool _encrypted = true; // http (ليس wss)
 

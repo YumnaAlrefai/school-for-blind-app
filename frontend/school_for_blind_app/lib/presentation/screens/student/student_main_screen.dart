@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/auth_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/dismissal_cubit.dart';
+import 'package:school_for_blind_app/business_logic/cubit/student/result_state.dart';
 import 'package:school_for_blind_app/business_logic/cubit/student/student_cubit.dart';
 import 'package:school_for_blind_app/core/injection.dart';
+import 'package:school_for_blind_app/core/routing/app_routes.dart';
 import 'package:school_for_blind_app/core/services/voice_services.dart';
+import 'package:school_for_blind_app/networking/network_exceptions.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_announcements_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_bookmarks_screen.dart';
 import 'package:school_for_blind_app/presentation/screens/student/student_chats_screen.dart';
@@ -31,69 +37,103 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
       const StudentBookmarksScreen(),
       const StudentAnnouncementsScreen(),
     ];
+    context.read<DismissalCubit>().checkDismissal();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: AppDrawer(),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: IndexedStack(index: numberScreen, children: screens),
-      bottomNavigationBar: NavigationBar(
-        elevation: 10,
-        height: 100.h,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<DismissalCubit, ResultState<bool>>(
+          listener: (context, state) {
+            state.whenOrNull(
+              success: (bool isDismissed) {
+                if (isDismissed) {
+                  context.read<AuthCubit>().emitLogout();
+                }
+              },
+            );
+          },
+        ),
+        BlocListener<AuthCubit, ResultState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              success: (data) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.kSUserTypeScreen,
+                  (route) => false,
+                );
+              },
+              failure: (networkException) {
+                getIt<VoiceServices>().speak(
+                  NetworkExceptions.getErrorMessage(networkException),
+                );
+              },
+            );
+          },
+        ),
+      ],
+      child: Scaffold(
+        drawer: AppDrawer(),
         backgroundColor: Theme.of(context).colorScheme.background,
-        selectedIndex: numberScreen,
+        body: IndexedStack(index: numberScreen, children: screens),
+        bottomNavigationBar: NavigationBar(
+          elevation: 10,
+          height: 100.h,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          selectedIndex: numberScreen,
 
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-        indicatorColor: Theme.of(context).colorScheme.background,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          indicatorColor: Theme.of(context).colorScheme.background,
 
-        onDestinationSelected: (index) {
-          if (index == numberScreen) return;
-          setState(() {
-            numberScreen = index;
-          });
-        },
+          onDestinationSelected: (index) {
+            if (index == numberScreen) return;
+            setState(() {
+              numberScreen = index;
+            });
+          },
 
-        destinations: [
-          NavigationDestination(
-            icon: Icon(
-              Icons.home_outlined,
-              color: Theme.of(context).colorScheme.onBackground,
-              size: 48.sp,
+          destinations: [
+            NavigationDestination(
+              icon: Icon(
+                Icons.home_outlined,
+                color: Theme.of(context).colorScheme.onBackground,
+                size: 48.sp,
+              ),
+              selectedIcon: SelectedIcon(icon: Icons.home, size: 48.sp),
+              label: 'الرئيسية',
             ),
-            selectedIcon: SelectedIcon(icon: Icons.home, size: 48.sp),
-            label: 'الرئيسية',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.chat_outlined,
-              color: Theme.of(context).colorScheme.onBackground,
-              size: 43.sp,
+            NavigationDestination(
+              icon: Icon(
+                Icons.chat_outlined,
+                color: Theme.of(context).colorScheme.onBackground,
+                size: 43.sp,
+              ),
+              selectedIcon: SelectedIcon(icon: Icons.chat, size: 43.sp),
+              label: 'الدردشات',
             ),
-            selectedIcon: SelectedIcon(icon: Icons.chat, size: 43.sp),
-            label: 'الدردشات',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.bookmarks_outlined,
-              color: Theme.of(context).colorScheme.onBackground,
-              size: 40.sp,
+            NavigationDestination(
+              icon: Icon(
+                Icons.bookmarks_outlined,
+                color: Theme.of(context).colorScheme.onBackground,
+                size: 40.sp,
+              ),
+              selectedIcon: SelectedIcon(icon: Icons.bookmarks, size: 40.sp),
+              label: 'المحفوظات',
             ),
-            selectedIcon: SelectedIcon(icon: Icons.bookmarks, size: 40.sp),
-            label: 'المحفوظات',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.campaign_outlined,
-              color: Theme.of(context).colorScheme.onBackground,
-              size: 50.sp,
+            NavigationDestination(
+              icon: Icon(
+                Icons.campaign_outlined,
+                color: Theme.of(context).colorScheme.onBackground,
+                size: 50.sp,
+              ),
+              selectedIcon: SelectedIcon(icon: Icons.campaign, size: 50.sp),
+              label: 'الإعلانات',
             ),
-            selectedIcon: SelectedIcon(icon: Icons.campaign, size: 50.sp),
-            label: 'الإعلانات',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
